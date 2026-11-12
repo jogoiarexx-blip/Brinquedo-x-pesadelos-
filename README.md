@@ -51,3 +51,12 @@ Este é um **protótipo vertical** das fases 1-1, 1-2 e 1-3, não o jogo final d
 2. Balancear todas as fases no celular e adicionar tutorial guiado.
 3. Concluir 1-4 a 1-8 com Mola, Carrinho, novos inimigos e Rei das Meias.
 4. Perfis de qualidade / acessibilidade e interface mobile dedicada.
+
+## Publicar no GitHub Pages
+
+1. Abra **Settings → Pages** neste repositório.
+2. Em **Build and deployment → Source**, escolha **Deploy from a branch**.
+3. Escolha **main** e **/(root)**, então clique em **Save**.
+4. Após a publicação pelo GitHub, acesse `https://jogoiarexx-blip.github.io/Brinquedo-x-pesadelos-/`.
+
+O projeto é estático: não é preciso instalar dependências para publicar. O workflow em `.github/workflows/testes.yml` executa os testes em pushes para `main`.
