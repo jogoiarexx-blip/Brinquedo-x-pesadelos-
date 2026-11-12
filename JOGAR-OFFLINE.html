@@ -14,7 +14,7 @@
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 
 </style>
-  <title>Brinquedos vs. Pesadelos — Jogar Offline v0.1.0</title>
+  <title>Brinquedos vs. Pesadelos — Jogar Offline v0.2.0</title>
 </head>
 <body>
   <main class="app" aria-label="Jogo Brinquedos vs. Pesadelos">
@@ -33,7 +33,7 @@
       </div>
       <div id="toast" class="toast hidden" role="status" aria-live="polite"></div>
       <div id="screen" class="screen"></div>
-      <div class="version-tag">ALFA 0.1.0 · Capítulo 1</div>
+      <div class="version-tag">ALFA 0.2.0 · Capítulo 1</div>
     </div>
     <div class="mobile-tip" aria-label="Orientação recomendada">↻ Vire o celular na horizontal para ver todo o tabuleiro.</div>
     <footer class="outside-footer">Brinquedos vs. Pesadelos · Um jogo original de defesa por linhas · Salvo neste dispositivo</footer>
@@ -51,37 +51,67 @@ const colX = col => BOARD.x + (col + 0.5) * BOARD.cw;
 const rowY = row => BOARD.y + (row + 0.5) * BOARD.ch;
 const rectCell = (x, y) => ({ col: Math.floor((x - BOARD.x) / BOARD.cw), row: Math.floor((y - BOARD.y) / BOARD.ch) });
 
+// Dados do capítulo 1 — novos conteúdos preservam a jogabilidade 5×9 de defesa por faixas.
 const TOYS = Object.freeze({
   T02: { id:'T02', name:'Soldadinho Estalo', short:'Estalo', cost:100, cooldown:6, maxHp:120, kind:'shooter', interval:1.5, damage:20, color:'#f3694c', description:'Dispara bolinhas de papel na própria faixa.' },
   T01: { id:'T01', name:'Abajur Pirilampo', short:'Pirilampo', cost:50, cooldown:7, maxHp:100, kind:'producer', interval:22, color:'#f6bf4f', description:'Produz Brilhos. É o herói da economia!' },
   T03: { id:'T03', name:'Urso Travesseiro', short:'Ursinho', cost:50, cooldown:18, maxHp:650, kind:'blocker', color:'#7ec9d9', description:'Segura monstros para proteger os atacantes.' },
+  T04: { id:'T04', name:'Pião de Geada', short:'Pião', cost:125, cooldown:9, maxHp:105, kind:'slow', interval:2.3, damage:15, slowFactor:.48, slowDuration:4, color:'#7bd5ef', description:'Seus cristais gelados deixam os monstros mais lentos por 4 segundos.' },
+  T05: { id:'T05', name:'Canhão de Confetes', short:'Confetes', cost:175, cooldown:12, maxHp:115, kind:'splash', interval:2.9, damage:34, splashRadius:95, splashRatio:.60, color:'#f5a2c6', description:'Explode confetes e atinge outros monstros próximos na mesma faixa.' },
 });
 const ENEMIES = Object.freeze({
   E01: { id:'E01', name:'Poeira Andante', hp:100, speed:.30, damage:24, interval:1.15, description:'Uma poeirinha atrapalhada, mas persistente.' },
   E02: { id:'E02', name:'Meia Zanzante', hp:85, speed:.44, damage:20, interval:1.0, description:'Corre mais rápido, porém aguenta menos tiros.' },
+  E03: { id:'E03', name:'Colcha Ambulante', hp:270, speed:.23, damage:30, interval:1.15, description:'Um cobertor de retalhos resistente. Precisa de vários disparos para cair.' },
+  E04: { id:'E04', name:'Rabisco Corredor', hp:70, speed:.66, damage:18, interval:.9, description:'Um desenho que escapou do caderno. Corre depressa e é frágil.' },
+  E05: { id:'E05', name:'Rei das Meias', hp:850, speed:.16, damage:37, interval:.95, boss:true, slowResistance:.6, description:'O grandalhão do armário: leva uma multidão de meias para a batalha final.' },
 });
-// Os horários e faixas são autorais e podem ser balanceados por playtest.
+// Fases autorais com horário em segundos, inimigos e faixas explicitamente balanceados.
 const wave = (at, foes, flag=false) => ({ at, enemies:foes.map(([type, lane])=>({ type, lane })), flag });
+const ALL = ['T01','T02','T03','T04','T05'];
 const LEVELS = Object.freeze([
-  {
-    id:'1-1', title:'A primeira bagunça', subtitle:'Aprenda a colocar soldadinhos e coletar Brilhos.',
+  { id:'1-1', title:'A primeira bagunça', subtitle:'Aprenda a colocar soldadinhos e coletar Brilhos.',
     hint:'Selecione o Soldadinho e toque em uma casa. Colete as estrelinhas para comprar mais!',
     startingGlow:275, toys:['T02'], reward:'T01', duration:130,
     waves:[wave(14,[['E01',2]]),wave(34,[['E01',1]]),wave(52,[['E01',3]]),wave(72,[['E01',0]]),wave(89,[['E01',4]]),wave(110,[['E01',2],['E01',1],['E01',3]],true)]
   },
-  {
-    id:'1-2', title:'Luz que dá sorte', subtitle:'O Abajur produz Brilhos extras para sua defesa.',
+  { id:'1-2', title:'Luz que dá sorte', subtitle:'O Abajur produz Brilhos extras para sua defesa.',
     hint:'Coloque um Abajur logo no começo! Ele produz Brilhos e ajuda a comprar soldados.',
     startingGlow:175, toys:['T01','T02'], reward:'T03', duration:157,
     waves:[wave(14,[['E01',2]]),wave(29,[['E01',1],['E01',4]]),wave(48,[['E01',0],['E01',3]]),wave(64,[['E01',2],['E01',4]]),wave(84,[['E01',1],['E01',3],['E01',0]]),wave(102,[['E02',2],['E01',4]]),wave(122,[['E02',0],['E01',1],['E01',3]]),wave(142,[['E01',0],['E01',1],['E01',2],['E01',3],['E01',4]],true)]
   },
-  {
-    id:'1-3', title:'Abraço de urso', subtitle:'O Ursinho segura os pesadelos no lugar.',
+  { id:'1-3', title:'Abraço de urso', subtitle:'O Ursinho segura os pesadelos no lugar.',
     hint:'Coloque o Urso Travesseiro na frente dos Soldadinhos para proteger seus atacantes.',
-    startingGlow:175, toys:['T01','T02','T03'], reward:null, duration:184,
+    startingGlow:175, toys:['T01','T02','T03'], reward:'T04', duration:184,
     waves:[wave(13,[['E01',2]]),wave(27,[['E01',0],['E01',4]]),wave(43,[['E01',1],['E01',3]]),wave(60,[['E02',2],['E01',0]]),wave(78,[['E01',4],['E01',1],['E01',3]]),wave(97,[['E02',0],['E02',4],['E01',2]]),wave(116,[['E01',1],['E01',2],['E01',3]]),wave(136,[['E02',0],['E02',2],['E02',4]]),wave(165,[['E01',0],['E01',1],['E02',2],['E01',3],['E01',4]],true)]
   },
+  { id:'1-4', title:'Pião congelante', subtitle:'Experimente desacelerar os monstros do armário.',
+    hint:'O Pião de Geada diminui a velocidade: combine com Soldadinhos para mais dano!',
+    startingGlow:275, toys:ALL.slice(0,4), reward:null, duration:175,
+    waves:[wave(12,[['E01',2]]),wave(28,[['E02',0],['E01',4]]),wave(43,[['E02',1],['E01',3]]),wave(60,[['E02',2],['E02',4]]),wave(79,[['E01',0],['E02',1],['E01',3]]),wave(96,[['E02',0],['E02',2],['E02',4]]),wave(117,[['E01',1],['E01',2],['E02',3]]),wave(136,[['E02',0],['E01',2],['E02',4]]),wave(154,[['E01',0],['E02',1],['E01',2],['E02',3],['E01',4]],true)]
+  },
+  { id:'1-5', title:'A colcha se mexe!', subtitle:'Uma criatura resistente sai de dentro do baú.',
+    hint:'A Colcha Ambulante aguenta muito dano. Use Piões e Urso para segurar a frente.',
+    startingGlow:225, toys:ALL.slice(0,4), reward:'T05', duration:191,
+    waves:[wave(14,[['E03',2]]),wave(33,[['E01',0],['E02',4]]),wave(51,[['E03',1],['E01',3]]),wave(70,[['E02',0],['E01',2],['E02',4]]),wave(90,[['E03',3],['E01',1]]),wave(111,[['E03',0],['E02',2]]),wave(135,[['E03',4],['E01',1],['E02',3]]),wave(159,[['E03',1],['E03',3],['E02',2]]),wave(175,[['E03',0],['E02',1],['E03',2],['E02',3],['E03',4]],true)]
+  },
+  { id:'1-6', title:'Chuva de confete', subtitle:'Novas armas contra os monstros agrupados.',
+    hint:'O Canhão de Confetes machuca vários inimigos próximos da mesma faixa.',
+    startingGlow:250, toys:ALL, reward:null, duration:195,
+    waves:[wave(13,[['E01',2],['E01',2]]),wave(31,[['E02',1],['E02',1]]),wave(48,[['E01',0],['E01',0],['E01',4]]),wave(67,[['E03',3],['E01',3]]),wave(89,[['E02',2],['E02',2],['E01',2]]),wave(110,[['E03',0],['E01',0],['E03',4]]),wave(133,[['E03',1],['E02',1],['E03',3]]),wave(156,[['E01',0],['E02',2],['E01',2],['E02',4]]),wave(178,[['E03',0],['E02',0],['E03',1],['E01',2],['E03',3],['E02',4]],true)]
+  },
+  { id:'1-7', title:'O caderno assustado', subtitle:'Rabiscos ligeiros escapam das páginas.',
+    hint:'O Rabisco Corredor é rápido. O Pião de Geada é uma excelente resposta!',
+    startingGlow:250, toys:ALL, reward:null, duration:204,
+    waves:[wave(10,[['E04',2]]),wave(24,[['E02',0],['E04',4]]),wave(41,[['E04',1],['E04',3]]),wave(61,[['E03',2],['E04',2]]),wave(81,[['E04',0],['E01',1],['E04',4]]),wave(102,[['E03',1],['E04',3]]),wave(124,[['E04',0],['E04',2],['E04',4]]),wave(146,[['E03',0],['E02',2],['E03',4]]),wave(171,[['E04',1],['E04',3],['E03',2]]),wave(189,[['E04',0],['E03',1],['E04',2],['E03',3],['E04',4]],true)]
+  },
+  { id:'1-8', title:'O Rei das Meias', subtitle:'O último pesadelo do armário chegou!',
+    hint:'Batalha final! Prepare economia e duas linhas de ataque. Proteja a faixa central.',
+    startingGlow:300, toys:ALL, reward:null, duration:229,
+    waves:[wave(12,[['E01',2]]),wave(28,[['E02',0],['E02',4]]),wave(47,[['E03',1],['E01',3]]),wave(64,[['E04',2],['E01',0],['E04',4]]),wave(86,[['E03',0],['E03',4]]),wave(108,[['E04',1],['E04',3],['E02',2]]),wave(128,[['E03',2],['E01',1],['E01',3]]),wave(150,[['E03',0],['E04',0],['E03',4],['E04',4]]),wave(172,[['E03',1],['E02',3],['E04',2]]),wave(202,[['E05',2],['E02',0],['E02',4],['E03',1],['E03',3]],true)]
+  }
 ]);
+
 
 
 const defaults = () => ({ version:1, unlocked:1, stars:{}, seenEnemies:[], settings:{ music:true, sfx:true, motion:true } });
@@ -89,7 +119,7 @@ function loadSave(storage=globalThis.localStorage) {
   try {
     const raw = JSON.parse(storage.getItem(SAVE_KEY));
     if (!raw || raw.version !== 1) return defaults();
-    return { ...defaults(), ...raw, unlocked:Math.max(1,Math.min(3,Number(raw.unlocked)||1)), stars:raw.stars && typeof raw.stars==='object'?raw.stars:{}, settings:{ ...defaults().settings, ...(raw.settings||{}) } };
+    return { ...defaults(), ...raw, unlocked:Math.max(1,Math.min(LEVELS.length,Number(raw.unlocked)||1)), stars:raw.stars && typeof raw.stars==='object'&&!Array.isArray(raw.stars)?raw.stars:{}, seenEnemies:Array.isArray(raw.seenEnemies)?raw.seenEnemies:[], settings:{ ...defaults().settings, ...(raw.settings||{}) } };
   } catch { return defaults(); }
 }
 function persistSave(save,storage=globalThis.localStorage) {
@@ -97,7 +127,7 @@ function persistSave(save,storage=globalThis.localStorage) {
   catch { return false; }
 }
 function recordVictory(save,levelIndex,stars) {
-  save.unlocked = Math.max(save.unlocked,Math.min(3,levelIndex+2));
+  save.unlocked = Math.max(save.unlocked,Math.min(LEVELS.length,levelIndex+2));
   const id=`1-${levelIndex+1}`;
   save.stars[id]=Math.max(save.stars[id]||0,stars);
   return save;
@@ -118,6 +148,8 @@ class AudioService {
       case 'place':this.tone(470,.09,'triangle',.06);this.tone(730,.11,'sine',.04,.065);break;
       case 'collect':this.tone(860,.085,'sine',.055);this.tone(1175,.14,'sine',.05,.07);break;
       case 'shoot':this.tone(350,.055,'triangle',.013);break;
+      case 'freeze':this.tone(720,.11,'sine',.022);this.tone(990,.12,'sine',.014,.05);break;
+      case 'confetti':this.tone(440,.085,'triangle',.026);this.tone(680,.09,'triangle',.02,.04);break;
       case 'hit':this.tone(195,.085,'triangle',.028);break;
       case 'remove':this.tone(220,.14,'sine',.045);break;
       case 'no':this.tone(170,.16,'sawtooth',.03);break;
@@ -154,7 +186,7 @@ class Battle {
     this.enemies=[];this.projectiles=[];this.stars=[];this.particles=[];this.trains=[];
     this.trainReady=Array(BOARD.rows).fill(true);
     this.toyCooldowns=Object.fromEntries(this.level.toys.map(t=>[t,0]));
-    this.selected='T02';this.hover=null;this.shovel=false;
+    this.selected=this.level.toys.includes('T02')?'T02':this.level.toys[0];this.hover=null;this.shovel=false;
     this.waveIndex=0;this.bigWaveAlert=false;this.totalSpawns=0;this.killCount=0;this.toysPlaced=0;
     this.lastDrop=0;this.nextDrop=5.8;this.banner='';this.bannerUntil=0;
     this.seed=0x2af00+(index+1)*1543;
@@ -208,7 +240,7 @@ class Battle {
   }
   spawnEnemy(type,lane,offset=0){
     const d=ENEMIES[type];if(!d)return;
-    this.enemies.push({id:this.id++,type,row:lane,x:BOARD_RIGHT+65+offset,y:rowY(lane),hp:d.hp,maxHp:d.hp,attackTimer:.45,hit:0,age:0});
+    this.enemies.push({id:this.id++,type,row:lane,x:BOARD_RIGHT+65+offset,y:rowY(lane),hp:d.hp,maxHp:d.hp,attackTimer:.45,hit:0,age:0,slowTime:0,slowFactor:1});
     this.totalSpawns++;
     this.events.enemySeen?.(type);
   }
@@ -249,24 +281,39 @@ class Battle {
         toy.timer+=d.interval;
         this.spawnStar(toy.x+21,toy.y-27,false);this.puff(toy.x,toy.y-23,'#ffee84',5);
       }
-      if(d.kind==='shooter'&&toy.timer<=0){
+      if(['shooter','slow','splash'].includes(d.kind)&&toy.timer<=0){
         const target=this.enemies.filter(e=>e.row===toy.row&&e.hp>0&&e.x>toy.x+18&&e.x<BOARD_RIGHT+118).sort((a,b)=>a.x-b.x)[0];
         if(target){
           toy.timer+=d.interval;
-          this.projectiles.push({id:this.id++,row:toy.row,x:toy.x+27,y:toy.y-12,damage:d.damage,age:0});
-          this.audio.play('shoot');
+          this.projectiles.push({id:this.id++,row:toy.row,x:toy.x+27,y:toy.y-12,damage:d.damage,kind:d.kind,slowFactor:d.slowFactor,slowDuration:d.slowDuration,splashRadius:d.splashRadius,splashRatio:d.splashRatio,age:0});
+          this.audio.play(d.kind==='slow'?'freeze':d.kind==='splash'?'confetti':'shoot');
         }else{toy.timer=.12;}
       }
     }
     for(let i=this.projectiles.length-1;i>=0;i--){
       const p=this.projectiles[i],old=p.x;p.x+=dt*BOARD.cw*4.25;p.age+=dt;
       const hit=this.enemies.filter(e=>e.row===p.row&&e.hp>0&&e.x>=old-15&&e.x<=p.x+19).sort((a,b)=>a.x-b.x)[0];
-      if(hit){hit.hp-=p.damage;hit.hit=.16;this.puff(hit.x,hit.y-12,'#ffdc8f',4);this.projectiles.splice(i,1);
-        if(hit.hp<=0)this.killEnemy(hit);
+      if(hit){
+        // A colisão é resolvida uma única vez: lento, impacto normal ou confete com dano em área.
+        const victims=p.kind==='splash'
+          ? this.enemies.filter(e=>e.row===p.row&&e.hp>0&&Math.abs(e.x-hit.x)<=p.splashRadius)
+          : [hit];
+        for(const victim of victims){
+          victim.hp-=victim===hit?p.damage:p.damage*p.splashRatio;
+          victim.hit=.16;
+          if(p.kind==='slow'){
+            const resist=ENEMIES[victim.type].slowResistance??1;
+            victim.slowFactor=Math.min(victim.slowFactor,1-(1-p.slowFactor)*resist);
+            victim.slowTime=Math.max(victim.slowTime,p.slowDuration*resist);
+          }
+          this.puff(victim.x,victim.y-12,p.kind==='slow'?'#9beafb':p.kind==='splash'?'#ff9acc':'#ffdc8f',p.kind==='splash'?7:4);
+          if(victim.hp<=0)this.killEnemy(victim);
+        }
+        this.projectiles.splice(i,1);
       }else if(p.x>BOARD_RIGHT+95)this.projectiles.splice(i,1);
     }
     for(let i=this.enemies.length-1;i>=0;i--){
-      const e=this.enemies[i],d=ENEMIES[e.type];e.age+=dt;e.hit=Math.max(0,e.hit-dt);
+      const e=this.enemies[i],d=ENEMIES[e.type];e.age+=dt;e.hit=Math.max(0,e.hit-dt);e.slowTime=Math.max(0,e.slowTime-dt);if(e.slowTime===0)e.slowFactor=1;
       const blockers=this.grid[e.row].filter(t=>t && e.x<=t.x+39 && e.x>=t.x-41).sort((a,b)=>b.x-a.x);
       if(blockers.length){
         const toy=blockers[0];e.attackTimer-=dt;
@@ -274,7 +321,7 @@ class Battle {
           if(toy.hp<=0){this.grid[toy.row][toy.col]=null;this.audio.play('remove');this.puff(toy.x,toy.y,'#eecb9e',14);this.events.changed?.();}
           else this.audio.play('hit');
         }
-      }else{e.x-=d.speed*BOARD.cw*dt;e.attackTimer=Math.min(e.attackTimer,.35);}
+      }else{e.x-=d.speed*e.slowFactor*BOARD.cw*dt;e.attackTimer=Math.min(e.attackTimer,.35);}
       if(e.x<BOARD.x-29){
         if(this.trainReady[e.row]){
           this.trainReady[e.row]=false;this.trains.push({row:e.row,x:BOARD.x-83,age:0});
@@ -297,7 +344,7 @@ class Battle {
   }
   killEnemy(enemy){
     const idx=this.enemies.indexOf(enemy);if(idx<0)return;
-    this.enemies.splice(idx,1);this.killCount++;this.puff(enemy.x,enemy.y-13,'#c4a7db',11);this.audio.play('enemy');
+    this.enemies.splice(idx,1);this.killCount++;this.puff(enemy.x,enemy.y-13,'#c4a7db',ENEMIES[enemy.type].boss?32:11);if(ENEMIES[enemy.type].boss)this.flashBanner('O REI DAS MEIAS FOI DERROTADO!',3);this.audio.play('enemy');
   }
 }
 
@@ -406,6 +453,30 @@ function drawToy(c,t,time){
     line(c,[[-7,-23],[0,-19],[7,-23]],'#a66d78',2.3);
     rr(c,-28,-2,57,28,10,'#8ab9cc','#4c7190',3);star(c,1,11,11,5,'#f8e2a0');
     ellipse(c,-18,24,14,8,'#b77a77');ellipse(c,19,24,14,8,'#b77a77');
+  }else if(d.kind==='slow'){
+    // Pião de Geada: madeira pintada, ponta giratória e flocos leves.
+    ellipse(c,0,14,28,13,'#6eb7c3');
+    line(c,[[0,-64],[0,-40]],'#deaf78',9);
+    ellipse(c,0,-64,7,8,'#ffe6a0');
+    c.beginPath();c.moveTo(-25,-33);c.lineTo(-38,-9);c.lineTo(0,26);c.lineTo(38,-9);c.lineTo(25,-33);c.closePath();
+    c.fillStyle='#9fe8ee';c.fill();c.strokeStyle='#4d8ca6';c.lineWidth=4;c.stroke();
+    rr(c,-25,-41,50,17,8,'#568fb5','#d3f4eb',3);
+    ellipse(c,0,-12,20,16,'#d1f7fa');eye(c,-8,-16,4);eye(c,9,-16,4);
+    line(c,[[-5,-4],[0,-1],[5,-4]],'#438ca2',2);
+    star(c,0,8,11,4,'#ffffff');
+    for(let i=0;i<3;i++)star(c,-36+i*36,-51+(i%2)*9,5,2,'#d7faff');
+  }else if(d.kind==='splash'){
+    // Canhão de Confetes: brinquedo mecânico, tubos de papel e fitas coloridas.
+    rr(c,-29,-18,58,40,16,'#ec98c0','#7b5a91',4);
+    rr(c,-20,-40,40,36,10,'#ffc875','#936080',4);
+    rr(c,9,-30,46,25,8,'#e1bbf0','#755b90',4);
+    ellipse(c,53,-17,15,18,'#ffe5b9');ellipse(c,53,-17,8,10,'#7e638f');
+    eye(c,-11,-24,4);eye(c,7,-24,4);ellipse(c,-1,-13,6,3,'#a15c87');
+    star(c,-20,12,9,4,'#fff0a0');
+    line(c,[[-14,18],[-17,31]],'#805c89',7);line(c,[[17,18],[19,31]],'#805c89',7);
+    for(let i=0;i<4;i++){
+      c.save();c.translate(-38+i*26,-50-(i%2)*7);c.rotate((i-1)*.4);rr(c,-4,-6,8,12,2,['#fff1a0','#8ee7d1','#ff9bad','#c4afff'][i]);c.restore();
+    }
   }
   if(t.hp<t.maxHp){rr(c,-34,-70,68,6,3,'#5d4454');rr(c,-33,-69,66*t.hp/t.maxHp,4,2,t.hp/t.maxHp>.4?'#9bddb1':'#e67c84');}
   c.restore();
@@ -422,7 +493,7 @@ function drawEnemy(c,e,time){
     ellipse(c,0,-29,8,7,'#ddcee8');eye(c,-11,-30,7);eye(c,15,-28,7);
     ellipse(c,2,-12,9,6,'#675273');ellipse(c,-12,-12,7,3,'#e9a9b3');
     line(c,[[25,-44],[35,-51],[34,-42]],'#cdbde2',5);
-  }else{
+  }else if(e.type==='E02'){
     // Meia Zanzante: meia vermelha rajada e cara maluca.
     line(c,[[-17,0],[-23,26]],'#685179',7);line(c,[[15,0],[20,24]],'#685179',7);
     rr(c,-24,-50,44,66,19,'#dd7a9d','#765b89',4);
@@ -431,6 +502,41 @@ function drawEnemy(c,e,time){
     rr(c,-17,-28,34,8,3,'#ffe1c5');rr(c,-17,-9,46,8,3,'#ffe1c5');
     eye(c,-9,-38,6);eye(c,9,-38,6);ellipse(c,3,-25,8,4,'#88516d');
     ellipse(c,37,-1,9,13,'#fac6b0');
+  }else if(e.type==='E03'){
+    // Colcha Ambulante: várias camadas e remendos, lenta e resistente.
+    line(c,[[-23,8],[-25,27]],'#73577f',9);line(c,[[20,8],[23,27]],'#73577f',9);
+    rr(c,-42,-56,84,78,18,'#88b4a9','#546f8f',5);
+    rr(c,-34,-48,32,31,5,'#efb38d','#8c7593',3);
+    rr(c,4,-48,30,31,5,'#f8d49b','#8c7593',3);
+    rr(c,-33,-11,31,24,5,'#b9a3d8','#8c7593',3);
+    rr(c,4,-10,29,22,5,'#f2aab4','#8c7593',3);
+    line(c,[[-1,-50],[-1,20]],'#eff3ca',3);
+    ellipse(c,-9,-27,10,9,'#fff4e7');ellipse(c,15,-27,10,9,'#fff4e7');
+    eye(c,-9,-28,5);eye(c,15,-28,5);ellipse(c,4,-11,11,6,'#594c75');
+    star(c,-22,4,7,3,'#ffebac');
+  }else if(e.type==='E04'){
+    // Rabisco Corredor: um borrão de lápis com olhos desconfiados.
+    line(c,[[-9,2],[-21,23]],'#58456f',7);line(c,[[13,3],[27,23]],'#58456f',7);
+    ellipse(c,0,-19,30,35,'#f4d88f');
+    line(c,[[-24,-31],[-35,-51],[-11,-42],[6,-64],[19,-41],[32,-49]],'#755f99',7);
+    line(c,[[-17,2],[-32,11],[-11,13]],'#8f75b2',5);
+    eye(c,-10,-25,7);eye(c,14,-25,7);ellipse(c,4,-9,11,6,'#835d83');
+    star(c,0,14,8,3,'#b192cb');
+  }else if(e.type==='E05'){
+    // Rei das Meias: monstro grandalhão, capa de retalhos e coroa de botões.
+    ellipse(c,-27,21,19,11,'#9e4d76');ellipse(c,29,21,19,11,'#9e4d76');
+    ellipse(c,0,-13,47,49,'#a77db9');
+    rr(c,-43,-27,83,44,20,'#df82a6','#785b9d',5);
+    rr(c,-29,-51,57,55,22,'#edacc4','#825b9a',4);
+    ellipse(c,-33,-5,15,27,'#f1c3bd');ellipse(c,32,-5,15,27,'#f1c3bd');
+    c.beginPath();c.moveTo(-30,-53);c.lineTo(-26,-82);c.lineTo(-11,-66);c.lineTo(0,-87);c.lineTo(13,-65);c.lineTo(26,-82);c.lineTo(29,-53);c.closePath();c.fillStyle='#f9d371';c.fill();c.strokeStyle='#a96d7a';c.lineWidth=4;c.stroke();
+    for(let x of [-25,0,25])ellipse(c,x,-58,5,5,'#a8d5db');
+    eye(c,-14,-38,7);eye(c,14,-38,7);ellipse(c,0,-18,15,7,'#78456e');
+    rr(c,-30,1,60,10,5,'#ffdf94');star(c,0,6,7,3,'#e894c5');
+  }
+  if(e.slowTime>0){
+    ellipse(c,0,27,39,6,'#91e0ed77');
+    star(c,-33,-52,8,3,'#d4f9ff');star(c,35,-29,6,3,'#d4f9ff');
   }
   if(e.hp<e.maxHp){rr(c,-30,-73,60,6,3,'#574a6e');rr(c,-29,-72,58*clamp(e.hp/e.maxHp,0,1),4,2,'#f2a2a7');}
   c.restore();
@@ -443,12 +549,22 @@ function drawGlow(c,s,time){
   line(c,[[-3,6],[2,8],[7,5]],'#9f6c6a',2);
   c.restore();
 }
-function drawProjectile(c,p){ellipse(c,p.x,p.y,12,10,'#fff0bb');ellipse(c,p.x+4,p.y-1,7,6,'#ffffff');line(c,[[p.x-15,p.y],[p.x-23,p.y]],'#fff2c8b3',4);}
+function drawProjectile(c,p){
+  if(p.kind==='slow'){
+    ellipse(c,p.x,p.y,12,10,'#9ee8f5');star(c,p.x,p.y,11,5,'#e6fcff');line(c,[[p.x-15,p.y],[p.x-23,p.y]],'#a8eef2b3',4);
+  }else if(p.kind==='splash'){
+    ellipse(c,p.x,p.y,15,13,'#fda5c9');star(c,p.x,p.y,12,5,'#fff4ac');ellipse(c,p.x-8,p.y+4,4,4,'#a8ede5');
+  }else{ellipse(c,p.x,p.y,12,10,'#fff0bb');ellipse(c,p.x+4,p.y-1,7,6,'#ffffff');line(c,[[p.x-15,p.y],[p.x-23,p.y]],'#fff2c8b3',4);}
+}
 function render(c,game,menu=false,visualMotion=true){
   const t=visualMotion ? (game?.time ?? performance.now()*.001) : 0;
   c.clearRect(0,0,W,H);drawBackground(c,t);
+  if(game?.levelIndex>=4){
+    // Capítulo mais avançado ganha um leve clima de armário encantado, sem outra textura ou download.
+    c.fillStyle=game.levelIndex===7?'#50204e19':'#34246b0b';c.fillRect(0,0,W,H);
+  }
   for(let r=0;r<BOARD.rows;r++){
-    const x=game?.trainReady[r]===false?109:109;
+    const x=109;
     drawTrain(c,x,rowY(r),game?(!game.trainReady[r]&&!game.trains.some(tr=>tr.row===r)):false);
   }
   if(game){
@@ -475,6 +591,7 @@ function render(c,game,menu=false,visualMotion=true){
     drawToy(c,{id:0,x:colX(2),y:rowY(3),hp:120,maxHp:120,type:'T02'},t);
     drawToy(c,{id:1,x:colX(3),y:rowY(2),hp:650,maxHp:650,type:'T03'},t);
     drawToy(c,{id:2,x:colX(4),y:rowY(3),hp:100,maxHp:100,type:'T01'},t);
+    drawToy(c,{id:3,x:colX(5),y:rowY(4),hp:105,maxHp:105,type:'T04'},t);
     drawEnemy(c,{id:1,x:colX(7),y:rowY(2),row:2,type:'E01',age:t,hp:100,maxHp:100,hit:0},t);
     drawEnemy(c,{id:2,x:colX(8),y:rowY(3),row:3,type:'E02',age:t,hp:85,maxHp:85,hit:0},t);
   }
@@ -496,7 +613,7 @@ const $=id=>document.getElementById(id);
 const canvas=$('battle-canvas'),context=canvas.getContext('2d',{alpha:false});
 const audio=new AudioService();const save=loadSave();audio.music=save.settings.music;audio.sfx=save.settings.sfx;
 let battle=null,screen='menu',last=0,accumulator=0,hudUpdate=0,toastTimer=null,optionsBack='menu',lastResult=null,pendingConfirm=null;
-const icons={T01:'💡',T02:'🪖',T03:'🧸',E01:'☁️',E02:'🧦'};
+const icons={T01:'💡',T02:'🪖',T03:'🧸',T04:'❄️',T05:'🎉',E01:'☁️',E02:'🧦',E03:'🛏️',E04:'✏️',E05:'👑'};
 const escapeHTML=v=>String(v).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
 function showToast(text,seconds=2.8){let toast=$('toast');toast.textContent=text;toast.classList.remove('hidden');clearTimeout(toastTimer);toastTimer=setTimeout(()=>toast.classList.add('hidden'),seconds*1000);}
 function setScreen(name,content=''){screen=name;const layer=$('screen');if(name==='battle'){layer.classList.add('hidden');$('hud').classList.remove('hidden');return;}
@@ -506,20 +623,20 @@ function setScreen(name,content=''){screen=name;const layer=$('screen');if(name=
 function button(text,action,kind='big-btn',additional=''){return `<button class="${kind}" data-action="${action}" ${additional}>${text}</button>`;}
 function panel(title,kicker,content,back='menu',extra=''){setScreen(extra||'panel',`<section class="panel" aria-label="${escapeHTML(title)}"><div class="panel-head"><div><span class="subheading">${kicker}</span><h1>${title}</h1></div>${button('✕ Voltar',back,'tiny-btn')}</div>${content}</section>`);}
 function menu(){battle=null;
-  setScreen('menu',`<div class="menu-content"><div class="menu-hero"><span class="kicker">✦ Uma aventura no quarto da Lia</span><h1 class="logo">BRINQUEDOS <span class="vs">VS.</span><br><em>PESADELOS!</em></h1><p class="menu-description">Quando o armário se abre... o quarto revida! Monte sua defesa e espante monstros muito atrapalhados.</p><div class="menu-note">✦ 3 fases jogáveis &nbsp; ✦ 5 faixas &nbsp; ✦ Salva automaticamente</div></div><nav class="menu-actions" aria-label="Menu principal">${button(save.unlocked>1?'▶ CONTINUAR':'▶ JOGAR','play')}${button('🗺 ESCOLHER FASE','levels','outline-btn')}${button('📖 BRINQUEDOPÉDIA','codex','outline-btn')}${button('❔ COMO JOGAR','help','text-btn')}${button('⚙ OPÇÕES','options','text-btn')}</nav></div>`);
+  setScreen('menu',`<div class="menu-content"><div class="menu-hero"><span class="kicker">✦ Uma aventura no quarto da Lia</span><h1 class="logo">BRINQUEDOS <span class="vs">VS.</span><br><em>PESADELOS!</em></h1><p class="menu-description">Quando o armário se abre... o quarto revida! Monte sua defesa e espante monstros muito atrapalhados.</p><div class="menu-note">✦ 8 fases jogáveis &nbsp; ✦ 5 faixas &nbsp; ✦ Salva automaticamente</div></div><nav class="menu-actions" aria-label="Menu principal">${button(save.unlocked>1?'▶ CONTINUAR':'▶ JOGAR','play')}${button('🗺 ESCOLHER FASE','levels','outline-btn')}${button('📖 BRINQUEDOPÉDIA','codex','outline-btn')}${button('❔ COMO JOGAR','help','text-btn')}${button('⚙ OPÇÕES','options','text-btn')}</nav></div>`);
 }
 function levels(){
   const cards=LEVELS.map((lvl,i)=>{const unlocked=i<save.unlocked;
     return `<button class="level-choice" data-action="level" data-level="${i}" ${unlocked?'':'disabled'}><strong>${unlocked?'✦':'🔒'} ${lvl.id}</strong><span>${escapeHTML(lvl.title)}</span><small>${unlocked?'⭐'.repeat(save.stars[lvl.id]||0)||'Jogar agora':'Conclua a anterior'}</small></button>`;}).join('');
-  panel('O Quarto Acordou','Capítulo 1 · selecione sua fase',`<p>Comece pelo início ou rejogue uma fase já liberada.</p><div class="levels">${cards}</div><p>As fases 1-4 a 1-8 e os próximos capítulos serão adicionados nas próximas versões.</p>`);
+  panel('O Quarto Acordou','Capítulo 1 · selecione sua fase',`<p>Comece pelo início ou rejogue uma fase já liberada.</p><div class="levels">${cards}</div><p>O capítulo 1 tem oito fases. Complete a 1-8 para enfrentar o Rei das Meias; os próximos capítulos chegarão depois.</p>`);
 }
 function help(back=battle?'pause':'menu'){
-  panel('Como jogar','Seu Pião explica',`<p>Você precisa impedir que os pesadelos cheguem ao baú da imaginação.</p><div class="guide"><div class="guide-item"><strong>1. Escolha um brinquedo</strong><br>Toque em uma carta na faixa superior.</div><div class="guide-item"><strong>2. Defenda uma casa</strong><br>Toque em um quadradinho vazio do tapete.</div><div class="guide-item"><strong>3. Colete ✦ Brilhos</strong><br>Toque nas estrelinhas douradas; cada uma vale 25.</div><div class="guide-item"><strong>4. Proteja as 5 faixas</strong><br>Um trenzinho salva cada faixa apenas uma vez.</div><div class="guide-item"><strong>5. Economize</strong><br>Abajures criam Brilhos; soldadinhos atacam; ursos bloqueiam.</div><div class="guide-item"><strong>6. Vitória!</strong><br>Espante todos os monstros, inclusive a grande onda.</div></div><p>Atalhos no PC: teclas <strong>1, 2, 3</strong> selecionam cartas; <strong>Esc</strong> abre a pausa.</p>`,back,'help');
+  panel('Como jogar','Seu Pião explica',`<p>Você precisa impedir que os pesadelos cheguem ao baú da imaginação.</p><div class="guide"><div class="guide-item"><strong>1. Escolha um brinquedo</strong><br>Toque em uma carta na faixa superior.</div><div class="guide-item"><strong>2. Defenda uma casa</strong><br>Toque em um quadradinho vazio do tapete.</div><div class="guide-item"><strong>3. Colete ✦ Brilhos</strong><br>Toque nas estrelinhas douradas; cada uma vale 25.</div><div class="guide-item"><strong>4. Proteja as 5 faixas</strong><br>Um trenzinho salva cada faixa apenas uma vez.</div><div class="guide-item"><strong>5. Economize</strong><br>Abajures criam Brilhos; soldados atacam; ursos bloqueiam; piões congelam; confetes acertam grupos.</div><div class="guide-item"><strong>6. Vitória!</strong><br>Espante todos os monstros, inclusive a grande onda.</div></div><p>Atalhos no PC: teclas <strong>1 a 5</strong> selecionam cartas; <strong>Esc</strong> abre a pausa.</p>`,back,'help');
 }
 function codex(){
   const toys=Object.values(TOYS).map(t=>`<div class="catalog-entry"><div class="emoji">${icons[t.id]}</div><div><strong>${t.name}</strong><small>✦ ${t.cost} · ${t.description}</small></div></div>`).join('');
   const enemies=Object.values(ENEMIES).map(e=>`<div class="catalog-entry"><div class="emoji">${icons[e.id]}</div><div><strong>${e.name}</strong><small>${e.description}</small></div></div>`).join('');
-  panel('Brinquedopédia','Conheça os moradores',`<p>Os defensores e os primeiros pesadelos desta versão.</p><div class="catalog">${toys}${enemies}</div>`,'menu','codex');
+  panel('Brinquedopédia','Conheça os moradores',`<p>Conheça os brinquedos e os pesadelos do Capítulo 1.</p><div class="catalog">${toys}${enemies}</div>`,'menu','codex');
 }
 function options(back=battle?'pause':'menu'){
   optionsBack=back;
@@ -554,7 +671,7 @@ function updateHUD(){if(!battle)return;$('glow-count').textContent=Math.floor(ba
 }
 function handleAction(action,target){
   audio.resume();if(action!=='toggle')audio.play('click');
-  if(action==='play')start(save.unlocked-1);
+  if(action==='play')start(Math.min(save.unlocked-1,LEVELS.length-1));
   else if(action==='level')start(Number(target.dataset.level));
   else if(action==='levels')levels();
   else if(action==='menu'){if(battle&&battle.state==='paused'&&screen==='pause')confirmBefore('menu');else menu();}

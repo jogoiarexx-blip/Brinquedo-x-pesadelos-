@@ -18,7 +18,7 @@ test('todas as ondas referenciam inimigos válidos, faixas válidas e horários 
   for(const level of (await import('../src/data.js')).LEVELS){
     let last=0;
     for(const wave of level.waves){assert.ok(wave.at>=last);last=wave.at;
-      for(const foe of wave.enemies){assert.ok(foe.lane>=0&&foe.lane<5);assert.ok(['E01','E02'].includes(foe.type));}
+      for(const foe of wave.enemies){assert.ok(foe.lane>=0&&foe.lane<5);assert.ok((await import('../src/data.js')).ENEMIES[foe.type]);}
     }
   }
 });
@@ -39,4 +39,84 @@ test('três fases são vencíveis com coleta e defesa planejada', async ()=>{
     }
     assert.equal(b.state,'victory',`A fase ${k+1} não foi vencida`);
   }
+});
+
+
+test('o capítulo 1 tem oito fases e o Rei das Meias aparece somente na batalha final', async ()=>{
+  const {LEVELS, ENEMIES, TOYS}=await import('../src/data.js');
+  assert.equal(LEVELS.length,8);
+  assert.equal(Object.keys(TOYS).length,5);
+  assert.equal(Object.keys(ENEMIES).length,5);
+  assert.ok(LEVELS[7].waves.some(w=>w.enemies.some(e=>e.type==='E05')));
+  assert.equal(LEVELS.slice(0,7).some(l=>l.waves.some(w=>w.enemies.some(e=>e.type==='E05'))),false);
+});
+
+test('Pião de Geada desacelera e o efeito passa após quatro segundos',()=>{
+  const b=new Battle(3,quiet);
+  b.spawnEnemy('E02',2);const e=b.enemies[0];e.x=colX(5);
+  b.projectiles.push({id:9000,row:2,x:colX(5)-30,y:rowY(2)-12,damage:15,kind:'slow',slowFactor:.48,slowDuration:4,age:0});
+  b.update(1/30);
+  assert.ok(e.slowFactor<1);assert.ok(e.slowTime>3.9);
+  b.update(4.2);
+  assert.equal(e.slowFactor,1);assert.equal(e.slowTime,0);
+});
+
+test('Canhão de Confetes atinge inimigos próximos e não outras faixas',()=>{
+  const b=new Battle(5,quiet);
+  b.spawnEnemy('E03',2);b.spawnEnemy('E03',2);b.spawnEnemy('E03',3);
+  const [a,c,d]=b.enemies;a.x=colX(5);c.x=a.x+60;d.x=a.x;
+  b.projectiles.push({id:9001,row:2,x:a.x-18,y:rowY(2)-12,damage:34,kind:'splash',splashRadius:95,splashRatio:.6,age:0});
+  b.update(1/30);
+  assert.ok(a.hp<a.maxHp);assert.ok(c.hp<c.maxHp);assert.equal(d.hp,d.maxHp);
+  assert.ok(a.hp<c.hp,'acerto central causa dano maior');
+});
+
+test('progresso salvo antigo continua válido e pode desbloquear a fase 1-8',()=>{
+  const raw=JSON.stringify({version:1,unlocked:3,stars:{'1-1':3,'1-2':2},seenEnemies:['E01'],settings:{music:false}});
+  const storage={getItem:()=>raw};const s=loadSave(storage);
+  assert.equal(s.unlocked,3);assert.equal(s.stars['1-1'],3);assert.equal(s.settings.music,false);
+  for(let i=2;i<8;i++)recordVictory(s,i,2);
+  assert.equal(s.unlocked,8);assert.equal(s.stars['1-8'],2);
+});
+
+test('todas as 8 fases podem ser vencidas com estratégia de produção, defesa e tiro',()=>{
+  for(let k=0;k<8;k++){
+    const b=new Battle(k,quiet);
+    const can=id=>b.level.toys.includes(id)&&b.toyCooldowns[id]<=0;
+    const count=id=>b.allToys.filter(t=>t.type===id).length;
+    for(let n=0;n<16000&&b.state==='playing';n++){
+      for(const s of [...b.stars])b.click(s.x,s.y);
+      if(can('T01')&&b.glow>=50&&count('T01')<5){const r=[0,4,1,3,2][count('T01')];b.place(r,0,'T01');}
+      const priority=[...new Set([...b.enemies.map(e=>e.row),...b.level.waves.slice(b.waveIndex,b.waveIndex+2).flatMap(w=>w.enemies.map(e=>e.lane)),2,0,4,1,3])];
+      if(can('T02')&&b.glow>=100){
+        let r=priority.find(r=>!b.grid[r].some(t=>t?.type==='T02'));
+        if(r!==undefined)b.place(r,2,'T02');
+        else {r=priority.find(r=>!b.grid[r][3]);if(r!==undefined&&b.glow>=225)b.place(r,3,'T02');}
+      }
+      if(can('T04')&&b.glow>=125){const r=priority.find(r=>!b.grid[r].some(t=>t?.type==='T04')&&b.grid[r].some(t=>t?.type==='T02'));
+        if(r!==undefined&&count('T02')>=4)b.place(r,1,'T04');}
+      if(can('T05')&&b.glow>=175){const r=priority.find(r=>!b.grid[r][4]&&b.grid[r].some(t=>t?.type==='T02'));
+        if(r!==undefined&&count('T02')>=5)b.place(r,4,'T05');}
+      b.update(1/30);
+    }
+    assert.equal(b.state,'victory',`Fase ${b.level.id} não foi vencida; tempo ${b.time.toFixed(1)}s`);
+    assert.ok(b.killCount>0);
+  }
+});
+
+test('o renderizador suporta todas as cinco defesas, cinco monstros e projéteis novos',async ()=>{
+  const {render}=await import('../src/render.js');
+  const b=new Battle(7,quiet);
+  for(const [row,id] of ['T01','T02','T03','T04','T05'].entries()){
+    const d=(await import('../src/data.js')).TOYS[id];
+    b.grid[row][2]={id:row,type:id,row,col:2,x:colX(2),y:rowY(row),hp:d.maxHp,maxHp:d.maxHp,hit:0,age:0};
+  }
+  for(const [row,id] of ['E01','E02','E03','E04','E05'].entries()){b.spawnEnemy(id,row);b.enemies[row].x=colX(6);}
+  b.enemies[4].slowTime=2;
+  b.projectiles.push({id:202,row:3,x:colX(4),y:rowY(3)-12,kind:'slow'});
+  b.projectiles.push({id:203,row:4,x:colX(4),y:rowY(4)-12,kind:'splash'});
+  const gradient={addColorStop(){}};
+  const c=new Proxy({}, {get:(obj,key)=>key==='createLinearGradient'?()=>gradient:(obj[key]??(()=>{})),set:(obj,key,value)=>(obj[key]=value,true)});
+  assert.doesNotThrow(()=>render(c,b,false,true));
+  assert.doesNotThrow(()=>render(c,null,true,true));
 });

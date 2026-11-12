@@ -103,6 +103,30 @@ function drawToy(c,t,time){
     line(c,[[-7,-23],[0,-19],[7,-23]],'#a66d78',2.3);
     rr(c,-28,-2,57,28,10,'#8ab9cc','#4c7190',3);star(c,1,11,11,5,'#f8e2a0');
     ellipse(c,-18,24,14,8,'#b77a77');ellipse(c,19,24,14,8,'#b77a77');
+  }else if(d.kind==='slow'){
+    // Pião de Geada: madeira pintada, ponta giratória e flocos leves.
+    ellipse(c,0,14,28,13,'#6eb7c3');
+    line(c,[[0,-64],[0,-40]],'#deaf78',9);
+    ellipse(c,0,-64,7,8,'#ffe6a0');
+    c.beginPath();c.moveTo(-25,-33);c.lineTo(-38,-9);c.lineTo(0,26);c.lineTo(38,-9);c.lineTo(25,-33);c.closePath();
+    c.fillStyle='#9fe8ee';c.fill();c.strokeStyle='#4d8ca6';c.lineWidth=4;c.stroke();
+    rr(c,-25,-41,50,17,8,'#568fb5','#d3f4eb',3);
+    ellipse(c,0,-12,20,16,'#d1f7fa');eye(c,-8,-16,4);eye(c,9,-16,4);
+    line(c,[[-5,-4],[0,-1],[5,-4]],'#438ca2',2);
+    star(c,0,8,11,4,'#ffffff');
+    for(let i=0;i<3;i++)star(c,-36+i*36,-51+(i%2)*9,5,2,'#d7faff');
+  }else if(d.kind==='splash'){
+    // Canhão de Confetes: brinquedo mecânico, tubos de papel e fitas coloridas.
+    rr(c,-29,-18,58,40,16,'#ec98c0','#7b5a91',4);
+    rr(c,-20,-40,40,36,10,'#ffc875','#936080',4);
+    rr(c,9,-30,46,25,8,'#e1bbf0','#755b90',4);
+    ellipse(c,53,-17,15,18,'#ffe5b9');ellipse(c,53,-17,8,10,'#7e638f');
+    eye(c,-11,-24,4);eye(c,7,-24,4);ellipse(c,-1,-13,6,3,'#a15c87');
+    star(c,-20,12,9,4,'#fff0a0');
+    line(c,[[-14,18],[-17,31]],'#805c89',7);line(c,[[17,18],[19,31]],'#805c89',7);
+    for(let i=0;i<4;i++){
+      c.save();c.translate(-38+i*26,-50-(i%2)*7);c.rotate((i-1)*.4);rr(c,-4,-6,8,12,2,['#fff1a0','#8ee7d1','#ff9bad','#c4afff'][i]);c.restore();
+    }
   }
   if(t.hp<t.maxHp){rr(c,-34,-70,68,6,3,'#5d4454');rr(c,-33,-69,66*t.hp/t.maxHp,4,2,t.hp/t.maxHp>.4?'#9bddb1':'#e67c84');}
   c.restore();
@@ -119,7 +143,7 @@ function drawEnemy(c,e,time){
     ellipse(c,0,-29,8,7,'#ddcee8');eye(c,-11,-30,7);eye(c,15,-28,7);
     ellipse(c,2,-12,9,6,'#675273');ellipse(c,-12,-12,7,3,'#e9a9b3');
     line(c,[[25,-44],[35,-51],[34,-42]],'#cdbde2',5);
-  }else{
+  }else if(e.type==='E02'){
     // Meia Zanzante: meia vermelha rajada e cara maluca.
     line(c,[[-17,0],[-23,26]],'#685179',7);line(c,[[15,0],[20,24]],'#685179',7);
     rr(c,-24,-50,44,66,19,'#dd7a9d','#765b89',4);
@@ -128,6 +152,41 @@ function drawEnemy(c,e,time){
     rr(c,-17,-28,34,8,3,'#ffe1c5');rr(c,-17,-9,46,8,3,'#ffe1c5');
     eye(c,-9,-38,6);eye(c,9,-38,6);ellipse(c,3,-25,8,4,'#88516d');
     ellipse(c,37,-1,9,13,'#fac6b0');
+  }else if(e.type==='E03'){
+    // Colcha Ambulante: várias camadas e remendos, lenta e resistente.
+    line(c,[[-23,8],[-25,27]],'#73577f',9);line(c,[[20,8],[23,27]],'#73577f',9);
+    rr(c,-42,-56,84,78,18,'#88b4a9','#546f8f',5);
+    rr(c,-34,-48,32,31,5,'#efb38d','#8c7593',3);
+    rr(c,4,-48,30,31,5,'#f8d49b','#8c7593',3);
+    rr(c,-33,-11,31,24,5,'#b9a3d8','#8c7593',3);
+    rr(c,4,-10,29,22,5,'#f2aab4','#8c7593',3);
+    line(c,[[-1,-50],[-1,20]],'#eff3ca',3);
+    ellipse(c,-9,-27,10,9,'#fff4e7');ellipse(c,15,-27,10,9,'#fff4e7');
+    eye(c,-9,-28,5);eye(c,15,-28,5);ellipse(c,4,-11,11,6,'#594c75');
+    star(c,-22,4,7,3,'#ffebac');
+  }else if(e.type==='E04'){
+    // Rabisco Corredor: um borrão de lápis com olhos desconfiados.
+    line(c,[[-9,2],[-21,23]],'#58456f',7);line(c,[[13,3],[27,23]],'#58456f',7);
+    ellipse(c,0,-19,30,35,'#f4d88f');
+    line(c,[[-24,-31],[-35,-51],[-11,-42],[6,-64],[19,-41],[32,-49]],'#755f99',7);
+    line(c,[[-17,2],[-32,11],[-11,13]],'#8f75b2',5);
+    eye(c,-10,-25,7);eye(c,14,-25,7);ellipse(c,4,-9,11,6,'#835d83');
+    star(c,0,14,8,3,'#b192cb');
+  }else if(e.type==='E05'){
+    // Rei das Meias: monstro grandalhão, capa de retalhos e coroa de botões.
+    ellipse(c,-27,21,19,11,'#9e4d76');ellipse(c,29,21,19,11,'#9e4d76');
+    ellipse(c,0,-13,47,49,'#a77db9');
+    rr(c,-43,-27,83,44,20,'#df82a6','#785b9d',5);
+    rr(c,-29,-51,57,55,22,'#edacc4','#825b9a',4);
+    ellipse(c,-33,-5,15,27,'#f1c3bd');ellipse(c,32,-5,15,27,'#f1c3bd');
+    c.beginPath();c.moveTo(-30,-53);c.lineTo(-26,-82);c.lineTo(-11,-66);c.lineTo(0,-87);c.lineTo(13,-65);c.lineTo(26,-82);c.lineTo(29,-53);c.closePath();c.fillStyle='#f9d371';c.fill();c.strokeStyle='#a96d7a';c.lineWidth=4;c.stroke();
+    for(let x of [-25,0,25])ellipse(c,x,-58,5,5,'#a8d5db');
+    eye(c,-14,-38,7);eye(c,14,-38,7);ellipse(c,0,-18,15,7,'#78456e');
+    rr(c,-30,1,60,10,5,'#ffdf94');star(c,0,6,7,3,'#e894c5');
+  }
+  if(e.slowTime>0){
+    ellipse(c,0,27,39,6,'#91e0ed77');
+    star(c,-33,-52,8,3,'#d4f9ff');star(c,35,-29,6,3,'#d4f9ff');
   }
   if(e.hp<e.maxHp){rr(c,-30,-73,60,6,3,'#574a6e');rr(c,-29,-72,58*clamp(e.hp/e.maxHp,0,1),4,2,'#f2a2a7');}
   c.restore();
@@ -140,12 +199,22 @@ function drawGlow(c,s,time){
   line(c,[[-3,6],[2,8],[7,5]],'#9f6c6a',2);
   c.restore();
 }
-function drawProjectile(c,p){ellipse(c,p.x,p.y,12,10,'#fff0bb');ellipse(c,p.x+4,p.y-1,7,6,'#ffffff');line(c,[[p.x-15,p.y],[p.x-23,p.y]],'#fff2c8b3',4);}
+function drawProjectile(c,p){
+  if(p.kind==='slow'){
+    ellipse(c,p.x,p.y,12,10,'#9ee8f5');star(c,p.x,p.y,11,5,'#e6fcff');line(c,[[p.x-15,p.y],[p.x-23,p.y]],'#a8eef2b3',4);
+  }else if(p.kind==='splash'){
+    ellipse(c,p.x,p.y,15,13,'#fda5c9');star(c,p.x,p.y,12,5,'#fff4ac');ellipse(c,p.x-8,p.y+4,4,4,'#a8ede5');
+  }else{ellipse(c,p.x,p.y,12,10,'#fff0bb');ellipse(c,p.x+4,p.y-1,7,6,'#ffffff');line(c,[[p.x-15,p.y],[p.x-23,p.y]],'#fff2c8b3',4);}
+}
 export function render(c,game,menu=false,visualMotion=true){
   const t=visualMotion ? (game?.time ?? performance.now()*.001) : 0;
   c.clearRect(0,0,W,H);drawBackground(c,t);
+  if(game?.levelIndex>=4){
+    // Capítulo mais avançado ganha um leve clima de armário encantado, sem outra textura ou download.
+    c.fillStyle=game.levelIndex===7?'#50204e19':'#34246b0b';c.fillRect(0,0,W,H);
+  }
   for(let r=0;r<BOARD.rows;r++){
-    const x=game?.trainReady[r]===false?109:109;
+    const x=109;
     drawTrain(c,x,rowY(r),game?(!game.trainReady[r]&&!game.trains.some(tr=>tr.row===r)):false);
   }
   if(game){
@@ -172,6 +241,7 @@ export function render(c,game,menu=false,visualMotion=true){
     drawToy(c,{id:0,x:colX(2),y:rowY(3),hp:120,maxHp:120,type:'T02'},t);
     drawToy(c,{id:1,x:colX(3),y:rowY(2),hp:650,maxHp:650,type:'T03'},t);
     drawToy(c,{id:2,x:colX(4),y:rowY(3),hp:100,maxHp:100,type:'T01'},t);
+    drawToy(c,{id:3,x:colX(5),y:rowY(4),hp:105,maxHp:105,type:'T04'},t);
     drawEnemy(c,{id:1,x:colX(7),y:rowY(2),row:2,type:'E01',age:t,hp:100,maxHp:100,hit:0},t);
     drawEnemy(c,{id:2,x:colX(8),y:rowY(3),row:3,type:'E02',age:t,hp:85,maxHp:85,hit:0},t);
   }

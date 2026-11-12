@@ -1,62 +1,51 @@
-# Brinquedos vs. Pesadelos — ALFA v0.1.0
+# Brinquedos vs. Pesadelos — ALFA v0.2.0
 
-Primeira versão **jogável** do jogo de defesa por faixas descrito em `GDD.md`.
+Jogo 2D original de defesa por faixas, com jogabilidade acessível no estilo dos clássicos de estratégia de tabuleiro. Funciona em navegador de PC e celular, sem dependências externas ou instalação.
 
-## O que já está no jogo
+## Novidades da v0.2.0
 
-- Menu principal, seleção das 3 primeiras fases do capítulo 1, instruções, enciclopédia, opções, pausa, vitória e derrota.
-- Grade fixa 5×9, posicionamento por clique/toque, energia Brilhos, coletáveis naturais e produzidos por brinquedos.
-- Três peças: Soldadinho Estalo, Abajur Pirilampo e Urso Travesseiro; efeitos visuais desenhados em Canvas (arte provisória, sem sprites prontos).
-- Dois inimigos: Poeira Andante e Meia Zanzante; dano, animação, morte e ataque aos brinquedos.
-- Ondas predefinidas, alerta de grande onda, trenzinho de emergência de uso único em cada faixa.
-- Progresso e preferências salvos no `localStorage`.
-- PWA básico: após a primeira visita em HTTPS e instalação do service worker, arquivos do jogo ficam em cache para jogar offline.
-- Áudio simples sintetizado com a Web Audio API, sem arquivos sonoros de terceiros.
+- **Capítulo 1 completo com 8 fases** (antes eram 3). O confronto da 1-8 é contra o **Rei das Meias**.
+- **5 brinquedos defensores:** Soldadinho Estalo, Abajur Pirilampo, Urso Travesseiro, **Pião de Geada** (lentidão) e **Canhão de Confetes** (dano em área).
+- **5 inimigos:** Poeira Andante, Meia Zanzante, **Colcha Ambulante** (resistência), **Rabisco Corredor** (velocidade) e **Rei das Meias** (chefe).
+- Ilustrações Canvas procedurais originais, novas partículas e efeitos sonoros, ajuste de dificuldade na 1-4.
+- Saves da v0.1.0 **preservados**, com novas fases liberadas ao completar as anteriores. Nenhum progresso é apagado.
+- 16 testes de regras, mecânicas e simulação de vitória, executáveis localmente.
 
-## Executar
+## Como jogar
 
-**Na Web:** publique os arquivos mantendo a estrutura e abra o `index.html`. Ex.: repositório GitHub Pages. Não há build, `npm install` nem API externa.
+Escolha um brinquedo na barra superior e toque em uma casa vazia do tapete de 5 faixas × 9 colunas. Recolha estrelas de Brilhos para comprar defesas; o Abajur gera recursos adicionais. Cada faixa tem um trenzinho de emergência que funciona **uma única vez**. Defenda todas as linhas até vencer a última onda.
 
-**No PC:** abra um terminal dentro da pasta e execute `python3 -m http.server 8000`, depois acesse `http://localhost:8000`. O carregamento de módulos JavaScript pelo protocolo `file://` não é suportado por alguns navegadores.
+- Toque/clique: escolher carta, posicionar brinquedo e coletar Brilhos.
+- Botão **Guardar**: remove uma defesa para liberar a casa (não devolve Brilhos).
+- Teclas **1 a 5**: escolher uma carta; **Esc**: abrir/fechar pausa.
+- No celular, prefira a orientação **horizontal**.
 
-**Testes:** `node --test tests/*.test.mjs` (Node.js 20+).
+## Executar e publicar
 
-## Controles
+**GitHub Pages:** publique `index.html`, `src/`, `assets/`, `manifest.webmanifest` e `sw.js` preservando a estrutura. Configure em *Settings → Pages → Deploy from a branch → main / (root)*. O app instala-se como PWA em navegadores compatíveis. O service worker versão v0.2.0 substitui o cache antigo para o jogo voltar a funcionar offline após a visita inicial.
 
-- Selecionar carta no topo e clicar/tocar em uma casa do tapete.
-- Tocar nas estrelas douradas para coletar 25 Brilhos.
-- Ícone de vassoura remove peça; tecla Escape pausa; números 1 a 3 selecionam cartas.
-- Na tela vertical, girar o celular para paisagem.
+**PC sem servidor:** abra `JOGAR-OFFLINE.html`, que inclui o JavaScript e o CSS necessários em um só arquivo (sem recursos externos). Se baixar apenas o `index.html`, será necessário também ter a pasta `src/`.
 
-## Limites da versão
+**Desenvolver:** execute `python3 -m http.server 8000` na pasta e abra `http://localhost:8000`. Não precisa de `npm install`.
 
-Este é um **protótipo vertical** das fases 1-1, 1-2 e 1-3, não o jogo final de 40 fases. Sprites são vetores desenhados por Canvas; não há ainda chefes, outros 17 brinquedos, capítulos restantes, minigames, balanceamento com jogadores reais nem app Android nativo. O GDD recomenda Phaser; nesta prova jogável usamos Canvas 2D modular, **sem dependências externas**, para facilitar execução e GitHub Pages. É possível migrar a renderização para Phaser mantendo as regras centrais.
+**Testes:** execute `node --test tests/*.test.mjs` com Node.js 20+.
 
-## Arquitetura
+**Regenerar HTML offline:** `python3 tools/build_standalone.py`.
 
-- `src/config.js`: tamanho lógico, grade e funções de coordenadas.
-- `src/data.js`: definições de unidades, inimigos e ondas das fases.
-- `src/engine.js`: simulação da batalha, combate, economia, trenzinhos e vitória.
-- `src/render.js`: ilustrações e efeitos visuais 2D.
-- `src/main.js`: menus, toque/mouse, HUD, loop fixo de 30 passos/s.
-- `src/save.js`: persistência de desbloqueios e opções.
-- `src/audio.js`: trilha e efeitos sintetizados.
-- `tests/engine.test.mjs`: verificações de regras do jogo.
+## Organização
 
-**Jogar sem instalar nada:** se preferir abrir um arquivo HTML diretamente no navegador (sem servidor), use `JOGAR-OFFLINE.html`. Para gerar novamente após alterações, execute `python3 tools/build_standalone.py`.
+| Arquivo | Responsabilidade |
+| --- | --- |
+| `src/data.js` | Brinquedos, inimigos, fases e ondas |
+| `src/engine.js` | Simulação determinística a 30 Hz, tiros, Brilhos, condições de vitória |
+| `src/render.js` | Desenhos 2D Canvas, efeitos de personagens e chefes |
+| `src/main.js` | Menus, UI, input mobile/PC, loop fixo |
+| `src/audio.js` | Sons e música procedurais originais |
+| `src/save.js` | Saves, estrelas e desbloqueios |
+| `src/config.js` | Dimensões e grade |
+| `tests/engine.test.mjs` | Regressões e estratégias automatizadas |
+| `sw.js` | Cache offline do PWA |
 
-## Próximos passos
+## Escopo e próximos passos
 
-1. Substituir arte procedural por atlas de sprites WebP originais com animações.
-2. Balancear todas as fases no celular e adicionar tutorial guiado.
-3. Concluir 1-4 a 1-8 com Mola, Carrinho, novos inimigos e Rei das Meias.
-4. Perfis de qualidade / acessibilidade e interface mobile dedicada.
-
-## Publicar no GitHub Pages
-
-1. Abra **Settings → Pages** neste repositório.
-2. Em **Build and deployment → Source**, escolha **Deploy from a branch**.
-3. Escolha **main** e **/(root)**, então clique em **Save**.
-4. Após a publicação pelo GitHub, acesse `https://jogoiarexx-blip.github.io/Brinquedo-x-pesadelos-/`.
-
-O projeto é estático: não é preciso instalar dependências para publicar. O workflow em `.github/workflows/testes.yml` executa os testes em pushes para `main`.
+Esta é uma **ALFA jogável** com o capítulo 1. O projeto completo do `GDD.md` prevê 40 fases, mais personagens, capítulos, minigames e melhorias. Os desenhos ainda são procedurais; não existe APK Android nativo. Ainda faltam playtests manuais extensivos e testes específicos em celulares reais.
