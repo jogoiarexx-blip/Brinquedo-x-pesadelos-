@@ -2,3 +2,26 @@
 @media (max-width:900px){.app{padding:4px 3px;gap:4px}.game-frame{border-width:3px;border-radius:10px}.outside-footer{display:none}.menu-actions{gap:6px}.big-btn,.outline-btn,.text-btn{border-width:2px;border-radius:10px;padding:7px 11px;box-shadow:0 3px 0 #69465d}.kicker{padding:3px 8px}.logo{margin:9px 0}.panel{border-width:3px;border-radius:14px}.panel-actions{gap:7px;margin-top:10px}.panel-actions button{min-width:110px}.level-choice{min-height:92px;padding:6px}.level-choice span{margin:4px 0}.levels{margin:10px 0;gap:8px}.toy-card{border-width:2px;border-radius:7px}.small-btn{border-width:2px;border-radius:8px}.glow-pill{border-width:2px;border-radius:9px}.toast{padding:4px 10px;border-width:2px}.guide{gap:6px}.guide-item{padding:5px}.option-row{padding:6px}}
 @media (orientation:portrait) and (max-width:900px){body{align-items:center}.mobile-tip{display:block}.app{padding-top:12px}.game-frame{min-height:auto}.panel{padding:3%}.screen{padding:2%}.panel h1{font-size:clamp(13px,3.5vw,23px)}.panel p,.guide-item{font-size:clamp(8px,2vw,13px)}.logo{font-size:clamp(19px,4.6vw,36px)}.menu-description{font-size:clamp(8px,1.8vw,13px)}.menu-note{font-size:clamp(7px,1.6vw,12px)}.big-btn,.outline-btn,.text-btn{font-size:clamp(9px,2.1vw,14px);padding:4px 6px}.kicker{font-size:clamp(6px,1.6vw,12px)}.menu-actions{gap:4px}.toy-card-name{font-size:8px}.toy-card-icon{font-size:14px}.glow-pill{font-size:14px}}
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+
+/* v0.3.0: o tabuleiro utiliza melhor a tela inteira dos aparelhos móveis. */
+.fullscreen-btn{width:7.4%}
+.game-frame:fullscreen{width:100vw;height:100dvh;aspect-ratio:auto;border:0;border-radius:0;box-shadow:none;background:#392949}
+.game-frame:fullscreen canvas{object-fit:fill}
+@media (pointer:coarse) and (orientation:landscape){
+  .app{padding:0;gap:0}
+  .game-frame{width:min(100vw,177.7778dvh);max-height:100dvh;border-width:2px;border-radius:7px}
+  .outside-footer,.mobile-tip{display:none}
+  .topbar{padding:.7% 1.1%;gap:.55%}
+  .toy-card{border-radius:7px}
+  .small-btn{border-radius:8px}
+}
+@media (pointer:coarse) and (orientation:portrait){
+  .mobile-tip{display:block;padding:7px 10px;text-align:center;color:#ffe7b2;font-weight:800;background:#41304f;border-radius:12px;font-size:12px}
+  .game-frame{border-width:3px;border-radius:10px}
+  .outside-footer{font-size:10px}
+}
+@keyframes bvpVictory{0%{transform:scale(.6) rotate(-10deg);opacity:0}60%{transform:scale(1.24) rotate(5deg)}100%{transform:scale(1) rotate(0);opacity:1}}
+@keyframes bvpDefeat{0%{transform:translateY(-14px);opacity:0}100%{transform:translateY(0);opacity:1}}
+.win-animation{animation:bvpVictory .65s cubic-bezier(.2,1,.4,1) both}
+.lose-animation{animation:bvpDefeat .45s ease-out both}
+@media (prefers-reduced-motion:reduce){.win-animation,.lose-animation{animation:none!important}}

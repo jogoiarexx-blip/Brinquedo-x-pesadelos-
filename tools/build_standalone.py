@@ -16,7 +16,7 @@ html=html.replace('<link rel="stylesheet" href="./src/style.css" />',f'<style>\n
 html=html.replace('<script type="module" src="./src/main.js"></script>',f'<script>\n{js}\n</script>')
 html=html.replace('<link rel="manifest" href="./manifest.webmanifest" />','')
 html=html.replace('<link rel="icon" type="image/svg+xml" href="./assets/icon.svg" />','')
-html=html.replace('<title>Brinquedos vs. Pesadelos — v0.2.0</title>', '<title>Brinquedos vs. Pesadelos — Jogar Offline v0.2.0</title>')
+html=html.replace('<title>Brinquedos vs. Pesadelos — v0.3.0</title>', '<title>Brinquedos vs. Pesadelos — Jogar Offline v0.2.0</title>')
 path=root/'JOGAR-OFFLINE.html'
 path.write_text(html,encoding='utf-8')
 print(f'Criado: {path} ({path.stat().st_size} bytes)')

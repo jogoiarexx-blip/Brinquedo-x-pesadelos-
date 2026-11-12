@@ -2,7 +2,7 @@
   "id":"./",
   "name":"Brinquedos vs. Pesadelos",
   "short_name":"Brinquedos VS",
-  "description":"Uma batalha de brinquedos contra monstros do armário.",
+  "description":"Defenda o quarto da Lia com brinquedos contra pesadelos: 8 fases e chefe do armário.",
   "start_url":"./",
   "scope":"./",
   "display":"standalone",

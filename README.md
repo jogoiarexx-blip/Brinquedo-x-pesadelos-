@@ -1,8 +1,8 @@
-# Brinquedos vs. Pesadelos — ALFA v0.2.0
+# Brinquedos vs. Pesadelos — ALFA v0.3.0
 
 Jogo 2D original de defesa por faixas, com jogabilidade acessível no estilo dos clássicos de estratégia de tabuleiro. Funciona em navegador de PC e celular, sem dependências externas ou instalação.
 
-## Novidades da v0.2.0
+## Novidades da v0.3.0
 
 - **Capítulo 1 completo com 8 fases** (antes eram 3). O confronto da 1-8 é contra o **Rei das Meias**.
 - **5 brinquedos defensores:** Soldadinho Estalo, Abajur Pirilampo, Urso Travesseiro, **Pião de Geada** (lentidão) e **Canhão de Confetes** (dano em área).
@@ -22,7 +22,7 @@ Escolha um brinquedo na barra superior e toque em uma casa vazia do tapete de 5 
 
 ## Executar e publicar
 
-**GitHub Pages:** publique `index.html`, `src/`, `assets/`, `manifest.webmanifest` e `sw.js` preservando a estrutura. Configure em *Settings → Pages → Deploy from a branch → main / (root)*. O app instala-se como PWA em navegadores compatíveis. O service worker versão v0.2.0 substitui o cache antigo para o jogo voltar a funcionar offline após a visita inicial.
+**GitHub Pages:** publique `index.html`, `src/`, `assets/`, `manifest.webmanifest` e `sw.js` preservando a estrutura. Configure em *Settings → Pages → Deploy from a branch → main / (root)*. O app instala-se como PWA em navegadores compatíveis. O service worker versão v0.3.0 substitui o cache antigo para o jogo voltar a funcionar offline após a visita inicial.
 
 **PC sem servidor:** abra `JOGAR-OFFLINE.html`, que inclui o JavaScript e o CSS necessários em um só arquivo (sem recursos externos). Se baixar apenas o `index.html`, será necessário também ter a pasta `src/`.
 
@@ -49,3 +49,14 @@ Escolha um brinquedo na barra superior e toque em uma casa vazia do tapete de 5 
 ## Escopo e próximos passos
 
 Esta é uma **ALFA jogável** com o capítulo 1. O projeto completo do `GDD.md` prevê 40 fases, mais personagens, capítulos, minigames e melhorias. Os desenhos ainda são procedurais; não existe APK Android nativo. Ainda faltam playtests manuais extensivos e testes específicos em celulares reais.
+
+## Novidades da versão 0.3.0
+
+- Animações 2D de recuo quando as defesas disparam, mordidas dos monstros e desaparecimento suave após derrota.
+- Ondas de impacto para projéteis, gelo, confetes e ataques; mensagens flutuantes ao coletar Brilhos e colocar defesas.
+- Barra de vida do Rei das Meias durante a batalha final.
+- Botão de tela cheia no menu e no jogo (incluindo tecla `F`); melhor dimensionamento no celular em modo paisagem.
+- Animações de vitória/derrota respeitando o modo de movimento reduzido.
+- Mantido o mesmo salvamento (`bvp-save-v1`), grade, custo dos brinquedos e balanceamento de ondas.
+
+A orientação forçada de tela cheia depende do suporte do navegador; se não houver suporte, o jogo permanece utilizável.

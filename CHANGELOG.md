@@ -1,5 +1,15 @@
 # Histórico de versões
 
+## v0.3.0 — Animação, impacto e celular
+
+- Novas animações por ataque, impactos e derrotas, sem mudar colisões nem tempo de jogo.
+- Melhor leitura da batalha: feedback de Brilhos, efeito de gelo e confetes, vida do chefe.
+- Botão de tela cheia e ajuste de layout horizontal em dispositivos de toque.
+- Cache offline versionado para atualização no GitHub Pages.
+- Regressão automatizada e smoke test do navegador adicionados.
+
+# Histórico de versões
+
 ## v0.2.0 — 12/11/2026
 
 - Capítulo 1 expandido de 3 para 8 fases com chefe final na 1-8.

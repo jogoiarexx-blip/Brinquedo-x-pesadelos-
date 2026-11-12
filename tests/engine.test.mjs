@@ -120,3 +120,33 @@ test('o renderizador suporta todas as cinco defesas, cinco monstros e projéteis
   assert.doesNotThrow(()=>render(c,b,false,true));
   assert.doesNotThrow(()=>render(c,null,true,true));
 });
+
+test('v0.3: coleta e colocação geram feedback curto, com limite de partículas',()=>{
+  const b=new Battle(0,quiet);b.place(2,1);
+  assert.ok(b.feedback.some(f=>f.text.includes('Defesa')));
+  b.spawnStar(360,330,false);b.click(360,330);
+  assert.ok(b.feedback.some(f=>f.text==='+25 ✦'));
+  for(let i=0;i<65;i++)b.addFeedback(400,400,'+1');
+  assert.ok(b.feedback.length<=32);
+  b.update(1);
+  assert.equal(b.feedback.length,0);
+});
+test('v0.3: disparo anima brinquedo, gera impacto e não altera o dano',()=>{
+  const b=new Battle(0,quiet);b.place(2,1);
+  const toy=b.grid[2][1];
+  b.spawnEnemy('E01',2);const enemy=b.enemies[0];enemy.x=colX(4);
+  let fired=false,impacted=false;
+  for(let i=0;i<110;i++){b.update(1/30);fired||=toy.recoil>0;impacted||=b.impacts.length>0;}
+  assert.ok(fired,'o soldado precisa recuar ao atirar');
+  assert.ok(enemy.hp<enemy.maxHp);
+  assert.ok(impacted,'a colisão precisa gerar impacto visual');
+});
+test('v0.3: inimigo derrotado deixa efeito visual temporário sem causar novo dano',()=>{
+  const b=new Battle(0,quiet);b.spawnEnemy('E01',3);
+  const victim=b.enemies[0];
+  b.killEnemy(victim);
+  assert.equal(b.enemies.length,0);
+  assert.equal(b.defeated.length,1);
+  b.update(1);
+  assert.equal(b.defeated.length,0);
+});
