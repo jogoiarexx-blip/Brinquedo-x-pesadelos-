@@ -10,14 +10,14 @@ Primeira versão **jogável** do jogo de defesa por faixas descrito em `GDD.md`.
 - Dois inimigos: Poeira Andante e Meia Zanzante; dano, animação, morte e ataque aos brinquedos.
 - Ondas predefinidas, alerta de grande onda, trenzinho de emergência de uso único em cada faixa.
 - Progresso e preferências salvos no `localStorage`.
-- Esta edição do GitHub pode ser aberta offline quando o `index.html` for salvo localmente; a versão PWA modular acompanha o pacote de código-fonte.
+- PWA básico: após a primeira visita em HTTPS e instalação do service worker, arquivos do jogo ficam em cache para jogar offline.
 - Áudio simples sintetizado com a Web Audio API, sem arquivos sonoros de terceiros.
 
 ## Executar
 
-**Na Web:** a versão publicada está consolidada no `index.html`, com CSS e JavaScript incorporados. Ative GitHub Pages para jogar pelo navegador. Não há build, `npm install` nem API externa.
+**Na Web:** publique os arquivos mantendo a estrutura e abra o `index.html`. Ex.: repositório GitHub Pages. Não há build, `npm install` nem API externa.
 
-**No PC:** baixe o `index.html` do repositório e abra-o no navegador. Ele é independente e também funciona sem conexão.
+**No PC:** abra um terminal dentro da pasta e execute `python3 -m http.server 8000`, depois acesse `http://localhost:8000`. O carregamento de módulos JavaScript pelo protocolo `file://` não é suportado por alguns navegadores.
 
 **Testes:** `node --test tests/*.test.mjs` (Node.js 20+).
 
@@ -32,10 +32,6 @@ Primeira versão **jogável** do jogo de defesa por faixas descrito em `GDD.md`.
 
 Este é um **protótipo vertical** das fases 1-1, 1-2 e 1-3, não o jogo final de 40 fases. Sprites são vetores desenhados por Canvas; não há ainda chefes, outros 17 brinquedos, capítulos restantes, minigames, balanceamento com jogadores reais nem app Android nativo. O GDD recomenda Phaser; nesta prova jogável usamos Canvas 2D modular, **sem dependências externas**, para facilitar execução e GitHub Pages. É possível migrar a renderização para Phaser mantendo as regras centrais.
 
-## Estrutura modular da versão-fonte (distribuída separadamente)
-
-O repositório publica inicialmente a versão consolidada do HTML; o pacote ZIP v0.1.0 inclui os módulos separados abaixo.
-
 ## Arquitetura
 
 - `src/config.js`: tamanho lógico, grade e funções de coordenadas.
@@ -46,6 +42,8 @@ O repositório publica inicialmente a versão consolidada do HTML; o pacote ZIP 
 - `src/save.js`: persistência de desbloqueios e opções.
 - `src/audio.js`: trilha e efeitos sintetizados.
 - `tests/engine.test.mjs`: verificações de regras do jogo.
+
+**Jogar sem instalar nada:** se preferir abrir um arquivo HTML diretamente no navegador (sem servidor), use `JOGAR-OFFLINE.html`. Para gerar novamente após alterações, execute `python3 tools/build_standalone.py`.
 
 ## Próximos passos
 

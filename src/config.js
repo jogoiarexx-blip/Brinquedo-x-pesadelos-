@@ -1,0 +1,11 @@
+export const W = 1280;
+export const H = 720;
+export const BOARD = Object.freeze({ x: 195, y: 193, cols: 9, rows: 5, cw: 94, ch: 83 });
+export const BOARD_RIGHT = BOARD.x + BOARD.cols * BOARD.cw;
+export const BOARD_BOTTOM = BOARD.y + BOARD.rows * BOARD.ch;
+export const STEP = 1 / 30;
+export const SAVE_KEY = 'bvp-save-v1';
+export const clamp = (v, min, max) => Math.min(max, Math.max(min, v));
+export const colX = col => BOARD.x + (col + 0.5) * BOARD.cw;
+export const rowY = row => BOARD.y + (row + 0.5) * BOARD.ch;
+export const rectCell = (x, y) => ({ col: Math.floor((x - BOARD.x) / BOARD.cw), row: Math.floor((y - BOARD.y) / BOARD.ch) });
