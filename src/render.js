@@ -9,7 +9,7 @@ function star(c,x,y,outer,inner,color,rot=-Math.PI/2){c.beginPath();for(let i=0;
 function txt(c,text,x,y,size=18,color='#fff8e7',align='center',weight=800){c.textAlign=align;c.textBaseline='middle';c.font=`${weight} ${size}px Trebuchet MS, Verdana, sans-serif`;c.fillStyle=color;c.fillText(text,x,y);}
 function eye(c,x,y,r=5){ellipse(c,x,y,r,r*1.13,'#fffdf7');ellipse(c,x+1.3,y+.9,r*.45,r*.6,COLORS.ink);ellipse(c,x+.5,y-r*.25,r*.16,r*.16,'white');}
 function drawCloud(c,x,y,scale=1){c.save();c.translate(x,y);c.scale(scale,scale);ellipse(c,0,0,66,20,'#281a4480');ellipse(c,-20,-12,33,24,'#b7a8e0');ellipse(c,19,-15,35,29,'#cab8ed');ellipse(c,0,-30,30,31,'#dfcdf2');ellipse(c,-18,-23,11,9,'#e3d7f7');c.restore();}
-export function drawBackground(c,time=0){
+export function drawBackground(c,time=0,chapter=1){
   const sky=c.createLinearGradient(0,0,0,H);sky.addColorStop(0,'#40345f');sky.addColorStop(.58,'#675276');sky.addColorStop(1,'#2c3754');c.fillStyle=sky;c.fillRect(0,0,W,H);
   for(let i=0;i<25;i++){const x=(i*293+57)%W,y=(i*61+26)%185;ellipse(c,x,y,2+(i%3===0),2+(i%3===0),'#fbefb59c');}
   // Parede com listras e rodapé.
@@ -56,6 +56,30 @@ export function drawBackground(c,time=0){
   // Enfeites, cantos e chão.
   rr(c,290,652,175,20,10,'#7c53768f');ellipse(c,365,643,100,20,'#6b4c7788');
   rr(c,1114,665,145,18,9,'#69446b');
+  if(chapter===2){
+    // Sob a cama: paleta nova, cama acima do campo e tapete bordado de estrelas.
+    c.fillStyle='#0a133a7b';c.fillRect(0,0,W,H);
+    rr(c,BOARD.x-17,BOARD.y-15,BOARD.cw*BOARD.cols+34,BOARD.ch*BOARD.rows+30,23,'#20324cd9','#7d92b9',5);
+    for(let row=0;row<BOARD.rows;row++)for(let col=0;col<BOARD.cols;col++){
+      const x=BOARD.x+col*BOARD.cw,y=BOARD.y+row*BOARD.ch;
+      rr(c,x+2,y+2,BOARD.cw-4,BOARD.ch-4,9,(row+col)%2?'#3f5974':'#496987');
+      if((row*7+col)%5===0)star(c,x+14,y+15,5,2,'#b6d8ef81');
+    }
+    for(let row=0;row<=BOARD.rows;row++)line(c,[[BOARD.x,BOARD.y+row*BOARD.ch],[BOARD_RIGHT,BOARD.y+row*BOARD.ch]],'#d0daf244',2);
+    for(let col=0;col<=BOARD.cols;col++)line(c,[[BOARD.x+col*BOARD.cw,BOARD.y],[BOARD.x+col*BOARD.cw,BOARD_BOTTOM]],'#d0daf229',1.6);
+    // Estrutura da cama acima, sem cobrir a área interativa.
+    rr(c,168,76,901,109,28,'#594a73','#d7b2a0',8);
+    rr(c,183,88,870,58,19,'#8a9bc7','#e9d7c2',5);
+    for(let i=0;i<15;i++)star(c,220+i*54,114+(i%3)*7,5,2,'#e9f2ce');
+    rr(c,170,145,30,480,11,'#654562','#af8fa4',5);
+    rr(c,1051,145,29,475,11,'#654562','#af8fa4',5);
+    ellipse(c,108,617,89,32,'#2a1b4780');
+    rr(c,36,555,115,75,29,'#b1a0c6','#554777',4);ellipse(c,70,556,17,20,'#b7e0e4');ellipse(c,121,556,17,20,'#b7e0e4');
+    for(let i=0;i<13;i++){
+      const x=210+(i*127)%800,y=203+(i*79)%394;
+      ellipse(c,x,y,1.8,1.8,'#d7e8fe7f');
+    }
+  }
 }
 function drawTrain(c,x,y,spent=false,moving=false){
   c.save();c.translate(x,y);if(spent)c.globalAlpha=.28;
@@ -131,11 +155,31 @@ function drawToy(c,t,time,visualMotion=true){
       c.save();c.translate(-38+i*26,-50-(i%2)*7);c.rotate((i-1)*.4);rr(c,-4,-6,8,12,2,['#fff1a0','#8ee7d1','#ff9bad','#c4afff'][i]);c.restore();
     }
   }
+  if(d.kind==='pierce'){
+    // Carrinho Cometa: carrinho de corrida com lançador de rodas brilhantes.
+    rr(c,-31,-17,59,35,12,'#ffbf6a','#895e75',4);
+    rr(c,-12,-39,34,27,10,'#88ced8','#506b83',3);
+    rr(c,9,-33,42,13,5,'#ffdca0','#935c73',3);
+    ellipse(c,-24,22,12,12,'#4b5277');ellipse(c,23,22,12,12,'#4b5277');
+    ellipse(c,-24,22,5,5,'#ffd685');ellipse(c,23,22,5,5,'#ffd685');
+    eye(c,-10,-26,5);eye(c,7,-26,5);
+    star(c,-4,0,11,5,'#faefff');star(c,46,-28,6,2,'#fff0ae');
+  }else if(d.kind==='sleep'){
+    // Boneca Soninho: pijama lilás, bocejos mágicos e chapéu de dormir.
+    line(c,[[-11,12],[-14,28]],'#81628a',7);line(c,[[12,12],[17,28]],'#81628a',7);
+    rr(c,-28,-11,56,42,17,'#bdb0e9','#70658f',4);
+    ellipse(c,0,-38,26,27,'#ffdbbf');
+    c.beginPath();c.moveTo(-27,-49);c.quadraticCurveTo(0,-91,35,-67);c.lineTo(17,-44);c.closePath();c.fillStyle='#9481cc';c.fill();c.strokeStyle='#665585';c.lineWidth=3;c.stroke();
+    ellipse(c,34,-68,9,9,'#f8e7aa');
+    line(c,[[-17,-39],[-9,-36],[-2,-39]],'#685574',3);line(c,[[6,-39],[13,-36],[19,-39]],'#685574',3);
+    ellipse(c,0,-25,6,8,'#9a6489');star(c,0,7,10,5,'#fff1ac');
+    ellipse(c,26,-67,5,5,'#d3c4fc');
+  }
   if(t.hp<t.maxHp){rr(c,-34,-70,68,6,3,'#5d4454');rr(c,-33,-69,66*t.hp/t.maxHp,4,2,t.hp/t.maxHp>.4?'#9bddb1':'#e67c84');}
   c.restore();
 }
 function drawEnemy(c,e,time,visualMotion=true){
-  c.save();c.translate(e.x,e.y+7);const bob=Math.sin(e.age*8+e.id)*3;
+  c.save();c.translate(e.x,e.y+7);if(e.jumpTime>0)c.translate(0,-40*Math.sin(Math.PI*Math.min(1,e.jumpTime/.48)));const bob=Math.sin(e.age*8+e.id)*3;
   const bite=visualMotion?clamp((e.attack||0)/.28,0,1):0;c.translate(-10*bite,visualMotion?bob-3*Math.sin(e.age*11):0);c.rotate(-.055*bite);
   if(e.hit>0)c.globalAlpha=.68;
   ellipse(c,0,27,34,9,'#3032475a');
@@ -188,6 +232,30 @@ function drawEnemy(c,e,time,visualMotion=true){
     eye(c,-14,-38,7);eye(c,14,-38,7);ellipse(c,0,-18,15,7,'#78456e');
     rr(c,-30,1,60,10,5,'#ffdf94');star(c,0,6,7,3,'#e894c5');
   }
+  if(e.type==='E06'){
+    // Sombra saltadora com sapatos de molas e corpo elástico.
+    line(c,[[-16,6],[-21,21],[-11,26]],'#7767a9',7);line(c,[[14,6],[18,21],[28,24]],'#7767a9',7);
+    rr(c,-35,-51,68,67,27,'#806ab4','#4c4375',5);
+    ellipse(c,0,-42,32,28,'#9a8acc');
+    ellipse(c,-13,-41,11,9,'#f7efd9');ellipse(c,13,-41,11,9,'#f7efd9');
+    eye(c,-13,-41,5);eye(c,13,-41,5);ellipse(c,0,-20,10,7,'#61466d');
+    line(c,[[-20,19],[-27,26],[-16,26]],'#f1c77f',4);line(c,[[15,19],[23,26],[35,24]],'#f1c77f',4);
+    star(c,0,3,9,4,'#ffeab1');
+  }else if(e.type==='E07'){
+    // Cabide usado como escudo. O corpo fica visível após perder proteção.
+    line(c,[[-16,4],[-19,25]],'#725b83',8);line(c,[[14,4],[15,25]],'#725b83',8);
+    rr(c,-33,-49,66,62,21,'#cf9fb9','#775b88',5);
+    rr(c,-23,-56,46,17,8,'#f7dcaa','#86658c',3);
+    eye(c,-12,-33,6);eye(c,12,-33,6);ellipse(c,0,-17,8,5,'#825e80');
+    if(e.shield>0){
+      c.save();c.globalAlpha=.8;rr(c,-39,-62,79,85,16,'#78bce280','#d8f6fc',5);
+      line(c,[[-27,-57],[0,-70],[28,-57]],'#d8e8f8',4);ellipse(c,0,-70,5,5,'#fff2cc');
+      c.restore();
+    }
+  }
+  if(e.stunTime>0){
+    txt(c,'Z z',12,-87,17,'#e1d7ff');star(c,26,-71,5,2,'#d8ccff');
+  }
   if(e.slowTime>0){
     ellipse(c,0,27,39,6,'#91e0ed77');
     star(c,-33,-52,8,3,'#d4f9ff');star(c,35,-29,6,3,'#d4f9ff');
@@ -204,7 +272,13 @@ function drawGlow(c,s,time){
   c.restore();
 }
 function drawProjectile(c,p){
-  if(p.kind==='slow'){
+  if(p.kind==='pierce'){
+    rr(c,p.x-13,p.y-8,28,16,6,'#f9b965','#a06876',2);
+    ellipse(c,p.x-7,p.y+7,5,5,'#6f638d');ellipse(c,p.x+8,p.y+7,5,5,'#6f638d');
+    star(c,p.x,p.y-3,7,3,'#fff4bf');
+  }else if(p.kind==='sleep'){
+    ellipse(c,p.x,p.y,15,12,'#b8a7eb');txt(c,'z',p.x,p.y-2,15,'#f6f0ff');
+  }else if(p.kind==='slow'){
     ellipse(c,p.x,p.y,12,10,'#9ee8f5');star(c,p.x,p.y,11,5,'#e6fcff');line(c,[[p.x-15,p.y],[p.x-23,p.y]],'#a8eef2b3',4);
   }else if(p.kind==='splash'){
     ellipse(c,p.x,p.y,15,13,'#fda5c9');star(c,p.x,p.y,12,5,'#fff4ac');ellipse(c,p.x-8,p.y+4,4,4,'#a8ede5');
@@ -213,7 +287,7 @@ function drawProjectile(c,p){
 function drawImpact(c,i){
   const k=clamp(i.age/i.life,0,1);c.save();c.globalAlpha=(1-k)*.8;
   const r=(i.kind==='splash'?12:6)+(i.kind==='splash'?50:25)*k;
-  c.lineWidth=i.kind==='slow'?4:3;c.strokeStyle=i.kind==='slow'?'#c9f9ff':i.kind==='bite'?'#ffe3af':i.kind==='splash'?'#ffe3b3':'#fff4d6';
+  c.lineWidth=i.kind==='slow'?4:3;c.strokeStyle=i.kind==='sleep'?'#e0cbff':i.kind==='jump'?'#e2d1ff':i.kind==='slow'?'#c9f9ff':i.kind==='bite'?'#ffe3af':i.kind==='splash'?'#ffe3b3':'#fff4d6';
   c.beginPath();c.arc(i.x,i.y,r,0,TAU);c.stroke();
   if(i.kind==='splash'){for(let a=0;a<7;a++){const theta=a*TAU/7+k;star(c,i.x+Math.cos(theta)*(r+6),i.y+Math.sin(theta)*(r+6),5,2,['#f7a1ca','#fff09d','#9ce9d9'][a%3]);}}
   if(i.kind==='slow')for(let a=0;a<4;a++){const theta=a*TAU/4;star(c,i.x+Math.cos(theta)*(r+6),i.y+Math.sin(theta)*(r+6),7,3,'#e3fcff');}
@@ -241,7 +315,7 @@ function drawBossHealth(c,game){
 }
 export function render(c,game,menu=false,visualMotion=true){
   const t=visualMotion ? (game?.time ?? performance.now()*.001) : 0;
-  c.clearRect(0,0,W,H);drawBackground(c,t);
+  c.clearRect(0,0,W,H);drawBackground(c,t,game?.level?.chapter??1);
   if(game?.levelIndex>=4){
     // Capítulo mais avançado ganha um leve clima de armário encantado, sem outra textura ou download.
     c.fillStyle=game.levelIndex===7?'#50204e19':'#34246b0b';c.fillRect(0,0,W,H);

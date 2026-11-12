@@ -25,3 +25,12 @@
 .win-animation{animation:bvpVictory .65s cubic-bezier(.2,1,.4,1) both}
 .lose-animation{animation:bvpDefeat .45s ease-out both}
 @media (prefers-reduced-motion:reduce){.win-animation,.lose-animation{animation:none!important}}
+
+/* v0.4 — menu em capítulos e cartas compactas para seis unidades. */
+.levels{grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.chapter-heading{grid-column:1/-1;font-size:clamp(15px,1.65vw,24px);margin:10px 0 0;color:#ffe5bd;border-bottom:2px solid #ffffff33;padding-bottom:6px}
+.level-night{background:linear-gradient(135deg,#8c9ec6,#51648f);border-color:#c4d8f9;color:#172945}
+.toy-card{width:auto;flex:1 1 0;padding-left:0;padding-right:0}
+.toy-card .cost{padding:1px 4px}
+@media(max-width:900px){.levels{grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}.chapter-heading{font-size:clamp(11px,2.2vw,19px)}.toy-card{border-width:2px}.toy-card-icon{font-size:clamp(13px,2.8vw,26px)}.toy-card-name{font-size:clamp(7px,1.4vw,12px)}}
+@media(orientation:portrait) and (max-width:900px){.levels{grid-template-columns:repeat(3,minmax(0,1fr))}.chapter-heading{font-size:11px}.toy-card-name{font-size:7px}.toy-card .cost{font-size:7px}.topbar{gap:.4%}}

@@ -806,3 +806,34 @@ Ao iniciar, o jogador vê uma cama, o armário e cinco faixas no tapete. Um pequ
 ---
 
 **Documento de pré-produção — GDD v1.0.**
+
+
+---
+
+# Adendo de produção — v0.4.0 (Capítulo 2: Debaixo da Cama)
+
+O primeiro capítulo (oito fases) permanece inalterado. O segundo capítulo começa depois da fase **1-8** e estreia com **2-1 a 2-4**. A principal regra continua: 5 faixas, 9 colunas, posicionamento por Brilhos, hordas vindas da direita, defesa de emergência por faixa.
+
+## Identidade visual
+
+Novo cenário noturno sob a cama de Lia, com tons azuis, bordas acolchoadas, estrelas no carpete e móveis de madeira ilustrados em Canvas 2D. Todos os brinquedos permanecem legíveis contra o fundo escuro. Não há recursos externos obrigatórios.
+
+## Personagens inéditos
+
+- **T06 — Carrinho Cometa**: custa 150 Brilhos, recarga de 10 s, 28 de dano, dispara a cada 2,0 s, atravessa até dois monstros diferentes por projétil.
+- **T07 — Boneca Soninho**: custa 125 Brilhos, recarga de 12 s, 10 de dano, dispara a cada 4,7 s e interrompe movimento/ataques por 2,3 s.
+- **E06 — Pula-Pula da Cama**: 125 de vida, velocidade 0,40 célula/s, salta uma defesa uma única vez; outras defesas continuam funcionando.
+- **E07 — Cabide Blindado**: 165 de vida, escudo de 85 pontos que absorve dano até acabar, velocidade 0,25 célula/s.
+
+## Organização de fases
+
+- **2-1 — Barulhos sob a cama**: apresenta o Pula-Pula; recompensa T06.
+- **2-2 — Carrinhos cruzando a pista**: grupos em linha e projéteis perfurantes.
+- **2-3 — A dança dos cabides**: novo escudo de inimigos; recompensa T07.
+- **2-4 — Todo mundo quietinho!**: uso do sono para atrasar monstros resistentes.
+
+## Persistência, compatibilidade e verificação
+
+O mesmo save `bvp-save-v1` é mantido. O progresso avançado agora usa o ID real da fase (`2-1` etc), não presume numeração `1-N`. O catálogo se adapta aos novos brinquedos, a seleção exibe capítulos em separado e o service worker incrementa sua versão para instalar os arquivos novos.
+
+**Estado de desenvolvimento:** quatro fases do segundo capítulo, sem chefe final de capítulo ainda. Próximo marco sugerido: 2-5 a 2-8, chefe original e testes em aparelhos Android reais.

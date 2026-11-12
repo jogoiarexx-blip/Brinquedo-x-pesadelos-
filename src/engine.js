@@ -70,7 +70,7 @@ export class Battle {
   }
   spawnEnemy(type,lane,offset=0){
     const d=ENEMIES[type];if(!d)return;
-    this.enemies.push({id:this.id++,type,row:lane,x:BOARD_RIGHT+65+offset,y:rowY(lane),hp:d.hp,maxHp:d.hp,attackTimer:.45,hit:0,age:0,slowTime:0,slowFactor:1,attack:0});
+    this.enemies.push({id:this.id++,type,row:lane,x:BOARD_RIGHT+65+offset,y:rowY(lane),hp:d.hp,maxHp:d.hp,shield:d.shield||0,maxShield:d.shield||0,jumped:false,jumpTime:0,stunTime:0,attackTimer:.45,hit:0,age:0,slowTime:0,slowFactor:1,attack:0});
     this.totalSpawns++;
     this.events.enemySeen?.(type);
   }
@@ -119,39 +119,54 @@ export class Battle {
         toy.timer+=d.interval;
         this.spawnStar(toy.x+21,toy.y-27,false);this.puff(toy.x,toy.y-23,'#ffee84',5);
       }
-      if(['shooter','slow','splash'].includes(d.kind)&&toy.timer<=0){
+      if(['shooter','slow','splash','pierce','sleep'].includes(d.kind)&&toy.timer<=0){
         const target=this.enemies.filter(e=>e.row===toy.row&&e.hp>0&&e.x>toy.x+18&&e.x<BOARD_RIGHT+118).sort((a,b)=>a.x-b.x)[0];
         if(target){
           toy.timer+=d.interval;toy.recoil=.22;
-          this.projectiles.push({id:this.id++,row:toy.row,x:toy.x+27,y:toy.y-12,damage:d.damage,kind:d.kind,slowFactor:d.slowFactor,slowDuration:d.slowDuration,splashRadius:d.splashRadius,splashRatio:d.splashRatio,age:0});
-          this.audio.play(d.kind==='slow'?'freeze':d.kind==='splash'?'confetti':'shoot');
+          this.projectiles.push({id:this.id++,row:toy.row,x:toy.x+27,y:toy.y-12,damage:d.damage,kind:d.kind,slowFactor:d.slowFactor,slowDuration:d.slowDuration,splashRadius:d.splashRadius,splashRatio:d.splashRatio,piercesLeft:d.pierces||1,hitIds:[],stunDuration:d.stunDuration,age:0});
+          this.audio.play(d.kind==='slow'?'freeze':d.kind==='splash'?'confetti':d.kind==='sleep'?'sleep':'shoot');
         }else{toy.timer=.12;}
       }
     }
     for(let i=this.projectiles.length-1;i>=0;i--){
       const p=this.projectiles[i],old=p.x;p.x+=dt*BOARD.cw*4.25;p.age+=dt;
-      const hit=this.enemies.filter(e=>e.row===p.row&&e.hp>0&&e.x>=old-15&&e.x<=p.x+19).sort((a,b)=>a.x-b.x)[0];
+      const hit=this.enemies.filter(e=>e.row===p.row&&e.hp>0&&e.x>=old-15&&e.x<=p.x+19&&!(p.hitIds||[]).includes(e.id)).sort((a,b)=>a.x-b.x)[0];
       if(hit){
         // A colisão é resolvida uma única vez: lento, impacto normal ou confete com dano em área.
         const victims=p.kind==='splash'
           ? this.enemies.filter(e=>e.row===p.row&&e.hp>0&&Math.abs(e.x-hit.x)<=p.splashRadius)
           : [hit];
         for(const victim of victims){
-          victim.hp-=victim===hit?p.damage:p.damage*p.splashRatio;
+          const damage=victim===hit?p.damage:p.damage*p.splashRatio;
+          const shieldDamage=Math.min(victim.shield||0,damage);
+          victim.shield=(victim.shield||0)-shieldDamage;
+          victim.hp-=damage-shieldDamage;
           victim.hit=.16;this.addImpact(victim.x,victim.y-16,p.kind);
+          if(p.kind==='sleep'){
+            const resist=ENEMIES[victim.type].stunResistance??1;
+            victim.stunTime=Math.max(victim.stunTime||0,(p.stunDuration||0)*resist);
+          }
           if(p.kind==='slow'){
             const resist=ENEMIES[victim.type].slowResistance??1;
             victim.slowFactor=Math.min(victim.slowFactor,1-(1-p.slowFactor)*resist);
             victim.slowTime=Math.max(victim.slowTime,p.slowDuration*resist);
           }
-          this.puff(victim.x,victim.y-12,p.kind==='slow'?'#9beafb':p.kind==='splash'?'#ff9acc':'#ffdc8f',p.kind==='splash'?7:4);
+          this.puff(victim.x,victim.y-12,p.kind==='slow'?'#9beafb':p.kind==='splash'?'#ff9acc':p.kind==='sleep'?'#cfb4ff':'#ffdc8f',p.kind==='splash'?7:4);
           if(victim.hp<=0)this.killEnemy(victim);
         }
-        this.projectiles.splice(i,1);
+        if(p.kind==='pierce'){
+          p.hitIds.push(hit.id);p.piercesLeft--;
+          if(p.piercesLeft<=0)this.projectiles.splice(i,1);
+        }else this.projectiles.splice(i,1);
       }else if(p.x>BOARD_RIGHT+95)this.projectiles.splice(i,1);
     }
     for(let i=this.enemies.length-1;i>=0;i--){
-      const e=this.enemies[i],d=ENEMIES[e.type];e.age+=dt;e.hit=Math.max(0,e.hit-dt);e.attack=Math.max(0,(e.attack||0)-dt);e.slowTime=Math.max(0,e.slowTime-dt);if(e.slowTime===0)e.slowFactor=1;
+      const e=this.enemies[i],d=ENEMIES[e.type];e.age+=dt;e.hit=Math.max(0,e.hit-dt);e.attack=Math.max(0,(e.attack||0)-dt);e.jumpTime=Math.max(0,(e.jumpTime||0)-dt);e.slowTime=Math.max(0,e.slowTime-dt);if(e.slowTime===0)e.slowFactor=1;
+      const wasAsleep=e.stunTime>0;e.stunTime=Math.max(0,(e.stunTime||0)-dt);if(wasAsleep)continue;
+      if(d.jump&&!e.jumped){
+        const hurdle=this.grid[e.row].filter(t=>t&&e.x>t.x+39&&e.x<t.x+87).sort((a,b)=>b.x-a.x)[0];
+        if(hurdle){e.x=hurdle.x-53;e.jumped=true;e.jumpTime=.48;this.addImpact(e.x,e.y-20,'jump');this.audio.play('jump');}
+      }
       const blockers=this.grid[e.row].filter(t=>t && e.x<=t.x+39 && e.x>=t.x-41).sort((a,b)=>b.x-a.x);
       if(blockers.length){
         const toy=blockers[0];e.attackTimer-=dt;

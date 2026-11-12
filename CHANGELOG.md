@@ -1,5 +1,15 @@
 # Histórico de versões
 
+## v0.4.0 — Capítulo 2: Debaixo da Cama
+
+- Quatro fases 2-1 a 2-4, somando 12 fases jogáveis.
+- Cenário noturno próprio e seleção de fases separada por capítulo.
+- Carrinho Cometa: projétil atravessa até dois inimigos diferentes.
+- Boneca Soninho: bocejo que interrompe ataque e movimento.
+- Pula-Pula da Cama: salta a primeira defesa; Cabide Blindado: escudo absorve dano.
+- Progresso por ID real da fase, compatível com saves antigos.
+- Rebalanceamento e novos testes; cache offline versionado.
+
 ## v0.3.0 — Animação, impacto e celular
 
 - Novas animações por ataque, impactos e derrotas, sem mudar colisões nem tempo de jogo.

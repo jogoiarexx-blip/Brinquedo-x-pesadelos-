@@ -44,9 +44,9 @@ test('três fases são vencíveis com coleta e defesa planejada', async ()=>{
 
 test('o capítulo 1 tem oito fases e o Rei das Meias aparece somente na batalha final', async ()=>{
   const {LEVELS, ENEMIES, TOYS}=await import('../src/data.js');
-  assert.equal(LEVELS.length,8);
-  assert.equal(Object.keys(TOYS).length,5);
-  assert.equal(Object.keys(ENEMIES).length,5);
+  assert.equal(LEVELS.length,12);
+  assert.equal(Object.keys(TOYS).length,7);
+  assert.equal(Object.keys(ENEMIES).length,7);
   assert.ok(LEVELS[7].waves.some(w=>w.enemies.some(e=>e.type==='E05')));
   assert.equal(LEVELS.slice(0,7).some(l=>l.waves.some(w=>w.enemies.some(e=>e.type==='E05'))),false);
 });
@@ -76,7 +76,7 @@ test('progresso salvo antigo continua válido e pode desbloquear a fase 1-8',()=
   const storage={getItem:()=>raw};const s=loadSave(storage);
   assert.equal(s.unlocked,3);assert.equal(s.stars['1-1'],3);assert.equal(s.settings.music,false);
   for(let i=2;i<8;i++)recordVictory(s,i,2);
-  assert.equal(s.unlocked,8);assert.equal(s.stars['1-8'],2);
+  assert.equal(s.unlocked,9);assert.equal(s.stars['1-8'],2);
 });
 
 test('todas as 8 fases podem ser vencidas com estratégia de produção, defesa e tiro',()=>{
@@ -131,6 +131,7 @@ test('v0.3: coleta e colocação geram feedback curto, com limite de partículas
   b.update(1);
   assert.equal(b.feedback.length,0);
 });
+
 test('v0.3: disparo anima brinquedo, gera impacto e não altera o dano',()=>{
   const b=new Battle(0,quiet);b.place(2,1);
   const toy=b.grid[2][1];
@@ -141,6 +142,7 @@ test('v0.3: disparo anima brinquedo, gera impacto e não altera o dano',()=>{
   assert.ok(enemy.hp<enemy.maxHp);
   assert.ok(impacted,'a colisão precisa gerar impacto visual');
 });
+
 test('v0.3: inimigo derrotado deixa efeito visual temporário sem causar novo dano',()=>{
   const b=new Battle(0,quiet);b.spawnEnemy('E01',3);
   const victim=b.enemies[0];
@@ -149,4 +151,61 @@ test('v0.3: inimigo derrotado deixa efeito visual temporário sem causar novo da
   assert.equal(b.defeated.length,1);
   b.update(1);
   assert.equal(b.defeated.length,0);
+});
+
+
+test('v0.4: capítulo 2 possui quatro fases, desbloqueio após 1-8 e salva estrelas corretamente',async()=>{
+  const {LEVELS}=await import('../src/data.js');
+  assert.deepEqual(LEVELS.slice(8).map(l=>l.id),['2-1','2-2','2-3','2-4']);
+  assert.ok(LEVELS.slice(8).every(l=>l.chapter===2));
+  const save=loadSave({getItem:()=>JSON.stringify({version:1,unlocked:8,stars:{'1-8':2},seenEnemies:[],settings:{}})});
+  assert.equal(save.unlocked,8);
+  recordVictory(save,7,3);assert.equal(save.unlocked,9);
+  recordVictory(save,8,2);assert.equal(save.unlocked,10);
+  assert.equal(save.stars['2-1'],2);assert.equal(save.stars['1-8'],3);
+});
+
+test('v0.4: Carrinho Cometa atravessa dois inimigos uma vez cada, sem acerto infinito',()=>{
+  const b=new Battle(9,quiet);b.spawnEnemy('E03',2);b.spawnEnemy('E03',2);b.spawnEnemy('E03',2);
+  const [a,c,d]=b.enemies;a.x=colX(4);c.x=colX(5);d.x=colX(6);
+  b.projectiles.push({id:12345,row:2,x:a.x-35,y:rowY(2)-12,damage:28,kind:'pierce',piercesLeft:2,hitIds:[],age:0});
+  for(let i=0;i<50;i++)b.update(1/30);
+  assert.equal(a.hp,a.maxHp-28);assert.equal(c.hp,c.maxHp-28);assert.equal(d.hp,d.maxHp);
+});
+
+test('v0.4: escudo do Cabide Blindado absorve dano antes de sua vida',()=>{
+  const b=new Battle(10,quiet);b.spawnEnemy('E07',2);const e=b.enemies[0];e.x=colX(5);
+  for(let i=0;i<4;i++){
+    b.projectiles.push({id:330+i,row:2,x:e.x-30,y:rowY(2)-12,damage:28,kind:'shooter',hitIds:[],age:0});
+    b.update(1/30);
+  }
+  assert.equal(e.shield,0);assert.equal(e.hp,e.maxHp-27);
+});
+
+test('v0.4: Pula-Pula salta uma única defesa',()=>{
+  const b=new Battle(8,quiet);b.place(2,4,'T03');b.toyCooldowns.T03=0;b.place(2,2,'T03');
+  b.spawnEnemy('E06',2);const e=b.enemies[0];e.x=b.grid[2][4].x+67;
+  b.update(1/30);assert.equal(e.jumped,true);assert.ok(e.x<b.grid[2][4].x-40);
+  e.x=b.grid[2][2].x+63;b.update(1/30);assert.ok(e.x>b.grid[2][2].x+39,'segundo bloqueio não pode ser saltado');
+});
+
+test('v0.4: Soninho interrompe deslocamento e ataques e após efeito volta ao normal',()=>{
+  const b=new Battle(11,quiet);b.spawnEnemy('E03',2);const e=b.enemies[0];e.x=colX(5);
+  b.projectiles.push({id:1234,row:2,x:e.x-32,y:rowY(2)-12,damage:10,kind:'sleep',stunDuration:2.3,hitIds:[],age:0});
+  b.update(1/30);assert.ok(e.stunTime>2);
+  const x=e.x;b.update(1);assert.equal(e.x,x);b.update(1);assert.equal(e.x,x);
+  b.update(.5);b.update(1/30);assert.ok(e.x<x);
+});
+
+test('v0.4: renderizador aceita novos brinquedos, inimigos e cenário noturno',async()=>{
+  const {render}=await import('../src/render.js');const {TOYS}=await import('../src/data.js');
+  const b=new Battle(11,quiet);
+  for(const [i,id] of ['T06','T07'].entries()){
+    b.grid[i][2]={id:i,type:id,row:i,col:2,x:colX(2),y:rowY(i),hp:TOYS[id].maxHp,maxHp:TOYS[id].maxHp,hit:0,age:0};
+    b.spawnEnemy(i?'E07':'E06',i);b.enemies[i].x=colX(5);
+  }
+  b.enemies[0].jumpTime=.2;b.enemies[1].stunTime=1;
+  const grad={addColorStop(){}};
+  const c=new Proxy({}, {get:(o,k)=>k==='createLinearGradient'?()=>grad:(o[k]??(()=>{})),set:(o,k,v)=>(o[k]=v,true)});
+  assert.doesNotThrow(()=>render(c,b,false,true));
 });

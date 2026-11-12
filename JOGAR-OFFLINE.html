@@ -36,8 +36,17 @@
 .lose-animation{animation:bvpDefeat .45s ease-out both}
 @media (prefers-reduced-motion:reduce){.win-animation,.lose-animation{animation:none!important}}
 
+/* v0.4 — menu em capítulos e cartas compactas para seis unidades. */
+.levels{grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.chapter-heading{grid-column:1/-1;font-size:clamp(15px,1.65vw,24px);margin:10px 0 0;color:#ffe5bd;border-bottom:2px solid #ffffff33;padding-bottom:6px}
+.level-night{background:linear-gradient(135deg,#8c9ec6,#51648f);border-color:#c4d8f9;color:#172945}
+.toy-card{width:auto;flex:1 1 0;padding-left:0;padding-right:0}
+.toy-card .cost{padding:1px 4px}
+@media(max-width:900px){.levels{grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}.chapter-heading{font-size:clamp(11px,2.2vw,19px)}.toy-card{border-width:2px}.toy-card-icon{font-size:clamp(13px,2.8vw,26px)}.toy-card-name{font-size:clamp(7px,1.4vw,12px)}}
+@media(orientation:portrait) and (max-width:900px){.levels{grid-template-columns:repeat(3,minmax(0,1fr))}.chapter-heading{font-size:11px}.toy-card-name{font-size:7px}.toy-card .cost{font-size:7px}.topbar{gap:.4%}}
+
 </style>
-  <title>Brinquedos vs. Pesadelos — Jogar Offline v0.3.0</title>
+  <title>Brinquedos vs. Pesadelos — Jogar Offline v0.4.0</title>
 </head>
 <body>
   <main class="app" aria-label="Jogo Brinquedos vs. Pesadelos">
@@ -57,7 +66,7 @@
       </div>
       <div id="toast" class="toast hidden" role="status" aria-live="polite"></div>
       <div id="screen" class="screen"></div>
-      <div class="version-tag">ALFA 0.2.0 · Capítulo 1</div>
+      <div class="version-tag">ALFA 0.4.0 · 2 capítulos</div>
     </div>
     <div class="mobile-tip" aria-label="Orientação recomendada">↻ Vire o celular na horizontal para ver todo o tabuleiro.</div>
     <footer class="outside-footer">Brinquedos vs. Pesadelos · Um jogo original de defesa por linhas · Salvo neste dispositivo</footer>
@@ -75,13 +84,15 @@ const colX = col => BOARD.x + (col + 0.5) * BOARD.cw;
 const rowY = row => BOARD.y + (row + 0.5) * BOARD.ch;
 const rectCell = (x, y) => ({ col: Math.floor((x - BOARD.x) / BOARD.cw), row: Math.floor((y - BOARD.y) / BOARD.ch) });
 
-// Dados do capítulo 1 — novos conteúdos preservam a jogabilidade 5×9 de defesa por faixas.
+// Capítulos 1 e 2 — tabuleiro clássico 5×9 e novas mecânicas autorais.
 const TOYS = Object.freeze({
   T02: { id:'T02', name:'Soldadinho Estalo', short:'Estalo', cost:100, cooldown:6, maxHp:120, kind:'shooter', interval:1.5, damage:20, color:'#f3694c', description:'Dispara bolinhas de papel na própria faixa.' },
   T01: { id:'T01', name:'Abajur Pirilampo', short:'Pirilampo', cost:50, cooldown:7, maxHp:100, kind:'producer', interval:22, color:'#f6bf4f', description:'Produz Brilhos. É o herói da economia!' },
   T03: { id:'T03', name:'Urso Travesseiro', short:'Ursinho', cost:50, cooldown:18, maxHp:650, kind:'blocker', color:'#7ec9d9', description:'Segura monstros para proteger os atacantes.' },
   T04: { id:'T04', name:'Pião de Geada', short:'Pião', cost:125, cooldown:9, maxHp:105, kind:'slow', interval:2.3, damage:15, slowFactor:.48, slowDuration:4, color:'#7bd5ef', description:'Seus cristais gelados deixam os monstros mais lentos por 4 segundos.' },
   T05: { id:'T05', name:'Canhão de Confetes', short:'Confetes', cost:175, cooldown:12, maxHp:115, kind:'splash', interval:2.9, damage:34, splashRadius:95, splashRatio:.60, color:'#f5a2c6', description:'Explode confetes e atinge outros monstros próximos na mesma faixa.' },
+  T06: { id:'T06', name:'Carrinho Cometa', short:'Cometa', cost:150, cooldown:10, maxHp:115, kind:'pierce', interval:2.0, damage:28, pierces:2, color:'#ffbd67', description:'Dispara carrinhos de brinquedo que atravessam até dois pesadelos.' },
+  T07: { id:'T07', name:'Boneca Soninho', short:'Soninho', cost:125, cooldown:12, maxHp:95, kind:'sleep', interval:4.7, damage:10, stunDuration:2.3, color:'#c5b0ef', description:'Lança bocejos mágicos que fazem um pesadelo parar por alguns segundos.' },
 });
 const ENEMIES = Object.freeze({
   E01: { id:'E01', name:'Poeira Andante', hp:100, speed:.30, damage:24, interval:1.15, description:'Uma poeirinha atrapalhada, mas persistente.' },
@@ -89,6 +100,8 @@ const ENEMIES = Object.freeze({
   E03: { id:'E03', name:'Colcha Ambulante', hp:270, speed:.23, damage:30, interval:1.15, description:'Um cobertor de retalhos resistente. Precisa de vários disparos para cair.' },
   E04: { id:'E04', name:'Rabisco Corredor', hp:70, speed:.66, damage:18, interval:.9, description:'Um desenho que escapou do caderno. Corre depressa e é frágil.' },
   E05: { id:'E05', name:'Rei das Meias', hp:850, speed:.16, damage:37, interval:.95, boss:true, slowResistance:.6, description:'O grandalhão do armário: leva uma multidão de meias para a batalha final.' },
+  E06: { id:'E06', name:'Pula-Pula da Cama', hp:125, speed:.40, damage:23, interval:1.1, jump:true, description:'Usa as molas dos sapatos para saltar uma defesa uma única vez.' },
+  E07: { id:'E07', name:'Cabide Blindado', hp:165, shield:85, speed:.25, damage:26, interval:1.2, description:'Veste um cabide como escudo; primeiro é preciso quebrar sua proteção.' },
 });
 // Fases autorais com horário em segundos, inimigos e faixas explicitamente balanceados.
 const wave = (at, foes, flag=false) => ({ at, enemies:foes.map(([type, lane])=>({ type, lane })), flag });
@@ -133,26 +146,49 @@ const LEVELS = Object.freeze([
     hint:'Batalha final! Prepare economia e duas linhas de ataque. Proteja a faixa central.',
     startingGlow:300, toys:ALL, reward:null, duration:229,
     waves:[wave(12,[['E01',2]]),wave(28,[['E02',0],['E02',4]]),wave(47,[['E03',1],['E01',3]]),wave(64,[['E04',2],['E01',0],['E04',4]]),wave(86,[['E03',0],['E03',4]]),wave(108,[['E04',1],['E04',3],['E02',2]]),wave(128,[['E03',2],['E01',1],['E01',3]]),wave(150,[['E03',0],['E04',0],['E03',4],['E04',4]]),wave(172,[['E03',1],['E02',3],['E04',2]]),wave(202,[['E05',2],['E02',0],['E02',4],['E03',1],['E03',3]],true)]
+  },
+  { id:'2-1', chapter:2, title:'Barulhos sob a cama', subtitle:'O chão esconde um novo mundo de sombras saltitantes.',
+    hint:'Os Pula-Pulas saltam uma defesa! Coloque ursos na frente e outra linha mais atrás.',
+    startingGlow:275, toys:ALL, reward:'T06', duration:173,
+    waves:[wave(14,[['E01',2]]),wave(30,[['E06',1]]),wave(48,[['E02',4],['E06',0]]),wave(70,[['E03',2],['E06',3]]),wave(91,[['E06',0],['E06',4]]),wave(114,[['E01',1],['E03',3],['E06',2]]),wave(137,[['E06',1],['E06',3],['E03',4]]),wave(158,[['E03',0],['E06',1],['E02',2],['E06',3],['E03',4]],true)]
+  },
+  { id:'2-2', chapter:2, title:'Carrinhos cruzando a pista', subtitle:'Os Cometas passam por dois monstros de uma vez.',
+    hint:'Use o Carrinho Cometa para atravessar duplas; a economia do Abajur ainda é essencial.',
+    startingGlow:300, toys:['T01','T02','T03','T04','T06'], reward:null, duration:186,
+    waves:[wave(15,[['E01',2],['E01',2]]),wave(34,[['E02',0],['E02',4]]),wave(52,[['E06',1],['E06',1]]),wave(75,[['E03',3],['E01',3]]),wave(98,[['E06',0],['E06',2],['E06',4]]),wave(119,[['E03',1],['E03',3]]),wave(143,[['E02',2],['E03',2],['E02',4]]),wave(167,[['E06',0],['E03',1],['E03',2],['E06',3],['E03',4]],true)]
+  },
+  { id:'2-3', chapter:2, title:'A dança dos cabides', subtitle:'Armaduras rangendo atravessam o tapete.',
+    hint:'Os Cabides Blindados protegem a vida até perderem o escudo. Dê tempo aos atiradores.',
+    startingGlow:300, toys:['T01','T02','T03','T05','T06'], reward:'T07', duration:199,
+    waves:[wave(14,[['E07',2]]),wave(34,[['E06',0],['E01',4]]),wave(54,[['E07',1],['E02',3]]),wave(77,[['E07',4],['E06',2]]),wave(100,[['E03',0],['E07',3]]),wave(121,[['E07',1],['E06',1],['E02',4]]),wave(144,[['E07',0],['E07',4],['E06',2]]),wave(165,[['E06',0],['E07',2],['E03',3]]),wave(183,[['E07',0],['E07',1],['E06',2],['E07',3],['E07',4]],true)]
+  },
+  { id:'2-4', chapter:2, title:'Todo mundo quietinho!', subtitle:'A Boneca Soninho coloca os pesadelos para dormir.',
+    hint:'Os bocejos seguram monstros resistentes. Combine Soninho, Cometa e Abajur.',
+    startingGlow:325, toys:['T01','T02','T03','T04','T06','T07'], reward:null, duration:210,
+    waves:[wave(15,[['E01',2],['E06',2]]),wave(32,[['E07',0],['E06',4]]),wave(54,[['E03',1],['E07',3]]),wave(76,[['E06',0],['E06',2],['E06',4]]),wave(101,[['E07',1],['E07',3],['E03',2]]),wave(126,[['E07',0],['E06',1],['E07',4]]),wave(149,[['E03',0],['E07',2],['E06',3]]),wave(173,[['E07',1],['E03',3],['E07',4]]),wave(192,[['E07',0],['E06',0],['E07',1],['E03',2],['E07',3],['E06',4]],true)]
   }
 ]);
 
 
 
 const defaults = () => ({ version:1, unlocked:1, stars:{}, seenEnemies:[], settings:{ music:true, sfx:true, motion:true } });
-function loadSave(storage=globalThis.localStorage) {
+function loadSave(storage=null) {
   try {
+    storage ||= globalThis.localStorage;
     const raw = JSON.parse(storage.getItem(SAVE_KEY));
     if (!raw || raw.version !== 1) return defaults();
     return { ...defaults(), ...raw, unlocked:Math.max(1,Math.min(LEVELS.length,Number(raw.unlocked)||1)), stars:raw.stars && typeof raw.stars==='object'&&!Array.isArray(raw.stars)?raw.stars:{}, seenEnemies:Array.isArray(raw.seenEnemies)?raw.seenEnemies:[], settings:{ ...defaults().settings, ...(raw.settings||{}) } };
   } catch { return defaults(); }
 }
-function persistSave(save,storage=globalThis.localStorage) {
-  try { storage.setItem(SAVE_KEY,JSON.stringify(save)); return true; }
+function persistSave(save,storage=null) {
+  try {
+    storage ||= globalThis.localStorage; storage.setItem(SAVE_KEY,JSON.stringify(save)); return true; }
   catch { return false; }
 }
 function recordVictory(save,levelIndex,stars) {
   save.unlocked = Math.max(save.unlocked,Math.min(LEVELS.length,levelIndex+2));
-  const id=`1-${levelIndex+1}`;
+  const id=LEVELS[levelIndex]?.id;
+  if(!id)return save;
   save.stars[id]=Math.max(save.stars[id]||0,stars);
   return save;
 }
@@ -174,6 +210,8 @@ class AudioService {
       case 'shoot':this.tone(350,.055,'triangle',.013);break;
       case 'freeze':this.tone(720,.11,'sine',.022);this.tone(990,.12,'sine',.014,.05);break;
       case 'confetti':this.tone(440,.085,'triangle',.026);this.tone(680,.09,'triangle',.02,.04);break;
+      case 'sleep':this.tone(580,.2,'sine',.023);this.tone(400,.23,'sine',.022,.08);break;
+      case 'jump':this.tone(300,.12,'triangle',.025);this.tone(590,.16,'sine',.03,.07);break;
       case 'hit':this.tone(195,.085,'triangle',.028);break;
       case 'remove':this.tone(220,.14,'sine',.045);break;
       case 'no':this.tone(170,.16,'sawtooth',.03);break;
@@ -265,7 +303,7 @@ class Battle {
   }
   spawnEnemy(type,lane,offset=0){
     const d=ENEMIES[type];if(!d)return;
-    this.enemies.push({id:this.id++,type,row:lane,x:BOARD_RIGHT+65+offset,y:rowY(lane),hp:d.hp,maxHp:d.hp,attackTimer:.45,hit:0,age:0,slowTime:0,slowFactor:1,attack:0});
+    this.enemies.push({id:this.id++,type,row:lane,x:BOARD_RIGHT+65+offset,y:rowY(lane),hp:d.hp,maxHp:d.hp,shield:d.shield||0,maxShield:d.shield||0,jumped:false,jumpTime:0,stunTime:0,attackTimer:.45,hit:0,age:0,slowTime:0,slowFactor:1,attack:0});
     this.totalSpawns++;
     this.events.enemySeen?.(type);
   }
@@ -314,39 +352,54 @@ class Battle {
         toy.timer+=d.interval;
         this.spawnStar(toy.x+21,toy.y-27,false);this.puff(toy.x,toy.y-23,'#ffee84',5);
       }
-      if(['shooter','slow','splash'].includes(d.kind)&&toy.timer<=0){
+      if(['shooter','slow','splash','pierce','sleep'].includes(d.kind)&&toy.timer<=0){
         const target=this.enemies.filter(e=>e.row===toy.row&&e.hp>0&&e.x>toy.x+18&&e.x<BOARD_RIGHT+118).sort((a,b)=>a.x-b.x)[0];
         if(target){
           toy.timer+=d.interval;toy.recoil=.22;
-          this.projectiles.push({id:this.id++,row:toy.row,x:toy.x+27,y:toy.y-12,damage:d.damage,kind:d.kind,slowFactor:d.slowFactor,slowDuration:d.slowDuration,splashRadius:d.splashRadius,splashRatio:d.splashRatio,age:0});
-          this.audio.play(d.kind==='slow'?'freeze':d.kind==='splash'?'confetti':'shoot');
+          this.projectiles.push({id:this.id++,row:toy.row,x:toy.x+27,y:toy.y-12,damage:d.damage,kind:d.kind,slowFactor:d.slowFactor,slowDuration:d.slowDuration,splashRadius:d.splashRadius,splashRatio:d.splashRatio,piercesLeft:d.pierces||1,hitIds:[],stunDuration:d.stunDuration,age:0});
+          this.audio.play(d.kind==='slow'?'freeze':d.kind==='splash'?'confetti':d.kind==='sleep'?'sleep':'shoot');
         }else{toy.timer=.12;}
       }
     }
     for(let i=this.projectiles.length-1;i>=0;i--){
       const p=this.projectiles[i],old=p.x;p.x+=dt*BOARD.cw*4.25;p.age+=dt;
-      const hit=this.enemies.filter(e=>e.row===p.row&&e.hp>0&&e.x>=old-15&&e.x<=p.x+19).sort((a,b)=>a.x-b.x)[0];
+      const hit=this.enemies.filter(e=>e.row===p.row&&e.hp>0&&e.x>=old-15&&e.x<=p.x+19&&!(p.hitIds||[]).includes(e.id)).sort((a,b)=>a.x-b.x)[0];
       if(hit){
         // A colisão é resolvida uma única vez: lento, impacto normal ou confete com dano em área.
         const victims=p.kind==='splash'
           ? this.enemies.filter(e=>e.row===p.row&&e.hp>0&&Math.abs(e.x-hit.x)<=p.splashRadius)
           : [hit];
         for(const victim of victims){
-          victim.hp-=victim===hit?p.damage:p.damage*p.splashRatio;
+          const damage=victim===hit?p.damage:p.damage*p.splashRatio;
+          const shieldDamage=Math.min(victim.shield||0,damage);
+          victim.shield=(victim.shield||0)-shieldDamage;
+          victim.hp-=damage-shieldDamage;
           victim.hit=.16;this.addImpact(victim.x,victim.y-16,p.kind);
+          if(p.kind==='sleep'){
+            const resist=ENEMIES[victim.type].stunResistance??1;
+            victim.stunTime=Math.max(victim.stunTime||0,(p.stunDuration||0)*resist);
+          }
           if(p.kind==='slow'){
             const resist=ENEMIES[victim.type].slowResistance??1;
             victim.slowFactor=Math.min(victim.slowFactor,1-(1-p.slowFactor)*resist);
             victim.slowTime=Math.max(victim.slowTime,p.slowDuration*resist);
           }
-          this.puff(victim.x,victim.y-12,p.kind==='slow'?'#9beafb':p.kind==='splash'?'#ff9acc':'#ffdc8f',p.kind==='splash'?7:4);
+          this.puff(victim.x,victim.y-12,p.kind==='slow'?'#9beafb':p.kind==='splash'?'#ff9acc':p.kind==='sleep'?'#cfb4ff':'#ffdc8f',p.kind==='splash'?7:4);
           if(victim.hp<=0)this.killEnemy(victim);
         }
-        this.projectiles.splice(i,1);
+        if(p.kind==='pierce'){
+          p.hitIds.push(hit.id);p.piercesLeft--;
+          if(p.piercesLeft<=0)this.projectiles.splice(i,1);
+        }else this.projectiles.splice(i,1);
       }else if(p.x>BOARD_RIGHT+95)this.projectiles.splice(i,1);
     }
     for(let i=this.enemies.length-1;i>=0;i--){
-      const e=this.enemies[i],d=ENEMIES[e.type];e.age+=dt;e.hit=Math.max(0,e.hit-dt);e.attack=Math.max(0,(e.attack||0)-dt);e.slowTime=Math.max(0,e.slowTime-dt);if(e.slowTime===0)e.slowFactor=1;
+      const e=this.enemies[i],d=ENEMIES[e.type];e.age+=dt;e.hit=Math.max(0,e.hit-dt);e.attack=Math.max(0,(e.attack||0)-dt);e.jumpTime=Math.max(0,(e.jumpTime||0)-dt);e.slowTime=Math.max(0,e.slowTime-dt);if(e.slowTime===0)e.slowFactor=1;
+      const wasAsleep=e.stunTime>0;e.stunTime=Math.max(0,(e.stunTime||0)-dt);if(wasAsleep)continue;
+      if(d.jump&&!e.jumped){
+        const hurdle=this.grid[e.row].filter(t=>t&&e.x>t.x+39&&e.x<t.x+87).sort((a,b)=>b.x-a.x)[0];
+        if(hurdle){e.x=hurdle.x-53;e.jumped=true;e.jumpTime=.48;this.addImpact(e.x,e.y-20,'jump');this.audio.play('jump');}
+      }
       const blockers=this.grid[e.row].filter(t=>t && e.x<=t.x+39 && e.x>=t.x-41).sort((a,b)=>b.x-a.x);
       if(blockers.length){
         const toy=blockers[0];e.attackTimer-=dt;
@@ -395,7 +448,7 @@ function star(c,x,y,outer,inner,color,rot=-Math.PI/2){c.beginPath();for(let i=0;
 function txt(c,text,x,y,size=18,color='#fff8e7',align='center',weight=800){c.textAlign=align;c.textBaseline='middle';c.font=`${weight} ${size}px Trebuchet MS, Verdana, sans-serif`;c.fillStyle=color;c.fillText(text,x,y);}
 function eye(c,x,y,r=5){ellipse(c,x,y,r,r*1.13,'#fffdf7');ellipse(c,x+1.3,y+.9,r*.45,r*.6,COLORS.ink);ellipse(c,x+.5,y-r*.25,r*.16,r*.16,'white');}
 function drawCloud(c,x,y,scale=1){c.save();c.translate(x,y);c.scale(scale,scale);ellipse(c,0,0,66,20,'#281a4480');ellipse(c,-20,-12,33,24,'#b7a8e0');ellipse(c,19,-15,35,29,'#cab8ed');ellipse(c,0,-30,30,31,'#dfcdf2');ellipse(c,-18,-23,11,9,'#e3d7f7');c.restore();}
-function drawBackground(c,time=0){
+function drawBackground(c,time=0,chapter=1){
   const sky=c.createLinearGradient(0,0,0,H);sky.addColorStop(0,'#40345f');sky.addColorStop(.58,'#675276');sky.addColorStop(1,'#2c3754');c.fillStyle=sky;c.fillRect(0,0,W,H);
   for(let i=0;i<25;i++){const x=(i*293+57)%W,y=(i*61+26)%185;ellipse(c,x,y,2+(i%3===0),2+(i%3===0),'#fbefb59c');}
   // Parede com listras e rodapé.
@@ -442,6 +495,30 @@ function drawBackground(c,time=0){
   // Enfeites, cantos e chão.
   rr(c,290,652,175,20,10,'#7c53768f');ellipse(c,365,643,100,20,'#6b4c7788');
   rr(c,1114,665,145,18,9,'#69446b');
+  if(chapter===2){
+    // Sob a cama: paleta nova, cama acima do campo e tapete bordado de estrelas.
+    c.fillStyle='#0a133a7b';c.fillRect(0,0,W,H);
+    rr(c,BOARD.x-17,BOARD.y-15,BOARD.cw*BOARD.cols+34,BOARD.ch*BOARD.rows+30,23,'#20324cd9','#7d92b9',5);
+    for(let row=0;row<BOARD.rows;row++)for(let col=0;col<BOARD.cols;col++){
+      const x=BOARD.x+col*BOARD.cw,y=BOARD.y+row*BOARD.ch;
+      rr(c,x+2,y+2,BOARD.cw-4,BOARD.ch-4,9,(row+col)%2?'#3f5974':'#496987');
+      if((row*7+col)%5===0)star(c,x+14,y+15,5,2,'#b6d8ef81');
+    }
+    for(let row=0;row<=BOARD.rows;row++)line(c,[[BOARD.x,BOARD.y+row*BOARD.ch],[BOARD_RIGHT,BOARD.y+row*BOARD.ch]],'#d0daf244',2);
+    for(let col=0;col<=BOARD.cols;col++)line(c,[[BOARD.x+col*BOARD.cw,BOARD.y],[BOARD.x+col*BOARD.cw,BOARD_BOTTOM]],'#d0daf229',1.6);
+    // Estrutura da cama acima, sem cobrir a área interativa.
+    rr(c,168,76,901,109,28,'#594a73','#d7b2a0',8);
+    rr(c,183,88,870,58,19,'#8a9bc7','#e9d7c2',5);
+    for(let i=0;i<15;i++)star(c,220+i*54,114+(i%3)*7,5,2,'#e9f2ce');
+    rr(c,170,145,30,480,11,'#654562','#af8fa4',5);
+    rr(c,1051,145,29,475,11,'#654562','#af8fa4',5);
+    ellipse(c,108,617,89,32,'#2a1b4780');
+    rr(c,36,555,115,75,29,'#b1a0c6','#554777',4);ellipse(c,70,556,17,20,'#b7e0e4');ellipse(c,121,556,17,20,'#b7e0e4');
+    for(let i=0;i<13;i++){
+      const x=210+(i*127)%800,y=203+(i*79)%394;
+      ellipse(c,x,y,1.8,1.8,'#d7e8fe7f');
+    }
+  }
 }
 function drawTrain(c,x,y,spent=false,moving=false){
   c.save();c.translate(x,y);if(spent)c.globalAlpha=.28;
@@ -517,11 +594,31 @@ function drawToy(c,t,time,visualMotion=true){
       c.save();c.translate(-38+i*26,-50-(i%2)*7);c.rotate((i-1)*.4);rr(c,-4,-6,8,12,2,['#fff1a0','#8ee7d1','#ff9bad','#c4afff'][i]);c.restore();
     }
   }
+  if(d.kind==='pierce'){
+    // Carrinho Cometa: carrinho de corrida com lançador de rodas brilhantes.
+    rr(c,-31,-17,59,35,12,'#ffbf6a','#895e75',4);
+    rr(c,-12,-39,34,27,10,'#88ced8','#506b83',3);
+    rr(c,9,-33,42,13,5,'#ffdca0','#935c73',3);
+    ellipse(c,-24,22,12,12,'#4b5277');ellipse(c,23,22,12,12,'#4b5277');
+    ellipse(c,-24,22,5,5,'#ffd685');ellipse(c,23,22,5,5,'#ffd685');
+    eye(c,-10,-26,5);eye(c,7,-26,5);
+    star(c,-4,0,11,5,'#faefff');star(c,46,-28,6,2,'#fff0ae');
+  }else if(d.kind==='sleep'){
+    // Boneca Soninho: pijama lilás, bocejos mágicos e chapéu de dormir.
+    line(c,[[-11,12],[-14,28]],'#81628a',7);line(c,[[12,12],[17,28]],'#81628a',7);
+    rr(c,-28,-11,56,42,17,'#bdb0e9','#70658f',4);
+    ellipse(c,0,-38,26,27,'#ffdbbf');
+    c.beginPath();c.moveTo(-27,-49);c.quadraticCurveTo(0,-91,35,-67);c.lineTo(17,-44);c.closePath();c.fillStyle='#9481cc';c.fill();c.strokeStyle='#665585';c.lineWidth=3;c.stroke();
+    ellipse(c,34,-68,9,9,'#f8e7aa');
+    line(c,[[-17,-39],[-9,-36],[-2,-39]],'#685574',3);line(c,[[6,-39],[13,-36],[19,-39]],'#685574',3);
+    ellipse(c,0,-25,6,8,'#9a6489');star(c,0,7,10,5,'#fff1ac');
+    ellipse(c,26,-67,5,5,'#d3c4fc');
+  }
   if(t.hp<t.maxHp){rr(c,-34,-70,68,6,3,'#5d4454');rr(c,-33,-69,66*t.hp/t.maxHp,4,2,t.hp/t.maxHp>.4?'#9bddb1':'#e67c84');}
   c.restore();
 }
 function drawEnemy(c,e,time,visualMotion=true){
-  c.save();c.translate(e.x,e.y+7);const bob=Math.sin(e.age*8+e.id)*3;
+  c.save();c.translate(e.x,e.y+7);if(e.jumpTime>0)c.translate(0,-40*Math.sin(Math.PI*Math.min(1,e.jumpTime/.48)));const bob=Math.sin(e.age*8+e.id)*3;
   const bite=visualMotion?clamp((e.attack||0)/.28,0,1):0;c.translate(-10*bite,visualMotion?bob-3*Math.sin(e.age*11):0);c.rotate(-.055*bite);
   if(e.hit>0)c.globalAlpha=.68;
   ellipse(c,0,27,34,9,'#3032475a');
@@ -574,6 +671,30 @@ function drawEnemy(c,e,time,visualMotion=true){
     eye(c,-14,-38,7);eye(c,14,-38,7);ellipse(c,0,-18,15,7,'#78456e');
     rr(c,-30,1,60,10,5,'#ffdf94');star(c,0,6,7,3,'#e894c5');
   }
+  if(e.type==='E06'){
+    // Sombra saltadora com sapatos de molas e corpo elástico.
+    line(c,[[-16,6],[-21,21],[-11,26]],'#7767a9',7);line(c,[[14,6],[18,21],[28,24]],'#7767a9',7);
+    rr(c,-35,-51,68,67,27,'#806ab4','#4c4375',5);
+    ellipse(c,0,-42,32,28,'#9a8acc');
+    ellipse(c,-13,-41,11,9,'#f7efd9');ellipse(c,13,-41,11,9,'#f7efd9');
+    eye(c,-13,-41,5);eye(c,13,-41,5);ellipse(c,0,-20,10,7,'#61466d');
+    line(c,[[-20,19],[-27,26],[-16,26]],'#f1c77f',4);line(c,[[15,19],[23,26],[35,24]],'#f1c77f',4);
+    star(c,0,3,9,4,'#ffeab1');
+  }else if(e.type==='E07'){
+    // Cabide usado como escudo. O corpo fica visível após perder proteção.
+    line(c,[[-16,4],[-19,25]],'#725b83',8);line(c,[[14,4],[15,25]],'#725b83',8);
+    rr(c,-33,-49,66,62,21,'#cf9fb9','#775b88',5);
+    rr(c,-23,-56,46,17,8,'#f7dcaa','#86658c',3);
+    eye(c,-12,-33,6);eye(c,12,-33,6);ellipse(c,0,-17,8,5,'#825e80');
+    if(e.shield>0){
+      c.save();c.globalAlpha=.8;rr(c,-39,-62,79,85,16,'#78bce280','#d8f6fc',5);
+      line(c,[[-27,-57],[0,-70],[28,-57]],'#d8e8f8',4);ellipse(c,0,-70,5,5,'#fff2cc');
+      c.restore();
+    }
+  }
+  if(e.stunTime>0){
+    txt(c,'Z z',12,-87,17,'#e1d7ff');star(c,26,-71,5,2,'#d8ccff');
+  }
   if(e.slowTime>0){
     ellipse(c,0,27,39,6,'#91e0ed77');
     star(c,-33,-52,8,3,'#d4f9ff');star(c,35,-29,6,3,'#d4f9ff');
@@ -590,7 +711,13 @@ function drawGlow(c,s,time){
   c.restore();
 }
 function drawProjectile(c,p){
-  if(p.kind==='slow'){
+  if(p.kind==='pierce'){
+    rr(c,p.x-13,p.y-8,28,16,6,'#f9b965','#a06876',2);
+    ellipse(c,p.x-7,p.y+7,5,5,'#6f638d');ellipse(c,p.x+8,p.y+7,5,5,'#6f638d');
+    star(c,p.x,p.y-3,7,3,'#fff4bf');
+  }else if(p.kind==='sleep'){
+    ellipse(c,p.x,p.y,15,12,'#b8a7eb');txt(c,'z',p.x,p.y-2,15,'#f6f0ff');
+  }else if(p.kind==='slow'){
     ellipse(c,p.x,p.y,12,10,'#9ee8f5');star(c,p.x,p.y,11,5,'#e6fcff');line(c,[[p.x-15,p.y],[p.x-23,p.y]],'#a8eef2b3',4);
   }else if(p.kind==='splash'){
     ellipse(c,p.x,p.y,15,13,'#fda5c9');star(c,p.x,p.y,12,5,'#fff4ac');ellipse(c,p.x-8,p.y+4,4,4,'#a8ede5');
@@ -599,7 +726,7 @@ function drawProjectile(c,p){
 function drawImpact(c,i){
   const k=clamp(i.age/i.life,0,1);c.save();c.globalAlpha=(1-k)*.8;
   const r=(i.kind==='splash'?12:6)+(i.kind==='splash'?50:25)*k;
-  c.lineWidth=i.kind==='slow'?4:3;c.strokeStyle=i.kind==='slow'?'#c9f9ff':i.kind==='bite'?'#ffe3af':i.kind==='splash'?'#ffe3b3':'#fff4d6';
+  c.lineWidth=i.kind==='slow'?4:3;c.strokeStyle=i.kind==='sleep'?'#e0cbff':i.kind==='jump'?'#e2d1ff':i.kind==='slow'?'#c9f9ff':i.kind==='bite'?'#ffe3af':i.kind==='splash'?'#ffe3b3':'#fff4d6';
   c.beginPath();c.arc(i.x,i.y,r,0,TAU);c.stroke();
   if(i.kind==='splash'){for(let a=0;a<7;a++){const theta=a*TAU/7+k;star(c,i.x+Math.cos(theta)*(r+6),i.y+Math.sin(theta)*(r+6),5,2,['#f7a1ca','#fff09d','#9ce9d9'][a%3]);}}
   if(i.kind==='slow')for(let a=0;a<4;a++){const theta=a*TAU/4;star(c,i.x+Math.cos(theta)*(r+6),i.y+Math.sin(theta)*(r+6),7,3,'#e3fcff');}
@@ -627,7 +754,7 @@ function drawBossHealth(c,game){
 }
 function render(c,game,menu=false,visualMotion=true){
   const t=visualMotion ? (game?.time ?? performance.now()*.001) : 0;
-  c.clearRect(0,0,W,H);drawBackground(c,t);
+  c.clearRect(0,0,W,H);drawBackground(c,t,game?.level?.chapter??1);
   if(game?.levelIndex>=4){
     // Capítulo mais avançado ganha um leve clima de armário encantado, sem outra textura ou download.
     c.fillStyle=game.levelIndex===7?'#50204e19':'#34246b0b';c.fillRect(0,0,W,H);
@@ -689,7 +816,7 @@ const $=id=>document.getElementById(id);
 const canvas=$('battle-canvas'),context=canvas.getContext('2d',{alpha:false});
 const audio=new AudioService();const save=loadSave();audio.music=save.settings.music;audio.sfx=save.settings.sfx;
 let battle=null,screen='menu',last=0,accumulator=0,hudUpdate=0,toastTimer=null,optionsBack='menu',lastResult=null,pendingConfirm=null;
-const icons={T01:'💡',T02:'🪖',T03:'🧸',T04:'❄️',T05:'🎉',E01:'☁️',E02:'🧦',E03:'🛏️',E04:'✏️',E05:'👑'};
+const icons={T01:'💡',T02:'🪖',T03:'🧸',T04:'❄️',T05:'🎉',T06:'🏎️',T07:'💤',E01:'☁️',E02:'🧦',E03:'🛏️',E04:'✏️',E05:'👑',E06:'🦘',E07:'🧥'};
 const escapeHTML=v=>String(v).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
 function showToast(text,seconds=2.8){let toast=$('toast');toast.textContent=text;toast.classList.remove('hidden');clearTimeout(toastTimer);toastTimer=setTimeout(()=>toast.classList.add('hidden'),seconds*1000);}
 function setScreen(name,content=''){screen=name;const layer=$('screen');if(name==='battle'){layer.classList.add('hidden');$('hud').classList.remove('hidden');return;}
@@ -699,20 +826,22 @@ function setScreen(name,content=''){screen=name;const layer=$('screen');if(name=
 function button(text,action,kind='big-btn',additional=''){return `<button class="${kind}" data-action="${action}" ${additional}>${text}</button>`;}
 function panel(title,kicker,content,back='menu',extra=''){setScreen(extra||'panel',`<section class="panel" aria-label="${escapeHTML(title)}"><div class="panel-head"><div><span class="subheading">${kicker}</span><h1>${title}</h1></div>${button('✕ Voltar',back,'tiny-btn')}</div>${content}</section>`);}
 function menu(){battle=null;
-  setScreen('menu',`<div class="menu-content"><div class="menu-hero"><span class="kicker">✦ Uma aventura no quarto da Lia</span><h1 class="logo">BRINQUEDOS <span class="vs">VS.</span><br><em>PESADELOS!</em></h1><p class="menu-description">Quando o armário se abre... o quarto revida! Monte sua defesa e espante monstros muito atrapalhados.</p><div class="menu-note">✦ 8 fases jogáveis &nbsp; ✦ 5 faixas &nbsp; ✦ Salva automaticamente</div></div><nav class="menu-actions" aria-label="Menu principal">${button(save.unlocked>1?'▶ CONTINUAR':'▶ JOGAR','play')}${button('🗺 ESCOLHER FASE','levels','outline-btn')}${button('📖 BRINQUEDOPÉDIA','codex','outline-btn')}${button('❔ COMO JOGAR','help','text-btn')}${button('⚙ OPÇÕES','options','text-btn')}${button('⛶ TELA CHEIA','fullscreen','text-btn')}</nav></div>`);
+  setScreen('menu',`<div class="menu-content"><div class="menu-hero"><span class="kicker">✦ Uma aventura no quarto da Lia</span><h1 class="logo">BRINQUEDOS <span class="vs">VS.</span><br><em>PESADELOS!</em></h1><p class="menu-description">Quando o armário se abre... o quarto revida! Monte sua defesa e espante monstros muito atrapalhados.</p><div class="menu-note">✦ 12 fases jogáveis &nbsp; ✦ 2 capítulos &nbsp; ✦ 5 faixas &nbsp; ✦ Salva automaticamente</div></div><nav class="menu-actions" aria-label="Menu principal">${button(save.unlocked>1?'▶ CONTINUAR':'▶ JOGAR','play')}${button('🗺 ESCOLHER FASE','levels','outline-btn')}${button('📖 BRINQUEDOPÉDIA','codex','outline-btn')}${button('❔ COMO JOGAR','help','text-btn')}${button('⚙ OPÇÕES','options','text-btn')}${button('⛶ TELA CHEIA','fullscreen','text-btn')}</nav></div>`);
 }
 function levels(){
   const cards=LEVELS.map((lvl,i)=>{const unlocked=i<save.unlocked;
-    return `<button class="level-choice" data-action="level" data-level="${i}" ${unlocked?'':'disabled'}><strong>${unlocked?'✦':'🔒'} ${lvl.id}</strong><span>${escapeHTML(lvl.title)}</span><small>${unlocked?'⭐'.repeat(save.stars[lvl.id]||0)||'Jogar agora':'Conclua a anterior'}</small></button>`;}).join('');
-  panel('O Quarto Acordou','Capítulo 1 · selecione sua fase',`<p>Comece pelo início ou rejogue uma fase já liberada.</p><div class="levels">${cards}</div><p>O capítulo 1 tem oito fases. Complete a 1-8 para enfrentar o Rei das Meias; os próximos capítulos chegarão depois.</p>`);
+    const card=`<button class="level-choice ${lvl.chapter===2?'level-night':''}" data-action="level" data-level="${i}" ${unlocked?'':'disabled'}><strong>${unlocked?'✦':'🔒'} ${lvl.id}</strong><span>${escapeHTML(lvl.title)}</span><small>${unlocked?'⭐'.repeat(save.stars[lvl.id]||0)||'Jogar agora':'Conclua a anterior'}</small></button>`;
+    return (i===0?'<h2 class="chapter-heading">🧸 Capítulo 1 — O Armário</h2>':lvl.chapter===2 && LEVELS[i-1].chapter!==2?'<h2 class="chapter-heading">🌙 Capítulo 2 — Debaixo da Cama</h2>':'')+card;
+  }).join('');
+  panel('O Quarto Acordou','Dois capítulos · escolha sua fase',`<p>Continue sua aventura, ou rejogue uma fase já liberada.</p><div class="levels">${cards}</div><p>Complete a fase 1-8 para abrir o Capítulo 2. As fases 2-1 a 2-4 estão disponíveis nesta versão.</p>`);
 }
 function help(back=battle?'pause':'menu'){
-  panel('Como jogar','Seu Pião explica',`<p>Você precisa impedir que os pesadelos cheguem ao baú da imaginação.</p><div class="guide"><div class="guide-item"><strong>1. Escolha um brinquedo</strong><br>Toque em uma carta na faixa superior.</div><div class="guide-item"><strong>2. Defenda uma casa</strong><br>Toque em um quadradinho vazio do tapete.</div><div class="guide-item"><strong>3. Colete ✦ Brilhos</strong><br>Toque nas estrelinhas douradas; cada uma vale 25.</div><div class="guide-item"><strong>4. Proteja as 5 faixas</strong><br>Um trenzinho salva cada faixa apenas uma vez.</div><div class="guide-item"><strong>5. Economize</strong><br>Abajures criam Brilhos; soldados atacam; ursos bloqueiam; piões congelam; confetes acertam grupos.</div><div class="guide-item"><strong>6. Vitória!</strong><br>Espante todos os monstros, inclusive a grande onda.</div></div><p>Atalhos no PC: teclas <strong>1 a 5</strong> selecionam cartas, <strong>F</strong> ativa tela cheia e <strong>Esc</strong> abre a pausa. No celular, prefira a orientação horizontal e toque em <strong>⛶ Tela</strong> para ampliar.</p>`,back,'help');
+  panel('Como jogar','Seu Pião explica',`<p>Você precisa impedir que os pesadelos cheguem ao baú da imaginação.</p><div class="guide"><div class="guide-item"><strong>1. Escolha um brinquedo</strong><br>Toque em uma carta na faixa superior.</div><div class="guide-item"><strong>2. Defenda uma casa</strong><br>Toque em um quadradinho vazio do tapete.</div><div class="guide-item"><strong>3. Colete ✦ Brilhos</strong><br>Toque nas estrelinhas douradas; cada uma vale 25.</div><div class="guide-item"><strong>4. Proteja as 5 faixas</strong><br>Um trenzinho salva cada faixa apenas uma vez.</div><div class="guide-item"><strong>5. Economize</strong><br>Abajures criam Brilhos; soldados atacam; ursos bloqueiam; piões congelam; confetes atingem grupos; Cometas atravessam dois monstros; Soninho provoca sono.</div><div class="guide-item"><strong>6. Vitória!</strong><br>Espante todos os monstros, inclusive a grande onda.</div></div><p>Atalhos no PC: teclas <strong>1 a 6</strong> selecionam cartas, <strong>F</strong> ativa tela cheia e <strong>Esc</strong> abre a pausa. No celular, prefira a orientação horizontal e toque em <strong>⛶ Tela</strong> para ampliar.</p>`,back,'help');
 }
 function codex(){
   const toys=Object.values(TOYS).map(t=>`<div class="catalog-entry"><div class="emoji">${icons[t.id]}</div><div><strong>${t.name}</strong><small>✦ ${t.cost} · ${t.description}</small></div></div>`).join('');
   const enemies=Object.values(ENEMIES).map(e=>`<div class="catalog-entry"><div class="emoji">${icons[e.id]}</div><div><strong>${e.name}</strong><small>${e.description}</small></div></div>`).join('');
-  panel('Brinquedopédia','Conheça os moradores',`<p>Conheça os brinquedos e os pesadelos do Capítulo 1.</p><div class="catalog">${toys}${enemies}</div>`,'menu','codex');
+  panel('Brinquedopédia','Conheça os moradores',`<p>Conheça os brinquedos e os pesadelos dos capítulos 1 e 2.</p><div class="catalog">${toys}${enemies}</div>`,'menu','codex');
 }
 function options(back=battle?'pause':'menu'){
   optionsBack=back;
@@ -736,7 +865,7 @@ function finish(result,stars){if(!battle)return;
   lastResult=result;if(result==='victory'){recordVictory(save,battle.levelIndex,stars);persistSave(save);}
   const isLast=battle.levelIndex>=LEVELS.length-1;
   const unlock=battle.level.reward?`<div class="result-unlock">🎁 Novo brinquedo para a próxima fase: <strong>${TOYS[battle.level.reward].name}</strong>!</div>`:'';
-  setScreen('result',`<section class="panel result-panel"><span class="subheading">${result==='victory'?'A noite está a salvo!':'Os pesadelos bagunçaram tudo!'}</span><h1>${result==='victory'?'🎉 Vitória!':'😵 Tente de novo!'}</h1><div class="result-score ${result==='victory'?'win-animation':'lose-animation'}">${result==='victory'?'⭐'.repeat(stars)+'☆'.repeat(3-stars):'☁️'}</div><p>${result==='victory'?'Você espantou '+battle.killCount+' monstros e protegeu a imaginação da Lia.':'Sua defesa não segurou a invasão. Experimente colocar soldados em mais faixas.'}</p>${result==='victory'?unlock:''}<div class="panel-actions">${result==='victory'&&!isLast?button('▶ Próxima fase','next'):''}${button('↻ '+(result==='victory'?'Jogar novamente':'Tentar de novo'),'restart','outline-btn')}${button('🗺 Escolher fase','levels','text-btn')}${button('⌂ Menu','menu','text-btn')}</div>${isLast&&result==='victory'?'<p>Você completou todas as fases jogáveis desta primeira versão! ✨</p>':''}</section>`);
+  setScreen('result',`<section class="panel result-panel"><span class="subheading">${result==='victory'?'A noite está a salvo!':'Os pesadelos bagunçaram tudo!'}</span><h1>${result==='victory'?'🎉 Vitória!':'😵 Tente de novo!'}</h1><div class="result-score ${result==='victory'?'win-animation':'lose-animation'}">${result==='victory'?'⭐'.repeat(stars)+'☆'.repeat(3-stars):'☁️'}</div><p>${result==='victory'?'Você espantou '+battle.killCount+' monstros e protegeu a imaginação da Lia.':'Sua defesa não segurou a invasão. Experimente colocar soldados em mais faixas.'}</p>${result==='victory'?unlock:''}<div class="panel-actions">${result==='victory'&&!isLast?button('▶ Próxima fase','next'):''}${button('↻ '+(result==='victory'?'Jogar novamente':'Tentar de novo'),'restart','outline-btn')}${button('🗺 Escolher fase','levels','text-btn')}${button('⌂ Menu','menu','text-btn')}</div>${isLast&&result==='victory'?'<p>Você completou as 12 fases disponíveis! Mais aventuras chegarão em outra atualização. ✨</p>':''}</section>`);
 }
 function renderCards(){if(!battle)return;const el=$('toy-cards');el.innerHTML=battle.level.toys.map((id,i)=>{const d=TOYS[id];return `<button class="toy-card ${battle.selected===id?'selected':''}" data-toy="${id}" title="${d.name}: ${d.description}" aria-label="${d.name}, custa ${d.cost} Brilhos"><span class="toy-card-icon">${icons[id]}</span><span class="toy-card-name">${d.short}</span><span class="cost">✦ ${d.cost}</span><span class="cooldown hidden"></span></button>`;}).join('');}
 function updateHUD(){if(!battle)return;$('glow-count').textContent=Math.floor(battle.glow);

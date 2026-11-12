@@ -15,6 +15,8 @@ export class AudioService {
       case 'shoot':this.tone(350,.055,'triangle',.013);break;
       case 'freeze':this.tone(720,.11,'sine',.022);this.tone(990,.12,'sine',.014,.05);break;
       case 'confetti':this.tone(440,.085,'triangle',.026);this.tone(680,.09,'triangle',.02,.04);break;
+      case 'sleep':this.tone(580,.2,'sine',.023);this.tone(400,.23,'sine',.022,.08);break;
+      case 'jump':this.tone(300,.12,'triangle',.025);this.tone(590,.16,'sine',.03,.07);break;
       case 'hit':this.tone(195,.085,'triangle',.028);break;
       case 'remove':this.tone(220,.14,'sine',.045);break;
       case 'no':this.tone(170,.16,'sawtooth',.03);break;
