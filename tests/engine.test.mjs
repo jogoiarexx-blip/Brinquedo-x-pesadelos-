@@ -206,6 +206,6 @@ test('v0.4: renderizador aceita novos brinquedos, inimigos e cenário noturno',a
   }
   b.enemies[0].jumpTime=.2;b.enemies[1].stunTime=1;
   const grad={addColorStop(){}};
-  const c=new Proxy({}, {get:(o,k)=>k==='createLinearGradient'?()=>grad:(o[k]??(()=>{})),set:(o,k,v)=>(o[k]=v,true)});
+  const c=new Proxy({}, {get:(o,k)=>(k==='createLinearGradient'||k==='createRadialGradient')?()=>grad:(o[k]??(()=>{})),set:(o,k,v)=>(o[k]=v,true)});
   assert.doesNotThrow(()=>render(c,b,false,true));
 });
