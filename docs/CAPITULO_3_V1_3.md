@@ -39,7 +39,9 @@ Vovô Poeirão tem 1700 de vida e alterna rajada e invocação, com aviso de 1,2
 - Atlas SVG validado; JavaScript do standalone verificado e build regenerado.
 - [Prévia de cenário preparado](capitulo3-previa.png) usa o renderizador real em Node. Não representa uma partida manual nem medição de desempenho.
 
-Ainda faltam os capítulos 4 e 5, seleção de cartas, modos extras, testes em Android físico e teste dedicado de instalação PWA sem rede. A campanha de 40 fases do GDD não está concluída. Verificação de CI/Pages e navegador será registrada após publicação.
+Ainda faltam os capítulos 4 e 5, seleção de cartas, modos extras, testes em Android físico e teste dedicado de instalação PWA sem rede. A campanha de 40 fases do GDD não está concluída. Publicação verificada no GitHub Pages na revisão `1e44726`: os dois workflows e o deploy concluíram com sucesso. No navegador, confirmados menu v1.3.0, 24 botões de fases (incluindo 3-5 a 3-8), HUD escondido no mapa, Cuco na Oficina com duração da lentidão correta, melhoria antiga do Soldadinho N2 preservada e retratos novos carregados. Não apareceram erros do domínio do jogo no console consultado. A conta de teste só havia concluído 1-1; as batalhas novas e migração do final foram verificadas por simulação/testes, não por campanha manual no navegador.
+
+[Captura dos personagens publicados](capitulo3-publicado.jpg).
 
 ## Próxima prioridade
 
