@@ -74,7 +74,11 @@ O GDD original e seus adendos também divergem entre si em nomes/IDs e no Capít
 - Teste automatizado local de Chromium tentou iniciar, mas foi bloqueado pelo isolamento de sockets do executor (`socket() failed: Operation not permitted`). Não registrar esse teste como aprovado.
 - Teste no navegador real: fase 1-1 concluída na v1.1.0 com duas estrelas, preparando migração real do progresso.
 - Na atualização v1.2.0, reproduzido HTML novo com módulos antigos em cache. Correção v1.2.1: URLs de CSS/imports com versão e `Request.cache=reload` no precache. Novo teste falhou antes e passou depois da correção.
-- Oficina publicada será inspecionada após a propagação desta correção.
+- Verificação manual no navegador do site principal v1.2.1: atualização a partir da v1.1.0, crédito das duas estrelas antigas, compra do Soldadinho nível 2 (138 de vida / 22 de dano), bloqueio por saldo insuficiente, recarga da página mantendo a compra, redistribuição devolvendo as duas estrelas, recorde de duas estrelas mantido no mapa, navegação Oficina↔mapa, início de fase com carta N2, colocação e pausa.
+- HTML independente publicado também abriu e mostrou retratos e Oficina corretamente; isso verifica o bundle, mas não substitui desligar a rede e testar a instalação PWA.
+- Os dois workflows de testes e a publicação Pages da revisão `6ee7ea3` concluíram com sucesso.
+- Captura da Oficina no endereço principal: [oficina-v1.2.1.jpg](oficina-v1.2.1.jpg).
+- Layout móvel, instalação PWA sem rede e fluxo vitória↔Oficina ainda precisam de playtest dedicado. A revisão independente não encontrou defeitos concretos de economia, atributos, navegação ou builder.
 - Não foram medidos FPS/memória em aparelhos físicos, nem executados os playtests humanos do GDD. Não atribuir nota 90/100 ou chamar a campanha de completa.
 
 ## Ordem recomendada das próximas melhorias
