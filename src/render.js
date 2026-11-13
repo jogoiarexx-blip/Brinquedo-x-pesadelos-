@@ -2,6 +2,19 @@ import { W,H,BOARD,BOARD_RIGHT,BOARD_BOTTOM,colX,rowY,clamp } from './config.js'
 import { TOYS, ENEMIES } from './data.js';
 const TAU=Math.PI*2;
 const COLORS={ink:'#3b2749',cream:'#fff6da'};
+const BACKDROP_CACHE=new Map();
+function paintBackdrop(c,chapter){
+  // Fundos estáticos são desenhados uma vez por capítulo, não a cada frame.
+  if(typeof document==='undefined'){drawBackground(c,0,chapter);return;}
+  let backdrop=BACKDROP_CACHE.get(chapter);
+  if(!backdrop){
+    backdrop=document.createElement('canvas');backdrop.width=W;backdrop.height=H;
+    const ctx=backdrop.getContext('2d',{alpha:false});
+    if(!ctx){drawBackground(c,0,chapter);return;}
+    drawBackground(ctx,0,chapter);BACKDROP_CACHE.set(chapter,backdrop);
+  }
+  c.drawImage(backdrop,0,0);
+}
 function ellipse(c,x,y,rx,ry,color){c.beginPath();c.ellipse(x,y,rx,ry,0,0,TAU);c.fillStyle=color;c.fill();}
 function rr(c,x,y,w,h,r,fill,stroke=null,lw=2){c.beginPath();c.roundRect(x,y,w,h,r);if(fill){c.fillStyle=fill;c.fill();}if(stroke){c.strokeStyle=stroke;c.lineWidth=lw;c.stroke();}}
 function line(c,pts,color,width=2){c.beginPath();c.moveTo(...pts[0]);for(const p of pts.slice(1))c.lineTo(...p);c.strokeStyle=color;c.lineWidth=width;c.lineJoin='round';c.lineCap='round';c.stroke();}
@@ -530,9 +543,35 @@ function drawBossHealth(c,game){
   rr(c,618,652,229,19,9,'#241a32','#b88da9',2);
   rr(c,622,655,221*ratio,13,6,ratio>.35?'#f795af':'#ffe18d');
 }
+function drawPlacementPreview(c,game,time){
+  const cell=game.hover;if(!cell||game.state!=='playing')return;
+  const {row,col}=cell;if(row<0||row>=BOARD.rows||col<0||col>=BOARD.cols)return;
+  const valid=game.shovel?Boolean(game.grid[row][col]):!game.canPlace(row,col);
+  const toy=TOYS[game.selected],x=colX(col),y=rowY(row);
+  c.save();
+  if(valid&&!game.shovel&&toy){
+    const kind=toy.kind;
+    if(['shooter','slow','splash','pierce','sleep','starburst','ricochet'].includes(kind)){
+      const start=x+21;c.globalAlpha=.12;c.fillStyle=toy.color||'#fff2ad';
+      c.fillRect(start,BOARD.y+row*BOARD.ch+12,BOARD_RIGHT-start,BOARD.ch-24);
+    }else if(kind==='music'||kind==='trap'){
+      const reach=kind==='music'?BOARD.cw*6:toy.splashRadius;
+      const left=Math.max(BOARD.x,x-reach),right=Math.min(BOARD_RIGHT,x+reach);
+      c.globalAlpha=.105;c.fillStyle=toy.color||'#fff2ad';
+      for(let lane=Math.max(0,row-1);lane<=Math.min(BOARD.rows-1,row+1);lane++)
+        c.fillRect(left,BOARD.y+lane*BOARD.ch+11,right-left,BOARD.ch-22);
+    }
+  }
+  c.globalAlpha=1;
+  rr(c,BOARD.x+col*BOARD.cw+4,BOARD.y+row*BOARD.ch+4,BOARD.cw-8,BOARD.ch-8,12,
+    valid?'#f5eeb04c':'#f77f8e44',valid?'#ffdf7b':'#f47d88',3);
+  if(game.shovel)txt(c,'✕',x,y,36,valid?'#ffefbe':'#f4a1a7');
+  else if(valid&&toy){c.globalAlpha=.58;drawIconCanvas(c,game.selected,x,y,.78,time);}
+  c.restore();
+}
 export function render(c,game,menu=false,visualMotion=true){
   const t=visualMotion ? (game?.time ?? performance.now()*.001) : 0;
-  c.clearRect(0,0,W,H);drawBackground(c,t,game?.level?.chapter??1);
+  c.clearRect(0,0,W,H);paintBackdrop(c,game?.level?.chapter??1);
   const chapter=game?.level?.chapter??1;drawAmbientPolish(c,t,chapter,visualMotion);drawBoardTrim(c,t,chapter);
   if(game?.levelIndex>=4){
     // Capítulo mais avançado ganha um leve clima de armário encantado, sem outra textura ou download.
@@ -552,15 +591,11 @@ export function render(c,game,menu=false,visualMotion=true){
       c.restore();txt(c,'🚪',1173,rowY(lane),27,'#fff1c9');
       txt(c,`PORTA • FAIXA ${lane+1}`,790,BOARD.y+lane*BOARD.ch+12,14,'#fff7cd');
     }
-    // Pré-visualização suave da casa selecionada.
-    if(game.hover && game.state==='playing'){
-      const {col,row}=game.hover;
-      if(row>=0&&row<BOARD.rows&&col>=0&&col<BOARD.cols){const ok=game.shovel?!!game.grid[row][col]:!game.canPlace(row,col);
-        rr(c,BOARD.x+col*BOARD.cw+4,BOARD.y+row*BOARD.ch+4,BOARD.cw-8,BOARD.ch-8,12,ok?'#f5eeb04c':'#f77f8e44',ok?'#ffdf7b':'#f47d88',3);
-      }
-    }
-    for(const toy of game.allToys)drawToy(c,toy,t,visualMotion);
-    if(visualMotion)for(const toy of game.allToys){
+    // Fantasma do brinquedo e indicação da sua área de ação.
+    drawPlacementPreview(c,game,t);
+    const toys=game.allToys;
+    for(const toy of toys)drawToy(c,toy,t,visualMotion);
+    if(visualMotion)for(const toy of toys){
       if((toy.recoil||0)>.13 && TOYS[toy.type].kind!=='trap' && TOYS[toy.type].kind!=='producer'){
         const f=(toy.recoil-.13)/.09;c.save();c.globalAlpha=clamp(f,0,.8);
         star(c,toy.x+41,toy.y-15,9+5*f,4+2*f,'#fff6c5');c.restore();

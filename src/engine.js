@@ -13,6 +13,7 @@ export class Battle {
     this.glow=this.level.startingGlow;
     this.grid=Array.from({length:BOARD.rows},()=>Array(BOARD.cols).fill(null));
     this.enemies=[];this.projectiles=[];this.stars=[];this.particles=[];this.trains=[];
+    this.effectsEnabled=true;
     this.feedback=[];this.defeated=[];this.impacts=[];
     this.trainReady=Array(BOARD.rows).fill(true);
     this.toyCooldowns=Object.fromEntries(this.level.toys.map(t=>[t,0]));
@@ -76,6 +77,7 @@ export class Battle {
     this.events.enemySeen?.(type);
   }
   puff(x,y,color,n=6){
+    if(!this.effectsEnabled)return;
     for(let i=0;i<n;i++){const a=this.rand()*6.283,v=34+this.rand()*95;
       this.particles.push({x,y,vx:Math.cos(a)*v,vy:Math.sin(a)*v-20,color,life:.38+this.rand()*.42,maxLife:.8,r:2+this.rand()*3});
     }
@@ -86,6 +88,7 @@ export class Battle {
     if(this.feedback.length>32)this.feedback.splice(0,this.feedback.length-32);
   }
   addImpact(x,y,kind){
+    if(!this.effectsEnabled)return;
     this.impacts.push({x,y,kind,age:0,life:kind==='splash'?.48:.32});
     if(this.impacts.length>28)this.impacts.splice(0,this.impacts.length-28);
   }

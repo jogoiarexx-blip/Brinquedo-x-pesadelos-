@@ -7,7 +7,10 @@ import { render, drawIconCanvas } from './render.js';
 const $=id=>document.getElementById(id);
 const canvas=$('battle-canvas'),context=canvas.getContext('2d',{alpha:false});
 const audio=new AudioService();const save=loadSave();audio.music=save.settings.music;audio.sfx=save.settings.sfx;
-let battle=null,screen='menu',last=0,accumulator=0,hudUpdate=0,toastTimer=null,optionsBack='menu',lastResult=null,pendingConfirm=null;
+let battle=null,screen='menu',last=0,accumulator=0,hudUpdate=0,toastTimer=null,optionsBack='menu',lastResult=null,pendingConfirm=null,gameSpeed=1;
+const reducedMotion=window.matchMedia?.('(prefers-reduced-motion: reduce)');
+const motionEnabled=()=>save.settings.motion&&!reducedMotion?.matches;
+reducedMotion?.addEventListener?.('change',()=>{if(battle)battle.effectsEnabled=motionEnabled();});
 const icons={T01:'💡',T02:'🪖',T03:'🧸',T04:'❄️',T05:'🎉',T06:'🏎️',T07:'💤',T08:'🎼',T09:'🌟',E01:'☁️',E02:'🧦',E03:'🛏️',E04:'✏️',E05:'👑',E06:'🦘',E07:'🧥',E08:'🕷️',E09:'⏰',E10:'🌘',E11:'🦹',T10:'🏹',T11:'🎁'};
 const escapeHTML=v=>String(v).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
 function showToast(text,seconds=2.8){let toast=$('toast');toast.textContent=text;toast.classList.remove('hidden');clearTimeout(toastTimer);toastTimer=setTimeout(()=>toast.classList.add('hidden'),seconds*1000);}
@@ -28,7 +31,7 @@ function levels(){
   panel('O Quarto Acordou','Três capítulos · escolha sua fase',`<p>Continue sua aventura, ou rejogue uma fase já liberada.</p><div class="levels">${cards}</div><p>Complete a fase 2-8 para abrir o Capítulo 3. As fases 3-1 a 3-4 apresentam portas que avisam as ondas antes da invasão.</p>`);
 }
 function help(back=battle?'pause':'menu'){
-  panel('Como jogar','Seu Pião explica',`<p>Você precisa impedir que os pesadelos cheguem ao baú da imaginação.</p><div class="guide"><div class="guide-item"><strong>1. Escolha um brinquedo</strong><br>Toque em uma carta na faixa superior.</div><div class="guide-item"><strong>2. Defenda uma casa</strong><br>Toque em um quadradinho vazio do tapete.</div><div class="guide-item"><strong>3. Colete ✦ Brilhos</strong><br>Toque nas estrelinhas douradas; cada uma vale 25.</div><div class="guide-item"><strong>4. Proteja as 5 faixas</strong><br>Um trenzinho salva cada faixa apenas uma vez.</div><div class="guide-item"><strong>5. Economize</strong><br>Abajures criam Brilhos; soldados atacam; ursos bloqueiam; piões congelam; confetes atingem grupos; Cometas atravessam dois monstros; Soninho provoca sono; Móbile Musical paralisa até três faixas; Estilingue de Estrelas atinge faixas vizinhas; Arco de Elástico rebate em dois inimigos; Caixa Surpresa explode perto dos pesadelos.</div><div class="guide-item"><strong>6. Portas do corredor</strong><br>No Capítulo 3, a porta avisa a faixa atacada cinco segundos antes da onda.</div><div class="guide-item"><strong>7. Vitória!</strong><br>Espante todos os monstros, inclusive a grande onda.</div></div><p>Atalhos no PC: teclas <strong>1 a 6</strong> selecionam cartas, <strong>F</strong> ativa tela cheia e <strong>Esc</strong> abre a pausa. No celular, prefira a orientação horizontal e toque em <strong>⛶ Tela</strong> para ampliar.</p>`,back,'help');
+  panel('Como jogar','Seu Pião explica',`<p>Você precisa impedir que os pesadelos cheguem ao baú da imaginação.</p><div class="guide"><div class="guide-item"><strong>1. Escolha um brinquedo</strong><br>Toque em uma carta na faixa superior.</div><div class="guide-item"><strong>2. Defenda uma casa</strong><br>Toque em um quadradinho vazio do tapete.</div><div class="guide-item"><strong>3. Colete ✦ Brilhos</strong><br>Toque nas estrelinhas douradas; cada uma vale 25.</div><div class="guide-item"><strong>4. Proteja as 5 faixas</strong><br>Um trenzinho salva cada faixa apenas uma vez.</div><div class="guide-item"><strong>5. Economize</strong><br>Abajures criam Brilhos; soldados atacam; ursos bloqueiam; piões congelam; confetes atingem grupos; Cometas atravessam dois monstros; Soninho provoca sono; Móbile Musical paralisa até três faixas; Estilingue de Estrelas atinge faixas vizinhas; Arco de Elástico rebate em dois inimigos; Caixa Surpresa explode perto dos pesadelos.</div><div class="guide-item"><strong>6. Portas do corredor</strong><br>No Capítulo 3, a porta avisa a faixa atacada cinco segundos antes da onda.</div><div class="guide-item"><strong>7. Vitória!</strong><br>Espante todos os monstros, inclusive a grande onda.</div></div><p>Atalhos no PC: teclas <strong>1 a 6</strong> selecionam cartas, <strong>⏩ 1×/2×</strong> altera a velocidade da partida, <strong>F</strong> ativa tela cheia e <strong>Esc</strong> abre a pausa. No celular, prefira a orientação horizontal e toque em <strong>⛶ Tela</strong> para ampliar.</p>`,back,'help');
 }
 function codex(){
   const art=(id,name,kind)=>`<svg class="catalog-art" viewBox="0 0 80 80" role="img" aria-label="Ilustração original: ${escapeHTML(name)}"><use href="./assets/codex-atlas.svg#${kind}-${id}"></use></svg>`;
@@ -50,7 +53,9 @@ function confirmBefore(kind){
 }
 function resume(){if(!battle)return;battle.state='playing';setScreen('battle');last=performance.now();accumulator=0;}
 function start(index){if(index>=save.unlocked)return;
+  gameSpeed=1;
   battle=new Battle(index,audio,{toast:showToast,changed:()=>updateHUD(),end:finish,enemySeen:type=>{if(!save.seenEnemies.includes(type)){save.seenEnemies.push(type);persistSave(save);}}});
+  battle.effectsEnabled=motionEnabled();
   audio.resume();renderCards();setScreen('battle');$('level-label').textContent=`Fase ${battle.level.id}`;$('phase-name').textContent=battle.level.title;
   last=performance.now();accumulator=0;hudUpdate=0;updateHUD();
 }
@@ -63,7 +68,9 @@ function finish(result,stars){if(!battle)return;
 function renderCards(){if(!battle)return;const el=$('toy-cards');el.innerHTML=battle.level.toys.map((id,i)=>{const d=TOYS[id];return `<button class="toy-card ${battle.selected===id?'selected':''}" data-toy="${id}" title="${d.name}: ${d.description}" aria-label="${d.name}, custa ${d.cost} Brilhos"><span class="toy-card-icon"><canvas class="toy-card-art" data-icon="${id}" width="96" height="72" aria-hidden="true"></canvas></span><span class="toy-card-name">${d.short}</span><span class="cost">✦ ${d.cost}</span><span class="cooldown hidden"></span></button>`;}).join('');el.querySelectorAll('.toy-card-art').forEach(art=>{const ctx=art.getContext('2d');if(!ctx)return;ctx.clearRect(0,0,art.width,art.height);ctx.save();ctx.translate(art.width/2,art.height*.73);drawIconCanvas(ctx,art.dataset.icon,0,0,.66,0);ctx.restore();});}
 function updateHUD(){if(!battle)return;$('glow-count').textContent=Math.floor(battle.glow);
   $('wave-progress').style.width=`${Math.round(battle.progress*100)}%`;
-  $('waves-text').textContent=battle.wavesLeft?`${battle.wavesLeft} ondas pela frente`:'Últimos monstros!';
+  const nextWave=battle.level.waves[battle.waveIndex];
+  $('waves-text').textContent=nextWave?`Próxima em ${Math.max(0,Math.ceil(nextWave.at-battle.time))}s · ${battle.wavesLeft} ondas`:'Últimos monstros!';
+  const speedButton=$('speed-btn');speedButton.setAttribute('aria-pressed',String(gameSpeed===2));speedButton.setAttribute('aria-label',`Velocidade ${gameSpeed} vezes`);speedButton.title=`Velocidade da partida: ${gameSpeed}×`;$('speed-label').textContent=`${gameSpeed}×`;
   document.querySelectorAll('[data-toy]').forEach(btn=>{const id=btn.dataset.toy;btn.classList.toggle('selected',battle.selected===id&&!battle.shovel);btn.classList.toggle('afford-no',battle.glow<TOYS[id].cost);const cd=battle.toyCooldowns[id];const layer=btn.querySelector('.cooldown');layer.classList.toggle('hidden',cd<=.01);if(cd>.01)layer.textContent=Math.ceil(cd)+'s';});
   $('shovel-btn').classList.toggle('selected',battle.shovel);
 }
@@ -83,6 +90,7 @@ function handleAction(action,target){
   else if(action==='cancel-confirm')pause();
   else if(action==='accept-confirm'){const kind=pendingConfirm;pendingConfirm=null;if(kind==='restart'&&battle)start(battle.levelIndex);else if(kind==='menu')menu();}
   else if(action==='shovel'&&battle){battle.selectShovel();updateHUD();}
+  else if(action==='speed'&&battle&&screen==='battle'){gameSpeed=gameSpeed===1?2:1;accumulator=0;updateHUD();showToast(`Velocidade ${gameSpeed}×`,1.2);}
   else if(action==='fullscreen'){
     const frame=$('game-frame');
     if(document.fullscreenElement){document.exitFullscreen?.().catch(()=>{});}
@@ -92,7 +100,7 @@ function handleAction(action,target){
     else showToast('Tela cheia indisponível neste navegador',2.3);
   }
   else if(action==='toggle'){
-    const id=target.dataset.setting;save.settings[id]=!save.settings[id];audio.music=save.settings.music;audio.sfx=save.settings.sfx;persistSave(save);options(optionsBack);
+    const id=target.dataset.setting;if(!['music','sfx','motion'].includes(id))return;save.settings[id]=!save.settings[id];audio.music=save.settings.music;audio.sfx=save.settings.sfx;if(battle){battle.effectsEnabled=motionEnabled();if(!battle.effectsEnabled){battle.particles.length=0;battle.impacts.length=0;}}persistSave(save);options(optionsBack);
   }
 }
 document.addEventListener('click',event=>{
@@ -105,7 +113,7 @@ canvas.addEventListener('pointerdown',event=>{
   battle.click(x,y);updateHUD();
 });
 canvas.addEventListener('pointermove',event=>{
-  if(!battle)return;
+  if(!battle||screen!=='battle')return;
   const r=canvas.getBoundingClientRect(),x=(event.clientX-r.left)*W/r.width,y=(event.clientY-r.top)*H/r.height;
   const cell=rectCell(x,y);battle.hover=(cell.col>=0&&cell.col<BOARD.cols&&cell.row>=0&&cell.row<BOARD.rows)?cell:null;
 });
@@ -117,14 +125,14 @@ document.addEventListener('keydown',event=>{
 document.addEventListener('visibilitychange',()=>{if(document.hidden&&screen==='battle')pause();});
 function loop(now){let delta=last?Math.min((now-last)/1000,.16):0;last=now;
   if(battle&&screen==='battle'&&battle.state==='playing'){
-    accumulator+=delta;let steps=0;
-    while(accumulator>=STEP&&steps++<5&&battle.state==='playing'){
+    accumulator+=delta*gameSpeed;let steps=0;const stepLimit=5*gameSpeed;
+    while(accumulator>=STEP&&steps++<stepLimit&&battle.state==='playing'){
       battle.update(STEP);audio.tick(STEP);accumulator-=STEP;
     }
-    if(steps>=5)accumulator=0;
+    if(steps>=stepLimit)accumulator=0;
     hudUpdate+=delta;if(hudUpdate>=.12){hudUpdate=0;updateHUD();}
   }else accumulator=0;
-  render(context,battle,screen!=='battle'&&!battle,save.settings.motion);
+  render(context,battle,screen!=='battle'&&!battle,motionEnabled());
   requestAnimationFrame(loop);
 }
 menu();requestAnimationFrame(loop);

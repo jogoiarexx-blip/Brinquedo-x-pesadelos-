@@ -1,4 +1,17 @@
-# Brinquedos vs. Pesadelos — ALFA v1.0.0
+# Brinquedos vs. Pesadelos — ALFA v1.1.0
+
+## Novidades da v1.1.0 — qualidade e desempenho
+
+- Alternância 1×/2× para o ritmo das partidas, mantendo as regras e a simulação a 30 Hz.
+- Contador regressivo da próxima onda na interface.
+- Fantasma do brinquedo e indicação visual de faixa ou área antes do posicionamento.
+- Fundos estáticos dos três capítulos reutilizados por cache Canvas para economizar renderização.
+- Configuração de movimento reduzido evita gerar partículas e impactos extras.
+- Service worker renovado: navegação busca atualizações online antes de usar cache offline.
+- HTML offline atualizado e chave `bvp-save-v1` preservada.
+- As 20 fases e seu balanceamento permanecem iguais.
+
+**Validação:** testes novos para prévia e efeitos; conferir CI e testar em dispositivos reais após a publicação.
 
 ## Novidades da v1.0.0 — presença dos chefes
 

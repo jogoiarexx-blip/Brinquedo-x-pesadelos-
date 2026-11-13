@@ -75,8 +75,24 @@
 @media(max-width:900px){.toy-card-icon{height:clamp(27px,5vw,42px)}.toy-card-art{max-width:68px}.toy-card.selected{animation:none}}
 @media(prefers-reduced-motion:reduce){.toy-card.selected{animation:none!important}}
 
+
+/* v0.8.0 — personagens expressivos e Brinquedopédia ilustrada. */
+.catalog-entry{min-height:104px;position:relative;overflow:hidden;background:linear-gradient(145deg,#ffffff20,#241b3a38);box-shadow:inset 0 2px 0 #fff4d52b,0 5px 12px #1c142a30}
+.catalog-entry::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(120deg,#fff2 0%,transparent 42%,#e9c8ff0a 100%)}
+.catalog-art{width:clamp(58px,6.2vw,88px);height:clamp(58px,6.2vw,88px);flex:0 0 auto;filter:drop-shadow(0 5px 3px #1b142c88);overflow:visible}
+.catalog-entry strong{display:block;line-height:1.2;text-shadow:0 2px 0 #392a4d}.catalog-entry small{line-height:1.35}
+@media(max-width:640px){.catalog{grid-template-columns:1fr;gap:8px}.catalog-entry{min-height:82px;padding:7px 9px}.catalog-art{width:66px;height:66px}}
+@media(prefers-reduced-motion:no-preference){.catalog-art{animation:codexFloat 3.4s ease-in-out infinite}.catalog-entry:nth-child(3n) .catalog-art{animation-delay:-1.1s}.catalog-entry:nth-child(3n+1) .catalog-art{animation-delay:-2.1s}}
+@keyframes codexFloat{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-3px) rotate(2deg)}}
+
+/* v1.1: velocidade 1×/2× */
+.speed-btn{width:7.2%;flex:0 0 7.2%;font-size:clamp(17px,2.1vw,30px)}
+.speed-btn[aria-pressed="true"]{background:linear-gradient(#a7deba,#5caa97);border-color:#e8f6ba;color:#173b3d}
+.speed-btn small{font-size:.44em}
+@media(max-width:900px){.speed-btn{font-size:clamp(12px,2.4vw,22px)}}
+
 </style>
-  <title>Brinquedos vs. Pesadelos — Jogar Offline v0.7.0</title>
+  <title>Brinquedos vs. Pesadelos — Jogar Offline v1.1.0</title>
 </head>
 <body>
   <main class="app" aria-label="Jogo Brinquedos vs. Pesadelos">
@@ -87,6 +103,7 @@
           <div class="glow-pill" aria-live="polite"><span class="glow-symbol">✦</span><span id="glow-count">150</span><small>Brilhos</small></div>
           <div id="toy-cards" class="toy-cards" role="toolbar" aria-label="Brinquedos disponíveis"></div>
           <button id="shovel-btn" class="small-btn shovel-btn" data-action="shovel" title="Guardar brinquedo">🧹 <small>Guardar</small></button>
+          <button class="small-btn speed-btn" id="speed-btn" data-action="speed" title="Velocidade da partida: 1×" aria-label="Velocidade 1 vez" aria-pressed="false">⏩ <small id="speed-label">1×</small></button>
           <button class="small-btn fullscreen-btn" data-action="fullscreen" title="Ampliar o jogo" aria-label="Tela cheia">⛶ <small>Tela</small></button>
           <button class="small-btn pause-btn" data-action="pause" title="Pausar o jogo">Ⅱ <small>Pausa</small></button>
         </div>
@@ -96,7 +113,7 @@
       </div>
       <div id="toast" class="toast hidden" role="status" aria-live="polite"></div>
       <div id="screen" class="screen"></div>
-      <div class="version-tag">ALFA 0.7.0 · 3 capítulos</div>
+      <div class="version-tag">ALFA 1.1.0 · 3 capítulos</div>
     </div>
     <div class="mobile-tip" aria-label="Orientação recomendada">↻ Vire o celular na horizontal para ver todo o tabuleiro.</div>
     <footer class="outside-footer">Brinquedos vs. Pesadelos · Um jogo original de defesa por linhas · Salvo neste dispositivo</footer>
@@ -328,6 +345,7 @@ class Battle {
     this.glow=this.level.startingGlow;
     this.grid=Array.from({length:BOARD.rows},()=>Array(BOARD.cols).fill(null));
     this.enemies=[];this.projectiles=[];this.stars=[];this.particles=[];this.trains=[];
+    this.effectsEnabled=true;
     this.feedback=[];this.defeated=[];this.impacts=[];
     this.trainReady=Array(BOARD.rows).fill(true);
     this.toyCooldowns=Object.fromEntries(this.level.toys.map(t=>[t,0]));
@@ -386,10 +404,12 @@ class Battle {
   spawnEnemy(type,lane,offset=0){
     const d=ENEMIES[type];if(!d)return;
     this.enemies.push({id:this.id++,type,row:lane,x:BOARD_RIGHT+65+offset,y:rowY(lane),hp:d.hp,maxHp:d.hp,shield:d.shield||0,maxShield:d.shield||0,summons:0,webTimer:4.8,enraged:false,jumped:false,jumpTime:0,stunTime:0,attackTimer:.45,hit:0,age:0,slowTime:0,slowFactor:1,attack:0,stealTimer:1.4});
+    if(d.boss)this.flashBanner(type==='E10'?'☾  A DAMA DA INSÔNIA DESPERTOU!':'👑  O REI DAS MEIAS CHEGOU!',3.4);
     this.totalSpawns++;
     this.events.enemySeen?.(type);
   }
   puff(x,y,color,n=6){
+    if(!this.effectsEnabled)return;
     for(let i=0;i<n;i++){const a=this.rand()*6.283,v=34+this.rand()*95;
       this.particles.push({x,y,vx:Math.cos(a)*v,vy:Math.sin(a)*v-20,color,life:.38+this.rand()*.42,maxLife:.8,r:2+this.rand()*3});
     }
@@ -400,6 +420,7 @@ class Battle {
     if(this.feedback.length>32)this.feedback.splice(0,this.feedback.length-32);
   }
   addImpact(x,y,kind){
+    if(!this.effectsEnabled)return;
     this.impacts.push({x,y,kind,age:0,life:kind==='splash'?.48:.32});
     if(this.impacts.length>28)this.impacts.splice(0,this.impacts.length-28);
   }
@@ -587,6 +608,19 @@ class Battle {
 
 const TAU=Math.PI*2;
 const COLORS={ink:'#3b2749',cream:'#fff6da'};
+const BACKDROP_CACHE=new Map();
+function paintBackdrop(c,chapter){
+  // Fundos estáticos são desenhados uma vez por capítulo, não a cada frame.
+  if(typeof document==='undefined'){drawBackground(c,0,chapter);return;}
+  let backdrop=BACKDROP_CACHE.get(chapter);
+  if(!backdrop){
+    backdrop=document.createElement('canvas');backdrop.width=W;backdrop.height=H;
+    const ctx=backdrop.getContext('2d',{alpha:false});
+    if(!ctx){drawBackground(c,0,chapter);return;}
+    drawBackground(ctx,0,chapter);BACKDROP_CACHE.set(chapter,backdrop);
+  }
+  c.drawImage(backdrop,0,0);
+}
 function ellipse(c,x,y,rx,ry,color){c.beginPath();c.ellipse(x,y,rx,ry,0,0,TAU);c.fillStyle=color;c.fill();}
 function rr(c,x,y,w,h,r,fill,stroke=null,lw=2){c.beginPath();c.roundRect(x,y,w,h,r);if(fill){c.fillStyle=fill;c.fill();}if(stroke){c.strokeStyle=stroke;c.lineWidth=lw;c.stroke();}}
 function line(c,pts,color,width=2){c.beginPath();c.moveTo(...pts[0]);for(const p of pts.slice(1))c.lineTo(...p);c.strokeStyle=color;c.lineWidth=width;c.lineJoin='round';c.lineCap='round';c.stroke();}
@@ -671,8 +705,11 @@ function drawBackground(c,time=0,chapter=1){
   for(let i=0;i<13;i++){star(c,57+(i*73)%188,55+(i*47)%100,3.5,1.7,'#fff5be');}
   line(c,[[150,35],[150,179]],'#a8c5cd',5);line(c,[[42,105],[254,105]],'#a8c5cd',5);
   rr(c,23,184,255,18,7,'#6b456b','#dbafab',4);
-  // Prateleira com peças decorativas.
+  // Prateleira com peças decorativas e marcas de madeira pintada.
   rr(c,445,74,382,14,5,'#e2aa89','#764b69',4);
+  for(let i=0;i<8;i++)line(c,[[455+i*47,78],[475+i*47,78]],'#fff0ce55',1.4);
+  rr(c,852,38,118,76,9,'#6d526f','#d8b9a2',4);rr(c,861,47,100,57,5,'#b6d4cb','#f2dfb9',3);star(c,911,75,20,9,'#f7d68d');
+  for(let i=0;i<5;i++)ellipse(c,1000+i*13,94+(i%2)*3,3,3,'#f6d6a0');
   rr(c,477,36,46,37,6,'#6ac9bd','#345a79',3);rr(c,533,25,36,49,7,'#f5d186','#a46e70',3);
   rr(c,582,43,38,31,6,'#d79ec7','#996489',3);rr(c,632,28,50,46,6,'#a8deda','#477fa0',3);
   ellipse(c,729,53,23,23,'#f0c2a2');eye(c,721,50,4);eye(c,737,50,4);line(c,[[720,64],[737,63]],'#916b74',3);
@@ -698,6 +735,7 @@ function drawBackground(c,time=0,chapter=1){
       const x=BOARD.x+col*BOARD.cw,y=BOARD.y+r*BOARD.ch;
       rr(c,x+4,y+4,BOARD.cw-8,BOARD.ch-8,12,(col+r)%2===0?'#ffffff11':'#112f4b08');
       if(col<BOARD.cols-1)line(c,[[x+BOARD.cw,y+8],[x+BOARD.cw,y+BOARD.ch-8]],'#e6f5d139',2);
+      if((r*11+col)%4===0){c.save();c.globalAlpha=.17;line(c,[[x+14,y+BOARD.ch-13],[x+BOARD.cw-16,y+BOARD.ch-13]],'#f4e8c6',1.2);c.restore();}
     }
     if(r<BOARD.rows-1)line(c,[[BOARD.x+5,BOARD.y+(r+1)*BOARD.ch],[BOARD_RIGHT-5,BOARD.y+(r+1)*BOARD.ch]],'#47656b40',3);
   }
@@ -752,6 +790,12 @@ function drawToy(c,t,time,visualMotion=true){
   let s=1+(visualMotion?Math.sin(time*3+t.id*.8)*.024:0);
   if(t.hit>0){c.globalAlpha=.78;s*=.95;}c.scale(s+recoil*.04,s-recoil*.035);
   const toyShadow=c.createRadialGradient(0,26,2,0,26,42);toyShadow.addColorStop(0,'rgba(28,35,57,.38)');toyShadow.addColorStop(1,'rgba(28,35,57,0)');ellipse(c,0,26,42,12,toyShadow);
+  // Braços de pano articulados: cada unidade ganha um ciclo próprio de espera e disparo.
+  if(visualMotion){const swing=Math.sin((t.age||time)*4.2+(t.id||0)*.9)*5,reach=recoil*9;
+    const armColor=d.kind==='producer'?'#c98e8b':d.kind==='blocker'?'#d69a8b':d.kind==='slow'?'#6eb7c3':d.kind==='splash'?'#ec98c0':'#9b88a8';
+    line(c,[[-23,-2],[-34,-1+swing-reach]],armColor,7);line(c,[[23,-2],[34,-1-swing-reach]],armColor,7);
+    ellipse(c,-34,-1+swing-reach,4.5,4.5,'#f4d2b5');ellipse(c,34,-1-swing-reach,4.5,4.5,'#f4d2b5');
+  }
   if(d.kind==='shooter'){
     // Soldadinho Estalo: um soldado de pano com atirador de papel.
     line(c,[[-14,8],[-18,24]],'#584b64',10);line(c,[[10,8],[13,24]],'#584b64',10);
@@ -867,6 +911,15 @@ function drawToy(c,t,time,visualMotion=true){
     if(t.armed){txt(c,'!',25,-48,22,'#fff3ae');star(c,-28,-41,7,3,'#ffe3a3');}
     else txt(c,'···',0,-49,20,'#fff9c1');c.restore();
   }
+  // Reações exclusivas por função: brilho, confete, música e magia de gelo.
+  if(visualMotion){
+    const pulse=.5+.5*Math.sin(time*5.2+(t.id||0));
+    if(d.kind==='producer'){c.save();c.globalAlpha=.18+.24*pulse;ellipse(c,0,-34,31+6*pulse,31+6*pulse,'#ffe78c');c.restore();if(pulse>.94)star(c,0,-72,7,3,'#fff8cb',time*2);}
+    if(recoil>0&&['shooter','slow','splash','pierce','sleep','starburst','ricochet'].includes(d.kind)){c.save();c.globalAlpha=recoil;c.translate(56,-14);star(c,0,0,13,5,d.kind==='slow'?'#c8f8ff':d.kind==='splash'?'#ffd4ed':'#fff0a5',time*5);ellipse(c,0,0,4,4,'#fffdf0');c.restore();}
+    if(d.kind==='music'&&pulse>.68){c.save();c.globalAlpha=(pulse-.68)*2.8;txt(c,'♪',-39,-69,16,'#e4ffc5');txt(c,'♫',35,-66,14,'#fff0b2');c.restore();}
+    if(d.kind==='slow'&&pulse>.78){star(c,-39,-34,5,2,'#e6ffff',time*2);star(c,38,-45,4,2,'#e6ffff',-time*2);}
+    if(d.kind==='trap'&&t.armed){c.save();c.globalAlpha=.55+.45*pulse;star(c,0,-65,6+3*pulse,2,'#fff0b1',time*4);c.restore();}
+  }
   if(t.webTime>0){
     c.save();c.globalAlpha=.7;
     for(let i=-1;i<=1;i++)line(c,[[-33,-44+i*21],[33,-12+i*21]],'#e5edfa',2);
@@ -881,6 +934,8 @@ function drawEnemy(c,e,time,visualMotion=true){
   const bite=visualMotion?clamp((e.attack||0)/.28,0,1):0;c.translate(-10*bite,visualMotion?bob-3*Math.sin(e.age*11):0);c.rotate(-.055*bite+(visualMotion?.018*Math.sin(e.age*8+e.id):0));
   if(e.hit>0)c.globalAlpha=.68;
   const enemyShadow=c.createRadialGradient(0,27,2,0,27,40);enemyShadow.addColorStop(0,'rgba(24,25,49,.42)');enemyShadow.addColorStop(1,'rgba(24,25,49,0)');ellipse(c,0,27,40,11,enemyShadow);
+  if(visualMotion){const gait=Math.sin(e.age*13+e.id),arm=e.attack>0?1:0;c.save();c.lineCap='round';line(c,[[-25,-5],[-35,2+gait*7-arm*8]],e.type==='E02'?'#bd718e':'#89759f',7);line(c,[[25,-5],[35,2-gait*7-arm*8]],e.type==='E02'?'#bd718e':'#89759f',7);ellipse(c,-35,2+gait*7-arm*8,4,4,'#f1c5b5');ellipse(c,35,2-gait*7-arm*8,4,4,'#f1c5b5');c.restore();}
+  if(e.defeated&&visualMotion){c.rotate(Math.sin(e.age*10)*.12);c.scale(1+.08*Math.sin(e.age*18),.82);}
   if(e.type==='E01'){
     // Poeira Andante: nuvem lilás engraçada, perninha fina.
     line(c,[[-17,3],[-18,23]],'#6f5b83',6);line(c,[[16,4],[16,22]],'#6f5b83',6);
@@ -992,6 +1047,7 @@ function drawEnemy(c,e,time,visualMotion=true){
     line(c,[[-26,-58],[-8,-68],[18,-57]],'#dbb6be',4);
     if(e.stealTimer>6)star(c,25,-60,9,3,'#ffdc7a');
   }
+  drawEnemyFaceFX(c,e,time,visualMotion);
   if(e.stunTime>0){
     txt(c,'Z z',12,-87,17,'#e1d7ff');star(c,26,-71,5,2,'#d8ccff');
   }
@@ -1003,6 +1059,14 @@ function drawEnemy(c,e,time,visualMotion=true){
   if(e.hp<e.maxHp){rr(c,-30,-73,60,6,3,'#574a6e');rr(c,-29,-72,58*clamp(e.hp/e.maxHp,0,1),4,2,'#f2a2a7');}
   if(visualMotion){c.save();c.globalAlpha=.10+.06*(.5+.5*Math.sin(time*1.55+(e.id||0)));c.strokeStyle='#fff5e6';c.lineWidth=2;c.beginPath();c.ellipse(-13,-49,11,4,-.35,Math.PI,Math.PI*2);c.stroke();if(e.hit>0)star(c,31,-60,5,2,'#fff3c7');c.restore();}
   c.restore();
+}
+function drawEnemyFaceFX(c,e,time,visualMotion=true){
+  const faces={E01:[-11,-30,15,-28,-12],E02:[-9,-38,9,-38,-25],E03:[-9,-28,15,-28,-11],E04:[-10,-25,14,-25,-9],E05:[-14,-38,14,-38,-18],E06:[-13,-41,13,-41,-20],E07:[-12,-31,12,-31,-12],E08:[-10,-34,11,-34,-15],E09:[-12,-23,12,-23,-12],E10:[-13,-44,14,-44,-21],E11:[-11,-43,14,-43,-22]};
+  const [lx,ly,rx,ry,my]=faces[e.type]||[-11,-30,11,-30,-12],blink=visualMotion&&Math.sin(e.age*2.4+(e.id||0)*2.1)>.985,look=e.attack>0?3:visualMotion?Math.sin(e.age*1.7)*1.5:0;
+  c.save();c.lineCap='round';if(!blink){ellipse(c,lx+look,ly+1,1.8,2.5,'#493b60');ellipse(c,rx+look,ry+1,1.8,2.5,'#493b60');}
+  const angry=!!e.enraged||e.attack>0,hurt=e.hit>0;line(c,[[lx-5,ly-9],[lx,ly-(angry?12:8)],[lx+5,ly-8]],hurt?'#fff6e7':angry?'#68465f':'#8b718c',2.4);line(c,[[rx-5,ry-8],[rx,ry-(angry?12:8)],[rx+5,ry-9]],hurt?'#fff6e7':angry?'#68465f':'#8b718c',2.4);
+  if(blink){line(c,[[lx-5,ly],[lx+5,ly]],'#6b536f',3);line(c,[[rx-5,ry],[rx+5,ry]],'#6b536f',3);}if(hurt){ellipse(c,lx-8,ly+8,4,2.5,'#f29ba6');ellipse(c,rx+8,ry+8,4,2.5,'#f29ba6');}
+  if(e.defeated)txt(c,'×',0,my,15,'#fff1dc');else if(e.attack>0){ellipse(c,0,my,7,8,'#563c61');ellipse(c,0,my+2,3,2,'#f4a0a5');}else if(e.enraged)line(c,[[-6,my+2],[0,my-1],[6,my+2]],'#67475f',2.8);else line(c,[[-5,my],[0,my+2],[5,my]],'#79556e',2.5);c.restore();
 }
 function drawGlow(c,s,time){
   c.save();const bob=Math.sin(time*5+s.id)*3;c.translate(s.x,s.y+bob);
@@ -1048,6 +1112,10 @@ function drawImpact(c,i){
   const core=c.createRadialGradient(i.x,i.y,1,i.x,i.y,Math.max(3,r*.52));core.addColorStop(0,'rgba(255,255,239,.42)');core.addColorStop(1,'rgba(255,255,239,0)');ellipse(c,i.x,i.y,Math.max(4,r*.52),Math.max(4,r*.52),core);
   c.restore();
 }
+function drawParticle(c,p,time){
+  const alpha=clamp(p.life/p.maxLife,0,1),pulse=.72+.28*Math.sin(time*17+p.x*.03);c.save();c.globalAlpha=alpha*.7;
+  const glow=c.createRadialGradient(p.x,p.y,0,p.x,p.y,p.r*4.2);glow.addColorStop(0,p.color);glow.addColorStop(.32,p.color+'99');glow.addColorStop(1,'rgba(255,255,255,0)');ellipse(c,p.x,p.y,p.r*4.2,p.r*4.2,glow);c.globalAlpha=alpha;ellipse(c,p.x,p.y,p.r*pulse,p.r*pulse,p.color);if(p.r>3)star(c,p.x,p.y,p.r*1.7,p.r*.55,'#fff7d6',time*.8);c.restore();
+}
 function drawFeedback(c,f){
   const k=clamp(f.age/f.life,0,1);c.save();c.globalAlpha=1-k;
   c.shadowColor='#34223e';c.shadowBlur=6;
@@ -1056,7 +1124,20 @@ function drawFeedback(c,f){
 }
 function drawDefeated(c,d){
   c.save();const k=clamp(d.age/d.life,0,1);c.globalAlpha=(1-k)*.7;c.translate(0,-35*k);c.rotate((d.type==='E05'?-1:1)*k*.12);
-  const data=ENEMIES[d.type];drawEnemy(c,{...d,id:0,age:d.age,hit:0,attack:0,slowTime:0,hp:data.hp,maxHp:data.hp},d.age);
+  const data=ENEMIES[d.type];drawEnemy(c,{...d,id:0,age:d.age,hit:0,attack:0,slowTime:0,hp:data.hp,maxHp:data.hp,defeated:true},d.age);
+  c.restore();
+}
+function drawBossAura(c,boss,time,visualMotion=true){
+  const d=ENEMIES[boss.type];if(!d?.boss)return;
+  const pulse=visualMotion ? .5+.5*Math.sin(time*3.2+boss.id) : .5;
+  c.save();c.translate(boss.x,boss.y-19);
+  const radius=47+pulse*8;
+  const glow=c.createRadialGradient(0,0,12,0,0,radius+28);
+  glow.addColorStop(0,boss.type==='E10'?'rgba(158,176,255,.20)':'rgba(255,205,111,.22)');
+  glow.addColorStop(1,'rgba(255,255,255,0)');
+  c.fillStyle=glow;c.beginPath();c.arc(0,0,radius+28,0,TAU);c.fill();
+  c.globalAlpha=.34+pulse*.2;c.strokeStyle=boss.type==='E10'?'#c4d2ff':'#ffe0a0';c.lineWidth=3;
+  c.setLineDash([7,8]);c.beginPath();c.arc(0,0,radius,0,TAU);c.stroke();c.setLineDash([]);
   c.restore();
 }
 function drawBossHealth(c,game){
@@ -1068,9 +1149,35 @@ function drawBossHealth(c,game){
   rr(c,618,652,229,19,9,'#241a32','#b88da9',2);
   rr(c,622,655,221*ratio,13,6,ratio>.35?'#f795af':'#ffe18d');
 }
+function drawPlacementPreview(c,game,time){
+  const cell=game.hover;if(!cell||game.state!=='playing')return;
+  const {row,col}=cell;if(row<0||row>=BOARD.rows||col<0||col>=BOARD.cols)return;
+  const valid=game.shovel?Boolean(game.grid[row][col]):!game.canPlace(row,col);
+  const toy=TOYS[game.selected],x=colX(col),y=rowY(row);
+  c.save();
+  if(valid&&!game.shovel&&toy){
+    const kind=toy.kind;
+    if(['shooter','slow','splash','pierce','sleep','starburst','ricochet'].includes(kind)){
+      const start=x+21;c.globalAlpha=.12;c.fillStyle=toy.color||'#fff2ad';
+      c.fillRect(start,BOARD.y+row*BOARD.ch+12,BOARD_RIGHT-start,BOARD.ch-24);
+    }else if(kind==='music'||kind==='trap'){
+      const reach=kind==='music'?BOARD.cw*6:toy.splashRadius;
+      const left=Math.max(BOARD.x,x-reach),right=Math.min(BOARD_RIGHT,x+reach);
+      c.globalAlpha=.105;c.fillStyle=toy.color||'#fff2ad';
+      for(let lane=Math.max(0,row-1);lane<=Math.min(BOARD.rows-1,row+1);lane++)
+        c.fillRect(left,BOARD.y+lane*BOARD.ch+11,right-left,BOARD.ch-22);
+    }
+  }
+  c.globalAlpha=1;
+  rr(c,BOARD.x+col*BOARD.cw+4,BOARD.y+row*BOARD.ch+4,BOARD.cw-8,BOARD.ch-8,12,
+    valid?'#f5eeb04c':'#f77f8e44',valid?'#ffdf7b':'#f47d88',3);
+  if(game.shovel)txt(c,'✕',x,y,36,valid?'#ffefbe':'#f4a1a7');
+  else if(valid&&toy){c.globalAlpha=.58;drawIconCanvas(c,game.selected,x,y,.78,time);}
+  c.restore();
+}
 function render(c,game,menu=false,visualMotion=true){
   const t=visualMotion ? (game?.time ?? performance.now()*.001) : 0;
-  c.clearRect(0,0,W,H);drawBackground(c,t,game?.level?.chapter??1);
+  c.clearRect(0,0,W,H);paintBackdrop(c,game?.level?.chapter??1);
   const chapter=game?.level?.chapter??1;drawAmbientPolish(c,t,chapter,visualMotion);drawBoardTrim(c,t,chapter);
   if(game?.levelIndex>=4){
     // Capítulo mais avançado ganha um leve clima de armário encantado, sem outra textura ou download.
@@ -1090,21 +1197,19 @@ function render(c,game,menu=false,visualMotion=true){
       c.restore();txt(c,'🚪',1173,rowY(lane),27,'#fff1c9');
       txt(c,`PORTA • FAIXA ${lane+1}`,790,BOARD.y+lane*BOARD.ch+12,14,'#fff7cd');
     }
-    // Pré-visualização suave da casa selecionada.
-    if(game.hover && game.state==='playing'){
-      const {col,row}=game.hover;
-      if(row>=0&&row<BOARD.rows&&col>=0&&col<BOARD.cols){const ok=game.shovel?!!game.grid[row][col]:!game.canPlace(row,col);
-        rr(c,BOARD.x+col*BOARD.cw+4,BOARD.y+row*BOARD.ch+4,BOARD.cw-8,BOARD.ch-8,12,ok?'#f5eeb04c':'#f77f8e44',ok?'#ffdf7b':'#f47d88',3);
-      }
-    }
-    for(const toy of game.allToys)drawToy(c,toy,t,visualMotion);
-    if(visualMotion)for(const toy of game.allToys){
+    // Fantasma do brinquedo e indicação da sua área de ação.
+    drawPlacementPreview(c,game,t);
+    const toys=game.allToys;
+    for(const toy of toys)drawToy(c,toy,t,visualMotion);
+    if(visualMotion)for(const toy of toys){
       if((toy.recoil||0)>.13 && TOYS[toy.type].kind!=='trap' && TOYS[toy.type].kind!=='producer'){
         const f=(toy.recoil-.13)/.09;c.save();c.globalAlpha=clamp(f,0,.8);
         star(c,toy.x+41,toy.y-15,9+5*f,4+2*f,'#fff6c5');c.restore();
       }
     }
     for(const p of game.projectiles){drawProjectileTrail(c,p,t,visualMotion);drawProjectile(c,p);}
+    // Aura puramente visual dos chefes, desenhada atrás dos personagens.
+    for(const e of game.enemies)if(ENEMIES[e.type]?.boss)drawBossAura(c,e,t,visualMotion);
     // Inimigos desenhados por faixa e posição; o sprite não afeta a hitbox.
     for(const e of game.enemies)drawEnemy(c,e,t,visualMotion);
     if(visualMotion)for(const d of game.defeated||[])drawDefeated(c,d);
@@ -1112,7 +1217,7 @@ function render(c,game,menu=false,visualMotion=true){
     for(const s of game.stars)drawGlow(c,s,t);
     if(visualMotion){
       for(const i of game.impacts||[])drawImpact(c,i);
-      for(const p of game.particles){c.globalAlpha=clamp(p.life/p.maxLife,0,1);ellipse(c,p.x,p.y,p.r,p.r,p.color);}
+      for(const p of game.particles)drawParticle(c,p,t);
       c.globalAlpha=1;
       for(const f of game.feedback||[])drawFeedback(c,f);
     }
@@ -1149,7 +1254,10 @@ function drawIconCanvas(c,id,x,y,scale=.65,time=0){
 const $=id=>document.getElementById(id);
 const canvas=$('battle-canvas'),context=canvas.getContext('2d',{alpha:false});
 const audio=new AudioService();const save=loadSave();audio.music=save.settings.music;audio.sfx=save.settings.sfx;
-let battle=null,screen='menu',last=0,accumulator=0,hudUpdate=0,toastTimer=null,optionsBack='menu',lastResult=null,pendingConfirm=null;
+let battle=null,screen='menu',last=0,accumulator=0,hudUpdate=0,toastTimer=null,optionsBack='menu',lastResult=null,pendingConfirm=null,gameSpeed=1;
+const reducedMotion=window.matchMedia?.('(prefers-reduced-motion: reduce)');
+const motionEnabled=()=>save.settings.motion&&!reducedMotion?.matches;
+reducedMotion?.addEventListener?.('change',()=>{if(battle)battle.effectsEnabled=motionEnabled();});
 const icons={T01:'💡',T02:'🪖',T03:'🧸',T04:'❄️',T05:'🎉',T06:'🏎️',T07:'💤',T08:'🎼',T09:'🌟',E01:'☁️',E02:'🧦',E03:'🛏️',E04:'✏️',E05:'👑',E06:'🦘',E07:'🧥',E08:'🕷️',E09:'⏰',E10:'🌘',E11:'🦹',T10:'🏹',T11:'🎁'};
 const escapeHTML=v=>String(v).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
 function showToast(text,seconds=2.8){let toast=$('toast');toast.textContent=text;toast.classList.remove('hidden');clearTimeout(toastTimer);toastTimer=setTimeout(()=>toast.classList.add('hidden'),seconds*1000);}
@@ -1170,12 +1278,13 @@ function levels(){
   panel('O Quarto Acordou','Três capítulos · escolha sua fase',`<p>Continue sua aventura, ou rejogue uma fase já liberada.</p><div class="levels">${cards}</div><p>Complete a fase 2-8 para abrir o Capítulo 3. As fases 3-1 a 3-4 apresentam portas que avisam as ondas antes da invasão.</p>`);
 }
 function help(back=battle?'pause':'menu'){
-  panel('Como jogar','Seu Pião explica',`<p>Você precisa impedir que os pesadelos cheguem ao baú da imaginação.</p><div class="guide"><div class="guide-item"><strong>1. Escolha um brinquedo</strong><br>Toque em uma carta na faixa superior.</div><div class="guide-item"><strong>2. Defenda uma casa</strong><br>Toque em um quadradinho vazio do tapete.</div><div class="guide-item"><strong>3. Colete ✦ Brilhos</strong><br>Toque nas estrelinhas douradas; cada uma vale 25.</div><div class="guide-item"><strong>4. Proteja as 5 faixas</strong><br>Um trenzinho salva cada faixa apenas uma vez.</div><div class="guide-item"><strong>5. Economize</strong><br>Abajures criam Brilhos; soldados atacam; ursos bloqueiam; piões congelam; confetes atingem grupos; Cometas atravessam dois monstros; Soninho provoca sono; Móbile Musical paralisa até três faixas; Estilingue de Estrelas atinge faixas vizinhas; Arco de Elástico rebate em dois inimigos; Caixa Surpresa explode perto dos pesadelos.</div><div class="guide-item"><strong>6. Portas do corredor</strong><br>No Capítulo 3, a porta avisa a faixa atacada cinco segundos antes da onda.</div><div class="guide-item"><strong>7. Vitória!</strong><br>Espante todos os monstros, inclusive a grande onda.</div></div><p>Atalhos no PC: teclas <strong>1 a 6</strong> selecionam cartas, <strong>F</strong> ativa tela cheia e <strong>Esc</strong> abre a pausa. No celular, prefira a orientação horizontal e toque em <strong>⛶ Tela</strong> para ampliar.</p>`,back,'help');
+  panel('Como jogar','Seu Pião explica',`<p>Você precisa impedir que os pesadelos cheguem ao baú da imaginação.</p><div class="guide"><div class="guide-item"><strong>1. Escolha um brinquedo</strong><br>Toque em uma carta na faixa superior.</div><div class="guide-item"><strong>2. Defenda uma casa</strong><br>Toque em um quadradinho vazio do tapete.</div><div class="guide-item"><strong>3. Colete ✦ Brilhos</strong><br>Toque nas estrelinhas douradas; cada uma vale 25.</div><div class="guide-item"><strong>4. Proteja as 5 faixas</strong><br>Um trenzinho salva cada faixa apenas uma vez.</div><div class="guide-item"><strong>5. Economize</strong><br>Abajures criam Brilhos; soldados atacam; ursos bloqueiam; piões congelam; confetes atingem grupos; Cometas atravessam dois monstros; Soninho provoca sono; Móbile Musical paralisa até três faixas; Estilingue de Estrelas atinge faixas vizinhas; Arco de Elástico rebate em dois inimigos; Caixa Surpresa explode perto dos pesadelos.</div><div class="guide-item"><strong>6. Portas do corredor</strong><br>No Capítulo 3, a porta avisa a faixa atacada cinco segundos antes da onda.</div><div class="guide-item"><strong>7. Vitória!</strong><br>Espante todos os monstros, inclusive a grande onda.</div></div><p>Atalhos no PC: teclas <strong>1 a 6</strong> selecionam cartas, <strong>⏩ 1×/2×</strong> altera a velocidade da partida, <strong>F</strong> ativa tela cheia e <strong>Esc</strong> abre a pausa. No celular, prefira a orientação horizontal e toque em <strong>⛶ Tela</strong> para ampliar.</p>`,back,'help');
 }
 function codex(){
-  const toys=Object.values(TOYS).map(t=>`<div class="catalog-entry"><div class="emoji">${icons[t.id]}</div><div><strong>${t.name}</strong><small>✦ ${t.cost} · ${t.description}</small></div></div>`).join('');
-  const enemies=Object.values(ENEMIES).map(e=>`<div class="catalog-entry"><div class="emoji">${icons[e.id]}</div><div><strong>${e.name}</strong><small>${e.description}</small></div></div>`).join('');
-  panel('Brinquedopédia','Conheça os moradores',`<p>Conheça os brinquedos e os pesadelos dos capítulos 1, 2 e 3.</p><div class="catalog">${toys}${enemies}</div>`,'menu','codex');
+  const art=(id,name,kind)=>`<svg class="catalog-art" viewBox="0 0 80 80" role="img" aria-label="Ilustração original: ${escapeHTML(name)}"><use href="./assets/codex-atlas.svg#${kind}-${id}"></use></svg>`;
+  const toys=Object.values(TOYS).map(t=>`<div class="catalog-entry">${art(t.id,t.name,'toy')}<div><strong>${t.name}</strong><small>✦ ${t.cost} · ${t.description}</small></div></div>`).join('');
+  const enemies=Object.values(ENEMIES).map(e=>`<div class="catalog-entry">${art(e.id,e.name,'enemy')}<div><strong>${e.name}</strong><small>${e.description}</small></div></div>`).join('');
+  panel('Brinquedopédia','Ilustrações originais · conheça os moradores',`<p>Brinquedos e pesadelos agora têm retratos vetoriais próprios, desenhados para este universo.</p><div class="catalog">${toys}${enemies}</div>`,'menu','codex');
 }
 function options(back=battle?'pause':'menu'){
   optionsBack=back;
@@ -1191,7 +1300,9 @@ function confirmBefore(kind){
 }
 function resume(){if(!battle)return;battle.state='playing';setScreen('battle');last=performance.now();accumulator=0;}
 function start(index){if(index>=save.unlocked)return;
+  gameSpeed=1;
   battle=new Battle(index,audio,{toast:showToast,changed:()=>updateHUD(),end:finish,enemySeen:type=>{if(!save.seenEnemies.includes(type)){save.seenEnemies.push(type);persistSave(save);}}});
+  battle.effectsEnabled=motionEnabled();
   audio.resume();renderCards();setScreen('battle');$('level-label').textContent=`Fase ${battle.level.id}`;$('phase-name').textContent=battle.level.title;
   last=performance.now();accumulator=0;hudUpdate=0;updateHUD();
 }
@@ -1204,7 +1315,9 @@ function finish(result,stars){if(!battle)return;
 function renderCards(){if(!battle)return;const el=$('toy-cards');el.innerHTML=battle.level.toys.map((id,i)=>{const d=TOYS[id];return `<button class="toy-card ${battle.selected===id?'selected':''}" data-toy="${id}" title="${d.name}: ${d.description}" aria-label="${d.name}, custa ${d.cost} Brilhos"><span class="toy-card-icon"><canvas class="toy-card-art" data-icon="${id}" width="96" height="72" aria-hidden="true"></canvas></span><span class="toy-card-name">${d.short}</span><span class="cost">✦ ${d.cost}</span><span class="cooldown hidden"></span></button>`;}).join('');el.querySelectorAll('.toy-card-art').forEach(art=>{const ctx=art.getContext('2d');if(!ctx)return;ctx.clearRect(0,0,art.width,art.height);ctx.save();ctx.translate(art.width/2,art.height*.73);drawIconCanvas(ctx,art.dataset.icon,0,0,.66,0);ctx.restore();});}
 function updateHUD(){if(!battle)return;$('glow-count').textContent=Math.floor(battle.glow);
   $('wave-progress').style.width=`${Math.round(battle.progress*100)}%`;
-  $('waves-text').textContent=battle.wavesLeft?`${battle.wavesLeft} ondas pela frente`:'Últimos monstros!';
+  const nextWave=battle.level.waves[battle.waveIndex];
+  $('waves-text').textContent=nextWave?`Próxima em ${Math.max(0,Math.ceil(nextWave.at-battle.time))}s · ${battle.wavesLeft} ondas`:'Últimos monstros!';
+  const speedButton=$('speed-btn');speedButton.setAttribute('aria-pressed',String(gameSpeed===2));speedButton.setAttribute('aria-label',`Velocidade ${gameSpeed} vezes`);speedButton.title=`Velocidade da partida: ${gameSpeed}×`;$('speed-label').textContent=`${gameSpeed}×`;
   document.querySelectorAll('[data-toy]').forEach(btn=>{const id=btn.dataset.toy;btn.classList.toggle('selected',battle.selected===id&&!battle.shovel);btn.classList.toggle('afford-no',battle.glow<TOYS[id].cost);const cd=battle.toyCooldowns[id];const layer=btn.querySelector('.cooldown');layer.classList.toggle('hidden',cd<=.01);if(cd>.01)layer.textContent=Math.ceil(cd)+'s';});
   $('shovel-btn').classList.toggle('selected',battle.shovel);
 }
@@ -1224,6 +1337,7 @@ function handleAction(action,target){
   else if(action==='cancel-confirm')pause();
   else if(action==='accept-confirm'){const kind=pendingConfirm;pendingConfirm=null;if(kind==='restart'&&battle)start(battle.levelIndex);else if(kind==='menu')menu();}
   else if(action==='shovel'&&battle){battle.selectShovel();updateHUD();}
+  else if(action==='speed'&&battle&&screen==='battle'){gameSpeed=gameSpeed===1?2:1;accumulator=0;updateHUD();showToast(`Velocidade ${gameSpeed}×`,1.2);}
   else if(action==='fullscreen'){
     const frame=$('game-frame');
     if(document.fullscreenElement){document.exitFullscreen?.().catch(()=>{});}
@@ -1233,7 +1347,7 @@ function handleAction(action,target){
     else showToast('Tela cheia indisponível neste navegador',2.3);
   }
   else if(action==='toggle'){
-    const id=target.dataset.setting;save.settings[id]=!save.settings[id];audio.music=save.settings.music;audio.sfx=save.settings.sfx;persistSave(save);options(optionsBack);
+    const id=target.dataset.setting;if(!['music','sfx','motion'].includes(id))return;save.settings[id]=!save.settings[id];audio.music=save.settings.music;audio.sfx=save.settings.sfx;if(battle){battle.effectsEnabled=motionEnabled();if(!battle.effectsEnabled){battle.particles.length=0;battle.impacts.length=0;}}persistSave(save);options(optionsBack);
   }
 }
 document.addEventListener('click',event=>{
@@ -1246,7 +1360,7 @@ canvas.addEventListener('pointerdown',event=>{
   battle.click(x,y);updateHUD();
 });
 canvas.addEventListener('pointermove',event=>{
-  if(!battle)return;
+  if(!battle||screen!=='battle')return;
   const r=canvas.getBoundingClientRect(),x=(event.clientX-r.left)*W/r.width,y=(event.clientY-r.top)*H/r.height;
   const cell=rectCell(x,y);battle.hover=(cell.col>=0&&cell.col<BOARD.cols&&cell.row>=0&&cell.row<BOARD.rows)?cell:null;
 });
@@ -1258,14 +1372,14 @@ document.addEventListener('keydown',event=>{
 document.addEventListener('visibilitychange',()=>{if(document.hidden&&screen==='battle')pause();});
 function loop(now){let delta=last?Math.min((now-last)/1000,.16):0;last=now;
   if(battle&&screen==='battle'&&battle.state==='playing'){
-    accumulator+=delta;let steps=0;
-    while(accumulator>=STEP&&steps++<5&&battle.state==='playing'){
+    accumulator+=delta*gameSpeed;let steps=0;const stepLimit=5*gameSpeed;
+    while(accumulator>=STEP&&steps++<stepLimit&&battle.state==='playing'){
       battle.update(STEP);audio.tick(STEP);accumulator-=STEP;
     }
-    if(steps>=5)accumulator=0;
+    if(steps>=stepLimit)accumulator=0;
     hudUpdate+=delta;if(hudUpdate>=.12){hudUpdate=0;updateHUD();}
   }else accumulator=0;
-  render(context,battle,screen!=='battle'&&!battle,save.settings.motion);
+  render(context,battle,screen!=='battle'&&!battle,motionEnabled());
   requestAnimationFrame(loop);
 }
 menu();requestAnimationFrame(loop);

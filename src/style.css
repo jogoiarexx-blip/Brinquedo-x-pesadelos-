@@ -72,3 +72,9 @@
 @media(max-width:640px){.catalog{grid-template-columns:1fr;gap:8px}.catalog-entry{min-height:82px;padding:7px 9px}.catalog-art{width:66px;height:66px}}
 @media(prefers-reduced-motion:no-preference){.catalog-art{animation:codexFloat 3.4s ease-in-out infinite}.catalog-entry:nth-child(3n) .catalog-art{animation-delay:-1.1s}.catalog-entry:nth-child(3n+1) .catalog-art{animation-delay:-2.1s}}
 @keyframes codexFloat{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-3px) rotate(2deg)}}
+
+/* v1.1: velocidade 1×/2× */
+.speed-btn{width:7.2%;flex:0 0 7.2%;font-size:clamp(17px,2.1vw,30px)}
+.speed-btn[aria-pressed="true"]{background:linear-gradient(#a7deba,#5caa97);border-color:#e8f6ba;color:#173b3d}
+.speed-btn small{font-size:.44em}
+@media(max-width:900px){.speed-btn{font-size:clamp(12px,2.4vw,22px)}}
