@@ -1,5 +1,5 @@
-import { W,H,BOARD,BOARD_RIGHT,BOARD_BOTTOM,colX,rowY,clamp } from './config.js?v=1.2.1';
-import { TOYS, ENEMIES } from './data.js?v=1.2.1';
+import { W,H,BOARD,BOARD_RIGHT,BOARD_BOTTOM,colX,rowY,clamp } from './config.js?v=1.3.0';
+import { TOYS, ENEMIES } from './data.js?v=1.3.0';
 const TAU=Math.PI*2;
 const COLORS={ink:'#3b2749',cream:'#fff6da'};
 const BACKDROP_CACHE=new Map();
@@ -304,6 +304,18 @@ function drawToy(c,t,time,visualMotion=true){
     eye(c,-19,-6,5);eye(c,20,-6,5);ellipse(c,1,10,8,5,'#a45e78');
     if(t.armed){txt(c,'!',25,-48,22,'#fff3ae');star(c,-28,-41,7,3,'#ffe3a3');}
     else txt(c,'···',0,-49,20,'#fff9c1');c.restore();
+  }else if(t.type==='T12'){
+    // Casinha de madeira, pêndulo e cuco de pano.
+    const swing=visualMotion?Math.sin(time*3)*8:0;
+    line(c,[[0,5],[swing,27]],'#e7c77e',4);ellipse(c,swing,28,9,8,'#ffe4a0');
+    rr(c,-29,-53,58,62,9,'#b88770','#694e74',4);
+    line(c,[[-36,-47],[0,-77],[36,-47]],'#ebbd86',9);
+    ellipse(c,0,-23,23,24,'#fff1c1');ellipse(c,0,-23,18,19,'#eddfab');
+    line(c,[[0,-23],[0,-37]],'#6b6685',3);line(c,[[0,-23],[12,-17]],'#6b6685',3);
+    eye(c,-9,-23,4);eye(c,9,-23,4);rr(c,-10,-63,20,15,6,'#655272');
+    const peek=t.recoil>0?8:0;ellipse(c,peek,-59,8,7,'#9cd8cf');
+    line(c,[[peek+5,-59],[peek+13,-57],[peek+5,-55]],'#ffd77a',3);
+    if(t.recoil>0)txt(c,'CU-CO!',0,-88,13,'#fff0bd');
   }
   // Reações exclusivas por função: brilho, confete, música e magia de gelo.
   if(visualMotion){
@@ -327,11 +339,12 @@ function drawToy(c,t,time,visualMotion=true){
 function drawEnemy(c,e,time,visualMotion=true){
   c.save();c.translate(e.x,e.y+7);if(e.jumpTime>0)c.translate(0,-40*Math.sin(Math.PI*Math.min(1,e.jumpTime/.48)));const bob=Math.sin(e.age*8+e.id)*3;
   const bite=visualMotion?clamp((e.attack||0)/.28,0,1):0;c.translate(-10*bite,visualMotion?bob-3*Math.sin(e.age*11):0);c.rotate(-.055*bite+(visualMotion?.018*Math.sin(e.age*8+e.id):0));
+  if(ENEMIES[e.type].mini)c.scale(.6,.6);
   if(e.hit>0)c.globalAlpha=.68;
   const enemyShadow=c.createRadialGradient(0,27,2,0,27,40);enemyShadow.addColorStop(0,'rgba(24,25,49,.42)');enemyShadow.addColorStop(1,'rgba(24,25,49,0)');ellipse(c,0,27,40,11,enemyShadow);
   if(visualMotion){const gait=Math.sin(e.age*13+e.id),arm=e.attack>0?1:0;c.save();c.lineCap='round';line(c,[[-25,-5],[-35,2+gait*7-arm*8]],e.type==='E02'?'#bd718e':'#89759f',7);line(c,[[25,-5],[35,2-gait*7-arm*8]],e.type==='E02'?'#bd718e':'#89759f',7);ellipse(c,-35,2+gait*7-arm*8,4,4,'#f1c5b5');ellipse(c,35,2-gait*7-arm*8,4,4,'#f1c5b5');c.restore();}
   if(e.defeated&&visualMotion){c.rotate(Math.sin(e.age*10)*.12);c.scale(1+.08*Math.sin(e.age*18),.82);}
-  if(e.type==='E01'){
+  if(e.type==='E01'||e.type==='E13'){
     // Poeira Andante: nuvem lilás engraçada, perninha fina.
     line(c,[[-17,3],[-18,23]],'#6f5b83',6);line(c,[[16,4],[16,22]],'#6f5b83',6);
     ellipse(c,-22,-13,22,27,'#9b8eba');ellipse(c,17,-14,29,32,'#9d90ba');
@@ -441,6 +454,26 @@ function drawEnemy(c,e,time,visualMotion=true){
     eye(c,-11,-43,6);eye(c,14,-43,6);ellipse(c,1,-22,12,5,'#5c466d');
     line(c,[[-26,-58],[-8,-68],[18,-57]],'#dbb6be',4);
     if(e.stealTimer>6)star(c,25,-60,9,3,'#ffdc7a');
+  }else if(e.type==='E12'){
+    c.beginPath();c.moveTo(-34,19);c.quadraticCurveTo(-34,-62,0,-65);c.quadraticCurveTo(35,-62,35,19);
+    for(let x=35;x>-30;x-=13)c.quadraticCurveTo(x-6,4,x-13,19);
+    c.closePath();c.fillStyle='#e5e7ec';c.fill();c.strokeStyle='#7d80a6';c.lineWidth=4;c.stroke();
+    line(c,[[-26,-6],[-5,-18],[27,-5]],'#b2b5d0',5);line(c,[[-24,4],[0,-6],[26,5]],'#c3c7de',4);
+    eye(c,-11,-35,7);eye(c,12,-35,7);ellipse(c,0,-17,7,9,'#827a9f');
+    line(c,[[25,-24],[43,-35],[38,-12],[25,-24]],'#a3c7d8',5);
+  }else if(e.type==='E14'){
+    ellipse(c,-27,24,17,12,'#76657e');ellipse(c,27,24,17,12,'#76657e');
+    ellipse(c,-32,-5,24,32,'#a58f9b');ellipse(c,30,-6,27,33,'#ac97a4');
+    ellipse(c,0,-28,49,51,'#cdb7b7');ellipse(c,-27,-50,25,25,'#dfcdc5');ellipse(c,25,-55,27,23,'#e6d6cd');
+    rr(c,-40,-3,80,24,10,'#a692b3','#786480',3);
+    for(const x of [-25,-9,8,25])ellipse(c,x,-6,13,18,'#eee4d1');
+    ellipse(c,-18,-40,13,12,'#f4e8c8');ellipse(c,17,-40,13,12,'#f4e8c8');
+    eye(c,-18,-40,6);eye(c,17,-40,6);line(c,[[-6,-40],[5,-40]],'#78667e',3);
+    c.strokeStyle='#78667e';c.lineWidth=3;c.beginPath();c.arc(-18,-40,13,0,TAU);c.stroke();c.beginPath();c.arc(17,-40,13,0,TAU);c.stroke();
+    ellipse(c,0,-25,13,9,'#d99fa4');ellipse(c,-10,-13,17,10,'#fff0d7');ellipse(c,11,-13,17,10,'#fff0d7');
+    c.save();c.translate(-45,0);c.rotate(-.2);rr(c,-18,-23,34,35,4,'#a4d4d7','#648a9e',3);line(c,[[-12,-15],[11,3]],'#e2f4e9',3);c.restore();
+    if(e.bossPhase==='warning'){txt(c,'!',0,-107,29,'#ffe2a1');ellipse(c,0,-18,8,9,'#806478');}
+    if(e.bossPhase==='rest')txt(c,'uff...',0,-96,14,'#fff0cd');
   }
   drawEnemyFaceFX(c,e,time,visualMotion);
   if(e.stunTime>0){
@@ -456,7 +489,7 @@ function drawEnemy(c,e,time,visualMotion=true){
   c.restore();
 }
 function drawEnemyFaceFX(c,e,time,visualMotion=true){
-  const faces={E01:[-11,-30,15,-28,-12],E02:[-9,-38,9,-38,-25],E03:[-9,-28,15,-28,-11],E04:[-10,-25,14,-25,-9],E05:[-14,-38,14,-38,-18],E06:[-13,-41,13,-41,-20],E07:[-12,-31,12,-31,-12],E08:[-10,-34,11,-34,-15],E09:[-12,-23,12,-23,-12],E10:[-13,-44,14,-44,-21],E11:[-11,-43,14,-43,-22]};
+  const faces={E01:[-11,-30,15,-28,-12],E02:[-9,-38,9,-38,-25],E03:[-9,-28,15,-28,-11],E04:[-10,-25,14,-25,-9],E05:[-14,-38,14,-38,-18],E06:[-13,-41,13,-41,-20],E07:[-12,-31,12,-31,-12],E08:[-10,-34,11,-34,-15],E09:[-12,-23,12,-23,-12],E10:[-13,-44,14,-44,-21],E11:[-11,-43,14,-43,-22],E12:[-11,-35,12,-35,-17],E13:[-11,-30,15,-28,-12],E14:[-18,-40,17,-40,-13]};
   const [lx,ly,rx,ry,my]=faces[e.type]||[-11,-30,11,-30,-12],blink=visualMotion&&Math.sin(e.age*2.4+(e.id||0)*2.1)>.985,look=e.attack>0?3:visualMotion?Math.sin(e.age*1.7)*1.5:0;
   c.save();c.lineCap='round';if(!blink){ellipse(c,lx+look,ly+1,1.8,2.5,'#493b60');ellipse(c,rx+look,ry+1,1.8,2.5,'#493b60');}
   const angry=!!e.enraged||e.attack>0,hurt=e.hit>0;line(c,[[lx-5,ly-9],[lx,ly-(angry?12:8)],[lx+5,ly-8]],hurt?'#fff6e7':angry?'#68465f':'#8b718c',2.4);line(c,[[rx-5,ry-8],[rx,ry-(angry?12:8)],[rx+5,ry-9]],hurt?'#fff6e7':angry?'#68465f':'#8b718c',2.4);
@@ -540,9 +573,18 @@ function drawBossHealth(c,game){
   if(!boss)return;
   const ratio=clamp(boss.hp/boss.maxHp,0,1);
   rr(c,415,646,453,42,16,'#382946ea','#ffda9a',3);
-  txt(c,boss.type==='E10'?'☾ Dama da Insônia':'👑 Rei das Meias',425,658,15,'#ffdeab','left');
+  txt(c,ENEMIES[boss.type].bossLabel||ENEMIES[boss.type].name,425,658,15,'#ffdeab','left');
   rr(c,618,652,229,19,9,'#241a32','#b88da9',2);
   rr(c,622,655,221*ratio,13,6,ratio>.35?'#f795af':'#ffe18d');
+}
+function drawBossIntent(c,boss){
+  if(!ENEMIES[boss.type].dustBoss)return;
+  if(boss.bossPhase==='warning'){
+    const lanes=(boss.nextAttack==='dust'?[boss.row-1,boss.row+1]:[boss.row]).filter(row=>row>=0&&row<BOARD.rows);
+    for(const row of lanes){rr(c,BOARD.x+3,BOARD.y+row*BOARD.ch+4,BOARD.cols*BOARD.cw-6,BOARD.ch-8,10,'#ffe0a02b','#ffe5b0',3);txt(c,'!',BOARD.x+18,rowY(row),24,'#fff1cb');}
+    const label=boss.nextAttack==='dust'?`MINI-POEIRAS • FAIXAS ${lanes.map(row=>row+1).join(' / ')}`:`RAJADA • FAIXA ${boss.row+1}`;
+    txt(c,label,640,628,16,'#ffe7b7');
+  }else if(boss.bossPhase==='rest')txt(c,'VOVÔ DESCANSANDO • ATAQUE!',640,628,15,'#d3f4c6');
 }
 function drawPlacementPreview(c,game,time){
   const cell=game.hover;if(!cell||game.state!=='playing')return;
@@ -555,8 +597,8 @@ function drawPlacementPreview(c,game,time){
     if(['shooter','slow','splash','pierce','sleep','starburst','ricochet'].includes(kind)){
       const start=x+21;c.globalAlpha=.12;c.fillStyle=toy.color||'#fff2ad';
       c.fillRect(start,BOARD.y+row*BOARD.ch+12,BOARD_RIGHT-start,BOARD.ch-24);
-    }else if(kind==='music'||kind==='trap'){
-      const reach=kind==='music'?BOARD.cw*6:toy.splashRadius;
+    }else if(kind==='music'||kind==='trap'||kind==='clock'){
+      const reach=kind==='music'?BOARD.cw*6:kind==='clock'?BOARD.cw*toy.rangeCells:toy.splashRadius;
       const left=Math.max(BOARD.x,x-reach),right=Math.min(BOARD_RIGHT,x+reach);
       c.globalAlpha=.105;c.fillStyle=toy.color||'#fff2ad';
       for(let lane=Math.max(0,row-1);lane<=Math.min(BOARD.rows-1,row+1);lane++)
@@ -594,6 +636,7 @@ export function render(c,game,menu=false,visualMotion=true){
     }
     // Fantasma do brinquedo e indicação da sua área de ação.
     drawPlacementPreview(c,game,t);
+    for(const enemy of game.enemies)drawBossIntent(c,enemy);
     const toys=game.allToys;
     for(const toy of toys)drawToy(c,toy,t,visualMotion);
     if(visualMotion)for(const toy of toys){

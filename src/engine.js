@@ -1,6 +1,6 @@
-import { BOARD, BOARD_RIGHT, BOARD_BOTTOM, colX, rowY, rectCell, clamp } from './config.js?v=1.2.1';
-import { LEVELS, TOYS, ENEMIES } from './data.js?v=1.2.1';
-import { upgradedToy } from './upgrades.js?v=1.2.1';
+import { BOARD, BOARD_RIGHT, BOARD_BOTTOM, colX, rowY, rectCell, clamp } from './config.js?v=1.3.0';
+import { LEVELS, TOYS, ENEMIES } from './data.js?v=1.3.0';
+import { upgradedToy } from './upgrades.js?v=1.3.0';
 
 export class Battle {
   constructor(index=0, audio=null, events={}, upgrades={}) {
@@ -48,7 +48,7 @@ export class Battle {
     if(error){this.audio.play('no');this.startToast(error,1.3);return false;}
     const data=this.toyStats[id];
     const toy={id:this.id++,type:id,row,col,x:colX(col),y:rowY(row),hp:data.maxHp,maxHp:data.maxHp,
-      rank:data.rank,timer:data.kind==='producer'?7.5:data.kind==='music'?3.2:.33+this.rand()*.6,hit:0,age:0,recoil:0,webTime:0,armed:false};
+      rank:data.rank,timer:data.kind==='producer'?7.5:data.kind==='music'?3.2:data.kind==='clock'?3:.33+this.rand()*.6,hit:0,age:0,recoil:0,webTime:0,armed:false};
     this.grid[row][col]=toy;this.glow-=data.cost;this.toyCooldowns[id]=data.cooldown;this.toysPlaced++;
     this.audio.play('place');this.puff(toy.x,toy.y,'#ffe2a1',9);this.addFeedback(toy.x,toy.y-68,'+ Defesa','#fff1bd');this.events.changed?.();
     return true;
@@ -76,7 +76,8 @@ export class Battle {
   spawnEnemy(type,lane,offset=0){
     const d=ENEMIES[type];if(!d)return;
     this.enemies.push({id:this.id++,type,row:lane,x:BOARD_RIGHT+65+offset,y:rowY(lane),hp:d.hp,maxHp:d.hp,shield:d.shield||0,maxShield:d.shield||0,summons:0,webTimer:4.8,enraged:false,jumped:false,jumpTime:0,stunTime:0,attackTimer:.45,hit:0,age:0,slowTime:0,slowFactor:1,attack:0,stealTimer:1.4});
-    if(d.boss)this.flashBanner(type==='E10'?'☾  A DAMA DA INSÔNIA DESPERTOU!':'👑  O REI DAS MEIAS CHEGOU!',3.4);
+    if(d.dustBoss)Object.assign(this.enemies.at(-1),{bossPhase:'march',phaseTimer:6,nextAttack:'gust',attackCount:0});
+    if(d.boss)this.flashBanner(d.bossIntro,3.4);
     this.totalSpawns++;
     this.events.enemySeen?.(type);
   }
@@ -97,6 +98,34 @@ export class Battle {
     if(this.impacts.length>28)this.impacts.splice(0,this.impacts.length-28);
   }
   flashBanner(text,duration=2.8){this.banner=text;this.bannerUntil=this.time+duration;}
+  updateDustBoss(enemy,dt){
+    // O aviso e o descanso são estados de combate, inclusive sem partículas.
+    if(enemy.x>BOARD_RIGHT+10)return false;
+    enemy.phaseTimer-=dt;
+    if(enemy.bossPhase==='march'){
+      if(enemy.phaseTimer>0)return false;
+      enemy.bossPhase='warning';enemy.phaseTimer=1.2;
+      this.flashBanner(enemy.nextAttack==='gust'?`VOVÔ VAI ESPIRRAR • FAIXA ${enemy.row+1}!`:'VOVÔ VAI CHAMAR MINI-POEIRAS!',1.2);
+      this.audio.play('sneeze-warn');return true;
+    }
+    if(enemy.bossPhase==='warning'&&enemy.phaseTimer<=0){
+      if(enemy.nextAttack==='gust'){
+        for(const p of this.projectiles)if(p.row===enemy.row&&p.x<enemy.x&&p.x>enemy.x-BOARD.cw*5&&['shooter','slow','sleep'].includes(p.kind))p.x=Math.max(BOARD.x-20,p.x-120);
+        this.addImpact(enemy.x-80,enemy.y-20,'gust');enemy.nextAttack='dust';
+      }else{
+        let minis=this.enemies.filter(e=>e.type==='E13').length;
+        for(const lane of [enemy.row-1,enemy.row+1])if(lane>=0&&lane<BOARD.rows&&minis<6){
+          this.spawnEnemy('E13',lane);this.enemies.at(-1).x=Math.max(colX(5),Math.min(BOARD_RIGHT+45,enemy.x+60));minis++;
+        }
+        enemy.nextAttack='gust';
+      }
+      enemy.attackCount++;enemy.bossPhase='rest';enemy.phaseTimer=4;
+      this.flashBanner('ATCHIM! VOVÔ DESCANSA • CONTRA-ATAQUE!',2.4);this.audio.play('sneeze');
+      this.puff(enemy.x-15,enemy.y-25,'#eee0c2',16);return true;
+    }
+    if(enemy.bossPhase==='rest'&&enemy.phaseTimer<=0){enemy.bossPhase='march';enemy.phaseTimer=14;}
+    return enemy.bossPhase!=='march';
+  }
   get progress(){return clamp(this.time/this.level.duration,0,1);}
   get wavesLeft(){return this.level.waves.length-this.waveIndex;}
   get trainsLeft(){return this.trainReady.filter(Boolean).length;}
@@ -121,7 +150,7 @@ export class Battle {
     }
     while(this.waveIndex<this.level.waves.length && this.time>=this.level.waves[this.waveIndex].at){
       const w=this.level.waves[this.waveIndex++];w.enemies.forEach((e,i)=>this.spawnEnemy(e.type,e.lane,i*38));
-      if(w.flag)this.flashBanner('⚑  A GRANDE ONDA CHEGOU!',2.7);
+      if(w.flag&&!w.enemies.some(e=>ENEMIES[e.type]?.boss))this.flashBanner('⚑  A GRANDE ONDA CHEGOU!',2.7);
     }
     if(this.time>=this.nextDrop){
       const x=BOARD.x+48+this.rand()*(BOARD.cols*BOARD.cw-96),y=BOARD.y+36+this.rand()*(BOARD.rows*BOARD.ch-72);
@@ -157,13 +186,25 @@ export class Battle {
       }
       if(d.kind==='music'&&toy.timer<=0){
         toy.timer+=d.interval;toy.recoil=.4;let affected=0;
-        for(const enemy of this.enemies){
+        for(const enemy of [...this.enemies]){
           if(Math.abs(enemy.row-toy.row)<=1 && enemy.hp>0 && Math.abs(enemy.x-toy.x)<BOARD.cw*6){
             enemy.stunTime=Math.max(enemy.stunTime,d.stunDuration*(ENEMIES[enemy.type].stunResistance??1));affected++;
             this.addImpact(enemy.x,enemy.y-30,'sleep');
+            const sonicDamage=ENEMIES[enemy.type].sonicWeakness||0;
+            if(sonicDamage){enemy.hp-=sonicDamage;enemy.hit=.16;if(enemy.hp<=0)this.killEnemy(enemy);}
           }
         }
         if(affected){this.puff(toy.x,toy.y-25,'#c1eec4',8);this.audio.play('sleep');}
+      }
+      if(d.kind==='clock'&&toy.timer<=0){
+        toy.timer+=d.interval;toy.recoil=.4;let affected=0;
+        for(const enemy of this.enemies)if(enemy.hp>0&&Math.abs(enemy.row-toy.row)<=1&&Math.abs(enemy.x-toy.x)<=BOARD.cw*d.rangeCells){
+          const resist=ENEMIES[enemy.type].slowResistance??1;
+          enemy.slowFactor=Math.min(enemy.slowFactor,1-(1-d.slowFactor)*resist);
+          enemy.slowTime=Math.max(enemy.slowTime,d.slowDuration*resist);affected++;
+          this.addImpact(enemy.x,enemy.y-25,'slow');
+        }
+        if(affected){this.audio.play('cuckoo');this.puff(toy.x,toy.y-36,'#ffe3a1',7);}
       }
       if(['shooter','slow','splash','pierce','sleep','starburst','ricochet'].includes(d.kind)&&toy.timer<=0){
         const target=this.enemies.filter(e=>e.row===toy.row&&e.hp>0&&e.x>toy.x+18&&e.x<BOARD_RIGHT+118).sort((a,b)=>a.x-b.x)[0];
@@ -235,6 +276,7 @@ export class Battle {
         }
       }
       const wasAsleep=e.stunTime>0;e.stunTime=Math.max(0,(e.stunTime||0)-dt);if(wasAsleep)continue;
+      if(d.dustBoss&&this.updateDustBoss(e,dt))continue;
       if(d.jump&&!e.jumped){
         const hurdle=this.grid[e.row].filter(t=>t&&e.x>t.x+39&&e.x<t.x+87).sort((a,b)=>b.x-a.x)[0];
         if(hurdle){e.x=hurdle.x-53;e.jumped=true;e.jumpTime=.48;this.addImpact(e.x,e.y-20,'jump');this.audio.play('jump');}
@@ -272,6 +314,6 @@ export class Battle {
   }
   killEnemy(enemy){
     const idx=this.enemies.indexOf(enemy);if(idx<0)return;
-    this.enemies.splice(idx,1);this.killCount++;this.defeated.push({type:enemy.type,x:enemy.x,y:enemy.y,age:0,life:.62});if(this.defeated.length>18)this.defeated.shift();this.puff(enemy.x,enemy.y-13,'#c4a7db',ENEMIES[enemy.type].boss?32:11);if(ENEMIES[enemy.type].boss)this.flashBanner(enemy.type==='E10'?'A DAMA DA INSÔNIA FOI DERROTADA!':'O REI DAS MEIAS FOI DERROTADO!',3);this.audio.play('enemy');
+    this.enemies.splice(idx,1);this.killCount++;this.defeated.push({type:enemy.type,x:enemy.x,y:enemy.y,age:0,life:.62});if(this.defeated.length>18)this.defeated.shift();this.puff(enemy.x,enemy.y-13,'#c4a7db',ENEMIES[enemy.type].boss?32:11);if(ENEMIES[enemy.type].boss)this.flashBanner(ENEMIES[enemy.type].bossDefeat,3);this.audio.play('enemy');
   }
 }

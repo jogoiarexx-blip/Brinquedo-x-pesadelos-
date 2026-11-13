@@ -1,7 +1,7 @@
-import { LEVELS,TOYS,ENEMIES } from './data.js?v=1.2.1';
-import { SAVE_KEY } from './config.js?v=1.2.1';
-import { UPGRADE_COSTS,upgradeRank,upgradeSpent } from './upgrades.js?v=1.2.1';
-const defaults = () => ({ version:1, unlocked:1, stars:{}, upgrades:{}, seenEnemies:[], settings:{ music:true, sfx:true, motion:true } });
+import { LEVELS,TOYS,ENEMIES } from './data.js?v=1.3.0';
+import { SAVE_KEY } from './config.js?v=1.3.0';
+import { UPGRADE_COSTS,upgradeRank,upgradeSpent } from './upgrades.js?v=1.3.0';
+const defaults = () => ({ version:1, campaignSize:LEVELS.length, unlocked:1, stars:{}, upgrades:{}, seenEnemies:[], settings:{ music:true, sfx:true, motion:true } });
 const starScore=value=>['number','string'].includes(typeof value)&&Number.isFinite(Number(value))?Math.max(0,Math.min(3,Math.floor(Number(value)))):0;
 export function unlockedToys(save) {
   return new Set(LEVELS.slice(0,save.unlocked).flatMap(level=>level.toys));
@@ -17,6 +17,9 @@ function normalizeSave(raw) {
   const unlocked=Number(raw.unlocked);
   save.unlocked=Number.isFinite(unlocked)?Math.max(1,Math.min(LEVELS.length,Math.floor(unlocked))):1;
   for(const level of LEVELS){const score=starScore(raw.stars?.[level.id]);if(score)save.stars[level.id]=score;}
+  // Saves até v1.2 não tinham campaignSize; a campanha terminava na 3-4.
+  const previousCap=Number.isInteger(raw.campaignSize)?raw.campaignSize:20;
+  if(previousCap>0&&previousCap<LEVELS.length&&save.unlocked===previousCap&&save.stars[LEVELS[previousCap-1].id])save.unlocked++;
   save.seenEnemies=Array.isArray(raw.seenEnemies)?[...new Set(raw.seenEnemies.filter(id=>Object.hasOwn(ENEMIES,id)))]:[];
   for(const key of Object.keys(save.settings))if(typeof raw.settings?.[key]==='boolean')save.settings[key]=raw.settings[key];
   let budget=starWallet(save).earned;

@@ -1,3 +1,12 @@
+# 1.3.0 — 13/11/2026
+
+- Capítulo 3 completo: quatro fases novas e chefe Vovô Poeirão, totalizando 24 fases.
+- Relógio Cuco, Fantasma Enrolado e Poeirinhas Espirradas, com arte e retratos SVG.
+- Ataques sinalizados, descanso do chefe, dano sonoro e controle em área.
+- Migração do antigo final de campanha, Oficina para Cuco e nova capacidade de 72 estrelas.
+- Corrigido anúncio de chefe e HUD vazio no mapa; versão/cache/standalone atualizados.
+- 77 testes aprovados, incluindo simulações das 24 fases sem upgrades.
+
 # 1.2.1 — 13/11/2026
 
 - Corrigida atualização a partir de PWA antigo: CSS e todos os módulos recebem versão na URL.

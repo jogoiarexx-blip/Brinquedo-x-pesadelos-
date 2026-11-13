@@ -9,6 +9,9 @@ export class AudioService {
   play(type) {
     if (!this.sfx)return;
     switch(type){
+      case 'cuckoo':this.tone(690,.15,'triangle',.025);this.tone(540,.18,'triangle',.025,.17);break;
+      case 'sneeze-warn':this.tone(180,.23,'sine',.03);this.tone(240,.2,'sine',.035,.28);break;
+      case 'sneeze':this.tone(120,.22,'sawtooth',.025);this.tone(210,.18,'triangle',.035,.12);break;
       case 'door':this.tone(205,.23,'triangle',.06);this.tone(175,.26,'sine',.04,.1);break;
       case 'steal':this.tone(650,.09,'triangle',.036);this.tone(340,.17,'sine',.045,.09);break;
       case 'click':this.tone(560,.065,'sine',.029);break;

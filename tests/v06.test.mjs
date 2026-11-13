@@ -7,8 +7,8 @@ import {loadSave,recordVictory} from '../src/save.js';
 const quiet={play(){}};
 
 test('v0.6: fases 3-1 a 3-4, ondas e até seis cartas válidas',()=>{
- assert.equal(LEVELS.length,20);
- assert.deepEqual(LEVELS.slice(16).map(l=>l.id),['3-1','3-2','3-3','3-4']);
+ assert.ok(LEVELS.length>=20);
+ assert.deepEqual(LEVELS.slice(16,20).map(l=>l.id),['3-1','3-2','3-3','3-4']);
  for(const l of LEVELS){assert.ok(l.toys.length<=6);for(const w of l.waves){
   assert.ok(w.enemies.every(e=>ENEMIES[e.type]&&e.lane>=0&&e.lane<5));
   if(w.doorLane!==undefined)assert.ok(w.enemies.some(e=>e.lane===w.doorLane));

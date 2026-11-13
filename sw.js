@@ -1,6 +1,6 @@
-const CACHE='brinquedos-vs-pesadelos-v1.2.1';
-const ASSETS=['./','./index.html','./manifest.webmanifest','./assets/icon.svg','./assets/icon-192.png','./assets/icon-512.png','./assets/codex-atlas.svg',
-  './src/main.js?v=1.2.1','./src/style.css?v=1.2.1','./src/config.js?v=1.2.1','./src/data.js?v=1.2.1','./src/upgrades.js?v=1.2.1','./src/save.js?v=1.2.1','./src/audio.js?v=1.2.1','./src/engine.js?v=1.2.1','./src/render.js?v=1.2.1'];
+const CACHE='brinquedos-vs-pesadelos-v1.3.0';
+const ASSETS=['./','./index.html','./manifest.webmanifest','./assets/icon.svg','./assets/icon-192.png','./assets/icon-512.png','./assets/codex-atlas.svg?v=1.3.0',
+  './src/main.js?v=1.3.0','./src/style.css?v=1.3.0','./src/config.js?v=1.3.0','./src/data.js?v=1.3.0','./src/upgrades.js?v=1.3.0','./src/save.js?v=1.3.0','./src/audio.js?v=1.3.0','./src/engine.js?v=1.3.0','./src/render.js?v=1.3.0'];
 self.addEventListener('install',e=>e.waitUntil(caches.open(CACHE).then(c=>c.addAll(ASSETS.map(path=>new Request(path,{cache:'reload'})))).then(()=>self.skipWaiting())));
 self.addEventListener('activate',e=>e.waitUntil(Promise.all([
   caches.keys().then(keys=>Promise.all(keys.filter(k=>k.startsWith('brinquedos-vs-pesadelos-')&&k!==CACHE).map(k=>caches.delete(k)))),

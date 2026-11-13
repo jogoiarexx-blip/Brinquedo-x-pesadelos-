@@ -1,5 +1,7 @@
 # Análise do jogo e do GDD — 13/11/2026
 
+> Atualização posterior: a prioridade 1 foi implementada na v1.3.0. A campanha agora tem 24 fases e o terceiro chefe. Este diagnóstico abaixo registra a base anterior; veja [Capítulo 3 completo](CAPITULO_3_V1_3.md) para o estado atualizado.
+
 Base analisada: `ec460df` (ALFA 1.1.0). Entrega: ALFA 1.2.1, Oficina de estrelas e atualização de cache.
 
 ## Diagnóstico completo por área

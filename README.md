@@ -1,4 +1,16 @@
-# Brinquedos vs. Pesadelos — ALFA v1.2.1
+# Brinquedos vs. Pesadelos — ALFA v1.3.0
+
+## Novidades da v1.3.0 — Corredor Rangente completo
+
+- **24 fases e três capítulos completos**: novas fases 3-5, 3-6, 3-7 e 3-8.
+- **Relógio Cuco** desacelera três faixas próximas; pode ser evoluído com estrelas na Oficina.
+- **Fantasma Enrolado**, **Poeirinhas Espirradas** e **Vovô Poeirão** com desenhos e retratos próprios.
+- Chefe alterna rajada contra tiros leves e invocação de mini-poeiras, com aviso e descanso para contra-atacar.
+- Quem terminou a antiga fase final 3-4 recebe acesso à 3-5, preservando estrelas e melhorias.
+- **77 testes aprovados**, incluindo as quatro novas fases vencidas sem upgrades e regressões das 20 anteriores.
+- Imports, atlas, cache PWA e HTML independente atualizados juntos.
+
+[Regras, validação e limites desta entrega](docs/CAPITULO_3_V1_3.md).
 
 ## Correção v1.2.1 — atualização confiável
 

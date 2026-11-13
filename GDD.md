@@ -1,5 +1,7 @@
 # BRINQUEDOS VS. PESADELOS
 
+> **Produção v1.3.0 — 13/11/2026:** Capítulo 3 concluído até 3-8, total de 24 fases, Relógio Cuco (T12), Fantasma Enrolado (E12), Poeirinha Espirrada (E13) e Vovô Poeirão (E14). IDs de produção prevalecem sobre tabelas preliminares. Ver [relatório da atualização](docs/CAPITULO_3_V1_3.md).
+
 > **Produção v1.2.0 — 13/11/2026:** por solicitação do proprietário, a campanha passa a oferecer melhorias permanentes opcionais com estrelas. Esta decisão atual substitui a restrição original do §10. A campanha continua vencível sem melhorias, sem grind obrigatório. Ver regras e análise completa em [docs/ANALISE_E_MELHORIAS.md](docs/ANALISE_E_MELHORIAS.md).
 ## Game Design Document (GDD) — Versão 1.0
 

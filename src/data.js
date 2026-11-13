@@ -1,4 +1,4 @@
-// Capítulos 1 a 3 (3-1 a 3-4) — tabuleiro clássico 5×9 e novas mecânicas autorais.
+// Capítulos 1 a 3 completos (24 fases) — tabuleiro clássico 5×9 e novas mecânicas autorais.
 export const TOYS = Object.freeze({
   T02: { id:'T02', name:'Soldadinho Estalo', short:'Estalo', cost:100, cooldown:6, maxHp:120, kind:'shooter', interval:1.5, damage:20, color:'#f3694c', description:'Dispara bolinhas de papel na própria faixa.' },
   T01: { id:'T01', name:'Abajur Pirilampo', short:'Pirilampo', cost:50, cooldown:7, maxHp:100, kind:'producer', interval:22, color:'#f6bf4f', description:'Produz Brilhos. É o herói da economia!' },
@@ -10,6 +10,7 @@ export const TOYS = Object.freeze({
   T08: { id:'T08', name:'Móbile Musical', short:'Móbile', cost:175, cooldown:17, maxHp:110, kind:'music', interval:9.2, stunDuration:1.6, color:'#a9e3c2', description:'Toca uma canção e paralisa pesadelos das três faixas próximas por instantes.' },
   T10: { id:'T10', name:'Arco de Elástico', short:'Elástico', cost:150, cooldown:9, maxHp:110, kind:'ricochet', interval:2.5, damage:33, splashRatio:.58, splashRadius:132, color:'#b5e69e', description:'O elástico rebate em um segundo inimigo da mesma faixa.' },
   T11: { id:'T11', name:'Caixa Surpresa de Confetes', short:'Surpresa', cost:125, cooldown:23, maxHp:135, kind:'trap', damage:190, splashRadius:148, color:'#f7b6a3', description:'Explode quando os pesadelos se aproximam, afetando até três faixas.' },
+  T12: { id:'T12', name:'Relógio Cuco', short:'Cuco', cost:175, cooldown:20, maxHp:120, kind:'clock', interval:18, slowFactor:.65, slowDuration:5, rangeCells:3, color:'#e6ca91', description:'Seu cuco desacelera pesadelos em três faixas próximas por 5 segundos.' },
   T09: { id:'T09', name:'Estilingue de Estrelas', short:'Estrelas', cost:200, cooldown:15, maxHp:100, kind:'starburst', interval:3.3, damage:46, splashRatio:.5, splashRadius:115, color:'#f7d88c', description:'Dispara uma estrela que causa dano também aos inimigos das faixas vizinhas.' },
 });
 export const ENEMIES = Object.freeze({
@@ -17,13 +18,16 @@ export const ENEMIES = Object.freeze({
   E02: { id:'E02', name:'Meia Zanzante', hp:85, speed:.44, damage:20, interval:1.0, description:'Corre mais rápido, porém aguenta menos tiros.' },
   E03: { id:'E03', name:'Colcha Ambulante', hp:270, speed:.23, damage:30, interval:1.15, description:'Um cobertor de retalhos resistente. Precisa de vários disparos para cair.' },
   E04: { id:'E04', name:'Rabisco Corredor', hp:70, speed:.66, damage:18, interval:.9, description:'Um desenho que escapou do caderno. Corre depressa e é frágil.' },
-  E05: { id:'E05', name:'Rei das Meias', hp:850, speed:.16, damage:37, interval:.95, boss:true, slowResistance:.6, description:'O grandalhão do armário: leva uma multidão de meias para a batalha final.' },
+  E05: { id:'E05', name:'Rei das Meias', hp:850, speed:.16, damage:37, interval:.95, boss:true, bossIntro:'👑  O REI DAS MEIAS CHEGOU!', bossDefeat:'O REI DAS MEIAS FOI DERROTADO!', bossLabel:'👑 Rei das Meias', slowResistance:.6, description:'O grandalhão do armário: leva uma multidão de meias para a batalha final.' },
   E06: { id:'E06', name:'Pula-Pula da Cama', hp:125, speed:.40, damage:23, interval:1.1, jump:true, description:'Usa as molas dos sapatos para saltar uma defesa uma única vez.' },
   E07: { id:'E07', name:'Cabide Blindado', hp:165, shield:85, speed:.25, damage:26, interval:1.2, description:'Veste um cabide como escudo; primeiro é preciso quebrar sua proteção.' },
   E08: { id:'E08', name:'Aranha do Estrado', hp:135, speed:.37, damage:23, interval:1.0, web:true, description:'Lança teias nos brinquedos e reduz a cadência de seus disparos temporariamente.' },
   E09: { id:'E09', name:'Despertador Zangado', hp:180, speed:.28, damage:29, interval:1.15, enrage:true, description:'Quando perde metade da vida, dispara correndo pelo tabuleiro.' },
   E11: { id:'E11', name:'Ladrão de Brilhos', hp:140, speed:.36, damage:25, interval:1.13, thief:true, description:'Apanha Brilhos soltos do chão antes que os brinquedos consigam recolhê-los.' },
-  E10: { id:'E10', name:'Dama da Insônia', hp:1150, speed:.14, damage:38, interval:1, boss:true, slowResistance:.65, stunResistance:.5, summon:true, description:'Chefe que convoca sombras em duas fases da batalha, mantendo as cinco faixas perigosas.' },
+  E12: { id:'E12', name:'Fantasma Enrolado', hp:160, speed:.28, damage:23, interval:1.2, sonicWeakness:60, description:'Um lençol flutuante que desafina ao ouvir o Móbile: recebe 60 de dano sonoro por canção.' },
+  E13: { id:'E13', name:'Poeirinha Espirrada', hp:35, speed:.42, damage:12, interval:1.15, mini:true, description:'Sai dos espirros do Vovô. É frágil; confetes limpam grupos rapidamente.' },
+  E14: { id:'E14', name:'Vovô Poeirão', hp:1700, speed:.10, damage:34, interval:1.3, boss:true, dustBoss:true, slowResistance:.5, stunResistance:.3, bossIntro:'VOVÔ POEIRÃO TROUXE SEU LENÇO!', bossDefeat:'VOVÔ POEIRÃO FOI DERROTADO!', bossLabel:'Vovô Poeirão', description:'Alterna rajadas que recuam tiros leves e espirros com mini-poeiras. Avisa antes e descansa depois: use ataques pesados, música e Cuco.' },
+  E10: { id:'E10', name:'Dama da Insônia', hp:1150, speed:.14, damage:38, interval:1, boss:true, bossIntro:'☾  A DAMA DA INSÔNIA DESPERTOU!', bossDefeat:'A DAMA DA INSÔNIA FOI DERROTADA!', bossLabel:'☾ Dama da Insônia', slowResistance:.65, stunResistance:.5, summon:true, description:'Chefe que convoca sombras em duas fases da batalha, mantendo as cinco faixas perigosas.' },
 });
 // Fases autorais com horário em segundos, inimigos e faixas explicitamente balanceados.
 const wave = (at, foes, flag=false) => ({ at, enemies:foes.map(([type, lane])=>({ type, lane })), flag });
@@ -130,5 +134,26 @@ export const LEVELS = Object.freeze([
     hint:'A Caixa Surpresa demora um instante para armar e explode apenas uma vez. Use perto de grupos!',
     startingGlow:425, toys:['T01','T02','T03','T04','T10','T11'], reward:null, duration:222,
     waves:[wave(15,[['E11',2],['E01',2]]),doorWave(35,[['E07',4],['E02',4]],4),wave(57,[['E03',0],['E06',1]]),doorWave(79,[['E11',1],['E11',1],['E07',1]],1),wave(99,[['E09',2],['E03',3]]),doorWave(127,[['E03',0],['E07',0],['E11',0]],0),wave(153,[['E06',4],['E09',3],['E11',2]]),doorWave(180,[['E07',2],['E03',2],['E11',2]],2),doorWave(203,[['E11',0],['E03',1],['E09',2],['E03',3],['E11',4]],2,true)]
+  }
+  ,
+  { id:'3-5', chapter:3, title:'O lençol que flutua', subtitle:'O Móbile conhece a nota que os fantasmas detestam.',
+    hint:'O Fantasma Enrolado perde 60 de vida ao ouvir o Móbile. Combine música e tiros!',
+    startingGlow:425, toys:['T01','T02','T03','T04','T08','T10'], reward:'T12', duration:227,
+    waves:[wave(16,[['E12',2]]),doorWave(37,[['E12',0],['E01',0]],0),wave(60,[['E02',4],['E07',1]]),doorWave(83,[['E12',3],['E12',3]],3),wave(106,[['E11',0],['E03',2],['E12',4]]),doorWave(130,[['E07',1],['E12',1],['E02',3]],1),wave(157,[['E12',0],['E08',2],['E12',4]]),doorWave(182,[['E07',3],['E12',3],['E11',0]],3),doorWave(207,[['E12',0],['E07',1],['E12',2],['E07',3],['E12',4]],2,true)]
+  },
+  { id:'3-6', chapter:3, title:'O cuco perdeu a hora', subtitle:'O relógio segura a pressa dos pesadelos.',
+    hint:'O Cuco desacelera até três faixas próximas. Posicione perto do centro, atrás dos ursos!',
+    startingGlow:425, toys:['T01','T02','T03','T04','T10','T12'], reward:null, duration:238,
+    waves:[wave(17,[['E02',2]]),doorWave(39,[['E09',1],['E02',1]],1),wave(63,[['E12',0],['E12',4]]),doorWave(88,[['E07',3],['E09',3]],3),wave(113,[['E06',0],['E12',2],['E06',4]]),doorWave(138,[['E07',1],['E09',1],['E12',3]],1),wave(164,[['E09',0],['E07',2],['E09',4]]),doorWave(190,[['E12',3],['E07',3],['E11',0]],3),doorWave(218,[['E07',0],['E09',1],['E12',2],['E09',3],['E07',4]],2,true)]
+  },
+  { id:'3-7', chapter:3, title:'Três portas, nenhum sossego', subtitle:'Antecipe cada rangido e distribua a defesa.',
+    hint:'Fique de olho nas portas. Móbile, Cuco e Estilingue protegem faixas vizinhas!',
+    startingGlow:450, toys:['T01','T02','T04','T08','T09','T12'], reward:null, duration:252,
+    waves:[wave(16,[['E12',2]]),doorWave(38,[['E11',0],['E02',0]],0),doorWave(62,[['E07',4],['E09',4]],4),wave(87,[['E12',1],['E12',3]]),doorWave(113,[['E07',2],['E12',2],['E09',0]],2),wave(139,[['E08',0],['E11',2],['E08',4]]),doorWave(165,[['E09',1],['E07',1],['E12',3]],1),doorWave(190,[['E12',3],['E11',3],['E07',0]],3),wave(214,[['E09',0],['E12',2],['E09',4]]),doorWave(232,[['E12',0],['E07',1],['E12',2],['E07',3],['E12',4]],2,true)]
+  },
+  { id:'3-8', chapter:3, title:'O espirro do Vovô', subtitle:'Um lenço, dois espirros e muita poeira!',
+    hint:'Vovô avisa antes de agir. Confetes e Móbile escapam da rajada; aproveite os descansos!',
+    startingGlow:475, toys:['T01','T02','T03','T05','T08','T12'], reward:null, duration:285,
+    waves:[wave(17,[['E12',2]]),doorWave(40,[['E07',0],['E02',0]],0),wave(65,[['E12',1],['E12',3]]),doorWave(91,[['E09',4],['E12',4]],4),wave(117,[['E08',0],['E07',2],['E08',4]]),doorWave(143,[['E11',1],['E12',1],['E12',3]],1),wave(169,[['E07',0],['E09',2],['E07',4]]),doorWave(196,[['E12',3],['E07',3],['E11',0]],3),doorWave(225,[['E14',2],['E12',0],['E12',4]],2,true)]
   }
 ]);

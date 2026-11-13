@@ -11,7 +11,7 @@ try {
   await page.goto(`${base}?qa`);
   await page.locator('[data-action="workshop"]').click();
   await page.getByRole('heading',{name:'Oficina dos Brinquedos',exact:true}).waitFor();
-  assert.equal(await page.locator('[data-upgrade]').count(),11);
+  assert.equal(await page.locator('[data-upgrade]').count(),12);
   assert.equal(await page.locator('[data-upgrade="T02"]').isDisabled(),true);
   assert.equal(await page.locator('[data-upgrade="T01"]').isDisabled(),true);
   assert.match(await page.locator('[data-upgrade="T01"]').textContent(),/Bloqueado/);
