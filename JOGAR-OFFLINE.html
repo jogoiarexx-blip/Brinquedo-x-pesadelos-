@@ -7,6 +7,8 @@
   <meta name="description" content="Brinquedos vs. Pesadelos: defenda o quarto da Lia em um jogo de estratégia 2D!" />
   
   
+  
+  
   <style>
 :root{--ink:#322342;--egg:#fff4da;--gold:#ffe18b;--peach:#f6af97;--green:#90d4be;--pink:#e88ea5;--border:#775b78}*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:radial-gradient(circle at 50% 10%,#715b8b,#30223e 78%);color:#fff7e7;font-family:'Trebuchet MS',Verdana,sans-serif}body{display:flex;justify-content:center;align-items:center;min-height:100dvh;overflow:auto}.app{width:100%;padding:14px 12px;display:flex;flex-direction:column;align-items:center;gap:9px}.game-frame{width:min(100%,1420px);aspect-ratio:16/9;position:relative;overflow:hidden;border-radius:22px;border:6px solid #dcb89c;box-shadow:0 7px 0 #674661,0 24px 65px #1a102fa1,0 0 0 3px #543754;background:#524768;touch-action:manipulation;isolation:isolate}canvas{display:block;width:100%;height:100%;touch-action:manipulation}.outside-footer{font-size:12px;opacity:.68;text-align:center}.hidden{display:none!important}button{font-family:inherit;cursor:pointer;touch-action:manipulation;user-select:none}button:focus-visible,input:focus-visible{outline:4px solid #ffe68a;outline-offset:2px}.hud{position:absolute;inset:0;pointer-events:none}.topbar{height:18.6%;padding:1.1% 1.5%;display:flex;gap:.85%;align-items:stretch;pointer-events:none;background:linear-gradient(#261c3ddc 2%,#322449b5 73%,transparent);}.topbar>*{pointer-events:auto}.glow-pill{position:relative;width:12%;min-width:0;display:flex;flex-direction:column;align-items:center;justify-content:center;border-radius:18px;color:#fff3c8;background:linear-gradient(160deg,#503855,#3b2c4d);border:3px solid #e0b67c;box-shadow:inset 0 4px 0 #fff6ca19,0 5px 0 #36283b;font-size:clamp(17px,2.8vw,42px);font-weight:900;text-shadow:0 2px 0 #67465b;line-height:1}.glow-symbol{position:absolute;top:13%;left:13%;color:#ffcf63;filter:drop-shadow(0 2px 1px #624352);font-size:.76em}.glow-pill small{font-size:.31em;margin-top:7%;letter-spacing:.04em}.toy-cards{display:flex;gap:1.15%;flex:1;min-width:0}.toy-card{position:relative;min-width:0;width:20%;height:100%;background:linear-gradient(#fff1c5,#e6b89d);color:#3b3152;border:3px solid #755676;border-radius:13px;box-shadow:inset 0 4px 0 #fffdf18e,0 5px 0 #3e2a46;display:flex;flex-direction:column;align-items:center;justify-content:space-around;gap:1px;padding:1% 1.2%;font-size:clamp(10px,1.15vw,17px);font-weight:900;overflow:hidden;transition:transform .1s}.toy-card:hover:not(.loading){transform:translateY(-2px)}.toy-card.selected{border:4px solid #ffdf66;background:linear-gradient(#ffefb0,#ffc889);box-shadow:0 0 0 3px #5a4266,0 6px 0 #4e3748}.toy-card.loading{filter:saturate(.65)}.toy-card.afford-no .cost{color:#a43b60}.toy-card-icon{font-size:clamp(20px,3vw,42px);line-height:1.1;filter:drop-shadow(0 2px 1px #4b3b4b)}.toy-card-name{line-height:1;text-overflow:ellipsis;overflow:hidden;white-space:nowrap;max-width:100%}.toy-card .cost{border-radius:20px;font-size:.88em;background:#fff8d9;padding:1px 8px;line-height:1.15}.cooldown{position:absolute;inset:0;background:#30243b88;color:#fff6d3;display:grid;place-items:center;font-size:2em;text-shadow:0 2px 3px #39293e;pointer-events:none}.small-btn{width:8.4%;min-width:0;padding:0;border-radius:14px;color:#fff2cf;font-size:clamp(24px,2.7vw,39px);font-weight:900;border:3px solid #dbb694;background:linear-gradient(#745c82,#4d395f);box-shadow:0 5px 0 #30243f;display:flex;flex-direction:column;justify-content:center;align-items:center}.small-btn small{font-size:.33em;line-height:1.4}.shovel-btn.selected{background:linear-gradient(#f8d58f,#e7a977);color:#4b3753}.small-btn:hover{filter:brightness(1.1)}.level-row{position:absolute;top:18.6%;height:6.7%;left:16%;right:10%;pointer-events:none;display:flex;gap:3%;align-items:center;justify-content:space-between;font-size:clamp(9px,1.2vw,16px);text-shadow:0 2px 2px #3c2b47}.level-label{display:flex;gap:8px;align-items:baseline;white-space:nowrap}.level-label span:first-child{font-size:1.13em;font-weight:900;color:#fff2b4}.waves-area{width:41%;display:flex;align-items:center;gap:9px;justify-content:end;white-space:nowrap}.progress-track{border:2px solid #f4dca5;border-radius:20px;height:12px;background:#43354cc2;width:50%;overflow:hidden}.progress-fill{height:100%;width:0%;background:linear-gradient(90deg,#8cddbf,#ffe58b);transition:width .2s}.toast{position:absolute;bottom:4.5%;left:50%;transform:translateX(-50%);max-width:75%;padding:10px 22px;border-radius:22px;border:3px solid #f8d694;background:#463453df;box-shadow:0 7px 0 #2d253b88;color:#fff5df;text-align:center;font-size:clamp(11px,1.35vw,18px);font-weight:800;pointer-events:none;z-index:7;white-space:normal}.screen{position:absolute;inset:0;z-index:5;background:linear-gradient(90deg,#241934dd,#2a214db9 54%,#241c3399);display:flex;align-items:center;justify-content:center;padding:2.8% 5%;overflow:auto}.screen.no-backdrop{background:transparent}.menu-content{display:flex;width:100%;max-height:100%;gap:3.8%;justify-content:space-between;align-items:center}.menu-hero{max-width:57%;text-shadow:0 3px 0 #32233c,0 5px 13px #251b39}.kicker{display:inline-block;color:#fff1b7;font-size:clamp(12px,1.25vw,18px);font-weight:900;letter-spacing:.15em;text-transform:uppercase;padding:7px 14px;background:#60466d;border:2px solid #dab99f;border-radius:100px}.logo{font-size:clamp(32px,5.3vw,80px);letter-spacing:-.055em;line-height:.9;color:#fff2c5;margin:18px 0 14px;font-weight:1000}.logo em{color:#ffaeb3;font-style:normal;display:inline-block;transform:rotate(-3deg)}.logo .vs{color:#ffdb71;font-size:.52em;vertical-align:middle}.menu-description{font-size:clamp(12px,1.55vw,22px);line-height:1.45;max-width:600px;color:#fff1dd;margin:0 0 14px}.menu-note{font-size:clamp(10px,1.04vw,16px);color:#f6e0c1;opacity:.9}.menu-actions{min-width:31%;max-width:35%;width:34%;display:grid;gap:12px}.big-btn,.outline-btn,.text-btn{width:100%;border:3px solid #644364;border-radius:16px;color:#352941;background:linear-gradient(180deg,#ffe8a3,#ffc47c);padding:11px 18px;font-size:clamp(13px,1.62vw,22px);font-weight:1000;box-shadow:inset 0 3px 0 #fffae46e,0 6px 0 #69465d;transition:transform .08s,filter .08s;white-space:nowrap}.big-btn:hover,.outline-btn:hover,.text-btn:hover{filter:brightness(1.08);transform:translateY(-2px)}.big-btn:active,.outline-btn:active,.text-btn:active{transform:translateY(3px);box-shadow:0 2px 0 #69465d}.outline-btn{background:linear-gradient(#a9d9d4,#70b8ba);font-size:clamp(12px,1.3vw,19px)}.text-btn{background:linear-gradient(#82698e,#5e4e76);color:#fff2d9;font-size:clamp(12px,1.3vw,18px)}.tiny-btn{border:2px solid #916d87;border-radius:12px;background:#ffdf9d;color:#3f3050;font-weight:900;padding:8px 14px;font-size:clamp(11px,1.1vw,15px);box-shadow:0 3px 0 #644a65}.panel{width:min(950px,91%);max-height:95%;overflow:auto;border:5px solid #d7ac8e;border-radius:26px;background:linear-gradient(150deg,#61476c,#3d2e56);box-shadow:0 12px 0 #281e3caa,0 25px 35px #1c17328a; padding:3.2%;color:#fff0dd}.panel h1{font-size:clamp(23px,3vw,44px);line-height:1.1;margin:0 0 8px;color:#ffe8a5}.panel p{font-size:clamp(13px,1.2vw,18px);line-height:1.42;color:#f8dfd1}.panel .subheading{color:#ffc4bb;font-size:clamp(11px,1.1vw,16px);letter-spacing:.08em;text-transform:uppercase;font-weight:900}.panel-head{display:flex;justify-content:space-between;gap:10px;align-items:start}.panel-head .tiny-btn{flex-shrink:0}.levels{display:grid;grid-template-columns:repeat(3,1fr);gap:15px;margin:22px 0}.level-choice{padding:16px 8px;min-height:146px;border:3px solid #ffdfb4;background:linear-gradient(#e4cda8,#c3b0b6);color:#3e304d;border-radius:15px;text-align:center;box-shadow:0 5px 0 #624767;cursor:pointer}.level-choice strong{display:block;font-size:clamp(17px,2vw,28px)}.level-choice span{display:block;margin:8px 0;font-size:clamp(11px,1.05vw,15px)}.level-choice small{font-size:clamp(11px,1vw,14px)}.level-choice:disabled{opacity:.47;cursor:not-allowed;filter:grayscale(.6)}.level-choice:not(:disabled):hover{transform:translateY(-2px);filter:brightness(1.1)}.panel-actions{display:flex;flex-wrap:wrap;justify-content:center;gap:13px;margin-top:18px}.panel-actions button{min-width:175px;max-width:290px;width:auto;flex:1}.panel .big-btn{font-size:clamp(13px,1.4vw,19px)}.guide{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin:17px 0}.guide-item{border-radius:14px;background:#ffffff16;border:1px solid #f3d7b672;padding:11px 13px;font-size:clamp(12px,1.12vw,17px);line-height:1.4}.guide-item strong{color:#ffe7a0}.catalog{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin:18px 0}.catalog-entry{display:flex;align-items:center;gap:14px;background:#ffffff19;border:2px solid #e5c0a36b;border-radius:14px;padding:10px 13px}.catalog-entry .emoji{font-size:clamp(26px,3.1vw,45px)}.catalog-entry strong{font-size:clamp(13px,1.4vw,19px)}.catalog-entry small{font-size:clamp(11px,1vw,14px);display:block;color:#f4dbcd;margin-top:5px}.option-row{display:flex;justify-content:space-between;align-items:center;gap:15px;background:#ffffff14;border-radius:14px;padding:11px 16px;margin:9px 0;font-size:clamp(12px,1.3vw,18px)}.toggle{padding:7px 18px;border-radius:15px;background:#d6eaba;color:#2b564b;border:2px solid #f8eeb9;font-weight:900;min-width:85px}.toggle.off{background:#b39bab;color:#3d3053}.result-score{font-size:clamp(32px,5vw,64px);color:#ffe8a5;margin:12px 0;text-align:center;text-shadow:0 4px 0 #7a5270}.result-panel{text-align:center;max-width:750px}.result-panel p{font-size:clamp(14px,1.6vw,22px)}.result-unlock{padding:12px 19px;background:#fff2cc22;border-radius:15px;border:1px solid #ffe4b266}.version-tag{position:absolute;bottom:1.5%;right:1.8%;font-size:clamp(8px,.8vw,11px);color:#fff3dfba;pointer-events:none;z-index:2}.mobile-tip{display:none;color:#ffe0a4;font-size:13px;text-align:center;font-weight:800}
 @media (max-width:900px){.app{padding:4px 3px;gap:4px}.game-frame{border-width:3px;border-radius:10px}.outside-footer{display:none}.menu-actions{gap:6px}.big-btn,.outline-btn,.text-btn{border-width:2px;border-radius:10px;padding:7px 11px;box-shadow:0 3px 0 #69465d}.kicker{padding:3px 8px}.logo{margin:9px 0}.panel{border-width:3px;border-radius:14px}.panel-actions{gap:7px;margin-top:10px}.panel-actions button{min-width:110px}.level-choice{min-height:92px;padding:6px}.level-choice span{margin:4px 0}.levels{margin:10px 0;gap:8px}.toy-card{border-width:2px;border-radius:7px}.small-btn{border-width:2px;border-radius:8px}.glow-pill{border-width:2px;border-radius:9px}.toast{padding:4px 10px;border-width:2px}.guide{gap:6px}.guide-item{padding:5px}.option-row{padding:6px}}
@@ -50,8 +52,31 @@
 .level-hall:not(:disabled):hover{filter:brightness(1.13) saturate(1.1)}
 @media(max-width:900px){.level-hall{border-width:2px}}
 
+
+
+/* v0.7.0 — acabamento gráfico: miniaturas pintadas, luz ambiente e UI com relevo. */
+.game-frame{border-color:#e6c7a7;box-shadow:0 8px 0 #60425f,0 28px 70px #100b20b8,0 0 0 2px #f7dfc5,0 0 0 5px #4b3555}
+.game-frame::before{content:"";position:absolute;inset:0;z-index:2;pointer-events:none;border-radius:inherit;background:linear-gradient(128deg,rgba(255,255,255,.13),transparent 17%,transparent 76%,rgba(255,222,177,.08))}
+.hud{z-index:3}
+.toy-card{border-color:#80617d;background:linear-gradient(155deg,#fff5d7 0%,#f1d2ad 56%,#dcae9f 100%);box-shadow:inset 0 3px 0 #fffef0c9,inset 0 -4px 0 #8b5e7330,0 5px 0 #3e2a46,0 7px 12px #20172b30}
+.toy-card::before{content:"";position:absolute;inset:3px;border-radius:9px;pointer-events:none;background:linear-gradient(135deg,#ffffff58,transparent 42%)}
+.toy-card-icon,.toy-card-name,.toy-card .cost{position:relative;z-index:1}
+.toy-card.selected{border-color:#ffe16e;box-shadow:0 0 0 3px #5a4266,0 0 17px #ffe47d9c,0 6px 0 #4e3748;animation:bvpCardGlow 2.2s ease-in-out infinite}
+.toy-card-icon{width:100%;height:clamp(36px,5.2vw,62px);display:flex;align-items:center;justify-content:center;font-size:clamp(20px,3vw,42px);filter:none;overflow:visible}
+.toy-card-art{display:block;width:100%;height:100%;max-width:96px;filter:drop-shadow(0 3px 2px #4c3b5488)}
+.toy-card-name{text-shadow:0 1px 0 #fff8e2}
+.toy-card .cost{box-shadow:inset 0 1px 0 #fff,0 2px 3px #785b5533;border:1px solid #d5b68a}
+.topbar{backdrop-filter:blur(5px);background:linear-gradient(#21172fe8 0%,#38294bc9 72%,transparent)}
+.glow-pill{box-shadow:inset 0 4px 0 #fff6ca28,inset 0 -5px 10px #20162b55,0 5px 0 #36283b,0 0 16px #ffdf8a30}
+.small-btn{box-shadow:inset 0 3px 0 #fff5d92b,0 5px 0 #30243f,0 7px 10px #1d142b40}
+.screen{backdrop-filter:blur(2px)}
+.panel{background:linear-gradient(145deg,#715278 0%,#514065 48%,#352a50 100%);box-shadow:inset 0 2px 0 #fff3d52b,0 12px 0 #281e3caa,0 25px 35px #1c17328a}
+@keyframes bvpCardGlow{0%,100%{filter:drop-shadow(0 0 0 #ffe47d00)}50%{filter:drop-shadow(0 0 7px #ffe47d88)}}
+@media(max-width:900px){.toy-card-icon{height:clamp(27px,5vw,42px)}.toy-card-art{max-width:68px}.toy-card.selected{animation:none}}
+@media(prefers-reduced-motion:reduce){.toy-card.selected{animation:none!important}}
+
 </style>
-  <title>Brinquedos vs. Pesadelos — Jogar Offline v0.6.0</title>
+  <title>Brinquedos vs. Pesadelos — Jogar Offline v0.7.0</title>
 </head>
 <body>
   <main class="app" aria-label="Jogo Brinquedos vs. Pesadelos">
@@ -71,7 +96,7 @@
       </div>
       <div id="toast" class="toast hidden" role="status" aria-live="polite"></div>
       <div id="screen" class="screen"></div>
-      <div class="version-tag">ALFA 0.6.0 · 3 capítulos</div>
+      <div class="version-tag">ALFA 0.7.0 · 3 capítulos</div>
     </div>
     <div class="mobile-tip" aria-label="Orientação recomendada">↻ Vire o celular na horizontal para ver todo o tabuleiro.</div>
     <footer class="outside-footer">Brinquedos vs. Pesadelos · Um jogo original de defesa por linhas · Salvo neste dispositivo</footer>
@@ -569,6 +594,38 @@ function star(c,x,y,outer,inner,color,rot=-Math.PI/2){c.beginPath();for(let i=0;
 function txt(c,text,x,y,size=18,color='#fff8e7',align='center',weight=800){c.textAlign=align;c.textBaseline='middle';c.font=`${weight} ${size}px Trebuchet MS, Verdana, sans-serif`;c.fillStyle=color;c.fillText(text,x,y);}
 function eye(c,x,y,r=5){ellipse(c,x,y,r,r*1.13,'#fffdf7');ellipse(c,x+1.3,y+.9,r*.45,r*.6,COLORS.ink);ellipse(c,x+.5,y-r*.25,r*.16,r*.16,'white');}
 function drawCloud(c,x,y,scale=1){c.save();c.translate(x,y);c.scale(scale,scale);ellipse(c,0,0,66,20,'#281a4480');ellipse(c,-20,-12,33,24,'#b7a8e0');ellipse(c,19,-15,35,29,'#cab8ed');ellipse(c,0,-30,30,31,'#dfcdf2');ellipse(c,-18,-23,11,9,'#e3d7f7');c.restore();}
+
+function drawAmbientPolish(c,time,chapter,visualMotion=true){
+  const tone=chapter===2?'rgba(117,177,255,.14)':chapter===3?'rgba(255,190,119,.13)':'rgba(255,219,156,.14)';
+  const halo=c.createRadialGradient(205,118,4,205,118,490);halo.addColorStop(0,tone);halo.addColorStop(1,'rgba(255,255,255,0)');
+  c.fillStyle=halo;c.fillRect(0,0,W,H);
+  const vignette=c.createRadialGradient(W*.5,H*.48,230,W*.5,H*.48,850);
+  vignette.addColorStop(0,'rgba(17,12,36,0)');vignette.addColorStop(.72,'rgba(17,12,36,.025)');vignette.addColorStop(1,'rgba(17,12,36,.22)');
+  c.fillStyle=vignette;c.fillRect(0,0,W,H);
+  for(let i=0;i<18;i++){
+    const drift=visualMotion?time*(5+(i%4)*2):0,phase=visualMotion?time*.7+i:i;
+    const x=((i*173+drift+(visualMotion?Math.sin(phase)*17:0))%(W+30)+W+30)%(W+30)-15;
+    const y=28+((i*79+(visualMotion?Math.sin(phase*.8)*13:0))%(H-56));
+    c.save();c.globalAlpha=.055+.035*(.5+.5*Math.sin(phase*1.7));
+    ellipse(c,x,y,1.2+(i%3)*.55,1.2+(i%3)*.55,i%4===0?'#fff0bd':'#e6f2ff');
+    if(i%6===0)star(c,x+5,y-4,3.2,1.3,'#fff2c6');c.restore();
+  }
+}
+function drawBoardTrim(c,time,chapter){
+  const x=BOARD.x-16,y=BOARD.y-13,w=BOARD.cw*BOARD.cols+32,h=BOARD.ch*BOARD.rows+26;
+  const trim=chapter===2?'#d9e8ff':'#fff0d4';
+  rr(c,x,y,w,h,24,null,chapter===2?'#d9e8ff7a':'#fff0d47a',2.4);
+  line(c,[[x+22,y+3],[x+w-22,y+3]],chapter===2?'#eff6ff77':'#fff8e477',2);
+  line(c,[[x+22,y+h-3],[x+w-22,y+h-3]],'#37274438',2);
+  for(let row=0;row<BOARD.rows;row++)for(let col=0;col<BOARD.cols;col++){
+    const tx=BOARD.x+col*BOARD.cw,ty=BOARD.y+row*BOARD.ch;
+    line(c,[[tx+9,ty+7],[tx+BOARD.cw-9,ty+7]],'#fff8e51b',1);
+    if((row*3+col)%7===0)ellipse(c,tx+9,ty+9,1.7,1.7,trim);
+  }
+  for(const [bx,by] of [[x+13,y+13],[x+w-13,y+13],[x+13,y+h-13],[x+w-13,y+h-13]]){
+    ellipse(c,bx,by,4.2,4.2,'#604761');ellipse(c,bx-1,by-1,1.5,1.5,'#fff0c6');
+  }
+}
 // Cenário dedicado: evita desenhar dois fundos completos no mesmo quadro.
 function drawCorridor(c){
     // Corredor Rangente: arquitetura em perspectiva com luzes de rodapé e carpete quente.
@@ -694,7 +751,7 @@ function drawToy(c,t,time,visualMotion=true){
   c.translate(t.x-9*recoil,t.y+4+bounce);
   let s=1+(visualMotion?Math.sin(time*3+t.id*.8)*.024:0);
   if(t.hit>0){c.globalAlpha=.78;s*=.95;}c.scale(s+recoil*.04,s-recoil*.035);
-  ellipse(c,0,26,37,10,'#203b4a55');
+  const toyShadow=c.createRadialGradient(0,26,2,0,26,42);toyShadow.addColorStop(0,'rgba(28,35,57,.38)');toyShadow.addColorStop(1,'rgba(28,35,57,0)');ellipse(c,0,26,42,12,toyShadow);
   if(d.kind==='shooter'){
     // Soldadinho Estalo: um soldado de pano com atirador de papel.
     line(c,[[-14,8],[-18,24]],'#584b64',10);line(c,[[10,8],[13,24]],'#584b64',10);
@@ -816,13 +873,14 @@ function drawToy(c,t,time,visualMotion=true){
     c.restore();
   }
   if(t.hp<t.maxHp){rr(c,-34,-70,68,6,3,'#5d4454');rr(c,-33,-69,66*t.hp/t.maxHp,4,2,t.hp/t.maxHp>.4?'#9bddb1':'#e67c84');}
+  if(visualMotion){c.save();c.globalAlpha=.12+.055*(.5+.5*Math.sin(time*1.8+(t.id||0)));c.strokeStyle='#fff9e2';c.lineWidth=2;c.beginPath();c.ellipse(-15,-43,12,4,-.42,Math.PI,Math.PI*2);c.stroke();if(Math.sin(time*2.1+(t.id||0))>.82)star(c,28,-56,4,1.8,'#fff4c8');c.restore();}
   c.restore();
 }
 function drawEnemy(c,e,time,visualMotion=true){
   c.save();c.translate(e.x,e.y+7);if(e.jumpTime>0)c.translate(0,-40*Math.sin(Math.PI*Math.min(1,e.jumpTime/.48)));const bob=Math.sin(e.age*8+e.id)*3;
   const bite=visualMotion?clamp((e.attack||0)/.28,0,1):0;c.translate(-10*bite,visualMotion?bob-3*Math.sin(e.age*11):0);c.rotate(-.055*bite+(visualMotion?.018*Math.sin(e.age*8+e.id):0));
   if(e.hit>0)c.globalAlpha=.68;
-  ellipse(c,0,27,34,9,'#3032475a');
+  const enemyShadow=c.createRadialGradient(0,27,2,0,27,40);enemyShadow.addColorStop(0,'rgba(24,25,49,.42)');enemyShadow.addColorStop(1,'rgba(24,25,49,0)');ellipse(c,0,27,40,11,enemyShadow);
   if(e.type==='E01'){
     // Poeira Andante: nuvem lilás engraçada, perninha fina.
     line(c,[[-17,3],[-18,23]],'#6f5b83',6);line(c,[[16,4],[16,22]],'#6f5b83',6);
@@ -943,6 +1001,7 @@ function drawEnemy(c,e,time,visualMotion=true){
   }
   if(e.hit>0){c.save();c.globalAlpha=clamp(e.hit/.16,0,.7);star(c,34,-61,9,3,'#fff4bc');c.restore();}
   if(e.hp<e.maxHp){rr(c,-30,-73,60,6,3,'#574a6e');rr(c,-29,-72,58*clamp(e.hp/e.maxHp,0,1),4,2,'#f2a2a7');}
+  if(visualMotion){c.save();c.globalAlpha=.10+.06*(.5+.5*Math.sin(time*1.55+(e.id||0)));c.strokeStyle='#fff5e6';c.lineWidth=2;c.beginPath();c.ellipse(-13,-49,11,4,-.35,Math.PI,Math.PI*2);c.stroke();if(e.hit>0)star(c,31,-60,5,2,'#fff3c7');c.restore();}
   c.restore();
 }
 function drawGlow(c,s,time){
@@ -952,6 +1011,14 @@ function drawGlow(c,s,time){
   ellipse(c,-5,-3,2.7,3,'#715474');ellipse(c,6,-3,2.7,3,'#715474');
   line(c,[[-3,6],[2,8],[7,5]],'#9f6c6a',2);
   c.restore();
+}
+
+function drawProjectileTrail(c,p,time,visualMotion=true){
+  const colors={shooter:'#fff0c0',slow:'#a8f0ff',splash:'#ff9dc9',pierce:'#ffd28a',sleep:'#d2c2ff',starburst:'#fff1a5',ricochet:'#b9efaa'};
+  const length=visualMotion?27+Math.sin(time*23+(p.id||0))*4:22;
+  const g=c.createLinearGradient(p.x-length,p.y,p.x+3,p.y);g.addColorStop(0,'rgba(255,255,255,0)');g.addColorStop(1,colors[p.kind]||'#fff0c0');
+  c.save();c.globalAlpha=.58;line(c,[[p.x-length,p.y+1],[p.x-4,p.y]],g,p.kind==='splash'||p.kind==='starburst'?7:5);
+  c.globalAlpha=.32;ellipse(c,p.x-3,p.y,9,6,colors[p.kind]||'#fff0c0');c.restore();
 }
 function drawProjectile(c,p){
   if(p.kind==='ricochet'){ellipse(c,p.x,p.y,15,11,'#b0e5a9');star(c,p.x+3,p.y-2,10,5,'#fff6c8');line(c,[[p.x-12,p.y],[p.x-28,p.y+6]],'#daffcd',3);
@@ -978,6 +1045,7 @@ function drawImpact(c,i){
   if(['splash','starburst'].includes(i.kind)){for(let a=0;a<7;a++){const theta=a*TAU/7+k;star(c,i.x+Math.cos(theta)*(r+6),i.y+Math.sin(theta)*(r+6),5,2,['#f7a1ca','#fff09d','#9ce9d9'][a%3]);}}
   if(i.kind==='ricochet')for(let a=0;a<3;a++){const theta=a*TAU/3;star(c,i.x+Math.cos(theta)*(r+7),i.y+Math.sin(theta)*(r+7),6,2,'#c9ef9b');}
   if(i.kind==='slow')for(let a=0;a<4;a++){const theta=a*TAU/4;star(c,i.x+Math.cos(theta)*(r+6),i.y+Math.sin(theta)*(r+6),7,3,'#e3fcff');}
+  const core=c.createRadialGradient(i.x,i.y,1,i.x,i.y,Math.max(3,r*.52));core.addColorStop(0,'rgba(255,255,239,.42)');core.addColorStop(1,'rgba(255,255,239,0)');ellipse(c,i.x,i.y,Math.max(4,r*.52),Math.max(4,r*.52),core);
   c.restore();
 }
 function drawFeedback(c,f){
@@ -1003,6 +1071,7 @@ function drawBossHealth(c,game){
 function render(c,game,menu=false,visualMotion=true){
   const t=visualMotion ? (game?.time ?? performance.now()*.001) : 0;
   c.clearRect(0,0,W,H);drawBackground(c,t,game?.level?.chapter??1);
+  const chapter=game?.level?.chapter??1;drawAmbientPolish(c,t,chapter,visualMotion);drawBoardTrim(c,t,chapter);
   if(game?.levelIndex>=4){
     // Capítulo mais avançado ganha um leve clima de armário encantado, sem outra textura ou download.
     c.fillStyle=game.levelIndex===7?'#50204e19':'#34246b0b';c.fillRect(0,0,W,H);
@@ -1035,7 +1104,7 @@ function render(c,game,menu=false,visualMotion=true){
         star(c,toy.x+41,toy.y-15,9+5*f,4+2*f,'#fff6c5');c.restore();
       }
     }
-    for(const p of game.projectiles)drawProjectile(c,p);
+    for(const p of game.projectiles){drawProjectileTrail(c,p,t,visualMotion);drawProjectile(c,p);}
     // Inimigos desenhados por faixa e posição; o sprite não afeta a hitbox.
     for(const e of game.enemies)drawEnemy(c,e,t,visualMotion);
     if(visualMotion)for(const d of game.defeated||[])drawDefeated(c,d);
@@ -1066,7 +1135,9 @@ function render(c,game,menu=false,visualMotion=true){
 }
 function drawIconCanvas(c,id,x,y,scale=.65,time=0){
   const d=TOYS[id];if(!d)return;
-  drawToy(c,{id:0,type:id,x,y,hp:d.maxHp,maxHp:d.maxHp,hit:0},time);
+  c.save();c.translate(x,y);c.scale(scale,scale);
+  drawToy(c,{id:0,type:id,x:0,y:0,hp:d.maxHp,maxHp:d.maxHp,hit:0,age:time,recoil:0},time,false);
+  c.restore();
 }
 
 
@@ -1130,7 +1201,7 @@ function finish(result,stars){if(!battle)return;
   const unlock=battle.level.reward?`<div class="result-unlock">🎁 Novo brinquedo para a próxima fase: <strong>${TOYS[battle.level.reward].name}</strong>!</div>`:'';
   setScreen('result',`<section class="panel result-panel"><span class="subheading">${result==='victory'?'A noite está a salvo!':'Os pesadelos bagunçaram tudo!'}</span><h1>${result==='victory'?'🎉 Vitória!':'😵 Tente de novo!'}</h1><div class="result-score ${result==='victory'?'win-animation':'lose-animation'}">${result==='victory'?'⭐'.repeat(stars)+'☆'.repeat(3-stars):'☁️'}</div><p>${result==='victory'?'Você espantou '+battle.killCount+' monstros e protegeu a imaginação da Lia.':'Sua defesa não segurou a invasão. Experimente colocar soldados em mais faixas.'}</p>${result==='victory'?unlock:''}<div class="panel-actions">${result==='victory'&&!isLast?button('▶ Próxima fase','next'):''}${button('↻ '+(result==='victory'?'Jogar novamente':'Tentar de novo'),'restart','outline-btn')}${button('🗺 Escolher fase','levels','text-btn')}${button('⌂ Menu','menu','text-btn')}</div>${isLast&&result==='victory'?'<p>Você completou as 20 fases disponíveis! Mais aventuras chegarão em outra atualização. ✨</p>':''}</section>`);
 }
-function renderCards(){if(!battle)return;const el=$('toy-cards');el.innerHTML=battle.level.toys.map((id,i)=>{const d=TOYS[id];return `<button class="toy-card ${battle.selected===id?'selected':''}" data-toy="${id}" title="${d.name}: ${d.description}" aria-label="${d.name}, custa ${d.cost} Brilhos"><span class="toy-card-icon">${icons[id]}</span><span class="toy-card-name">${d.short}</span><span class="cost">✦ ${d.cost}</span><span class="cooldown hidden"></span></button>`;}).join('');}
+function renderCards(){if(!battle)return;const el=$('toy-cards');el.innerHTML=battle.level.toys.map((id,i)=>{const d=TOYS[id];return `<button class="toy-card ${battle.selected===id?'selected':''}" data-toy="${id}" title="${d.name}: ${d.description}" aria-label="${d.name}, custa ${d.cost} Brilhos"><span class="toy-card-icon"><canvas class="toy-card-art" data-icon="${id}" width="96" height="72" aria-hidden="true"></canvas></span><span class="toy-card-name">${d.short}</span><span class="cost">✦ ${d.cost}</span><span class="cooldown hidden"></span></button>`;}).join('');el.querySelectorAll('.toy-card-art').forEach(art=>{const ctx=art.getContext('2d');if(!ctx)return;ctx.clearRect(0,0,art.width,art.height);ctx.save();ctx.translate(art.width/2,art.height*.73);drawIconCanvas(ctx,art.dataset.icon,0,0,.66,0);ctx.restore();});}
 function updateHUD(){if(!battle)return;$('glow-count').textContent=Math.floor(battle.glow);
   $('wave-progress').style.width=`${Math.round(battle.progress*100)}%`;
   $('waves-text').textContent=battle.wavesLeft?`${battle.wavesLeft} ondas pela frente`:'Últimos monstros!';
