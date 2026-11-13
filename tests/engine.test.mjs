@@ -237,3 +237,12 @@ test('v1.0: chegada dos chefes recebe anúncio sem alterar vida ou faixa',()=>{
   assert.match(c.banner,/DAMA DA INSÔNIA DESPERTOU/);
   assert.equal(c.enemies[0].hp,c.enemies[0].maxHp);
 });
+
+test('v1.0: renderiza a aura dos chefes com movimento normal e reduzido',async()=>{
+  const {render}=await import('../src/render.js');
+  const b=new Battle(7,quiet);b.spawnEnemy('E05',2);b.enemies[0].x=colX(7);
+  const gradient={addColorStop(){}};
+  const ctx=new Proxy({}, {get:(o,k)=>(k==='createLinearGradient'||k==='createRadialGradient')?()=>gradient:(o[k]??(()=>{})),set:(o,k,v)=>(o[k]=v,true)});
+  assert.doesNotThrow(()=>render(ctx,b,false,true));
+  assert.doesNotThrow(()=>render(ctx,b,false,false));
+});
