@@ -1,4 +1,17 @@
-# Brinquedos vs. Pesadelos — ALFA v0.7.0
+# Brinquedos vs. Pesadelos — ALFA v0.8.0
+
+## Novidades da v0.8.0 — salto de apresentação cartoon
+
+- Animação de caminhada com braços articulados e passada alternada nos pesadelos; ataques projetam os braços e o corpo reage ao dano.
+- Expressões faciais dinâmicas: olhar acompanha a ação, piscadas, sobrancelhas de alerta/raiva, boca de ataque e reação de derrota.
+- Derrota com rotação e deformação caricata, sem alterar hitboxes nem regras de combate.
+- Partículas com halo luminoso, núcleo e brilho animado; cenário recebe novos objetos decorativos e textura artesanal no tabuleiro.
+- Brinquedopédia substitui emojis por um atlas vetorial original com 22 ilustrações (11 brinquedos e 11 pesadelos), escaláveis e sem dependências externas.
+- Preservados grade 5×9, regras, fases, balanceamento, IDs e salvamento existente.
+
+**Validação:** os testes de lógica existentes foram preservados; a execução local automatizada e o playtest em dispositivos ainda precisam ser realizados antes de declarar a versão sem regressões.
+
+
 
 **20 fases, três capítulos em desenvolvimento.** O Capítulo 2 agora termina na fase 2-8, contra a Dama da Insônia.
 
