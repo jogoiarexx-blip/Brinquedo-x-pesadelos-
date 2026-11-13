@@ -227,3 +227,13 @@ test('v0.9: renderizar efeitos não altera estado da partida nem atributos das d
   const gradient={addColorStop(){}};const ctx=new Proxy({}, {get:(o,k)=>(k==='createLinearGradient'||k==='createRadialGradient')?()=>gradient:(o[k]??(()=>{})),set:(o,k,v)=>(o[k]=v,true)});
   render(ctx,b,false,true);assert.deepEqual({age:toy.age,recoil:toy.recoil,hp:toy.hp,glow:b.glow},before);
 });
+
+test('v1.0: chegada dos chefes recebe anúncio sem alterar vida ou faixa',()=>{
+  const b=new Battle(7,quiet);b.spawnEnemy('E05',2);
+  assert.match(b.banner,/REI DAS MEIAS CHEGOU/);
+  assert.equal(b.enemies[0].hp,b.enemies[0].maxHp);
+  assert.equal(b.enemies[0].row,2);
+  const c=new Battle(15,quiet);c.spawnEnemy('E10',1);
+  assert.match(c.banner,/DAMA DA INSÔNIA DESPERTOU/);
+  assert.equal(c.enemies[0].hp,c.enemies[0].maxHp);
+});
