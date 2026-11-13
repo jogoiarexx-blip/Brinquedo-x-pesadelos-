@@ -63,6 +63,6 @@ test('v0.6: cenário e desenhos novos sem erro de render',async()=>{
  b.grid[3][3]={id:1,type:'T11',row:3,col:3,x:colX(3),y:rowY(3),hp:135,maxHp:135,hit:0,age:3,armed:true,webTime:0};
  b.spawnEnemy('E11',2);b.enemies[0].x=colX(6);b.doorWarning={lane:2,until:20};
  const gr={addColorStop(){}};
- const c=new Proxy({}, {get:(o,k)=>k==='createLinearGradient'?()=>gr:(o[k]??(()=>{})),set:(o,k,v)=>(o[k]=v,true)});
+ const c=new Proxy({}, {get:(o,k)=>(k==='createLinearGradient'||k==='createRadialGradient')?()=>gr:(o[k]??(()=>{})),set:(o,k,v)=>(o[k]=v,true)});
  assert.doesNotThrow(()=>render(c,b,false,true));assert.doesNotThrow(()=>render(c,b,false,false));
 });
