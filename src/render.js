@@ -171,6 +171,12 @@ function drawToy(c,t,time,visualMotion=true){
   let s=1+(visualMotion?Math.sin(time*3+t.id*.8)*.024:0);
   if(t.hit>0){c.globalAlpha=.78;s*=.95;}c.scale(s+recoil*.04,s-recoil*.035);
   const toyShadow=c.createRadialGradient(0,26,2,0,26,42);toyShadow.addColorStop(0,'rgba(28,35,57,.38)');toyShadow.addColorStop(1,'rgba(28,35,57,0)');ellipse(c,0,26,42,12,toyShadow);
+  // Braços de pano articulados: cada unidade ganha um ciclo próprio de espera e disparo.
+  if(visualMotion){const swing=Math.sin((t.age||time)*4.2+(t.id||0)*.9)*5,reach=recoil*9;
+    const armColor=d.kind==='producer'?'#c98e8b':d.kind==='blocker'?'#d69a8b':d.kind==='slow'?'#6eb7c3':d.kind==='splash'?'#ec98c0':'#9b88a8';
+    line(c,[[-23,-2],[-34,-1+swing-reach]],armColor,7);line(c,[[23,-2],[34,-1-swing-reach]],armColor,7);
+    ellipse(c,-34,-1+swing-reach,4.5,4.5,'#f4d2b5');ellipse(c,34,-1-swing-reach,4.5,4.5,'#f4d2b5');
+  }
   if(d.kind==='shooter'){
     // Soldadinho Estalo: um soldado de pano com atirador de papel.
     line(c,[[-14,8],[-18,24]],'#584b64',10);line(c,[[10,8],[13,24]],'#584b64',10);
@@ -285,6 +291,15 @@ function drawToy(c,t,time,visualMotion=true){
     eye(c,-19,-6,5);eye(c,20,-6,5);ellipse(c,1,10,8,5,'#a45e78');
     if(t.armed){txt(c,'!',25,-48,22,'#fff3ae');star(c,-28,-41,7,3,'#ffe3a3');}
     else txt(c,'···',0,-49,20,'#fff9c1');c.restore();
+  }
+  // Reações exclusivas por função: brilho, confete, música e magia de gelo.
+  if(visualMotion){
+    const pulse=.5+.5*Math.sin(time*5.2+(t.id||0));
+    if(d.kind==='producer'){c.save();c.globalAlpha=.18+.24*pulse;ellipse(c,0,-34,31+6*pulse,31+6*pulse,'#ffe78c');c.restore();if(pulse>.94)star(c,0,-72,7,3,'#fff8cb',time*2);}
+    if(recoil>0&&['shooter','slow','splash','pierce','sleep','starburst','ricochet'].includes(d.kind)){c.save();c.globalAlpha=recoil;c.translate(56,-14);star(c,0,0,13,5,d.kind==='slow'?'#c8f8ff':d.kind==='splash'?'#ffd4ed':'#fff0a5',time*5);ellipse(c,0,0,4,4,'#fffdf0');c.restore();}
+    if(d.kind==='music'&&pulse>.68){c.save();c.globalAlpha=(pulse-.68)*2.8;txt(c,'♪',-39,-69,16,'#e4ffc5');txt(c,'♫',35,-66,14,'#fff0b2');c.restore();}
+    if(d.kind==='slow'&&pulse>.78){star(c,-39,-34,5,2,'#e6ffff',time*2);star(c,38,-45,4,2,'#e6ffff',-time*2);}
+    if(d.kind==='trap'&&t.armed){c.save();c.globalAlpha=.55+.45*pulse;star(c,0,-65,6+3*pulse,2,'#fff0b1',time*4);c.restore();}
   }
   if(t.webTime>0){
     c.save();c.globalAlpha=.7;
