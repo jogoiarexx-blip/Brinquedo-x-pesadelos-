@@ -3,7 +3,7 @@ import { LEVELS,TOYS,ENEMIES } from './data.js';
 import { Battle } from './engine.js';
 import { loadSave,persistSave,recordVictory } from './save.js';
 import { AudioService } from './audio.js';
-import { render } from './render.js';
+import { render, drawIconCanvas } from './render.js';
 const $=id=>document.getElementById(id);
 const canvas=$('battle-canvas'),context=canvas.getContext('2d',{alpha:false});
 const audio=new AudioService();const save=loadSave();audio.music=save.settings.music;audio.sfx=save.settings.sfx;
@@ -59,7 +59,7 @@ function finish(result,stars){if(!battle)return;
   const unlock=battle.level.reward?`<div class="result-unlock">🎁 Novo brinquedo para a próxima fase: <strong>${TOYS[battle.level.reward].name}</strong>!</div>`:'';
   setScreen('result',`<section class="panel result-panel"><span class="subheading">${result==='victory'?'A noite está a salvo!':'Os pesadelos bagunçaram tudo!'}</span><h1>${result==='victory'?'🎉 Vitória!':'😵 Tente de novo!'}</h1><div class="result-score ${result==='victory'?'win-animation':'lose-animation'}">${result==='victory'?'⭐'.repeat(stars)+'☆'.repeat(3-stars):'☁️'}</div><p>${result==='victory'?'Você espantou '+battle.killCount+' monstros e protegeu a imaginação da Lia.':'Sua defesa não segurou a invasão. Experimente colocar soldados em mais faixas.'}</p>${result==='victory'?unlock:''}<div class="panel-actions">${result==='victory'&&!isLast?button('▶ Próxima fase','next'):''}${button('↻ '+(result==='victory'?'Jogar novamente':'Tentar de novo'),'restart','outline-btn')}${button('🗺 Escolher fase','levels','text-btn')}${button('⌂ Menu','menu','text-btn')}</div>${isLast&&result==='victory'?'<p>Você completou as 20 fases disponíveis! Mais aventuras chegarão em outra atualização. ✨</p>':''}</section>`);
 }
-function renderCards(){if(!battle)return;const el=$('toy-cards');el.innerHTML=battle.level.toys.map((id,i)=>{const d=TOYS[id];return `<button class="toy-card ${battle.selected===id?'selected':''}" data-toy="${id}" title="${d.name}: ${d.description}" aria-label="${d.name}, custa ${d.cost} Brilhos"><span class="toy-card-icon">${icons[id]}</span><span class="toy-card-name">${d.short}</span><span class="cost">✦ ${d.cost}</span><span class="cooldown hidden"></span></button>`;}).join('');}
+function renderCards(){if(!battle)return;const el=$('toy-cards');el.innerHTML=battle.level.toys.map((id,i)=>{const d=TOYS[id];return `<button class="toy-card ${battle.selected===id?'selected':''}" data-toy="${id}" title="${d.name}: ${d.description}" aria-label="${d.name}, custa ${d.cost} Brilhos"><span class="toy-card-icon"><canvas class="toy-card-art" data-icon="${id}" width="96" height="72" aria-hidden="true"></canvas></span><span class="toy-card-name">${d.short}</span><span class="cost">✦ ${d.cost}</span><span class="cooldown hidden"></span></button>`;}).join('');el.querySelectorAll('.toy-card-art').forEach(art=>{const ctx=art.getContext('2d');if(!ctx)return;ctx.clearRect(0,0,art.width,art.height);ctx.save();ctx.translate(art.width/2,art.height*.73);drawIconCanvas(ctx,art.dataset.icon,0,0,.66,0);ctx.restore();});}
 function updateHUD(){if(!battle)return;$('glow-count').textContent=Math.floor(battle.glow);
   $('wave-progress').style.width=`${Math.round(battle.progress*100)}%`;
   $('waves-text').textContent=battle.wavesLeft?`${battle.wavesLeft} ondas pela frente`:'Últimos monstros!';

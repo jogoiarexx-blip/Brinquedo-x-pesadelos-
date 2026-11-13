@@ -40,3 +40,25 @@
 .level-hall:not(:disabled):hover{filter:brightness(1.13) saturate(1.1)}
 @media(max-width:900px){.level-hall{border-width:2px}}
 
+
+
+/* v0.7.0 — acabamento gráfico: miniaturas pintadas, luz ambiente e UI com relevo. */
+.game-frame{border-color:#e6c7a7;box-shadow:0 8px 0 #60425f,0 28px 70px #100b20b8,0 0 0 2px #f7dfc5,0 0 0 5px #4b3555}
+.game-frame::before{content:"";position:absolute;inset:0;z-index:2;pointer-events:none;border-radius:inherit;background:linear-gradient(128deg,rgba(255,255,255,.13),transparent 17%,transparent 76%,rgba(255,222,177,.08))}
+.hud{z-index:3}
+.toy-card{border-color:#80617d;background:linear-gradient(155deg,#fff5d7 0%,#f1d2ad 56%,#dcae9f 100%);box-shadow:inset 0 3px 0 #fffef0c9,inset 0 -4px 0 #8b5e7330,0 5px 0 #3e2a46,0 7px 12px #20172b30}
+.toy-card::before{content:"";position:absolute;inset:3px;border-radius:9px;pointer-events:none;background:linear-gradient(135deg,#ffffff58,transparent 42%)}
+.toy-card-icon,.toy-card-name,.toy-card .cost{position:relative;z-index:1}
+.toy-card.selected{border-color:#ffe16e;box-shadow:0 0 0 3px #5a4266,0 0 17px #ffe47d9c,0 6px 0 #4e3748;animation:bvpCardGlow 2.2s ease-in-out infinite}
+.toy-card-icon{width:100%;height:clamp(36px,5.2vw,62px);display:flex;align-items:center;justify-content:center;font-size:clamp(20px,3vw,42px);filter:none;overflow:visible}
+.toy-card-art{display:block;width:100%;height:100%;max-width:96px;filter:drop-shadow(0 3px 2px #4c3b5488)}
+.toy-card-name{text-shadow:0 1px 0 #fff8e2}
+.toy-card .cost{box-shadow:inset 0 1px 0 #fff,0 2px 3px #785b5533;border:1px solid #d5b68a}
+.topbar{backdrop-filter:blur(5px);background:linear-gradient(#21172fe8 0%,#38294bc9 72%,transparent)}
+.glow-pill{box-shadow:inset 0 4px 0 #fff6ca28,inset 0 -5px 10px #20162b55,0 5px 0 #36283b,0 0 16px #ffdf8a30}
+.small-btn{box-shadow:inset 0 3px 0 #fff5d92b,0 5px 0 #30243f,0 7px 10px #1d142b40}
+.screen{backdrop-filter:blur(2px)}
+.panel{background:linear-gradient(145deg,#715278 0%,#514065 48%,#352a50 100%);box-shadow:inset 0 2px 0 #fff3d52b,0 12px 0 #281e3caa,0 25px 35px #1c17328a}
+@keyframes bvpCardGlow{0%,100%{filter:drop-shadow(0 0 0 #ffe47d00)}50%{filter:drop-shadow(0 0 7px #ffe47d88)}}
+@media(max-width:900px){.toy-card-icon{height:clamp(27px,5vw,42px)}.toy-card-art{max-width:68px}.toy-card.selected{animation:none}}
+@media(prefers-reduced-motion:reduce){.toy-card.selected{animation:none!important}}
