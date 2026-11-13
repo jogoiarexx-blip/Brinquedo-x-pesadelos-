@@ -508,6 +508,19 @@ function drawDefeated(c,d){
   const data=ENEMIES[d.type];drawEnemy(c,{...d,id:0,age:d.age,hit:0,attack:0,slowTime:0,hp:data.hp,maxHp:data.hp,defeated:true},d.age);
   c.restore();
 }
+function drawBossAura(c,boss,time,visualMotion=true){
+  const d=ENEMIES[boss.type];if(!d?.boss)return;
+  const pulse=visualMotion ? .5+.5*Math.sin(time*3.2+boss.id) : .5;
+  c.save();c.translate(boss.x,boss.y-19);
+  const radius=47+pulse*8;
+  const glow=c.createRadialGradient(0,0,12,0,0,radius+28);
+  glow.addColorStop(0,boss.type==='E10'?'rgba(158,176,255,.20)':'rgba(255,205,111,.22)');
+  glow.addColorStop(1,'rgba(255,255,255,0)');
+  c.fillStyle=glow;c.beginPath();c.arc(0,0,radius+28,0,TAU);c.fill();
+  c.globalAlpha=.34+pulse*.2;c.strokeStyle=boss.type==='E10'?'#c4d2ff':'#ffe0a0';c.lineWidth=3;
+  c.setLineDash([7,8]);c.beginPath();c.arc(0,0,radius,0,TAU);c.stroke();c.setLineDash([]);
+  c.restore();
+}
 function drawBossHealth(c,game){
   const boss=game.enemies.find(e=>ENEMIES[e.type]?.boss);
   if(!boss)return;
@@ -554,6 +567,8 @@ export function render(c,game,menu=false,visualMotion=true){
       }
     }
     for(const p of game.projectiles){drawProjectileTrail(c,p,t,visualMotion);drawProjectile(c,p);}
+    // Aura puramente visual dos chefes, desenhada atrás dos personagens.
+    for(const e of game.enemies)if(ENEMIES[e.type]?.boss)drawBossAura(c,e,t,visualMotion);
     // Inimigos desenhados por faixa e posição; o sprite não afeta a hitbox.
     for(const e of game.enemies)drawEnemy(c,e,t,visualMotion);
     if(visualMotion)for(const d of game.defeated||[])drawDefeated(c,d);
