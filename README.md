@@ -1,4 +1,14 @@
-# Brinquedos vs. Pesadelos — ALFA v0.9.0
+# Brinquedos vs. Pesadelos — ALFA v1.0.0
+
+## Novidades da v1.0.0 — presença dos chefes
+
+- Rei das Meias e Dama da Insônia anunciam a chegada com banners próprios.
+- Chefes recebem aura radial e aro animado de destaque durante a batalha.
+- A aura fica atrás do personagem e é puramente visual: não muda hitbox, velocidade, vida, dano ou comportamento.
+- Efeitos respeitam a opção de movimento reduzido.
+- Preservados os 20 níveis existentes, três capítulos, IDs, economia, ondas, balanceamento e salvamento local.
+
+**Validação:** testes de regressão para anúncio dos dois chefes adicionados. A execução integral dos testes e o playtest no navegador ainda precisam ser confirmados pelo CI após o push.
 
 ## Novidades da v0.9.0 — brinquedos com personalidade
 
