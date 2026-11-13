@@ -21,7 +21,7 @@ export class Battle {
     this.lastDrop=0;this.nextDrop=5.8;this.banner='';this.bannerUntil=0;
     this.seed=0x2af00+(index+1)*1543;
     this.id=0;
-    this.lastAction='';
+    this.lastAction='';this.doorWarned=new Set();this.doorWarning=null;
     this.startToast(this.level.hint,6.3);
   }
   rand(){let x=this.seed|0;x^=x<<13;x^=x>>>17;x^=x<<5;this.seed=x|0;return (x>>>0)/4294967296;}
@@ -43,7 +43,7 @@ export class Battle {
     if(error){this.audio.play('no');this.startToast(error,1.3);return false;}
     const data=TOYS[id];
     const toy={id:this.id++,type:id,row,col,x:colX(col),y:rowY(row),hp:data.maxHp,maxHp:data.maxHp,
-      timer:data.kind==='producer'?7.5:data.kind==='music'?3.2:.33+this.rand()*.6,hit:0,age:0,recoil:0,webTime:0};
+      timer:data.kind==='producer'?7.5:data.kind==='music'?3.2:.33+this.rand()*.6,hit:0,age:0,recoil:0,webTime:0,armed:false};
     this.grid[row][col]=toy;this.glow-=data.cost;this.toyCooldowns[id]=data.cooldown;this.toysPlaced++;
     this.audio.play('place');this.puff(toy.x,toy.y,'#ffe2a1',9);this.addFeedback(toy.x,toy.y-68,'+ Defesa','#fff1bd');this.events.changed?.();
     return true;
@@ -70,7 +70,7 @@ export class Battle {
   }
   spawnEnemy(type,lane,offset=0){
     const d=ENEMIES[type];if(!d)return;
-    this.enemies.push({id:this.id++,type,row:lane,x:BOARD_RIGHT+65+offset,y:rowY(lane),hp:d.hp,maxHp:d.hp,shield:d.shield||0,maxShield:d.shield||0,summons:0,webTimer:4.8,enraged:false,jumped:false,jumpTime:0,stunTime:0,attackTimer:.45,hit:0,age:0,slowTime:0,slowFactor:1,attack:0});
+    this.enemies.push({id:this.id++,type,row:lane,x:BOARD_RIGHT+65+offset,y:rowY(lane),hp:d.hp,maxHp:d.hp,shield:d.shield||0,maxShield:d.shield||0,summons:0,webTimer:4.8,enraged:false,jumped:false,jumpTime:0,stunTime:0,attackTimer:.45,hit:0,age:0,slowTime:0,slowFactor:1,attack:0,stealTimer:1.4});
     this.totalSpawns++;
     this.events.enemySeen?.(type);
   }
@@ -99,6 +99,18 @@ export class Battle {
     if(!this.bigWaveAlert){const next=this.level.waves.find(w=>w.flag);
       if(next && this.time>=next.at-3){this.bigWaveAlert=true;this.flashBanner('⚑  GRANDE ONDA SE APROXIMANDO!',3.0);this.audio.play('wave');this.events.wave?.();}
     }
+    // Portas do corredor avisam cinco segundos antes da chegada real da onda.
+    if(this.level.chapter===3){
+      for(let i=this.waveIndex;i<this.level.waves.length;i++){
+        const w=this.level.waves[i];
+        if(w.doorLane!==undefined && !this.doorWarned.has(i) && this.time>=w.at-5 && this.time<w.at){
+          this.doorWarned.add(i);this.doorWarning={lane:w.doorLane,until:w.at+1};
+          this.startToast(`🚪 PORTA NA FAIXA ${w.doorLane+1}! Prepare as defesas!`,4.8);
+          this.audio.play('door');this.events.door?.(w.doorLane);
+        }
+      }
+      if(this.doorWarning&&this.time>this.doorWarning.until)this.doorWarning=null;
+    }
     while(this.waveIndex<this.level.waves.length && this.time>=this.level.waves[this.waveIndex].at){
       const w=this.level.waves[this.waveIndex++];w.enemies.forEach((e,i)=>this.spawnEnemy(e.type,e.lane,i*38));
       if(w.flag)this.flashBanner('⚑  A GRANDE ONDA CHEGOU!',2.7);
@@ -119,6 +131,22 @@ export class Battle {
         toy.timer+=d.interval;
         this.spawnStar(toy.x+21,toy.y-27,false);this.puff(toy.x,toy.y-23,'#ffee84',5);
       }
+      if(d.kind==='trap' && toy.age>=1.05){
+        toy.armed=true;
+        const triggered=this.enemies.some(e=>e.hp>0&&Math.abs(e.row-toy.row)<=1&&Math.abs(e.x-toy.x)<71);
+        if(triggered){
+          let hitCount=0;
+          for(const e of [...this.enemies]){
+            if(e.hp<=0||Math.abs(e.row-toy.row)>1||Math.abs(e.x-toy.x)>d.splashRadius)continue;
+            const absorbed=Math.min(e.shield||0,d.damage);e.shield=(e.shield||0)-absorbed;e.hp-=d.damage-absorbed;e.hit=.25;hitCount++;
+            this.addImpact(e.x,e.y-15,'splash');this.puff(e.x,e.y-20,'#ffb8d7',8);
+            if(e.hp<=0)this.killEnemy(e);
+          }
+          this.grid[toy.row][toy.col]=null;this.addImpact(toy.x,toy.y,'splash');
+          this.puff(toy.x,toy.y,'#ffe59a',24);this.audio.play('confetti');
+          this.addFeedback(toy.x,toy.y-61,`PUM! ×${hitCount}`,'#fff2b7');this.events.changed?.();
+        }
+      }
       if(d.kind==='music'&&toy.timer<=0){
         toy.timer+=d.interval;toy.recoil=.4;let affected=0;
         for(const enemy of this.enemies){
@@ -129,7 +157,7 @@ export class Battle {
         }
         if(affected){this.puff(toy.x,toy.y-25,'#c1eec4',8);this.audio.play('sleep');}
       }
-      if(['shooter','slow','splash','pierce','sleep','starburst'].includes(d.kind)&&toy.timer<=0){
+      if(['shooter','slow','splash','pierce','sleep','starburst','ricochet'].includes(d.kind)&&toy.timer<=0){
         const target=this.enemies.filter(e=>e.row===toy.row&&e.hp>0&&e.x>toy.x+18&&e.x<BOARD_RIGHT+118).sort((a,b)=>a.x-b.x)[0];
         if(target){
           toy.timer+=d.interval;toy.recoil=.22;
@@ -143,8 +171,8 @@ export class Battle {
       const hit=this.enemies.filter(e=>e.row===p.row&&e.hp>0&&e.x>=old-15&&e.x<=p.x+19&&!(p.hitIds||[]).includes(e.id)).sort((a,b)=>a.x-b.x)[0];
       if(hit){
         // A colisão é resolvida uma única vez: lento, impacto normal ou confete com dano em área.
-        const victims=['splash','starburst'].includes(p.kind)
-          ? this.enemies.filter(e=>e.hp>0&&Math.abs(e.x-hit.x)<=p.splashRadius&&(p.kind==='starburst'?Math.abs(e.row-p.row)<=1:e.row===p.row))
+        const victims=['splash','starburst','ricochet'].includes(p.kind)
+          ? this.enemies.filter(e=>e.hp>0&&Math.abs(e.x-hit.x)<=p.splashRadius&&(p.kind==='starburst'?Math.abs(e.row-p.row)<=1:e.row===p.row)&&(p.kind!=='ricochet'||e===hit||e.x>hit.x)).sort((a,b)=>a.x-b.x).slice(0,p.kind==='ricochet'?2:undefined)
           : [hit];
         for(const victim of victims){
           const damage=victim===hit?p.damage:p.damage*p.splashRatio;
@@ -156,6 +184,7 @@ export class Battle {
             const resist=ENEMIES[victim.type].stunResistance??1;
             victim.stunTime=Math.max(victim.stunTime||0,(p.stunDuration||0)*resist);
           }
+          if(p.kind==='ricochet' && victim!==hit)this.addImpact(victim.x,victim.y-24,'ricochet');
           if(p.kind==='slow'){
             const resist=ENEMIES[victim.type].slowResistance??1;
             victim.slowFactor=Math.min(victim.slowFactor,1-(1-p.slowFactor)*resist);
@@ -179,6 +208,14 @@ export class Battle {
           e.summons++;const lanes=e.summons===1?[0,4]:[1,3];
           for(const lane of lanes)this.spawnEnemy(e.summons===1?'E08':'E09',lane,0);
           this.flashBanner('A DAMA CHAMOU MAIS PESADELOS!',3);this.audio.play('wave');
+        }
+      }
+      if(d.thief){
+        e.stealTimer=Math.max(0,(e.stealTimer||0)-dt);
+        if(e.stealTimer<=0){
+          const i=this.stars.findIndex(s=>s.age>=s.dropTime&&Math.abs(s.x-e.x)<72&&Math.abs(s.y-e.y)<58);
+          if(i>=0){const stolen=this.stars.splice(i,1)[0];e.stealTimer=7.5;
+            this.puff(stolen.x,stolen.y,'#c5a4ed',8);this.addFeedback(e.x,e.y-69,'ROUBOU ✦','#ffcae6');this.audio.play('steal');}
         }
       }
       if(d.web){

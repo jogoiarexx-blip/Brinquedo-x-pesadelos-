@@ -1,3 +1,12 @@
+# v0.6.0 — 13/11/2026
+
+- Capítulo 3: Corredor Rangente, fases 3-1 a 3-4.
+- Portas com aviso visual e sonoro cinco segundos antes de ondas específicas.
+- T10 Arco de Elástico, T11 Caixa Surpresa e E11 Ladrão de Brilhos.
+- Ilustrações e animações 2D, efeitos e otimização do cenário.
+- Compatibilidade com progresso v0.1–v0.5 e cache offline atualizado.
+- Testes de regras, simulações e verificação visual em Chromium.
+
 # v0.5.0 — 12/11/2026
 
 - Quatro novas fases de campanha (2-5 a 2-8) e chefe Dama da Insônia.

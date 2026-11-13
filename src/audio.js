@@ -9,6 +9,8 @@ export class AudioService {
   play(type) {
     if (!this.sfx)return;
     switch(type){
+      case 'door':this.tone(205,.23,'triangle',.06);this.tone(175,.26,'sine',.04,.1);break;
+      case 'steal':this.tone(650,.09,'triangle',.036);this.tone(340,.17,'sine',.045,.09);break;
       case 'click':this.tone(560,.065,'sine',.029);break;
       case 'place':this.tone(470,.09,'triangle',.06);this.tone(730,.11,'sine',.04,.065);break;
       case 'collect':this.tone(860,.085,'sine',.055);this.tone(1175,.14,'sine',.05,.07);break;

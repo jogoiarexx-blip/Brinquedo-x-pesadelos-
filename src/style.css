@@ -35,3 +35,8 @@
 @media(max-width:900px){.levels{grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}.chapter-heading{font-size:clamp(11px,2.2vw,19px)}.toy-card{border-width:2px}.toy-card-icon{font-size:clamp(13px,2.8vw,26px)}.toy-card-name{font-size:clamp(7px,1.4vw,12px)}}
 @media(orientation:portrait) and (max-width:900px){.levels{grid-template-columns:repeat(3,minmax(0,1fr))}.chapter-heading{font-size:11px}.toy-card-name{font-size:7px}.toy-card .cost{font-size:7px}.topbar{gap:.4%}}
 
+/* v0.6: capítulo Corredor Rangente */
+.level-hall{background:linear-gradient(150deg,#d4c0ae,#927990);border-color:#ffe3be;color:#402d51}
+.level-hall:not(:disabled):hover{filter:brightness(1.13) saturate(1.1)}
+@media(max-width:900px){.level-hall{border-width:2px}}
+

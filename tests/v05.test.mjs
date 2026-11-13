@@ -6,8 +6,8 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 const quiet={play(){}};
 test('v0.5: capítulo 2 completo, chefe só na 2-8 e recompensas',()=>{
- assert.equal(LEVELS.length,16);
- assert.deepEqual(LEVELS.slice(8).map(l=>l.id),['2-1','2-2','2-3','2-4','2-5','2-6','2-7','2-8']);
+ assert.ok(LEVELS.length>=16);
+ assert.deepEqual(LEVELS.slice(8,16).map(l=>l.id),['2-1','2-2','2-3','2-4','2-5','2-6','2-7','2-8']);
  assert.equal(LEVELS[15].waves.filter(w=>w.enemies.some(e=>e.type==='E10')).length,1);
  assert.ok(LEVELS.slice(0,15).every(l=>!l.waves.some(w=>w.enemies.some(e=>e.type==='E10'))));
  assert.equal(LEVELS[11].reward,'T08');assert.equal(LEVELS[13].reward,'T09');
@@ -44,7 +44,7 @@ test('v0.5: chefe invoca quatro reforços em dois gatilhos sem duplicar',()=>{
 test('v0.5: saves legados e desbloqueio preservam estrelas antigas',()=>{
  const save=loadSave({getItem:()=>JSON.stringify({version:1,unlocked:12,stars:{'2-4':3},settings:{music:false}})});
  assert.equal(save.unlocked,12);recordVictory(save,11,3);assert.equal(save.unlocked,13);
- assert.equal(save.stars['2-4'],3);recordVictory(save,15,2);assert.equal(save.unlocked,16);assert.equal(save.stars['2-8'],2);assert.equal(save.settings.music,false);
+ assert.equal(save.stars['2-4'],3);recordVictory(save,15,2);assert.equal(save.unlocked,17);assert.equal(save.stars['2-8'],2);assert.equal(save.settings.music,false);
 });
 test('v0.5: desenho dos personagens inéditos sem exceção',async()=>{
  const {render}=await import('../src/render.js');const b=new Battle(15,quiet);

@@ -1,4 +1,4 @@
-// Capítulos 1 e 2 — tabuleiro clássico 5×9 e novas mecânicas autorais.
+// Capítulos 1 a 3 (3-1 a 3-4) — tabuleiro clássico 5×9 e novas mecânicas autorais.
 export const TOYS = Object.freeze({
   T02: { id:'T02', name:'Soldadinho Estalo', short:'Estalo', cost:100, cooldown:6, maxHp:120, kind:'shooter', interval:1.5, damage:20, color:'#f3694c', description:'Dispara bolinhas de papel na própria faixa.' },
   T01: { id:'T01', name:'Abajur Pirilampo', short:'Pirilampo', cost:50, cooldown:7, maxHp:100, kind:'producer', interval:22, color:'#f6bf4f', description:'Produz Brilhos. É o herói da economia!' },
@@ -8,6 +8,8 @@ export const TOYS = Object.freeze({
   T06: { id:'T06', name:'Carrinho Cometa', short:'Cometa', cost:150, cooldown:10, maxHp:115, kind:'pierce', interval:2.0, damage:28, pierces:2, color:'#ffbd67', description:'Dispara carrinhos de brinquedo que atravessam até dois pesadelos.' },
   T07: { id:'T07', name:'Boneca Soninho', short:'Soninho', cost:125, cooldown:12, maxHp:95, kind:'sleep', interval:4.7, damage:10, stunDuration:2.3, color:'#c5b0ef', description:'Lança bocejos mágicos que fazem um pesadelo parar por alguns segundos.' },
   T08: { id:'T08', name:'Móbile Musical', short:'Móbile', cost:175, cooldown:17, maxHp:110, kind:'music', interval:9.2, stunDuration:1.6, color:'#a9e3c2', description:'Toca uma canção e paralisa pesadelos das três faixas próximas por instantes.' },
+  T10: { id:'T10', name:'Arco de Elástico', short:'Elástico', cost:150, cooldown:9, maxHp:110, kind:'ricochet', interval:2.5, damage:33, splashRatio:.58, splashRadius:132, color:'#b5e69e', description:'O elástico rebate em um segundo inimigo da mesma faixa.' },
+  T11: { id:'T11', name:'Caixa Surpresa de Confetes', short:'Surpresa', cost:125, cooldown:23, maxHp:135, kind:'trap', damage:190, splashRadius:148, color:'#f7b6a3', description:'Explode quando os pesadelos se aproximam, afetando até três faixas.' },
   T09: { id:'T09', name:'Estilingue de Estrelas', short:'Estrelas', cost:200, cooldown:15, maxHp:100, kind:'starburst', interval:3.3, damage:46, splashRatio:.5, splashRadius:115, color:'#f7d88c', description:'Dispara uma estrela que causa dano também aos inimigos das faixas vizinhas.' },
 });
 export const ENEMIES = Object.freeze({
@@ -20,10 +22,12 @@ export const ENEMIES = Object.freeze({
   E07: { id:'E07', name:'Cabide Blindado', hp:165, shield:85, speed:.25, damage:26, interval:1.2, description:'Veste um cabide como escudo; primeiro é preciso quebrar sua proteção.' },
   E08: { id:'E08', name:'Aranha do Estrado', hp:135, speed:.37, damage:23, interval:1.0, web:true, description:'Lança teias nos brinquedos e reduz a cadência de seus disparos temporariamente.' },
   E09: { id:'E09', name:'Despertador Zangado', hp:180, speed:.28, damage:29, interval:1.15, enrage:true, description:'Quando perde metade da vida, dispara correndo pelo tabuleiro.' },
+  E11: { id:'E11', name:'Ladrão de Brilhos', hp:140, speed:.36, damage:25, interval:1.13, thief:true, description:'Apanha Brilhos soltos do chão antes que os brinquedos consigam recolhê-los.' },
   E10: { id:'E10', name:'Dama da Insônia', hp:1150, speed:.14, damage:38, interval:1, boss:true, slowResistance:.65, stunResistance:.5, summon:true, description:'Chefe que convoca sombras em duas fases da batalha, mantendo as cinco faixas perigosas.' },
 });
 // Fases autorais com horário em segundos, inimigos e faixas explicitamente balanceados.
 const wave = (at, foes, flag=false) => ({ at, enemies:foes.map(([type, lane])=>({ type, lane })), flag });
+const doorWave = (at, foes, lane, flag=false) => ({ ...wave(at,foes,flag), doorLane:lane });
 const ALL = ['T01','T02','T03','T04','T05'];
 export const LEVELS = Object.freeze([
   { id:'1-1', title:'A primeira bagunça', subtitle:'Aprenda a colocar soldadinhos e coletar Brilhos.',
@@ -106,5 +110,25 @@ export const LEVELS = Object.freeze([
     hint:'Prepare Brilhos, brinquedos em várias linhas e Móbiles. A Dama da Insônia invoca reforços!',
     startingGlow:400, toys:['T01','T02','T04','T07','T08','T09'], reward:null, duration:266,
     waves:[wave(14,[['E08',2]]),wave(33,[['E09',0],['E09',4]]),wave(53,[['E07',1],['E07',3]]),wave(75,[['E06',0],['E08',2],['E06',4]]),wave(99,[['E09',1],['E09',3],['E07',2]]),wave(124,[['E08',0],['E08',4]]),wave(147,[['E07',0],['E09',2],['E07',4]]),wave(170,[['E08',1],['E08',3],['E09',4]]),wave(193,[['E09',0],['E07',2],['E09',4]]),wave(213,[['E08',1],['E08',3]]),wave(241,[['E10',2],['E07',0],['E07',4]],true)]
+  },
+  { id:'3-1', chapter:3, title:'Toc, toc, toc!', subtitle:'Portas rangem antes da chegada de mais pesadelos.',
+    hint:'Quando a porta piscar, prepare a faixa destacada: o aviso aparece antes da onda!',
+    startingGlow:375, toys:['T01','T02','T03','T04','T06','T08'], reward:'T10', duration:191,
+    waves:[wave(13,[['E01',2]]),doorWave(31,[['E02',0],['E01',0]],0),wave(49,[['E03',4],['E02',2]]),doorWave(70,[['E07',3],['E02',3]],3),wave(92,[['E06',1],['E02',4]]),doorWave(116,[['E03',2],['E03',2]],2),wave(139,[['E07',0],['E06',4],['E02',1]]),doorWave(171,[['E03',1],['E03',1],['E02',2],['E07',3],['E02',4]],1,true)]
+  },
+  { id:'3-2', chapter:3, title:'Elásticos na parede', subtitle:'O Arco de Elástico rebate no segundo monstro.',
+    hint:'Combine um Arco de Elástico com um Pião. O elástico pode atingir dois inimigos na mesma faixa.',
+    startingGlow:400, toys:['T01','T02','T03','T04','T06','T10'], reward:null, duration:199,
+    waves:[wave(13,[['E01',2],['E01',2]]),doorWave(32,[['E02',4],['E03',4]],4),wave(51,[['E06',1],['E02',3]]),doorWave(75,[['E07',0],['E01',0],['E01',0]],0),wave(96,[['E03',2],['E06',4]]),doorWave(123,[['E03',3],['E01',3],['E02',3]],3),wave(151,[['E06',0],['E03',1],['E06',2]]),doorWave(179,[['E03',0],['E03',1],['E07',2],['E02',3],['E03',4]],2,true)]
+  },
+  { id:'3-3', chapter:3, title:'O ladrão de estrelas', subtitle:'Um pesadelo tenta roubar os Brilhos do tapete.',
+    hint:'Não deixe Brilhos caídos por muito tempo. O Ladrão recolhe estrelas que estiverem perto dele.',
+    startingGlow:400, toys:['T01','T02','T04','T07','T09','T10'], reward:'T11', duration:216,
+    waves:[wave(13,[['E11',2]]),doorWave(33,[['E11',1],['E02',1]],1),wave(51,[['E06',0],['E11',4]]),doorWave(77,[['E11',3],['E07',3]],3),wave(101,[['E11',2],['E03',0]]),doorWave(126,[['E11',4],['E11',4],['E09',1]],4),wave(150,[['E08',2],['E03',3],['E11',0]]),doorWave(177,[['E11',0],['E03',1],['E11',2],['E03',3],['E11',4]],2),doorWave(198,[['E07',0],['E11',1],['E07',2],['E11',3],['E07',4]],3,true)]
+  },
+  { id:'3-4', chapter:3, title:'A caixa que faz PUM!', subtitle:'Uma surpresa colorida espanta grupos inteiros.',
+    hint:'A Caixa Surpresa demora um instante para armar e explode apenas uma vez. Use perto de grupos!',
+    startingGlow:425, toys:['T01','T02','T03','T04','T10','T11'], reward:null, duration:222,
+    waves:[wave(15,[['E11',2],['E01',2]]),doorWave(35,[['E07',4],['E02',4]],4),wave(57,[['E03',0],['E06',1]]),doorWave(79,[['E11',1],['E11',1],['E07',1]],1),wave(99,[['E09',2],['E03',3]]),doorWave(127,[['E03',0],['E07',0],['E11',0]],0),wave(153,[['E06',4],['E09',3],['E11',2]]),doorWave(180,[['E07',2],['E03',2],['E11',2]],2),doorWave(203,[['E11',0],['E03',1],['E09',2],['E03',3],['E11',4]],2,true)]
   }
 ]);

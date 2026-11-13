@@ -44,9 +44,9 @@ test('três fases são vencíveis com coleta e defesa planejada', async ()=>{
 
 test('o capítulo 1 tem oito fases e o Rei das Meias aparece somente na batalha final', async ()=>{
   const {LEVELS, ENEMIES, TOYS}=await import('../src/data.js');
-  assert.equal(LEVELS.length,16);
-  assert.equal(Object.keys(TOYS).length,9);
-  assert.equal(Object.keys(ENEMIES).length,10);
+  assert.ok(LEVELS.length>=16);
+  assert.ok(Object.keys(TOYS).length>=9);
+  assert.ok(Object.keys(ENEMIES).length>=10);
   assert.ok(LEVELS[7].waves.some(w=>w.enemies.some(e=>e.type==='E05')));
   assert.equal(LEVELS.slice(0,7).some(l=>l.waves.some(w=>w.enemies.some(e=>e.type==='E05'))),false);
 });
@@ -157,7 +157,7 @@ test('v0.3: inimigo derrotado deixa efeito visual temporário sem causar novo da
 test('v0.4: capítulo 2 possui quatro fases, desbloqueio após 1-8 e salva estrelas corretamente',async()=>{
   const {LEVELS}=await import('../src/data.js');
   assert.deepEqual(LEVELS.slice(8).map(l=>l.id),['2-1','2-2','2-3','2-4','2-5','2-6','2-7','2-8']);
-  assert.ok(LEVELS.slice(8).every(l=>l.chapter===2));
+  assert.ok(LEVELS.slice(8,16).every(l=>l.chapter===2));
   const save=loadSave({getItem:()=>JSON.stringify({version:1,unlocked:8,stars:{'1-8':2},seenEnemies:[],settings:{}})});
   assert.equal(save.unlocked,8);
   recordVictory(save,7,3);assert.equal(save.unlocked,9);

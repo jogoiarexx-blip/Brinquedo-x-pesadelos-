@@ -1,13 +1,13 @@
-# Brinquedos vs. Pesadelos — ALFA v0.5.0
+# Brinquedos vs. Pesadelos — ALFA v0.6.0
 
 **16 fases, dois capítulos completos.** O Capítulo 2 agora termina na fase 2-8, contra a Dama da Insônia.
 
-## Novidades da v0.5.0
+## Novidades da v0.6.0
 
 - Quatro fases novas: 2-5, 2-6, 2-7 e 2-8.
 - Novos brinquedos: **Móbile Musical** (paralisa até 3 faixas) e **Estilingue de Estrelas** (dano em faixas vizinhas).
 - Novos pesadelos: **Aranha do Estrado** (teias), **Despertador Zangado** (acelera ferido), **Dama da Insônia** (chefe com reforços).
-- Progresso existente preservado e modo offline atualizado para v0.5.0.
+- Progresso existente preservado e modo offline atualizado para v0.6.0.
 - Testes automatizados de campanha, novos poderes e saves.
 
 
@@ -59,7 +59,7 @@ Escolha um brinquedo na barra superior e toque em uma casa vazia do tapete de 5 
 
 ## Escopo e próximos passos
 
-Esta é uma **ALFA jogável** com os capítulos 1 e 2. O projeto completo do `GDD.md` prevê 40 fases, mais personagens, capítulos, minigames e melhorias. Os desenhos ainda são procedurais; não existe APK Android nativo. Ainda faltam playtests manuais extensivos e testes específicos em celulares reais.
+Esta é uma **ALFA jogável** com os capítulos 1, 2 e início do 3. O projeto completo do `GDD.md` prevê 40 fases, mais personagens, capítulos, minigames e melhorias. Os desenhos ainda são procedurais; não existe APK Android nativo. Ainda faltam playtests manuais extensivos e testes específicos em celulares reais.
 
 ## Novidades da versão 0.3.0
 
@@ -76,3 +76,8 @@ A orientação forçada de tela cheia depende do suporte do navegador; se não h
 ## Capítulo 2 — Debaixo da Cama (v0.4.0)
 
 Quatro novas fases (2-1 a 2-4), cenário noturno redesenhado, Carrinho Cometa (atravessa dois inimigos), Boneca Soninho (imobiliza temporariamente), Pula-Pula da Cama (salta uma defesa) e Cabide Blindado (escudo absorve dano). Progresso antigo preservado: a fase 2-1 é desbloqueada depois de concluir 1-8.
+
+
+## Capítulo 3 — O Corredor Rangente (v0.6.0)
+
+Quatro fases novas (3-1 a 3-4), com portas que avisam a faixa reforçada cinco segundos antes da onda. Novos brinquedos: Arco de Elástico, que rebate em um segundo inimigo, e Caixa Surpresa, armadilha que explode perto de inimigos em até três faixas. Novo monstro Ladrão de Brilhos, que recolhe estrelas não coletadas, sem diminuir o saldo bancado. 20 fases, 11 brinquedos, 11 inimigos. Código modular, PWA offline e save bvp-save-v1 preservados. Validação em Android físico pendente.
