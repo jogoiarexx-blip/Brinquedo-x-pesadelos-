@@ -1,3 +1,8 @@
+# 1.2.1 — 13/11/2026
+
+- Corrigida atualização a partir de PWA antigo: CSS e todos os módulos recebem versão na URL.
+- Instalação renova cache HTTP antes de preencher cache offline; regressão automatizada adicionada.
+
 # 1.2.0 — 13/11/2026
 
 - Oficina permanente para os 11 brinquedos, níveis 1–4, compras com estrelas e redistribuição gratuita.

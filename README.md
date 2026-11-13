@@ -1,4 +1,10 @@
-# Brinquedos vs. Pesadelos — ALFA v1.2.0
+# Brinquedos vs. Pesadelos — ALFA v1.2.1
+
+## Correção v1.2.1 — atualização confiável
+
+- CSS e módulos usam URLs com versão, evitando mistura de código antigo com tela nova.
+- Instalação do PWA pede os arquivos com cache HTTP renovado.
+- 63 testes de lógica/renderização/cache aprovados.
 
 ## Novidades da v1.2.0 — Oficina de estrelas
 

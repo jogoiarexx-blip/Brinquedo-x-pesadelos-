@@ -1,6 +1,6 @@
-import { BOARD, BOARD_RIGHT, BOARD_BOTTOM, colX, rowY, rectCell, clamp } from './config.js';
-import { LEVELS, TOYS, ENEMIES } from './data.js';
-import { upgradedToy } from './upgrades.js';
+import { BOARD, BOARD_RIGHT, BOARD_BOTTOM, colX, rowY, rectCell, clamp } from './config.js?v=1.2.1';
+import { LEVELS, TOYS, ENEMIES } from './data.js?v=1.2.1';
+import { upgradedToy } from './upgrades.js?v=1.2.1';
 
 export class Battle {
   constructor(index=0, audio=null, events={}, upgrades={}) {

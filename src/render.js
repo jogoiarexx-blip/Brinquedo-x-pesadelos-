@@ -1,5 +1,5 @@
-import { W,H,BOARD,BOARD_RIGHT,BOARD_BOTTOM,colX,rowY,clamp } from './config.js';
-import { TOYS, ENEMIES } from './data.js';
+import { W,H,BOARD,BOARD_RIGHT,BOARD_BOTTOM,colX,rowY,clamp } from './config.js?v=1.2.1';
+import { TOYS, ENEMIES } from './data.js?v=1.2.1';
 const TAU=Math.PI*2;
 const COLORS={ink:'#3b2749',cream:'#fff6da'};
 const BACKDROP_CACHE=new Map();

@@ -1,10 +1,10 @@
-import { W,H,STEP,BOARD,rectCell,clamp } from './config.js';
-import { LEVELS,TOYS,ENEMIES } from './data.js';
-import { Battle } from './engine.js';
-import { loadSave,persistSave,recordVictory,starWallet,unlockedToys,purchaseUpgrade,resetUpgrades } from './save.js';
-import { UPGRADE_COSTS,upgradedToy } from './upgrades.js';
-import { AudioService } from './audio.js';
-import { render, drawIconCanvas } from './render.js';
+import { W,H,STEP,BOARD,rectCell,clamp } from './config.js?v=1.2.1';
+import { LEVELS,TOYS,ENEMIES } from './data.js?v=1.2.1';
+import { Battle } from './engine.js?v=1.2.1';
+import { loadSave,persistSave,recordVictory,starWallet,unlockedToys,purchaseUpgrade,resetUpgrades } from './save.js?v=1.2.1';
+import { UPGRADE_COSTS,upgradedToy } from './upgrades.js?v=1.2.1';
+import { AudioService } from './audio.js?v=1.2.1';
+import { render, drawIconCanvas } from './render.js?v=1.2.1';
 const $=id=>document.getElementById(id);
 const canvas=$('battle-canvas'),context=canvas.getContext('2d',{alpha:false});
 const audio=new AudioService();const save=loadSave();audio.music=save.settings.music;audio.sfx=save.settings.sfx;

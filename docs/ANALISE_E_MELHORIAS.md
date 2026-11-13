@@ -1,6 +1,6 @@
 # Análise do jogo e do GDD — 13/11/2026
 
-Base analisada: `ec460df` (ALFA 1.1.0). Entrega: ALFA 1.2.0, Oficina de estrelas.
+Base analisada: `ec460df` (ALFA 1.1.0). Entrega: ALFA 1.2.1, Oficina de estrelas e atualização de cache.
 
 ## Diagnóstico completo por área
 
@@ -69,10 +69,12 @@ O GDD original e seus adendos também divergem entre si em nomes/IDs e no Capít
 ## Validação e limites
 
 - Linha de base: 53 testes passando antes da mudança.
-- Após Oficina e correção do PRNG: 62 testes passando, incluindo simulações das 20 fases sem melhorias, migração, crédito incremental, compra, bloqueios, limite, armazenamento indisponível, redistribuição e dano/atributos reais.
+- Após Oficina, correção do PRNG e cache: 63 testes passando, incluindo simulações das 20 fases sem melhorias, migração, crédito incremental, compra, bloqueios, limite, armazenamento indisponível, redistribuição e dano/atributos reais.
 - Build do standalone executado; novo HTML independente inclui atlas e módulos.
 - Teste automatizado local de Chromium tentou iniciar, mas foi bloqueado pelo isolamento de sockets do executor (`socket() failed: Operation not permitted`). Não registrar esse teste como aprovado.
-- Inspeção de navegador da versão publicada será registrada após a publicação.
+- Teste no navegador real: fase 1-1 concluída na v1.1.0 com duas estrelas, preparando migração real do progresso.
+- Na atualização v1.2.0, reproduzido HTML novo com módulos antigos em cache. Correção v1.2.1: URLs de CSS/imports com versão e `Request.cache=reload` no precache. Novo teste falhou antes e passou depois da correção.
+- Oficina publicada será inspecionada após a propagação desta correção.
 - Não foram medidos FPS/memória em aparelhos físicos, nem executados os playtests humanos do GDD. Não atribuir nota 90/100 ou chamar a campanha de completa.
 
 ## Ordem recomendada das próximas melhorias
