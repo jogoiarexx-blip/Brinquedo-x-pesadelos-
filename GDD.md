@@ -837,3 +837,16 @@ Novo cenário noturno sob a cama de Lia, com tons azuis, bordas acolchoadas, est
 O mesmo save `bvp-save-v1` é mantido. O progresso avançado agora usa o ID real da fase (`2-1` etc), não presume numeração `1-N`. O catálogo se adapta aos novos brinquedos, a seleção exibe capítulos em separado e o service worker incrementa sua versão para instalar os arquivos novos.
 
 **Estado de desenvolvimento:** quatro fases do segundo capítulo, sem chefe final de capítulo ainda. Próximo marco sugerido: 2-5 a 2-8, chefe original e testes em aparelhos Android reais.
+
+
+---
+
+## Adendo de produção — v0.5.0 (Capítulo 2 concluído)
+
+A campanha jogável possui **16 fases** (1-1 a 2-8). As fases **2-5 Teias no Tapete**, **2-6 O Relógio Perdeu a Hora**, **2-7 Estrelas pela Janela** e **2-8 A Dama da Insônia** completam o segundo capítulo.
+
+**T08 — Móbile Musical:** custo 175, pausa temporariamente pesadelos da faixa onde foi colocado e das faixas adjacentes. **T09 — Estilingue de Estrelas:** custo 200, ataque de área que também atinge faixas vizinhas.
+
+**E08 — Aranha do Estrado:** teias que atrasam a cadência de um brinquedo. **E09 — Despertador Zangado:** acelera quando perde metade da vida. **E10 — Dama da Insônia:** chefe, invoca dois grupos de reforços ao chegar a 65% e 30% de vida.
+
+Os capítulos anteriores e os saves das versões 0.1–0.4 permanecem compatíveis; a jogabilidade continua com 5 linhas e 9 colunas.

@@ -7,6 +7,8 @@ export const TOYS = Object.freeze({
   T05: { id:'T05', name:'Canhão de Confetes', short:'Confetes', cost:175, cooldown:12, maxHp:115, kind:'splash', interval:2.9, damage:34, splashRadius:95, splashRatio:.60, color:'#f5a2c6', description:'Explode confetes e atinge outros monstros próximos na mesma faixa.' },
   T06: { id:'T06', name:'Carrinho Cometa', short:'Cometa', cost:150, cooldown:10, maxHp:115, kind:'pierce', interval:2.0, damage:28, pierces:2, color:'#ffbd67', description:'Dispara carrinhos de brinquedo que atravessam até dois pesadelos.' },
   T07: { id:'T07', name:'Boneca Soninho', short:'Soninho', cost:125, cooldown:12, maxHp:95, kind:'sleep', interval:4.7, damage:10, stunDuration:2.3, color:'#c5b0ef', description:'Lança bocejos mágicos que fazem um pesadelo parar por alguns segundos.' },
+  T08: { id:'T08', name:'Móbile Musical', short:'Móbile', cost:175, cooldown:17, maxHp:110, kind:'music', interval:9.2, stunDuration:1.6, color:'#a9e3c2', description:'Toca uma canção e paralisa pesadelos das três faixas próximas por instantes.' },
+  T09: { id:'T09', name:'Estilingue de Estrelas', short:'Estrelas', cost:200, cooldown:15, maxHp:100, kind:'starburst', interval:3.3, damage:46, splashRatio:.5, splashRadius:115, color:'#f7d88c', description:'Dispara uma estrela que causa dano também aos inimigos das faixas vizinhas.' },
 });
 export const ENEMIES = Object.freeze({
   E01: { id:'E01', name:'Poeira Andante', hp:100, speed:.30, damage:24, interval:1.15, description:'Uma poeirinha atrapalhada, mas persistente.' },
@@ -16,6 +18,9 @@ export const ENEMIES = Object.freeze({
   E05: { id:'E05', name:'Rei das Meias', hp:850, speed:.16, damage:37, interval:.95, boss:true, slowResistance:.6, description:'O grandalhão do armário: leva uma multidão de meias para a batalha final.' },
   E06: { id:'E06', name:'Pula-Pula da Cama', hp:125, speed:.40, damage:23, interval:1.1, jump:true, description:'Usa as molas dos sapatos para saltar uma defesa uma única vez.' },
   E07: { id:'E07', name:'Cabide Blindado', hp:165, shield:85, speed:.25, damage:26, interval:1.2, description:'Veste um cabide como escudo; primeiro é preciso quebrar sua proteção.' },
+  E08: { id:'E08', name:'Aranha do Estrado', hp:135, speed:.37, damage:23, interval:1.0, web:true, description:'Lança teias nos brinquedos e reduz a cadência de seus disparos temporariamente.' },
+  E09: { id:'E09', name:'Despertador Zangado', hp:180, speed:.28, damage:29, interval:1.15, enrage:true, description:'Quando perde metade da vida, dispara correndo pelo tabuleiro.' },
+  E10: { id:'E10', name:'Dama da Insônia', hp:1150, speed:.14, damage:38, interval:1, boss:true, slowResistance:.65, stunResistance:.5, summon:true, description:'Chefe que convoca sombras em duas fases da batalha, mantendo as cinco faixas perigosas.' },
 });
 // Fases autorais com horário em segundos, inimigos e faixas explicitamente balanceados.
 const wave = (at, foes, flag=false) => ({ at, enemies:foes.map(([type, lane])=>({ type, lane })), flag });
@@ -78,7 +83,28 @@ export const LEVELS = Object.freeze([
   },
   { id:'2-4', chapter:2, title:'Todo mundo quietinho!', subtitle:'A Boneca Soninho coloca os pesadelos para dormir.',
     hint:'Os bocejos seguram monstros resistentes. Combine Soninho, Cometa e Abajur.',
-    startingGlow:325, toys:['T01','T02','T03','T04','T06','T07'], reward:null, duration:210,
+    startingGlow:325, toys:['T01','T02','T03','T04','T06','T07'], reward:'T08', duration:210,
     waves:[wave(15,[['E01',2],['E06',2]]),wave(32,[['E07',0],['E06',4]]),wave(54,[['E03',1],['E07',3]]),wave(76,[['E06',0],['E06',2],['E06',4]]),wave(101,[['E07',1],['E07',3],['E03',2]]),wave(126,[['E07',0],['E06',1],['E07',4]]),wave(149,[['E03',0],['E07',2],['E06',3]]),wave(173,[['E07',1],['E03',3],['E07',4]]),wave(192,[['E07',0],['E06',0],['E07',1],['E03',2],['E07',3],['E06',4]],true)]
+  }
+,
+  { id:'2-5', chapter:2, title:'Teias no tapete', subtitle:'Aranhas travessas deixam brinquedos grudados no chão.',
+    hint:'A Aranha do Estrado atrasa os atiradores. O Móbile Musical bloqueia faixas vizinhas!',
+    startingGlow:350, toys:['T01','T02','T03','T04','T07','T08'], reward:null, duration:214,
+    waves:[wave(16,[['E08',2]]),wave(35,[['E01',0],['E08',4]]),wave(57,[['E06',1],['E08',3]]),wave(79,[['E07',0],['E08',2]]),wave(103,[['E08',1],['E08',3],['E02',4]]),wave(126,[['E07',2],['E06',0],['E08',4]]),wave(151,[['E03',1],['E08',1],['E07',3]]),wave(177,[['E08',0],['E06',2],['E08',4]]),wave(197,[['E08',0],['E07',1],['E08',2],['E07',3],['E08',4]],true)]
+  },
+  { id:'2-6', chapter:2, title:'O relógio perdeu a hora', subtitle:'Despertadores correm quando ficam irritados.',
+    hint:'O Despertador acelera quando sua vida chega à metade. Pião ou Soninho ajudam!',
+    startingGlow:350, toys:['T01','T02','T04','T06','T07','T08'], reward:'T09', duration:228,
+    waves:[wave(15,[['E09',2]]),wave(36,[['E09',0],['E01',4]]),wave(55,[['E08',1],['E09',3]]),wave(77,[['E06',0],['E09',4]]),wave(100,[['E07',2],['E09',2]]),wave(126,[['E09',1],['E08',3],['E09',4]]),wave(149,[['E03',0],['E09',2],['E08',4]]),wave(172,[['E09',0],['E07',1],['E09',3]]),wave(191,[['E09',1],['E08',2],['E09',4]]),wave(211,[['E09',0],['E08',1],['E07',2],['E08',3],['E09',4]],true)]
+  },
+  { id:'2-7', chapter:2, title:'Estrelas pela janela', subtitle:'Uma chuva brilhante espanta a escuridão.',
+    hint:'Estilingue de Estrelas atinge inimigos das faixas vizinhas. Coloque no centro!',
+    startingGlow:375, toys:['T01','T02','T03','T07','T08','T09'], reward:null, duration:240,
+    waves:[wave(15,[['E07',2],['E08',2]]),wave(35,[['E09',0],['E09',4]]),wave(56,[['E08',1],['E08',3]]),wave(79,[['E03',2],['E09',2]]),wave(105,[['E07',0],['E06',1],['E07',4]]),wave(129,[['E08',0],['E09',1],['E08',3]]),wave(151,[['E07',2],['E09',4],['E08',2]]),wave(177,[['E09',0],['E07',1],['E09',3]]),wave(200,[['E08',0],['E08',2],['E08',4]]),wave(224,[['E07',0],['E09',1],['E07',2],['E09',3],['E07',4]],true)]
+  },
+  { id:'2-8', chapter:2, title:'A Dama da Insônia', subtitle:'A rainha da noite se recusou a dormir!',
+    hint:'Prepare Brilhos, brinquedos em várias linhas e Móbiles. A Dama da Insônia invoca reforços!',
+    startingGlow:400, toys:['T01','T02','T04','T07','T08','T09'], reward:null, duration:266,
+    waves:[wave(14,[['E08',2]]),wave(33,[['E09',0],['E09',4]]),wave(53,[['E07',1],['E07',3]]),wave(75,[['E06',0],['E08',2],['E06',4]]),wave(99,[['E09',1],['E09',3],['E07',2]]),wave(124,[['E08',0],['E08',4]]),wave(147,[['E07',0],['E09',2],['E07',4]]),wave(170,[['E08',1],['E08',3],['E09',4]]),wave(193,[['E09',0],['E07',2],['E09',4]]),wave(213,[['E08',1],['E08',3]]),wave(241,[['E10',2],['E07',0],['E07',4]],true)]
   }
 ]);

@@ -175,6 +175,31 @@ function drawToy(c,t,time,visualMotion=true){
     ellipse(c,0,-25,6,8,'#9a6489');star(c,0,7,10,5,'#fff1ac');
     ellipse(c,26,-67,5,5,'#d3c4fc');
   }
+  if(t.type==='T08'){
+    // Móbile Musical: sininhos suspensos que fazem os pesadelos cochilar.
+    rr(c,-6,-48,12,72,5,'#a6bea6','#557d84',3);
+    line(c,[[-35,-57],[35,-57]],'#f0d68f',5);
+    line(c,[[-25,-57],[-25,-31]],'#d9e9e1',3);line(c,[[24,-57],[24,-30]],'#d9e9e1',3);
+    ellipse(c,-25,-22,14,15,'#f9db87');ellipse(c,24,-19,14,17,'#b0d7e9');
+    ellipse(c,-25,-14,5,4,'#7b6887');ellipse(c,24,-11,5,4,'#7b6887');
+    rr(c,-21,9,41,21,11,'#9ddfc5','#537b8a',3);
+    eye(c,-11,18,4);eye(c,8,18,4);star(c,0,-59,12,5,'#ffeba6');
+    if(t.recoil>0){for(let i=0;i<3;i++)txt(c,'♪',-40+i*30,-68-i%2*11,16,'#e3ffba');}
+  }else if(t.type==='T09'){
+    // Estilingue de Estrelas: base com madeira elástica e munição luminosa.
+    line(c,[[-15,20],[-14,-26],[-31,-53]],'#b4867b',12);
+    line(c,[[-13,-23],[14,-52]],'#b4867b',12);
+    line(c,[[-31,-53],[-8,-34],[14,-52]],'#fae5b7',4);
+    rr(c,-33,6,60,22,10,'#77b7c4','#4e738b',3);
+    ellipse(c,-5,-15,25,22,'#f8cf78');eye(c,-12,-16,5);eye(c,4,-16,5);
+    star(c,-4,-43,19,9,'#fff3a7');ellipse(c,-12,-50,4,4,'#ffffff');
+    star(c,27,-19,8,3,'#ffd77a');
+  }
+  if(t.webTime>0){
+    c.save();c.globalAlpha=.7;
+    for(let i=-1;i<=1;i++)line(c,[[-33,-44+i*21],[33,-12+i*21]],'#e5edfa',2);
+    c.restore();
+  }
   if(t.hp<t.maxHp){rr(c,-34,-70,68,6,3,'#5d4454');rr(c,-33,-69,66*t.hp/t.maxHp,4,2,t.hp/t.maxHp>.4?'#9bddb1':'#e67c84');}
   c.restore();
 }
@@ -253,6 +278,38 @@ function drawEnemy(c,e,time,visualMotion=true){
       c.restore();
     }
   }
+  if(e.type==='E08'){
+    // Aranha do Estrado: pernas de mola, olhos grandes e teias feitas com lã.
+    for(let side of [-1,1])for(let n=0;n<3;n++){
+      const y=-35+n*19;line(c,[[side*19,y],[side*(41+n*3),y-14+n*4],[side*(44+n*4),y+16]],'#7c78ab',5);
+    }
+    ellipse(c,0,-17,34,31,'#8a78bd');ellipse(c,0,-42,24,23,'#b5a5d8');
+    eye(c,-10,-45,6);eye(c,11,-45,6);ellipse(c,1,-30,8,5,'#5f4e85');
+    star(c,-18,-4,7,3,'#f5dc9f');star(c,17,-4,7,3,'#f5dc9f');
+    if(e.webTimer<1.1)line(c,[[-6,-10],[-27,20],[24,8]],'#f4f6ff',2);
+  }else if(e.type==='E09'){
+    // Despertador Zangado: carrilhão de duas campainhas, fica vermelho ao acelerar.
+    const angry=e.enraged;
+    line(c,[[-22,3],[-25,25]],'#806a86',8);line(c,[[23,3],[28,25]],'#806a86',8);
+    ellipse(c,0,-25,35,37,angry?'#ed7c84':'#e5b37e');
+    ellipse(c,0,-25,28,29,'#fff1c8');
+    ellipse(c,-25,-62,17,12,'#a1c3d0');ellipse(c,24,-62,17,12,'#a1c3d0');
+    line(c,[[-18,-43],[-28,-57]],'#7e7294',5);line(c,[[18,-43],[27,-57]],'#7e7294',5);
+    line(c,[[0,-25],[0,-45]],'#6d6683',4);line(c,[[0,-25],[15,-17]],'#6d6683',4);
+    eye(c,-12,-23,5);eye(c,12,-23,5);ellipse(c,0,-12,angry?11:6,5,'#6d516f');
+    if(angry){star(c,0,-65,7,3,'#ffd3a0');line(c,[[-23,-11],[-36,-8]],'#fa9a9c',4);}
+  }else if(e.type==='E10'){
+    // Dama da Insônia: chefe original de sombras e lençóis, coroa de luas.
+    ellipse(c,-26,22,17,11,'#544b86');ellipse(c,30,22,17,11,'#544b86');
+    rr(c,-44,-31,88,56,21,'#6964a6','#322e69',5);
+    ellipse(c,0,-43,38,39,'#b2a4d5');
+    ellipse(c,-41,-13,15,24,'#9791c9');ellipse(c,42,-13,15,24,'#9791c9');
+    c.beginPath();c.moveTo(-30,-74);c.lineTo(-22,-91);c.lineTo(-4,-75);c.lineTo(13,-98);c.lineTo(22,-72);c.lineTo(31,-81);c.lineTo(29,-63);c.closePath();c.fillStyle='#c6baff';c.fill();c.strokeStyle='#5f549a';c.lineWidth=4;c.stroke();
+    star(c,10,-83,11,5,'#fff5b5');
+    eye(c,-13,-44,7);eye(c,14,-44,7);ellipse(c,1,-21,9,7,'#5a4b7c');
+    for(let i=0;i<3;i++)star(c,-31+i*31,5+(i%2)*6,7,3,'#e2e7f7');
+    if((e.summons||0)>0){c.save();c.globalAlpha=.6;ellipse(c,0,-24,48,54,'#8074d351');c.restore();}
+  }
   if(e.stunTime>0){
     txt(c,'Z z',12,-87,17,'#e1d7ff');star(c,26,-71,5,2,'#d8ccff');
   }
@@ -276,6 +333,9 @@ function drawProjectile(c,p){
     rr(c,p.x-13,p.y-8,28,16,6,'#f9b965','#a06876',2);
     ellipse(c,p.x-7,p.y+7,5,5,'#6f638d');ellipse(c,p.x+8,p.y+7,5,5,'#6f638d');
     star(c,p.x,p.y-3,7,3,'#fff4bf');
+  }else if(p.kind==='starburst'){
+    star(c,p.x,p.y,20,9,'#fff0ab');star(c,p.x,p.y,10,4,'#efab66');
+    for(let i=0;i<3;i++)star(c,p.x-24+i*23,p.y-10+(i%2)*18,5,2,'#fffbd2');
   }else if(p.kind==='sleep'){
     ellipse(c,p.x,p.y,15,12,'#b8a7eb');txt(c,'z',p.x,p.y-2,15,'#f6f0ff');
   }else if(p.kind==='slow'){
@@ -286,10 +346,10 @@ function drawProjectile(c,p){
 }
 function drawImpact(c,i){
   const k=clamp(i.age/i.life,0,1);c.save();c.globalAlpha=(1-k)*.8;
-  const r=(i.kind==='splash'?12:6)+(i.kind==='splash'?50:25)*k;
+  const r=(['splash','starburst'].includes(i.kind)?12:6)+(['splash','starburst'].includes(i.kind)?50:25)*k;
   c.lineWidth=i.kind==='slow'?4:3;c.strokeStyle=i.kind==='sleep'?'#e0cbff':i.kind==='jump'?'#e2d1ff':i.kind==='slow'?'#c9f9ff':i.kind==='bite'?'#ffe3af':i.kind==='splash'?'#ffe3b3':'#fff4d6';
   c.beginPath();c.arc(i.x,i.y,r,0,TAU);c.stroke();
-  if(i.kind==='splash'){for(let a=0;a<7;a++){const theta=a*TAU/7+k;star(c,i.x+Math.cos(theta)*(r+6),i.y+Math.sin(theta)*(r+6),5,2,['#f7a1ca','#fff09d','#9ce9d9'][a%3]);}}
+  if(['splash','starburst'].includes(i.kind)){for(let a=0;a<7;a++){const theta=a*TAU/7+k;star(c,i.x+Math.cos(theta)*(r+6),i.y+Math.sin(theta)*(r+6),5,2,['#f7a1ca','#fff09d','#9ce9d9'][a%3]);}}
   if(i.kind==='slow')for(let a=0;a<4;a++){const theta=a*TAU/4;star(c,i.x+Math.cos(theta)*(r+6),i.y+Math.sin(theta)*(r+6),7,3,'#e3fcff');}
   c.restore();
 }
@@ -309,9 +369,9 @@ function drawBossHealth(c,game){
   if(!boss)return;
   const ratio=clamp(boss.hp/boss.maxHp,0,1);
   rr(c,415,646,453,42,16,'#382946ea','#ffda9a',3);
-  txt(c,'👑 Rei das Meias',493,658,15,'#ffdeab','left');
-  rr(c,590,652,257,19,9,'#241a32','#b88da9',2);
-  rr(c,594,655,249*ratio,13,6,ratio>.35?'#f795af':'#ffe18d');
+  txt(c,boss.type==='E10'?'☾ Dama da Insônia':'👑 Rei das Meias',425,658,15,'#ffdeab','left');
+  rr(c,618,652,229,19,9,'#241a32','#b88da9',2);
+  rr(c,622,655,221*ratio,13,6,ratio>.35?'#f795af':'#ffe18d');
 }
 export function render(c,game,menu=false,visualMotion=true){
   const t=visualMotion ? (game?.time ?? performance.now()*.001) : 0;

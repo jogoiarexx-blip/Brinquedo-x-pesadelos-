@@ -1,3 +1,11 @@
+# v0.5.0 — 12/11/2026
+
+- Quatro novas fases de campanha (2-5 a 2-8) e chefe Dama da Insônia.
+- Móbile Musical e Estilingue de Estrelas com desenhos e mecânicas novas.
+- Aranha do Estrado (teias), Despertador Zangado (aceleração) e chefe com duas invocações.
+- 16 fases em dois capítulos, progresso antigo preservado e cache PWA v0.5.0.
+- Testes de mecânicas e simulações automatizadas.
+
 # Histórico de versões
 
 ## v0.4.0 — Capítulo 2: Debaixo da Cama

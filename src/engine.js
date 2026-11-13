@@ -43,7 +43,7 @@ export class Battle {
     if(error){this.audio.play('no');this.startToast(error,1.3);return false;}
     const data=TOYS[id];
     const toy={id:this.id++,type:id,row,col,x:colX(col),y:rowY(row),hp:data.maxHp,maxHp:data.maxHp,
-      timer:data.kind==='producer'?7.5:.33+this.rand()*.6,hit:0,age:0,recoil:0};
+      timer:data.kind==='producer'?7.5:data.kind==='music'?3.2:.33+this.rand()*.6,hit:0,age:0,recoil:0,webTime:0};
     this.grid[row][col]=toy;this.glow-=data.cost;this.toyCooldowns[id]=data.cooldown;this.toysPlaced++;
     this.audio.play('place');this.puff(toy.x,toy.y,'#ffe2a1',9);this.addFeedback(toy.x,toy.y-68,'+ Defesa','#fff1bd');this.events.changed?.();
     return true;
@@ -70,7 +70,7 @@ export class Battle {
   }
   spawnEnemy(type,lane,offset=0){
     const d=ENEMIES[type];if(!d)return;
-    this.enemies.push({id:this.id++,type,row:lane,x:BOARD_RIGHT+65+offset,y:rowY(lane),hp:d.hp,maxHp:d.hp,shield:d.shield||0,maxShield:d.shield||0,jumped:false,jumpTime:0,stunTime:0,attackTimer:.45,hit:0,age:0,slowTime:0,slowFactor:1,attack:0});
+    this.enemies.push({id:this.id++,type,row:lane,x:BOARD_RIGHT+65+offset,y:rowY(lane),hp:d.hp,maxHp:d.hp,shield:d.shield||0,maxShield:d.shield||0,summons:0,webTimer:4.8,enraged:false,jumped:false,jumpTime:0,stunTime:0,attackTimer:.45,hit:0,age:0,slowTime:0,slowFactor:1,attack:0});
     this.totalSpawns++;
     this.events.enemySeen?.(type);
   }
@@ -113,13 +113,23 @@ export class Battle {
       if(s.age>s.dropTime+8)this.stars.splice(i,1);
     }
     for(const toy of this.allToys){
-      toy.age+=dt;toy.hit=Math.max(0,toy.hit-dt);toy.recoil=Math.max(0,(toy.recoil||0)-dt);toy.timer-=dt;
+      toy.age+=dt;toy.hit=Math.max(0,toy.hit-dt);toy.recoil=Math.max(0,(toy.recoil||0)-dt);toy.webTime=Math.max(0,(toy.webTime||0)-dt);toy.timer-=dt*(toy.webTime>0?.56:1);
       const d=TOYS[toy.type];
       if(d.kind==='producer'&&toy.timer<=0){
         toy.timer+=d.interval;
         this.spawnStar(toy.x+21,toy.y-27,false);this.puff(toy.x,toy.y-23,'#ffee84',5);
       }
-      if(['shooter','slow','splash','pierce','sleep'].includes(d.kind)&&toy.timer<=0){
+      if(d.kind==='music'&&toy.timer<=0){
+        toy.timer+=d.interval;toy.recoil=.4;let affected=0;
+        for(const enemy of this.enemies){
+          if(Math.abs(enemy.row-toy.row)<=1 && enemy.hp>0 && Math.abs(enemy.x-toy.x)<BOARD.cw*6){
+            enemy.stunTime=Math.max(enemy.stunTime,d.stunDuration*(ENEMIES[enemy.type].stunResistance??1));affected++;
+            this.addImpact(enemy.x,enemy.y-30,'sleep');
+          }
+        }
+        if(affected){this.puff(toy.x,toy.y-25,'#c1eec4',8);this.audio.play('sleep');}
+      }
+      if(['shooter','slow','splash','pierce','sleep','starburst'].includes(d.kind)&&toy.timer<=0){
         const target=this.enemies.filter(e=>e.row===toy.row&&e.hp>0&&e.x>toy.x+18&&e.x<BOARD_RIGHT+118).sort((a,b)=>a.x-b.x)[0];
         if(target){
           toy.timer+=d.interval;toy.recoil=.22;
@@ -133,8 +143,8 @@ export class Battle {
       const hit=this.enemies.filter(e=>e.row===p.row&&e.hp>0&&e.x>=old-15&&e.x<=p.x+19&&!(p.hitIds||[]).includes(e.id)).sort((a,b)=>a.x-b.x)[0];
       if(hit){
         // A colisão é resolvida uma única vez: lento, impacto normal ou confete com dano em área.
-        const victims=p.kind==='splash'
-          ? this.enemies.filter(e=>e.row===p.row&&e.hp>0&&Math.abs(e.x-hit.x)<=p.splashRadius)
+        const victims=['splash','starburst'].includes(p.kind)
+          ? this.enemies.filter(e=>e.hp>0&&Math.abs(e.x-hit.x)<=p.splashRadius&&(p.kind==='starburst'?Math.abs(e.row-p.row)<=1:e.row===p.row))
           : [hit];
         for(const victim of victims){
           const damage=victim===hit?p.damage:p.damage*p.splashRatio;
@@ -151,7 +161,7 @@ export class Battle {
             victim.slowFactor=Math.min(victim.slowFactor,1-(1-p.slowFactor)*resist);
             victim.slowTime=Math.max(victim.slowTime,p.slowDuration*resist);
           }
-          this.puff(victim.x,victim.y-12,p.kind==='slow'?'#9beafb':p.kind==='splash'?'#ff9acc':p.kind==='sleep'?'#cfb4ff':'#ffdc8f',p.kind==='splash'?7:4);
+          this.puff(victim.x,victim.y-12,p.kind==='slow'?'#9beafb':['splash','starburst'].includes(p.kind)?'#ff9acc':p.kind==='sleep'?'#cfb4ff':'#ffdc8f',p.kind==='splash'?7:4);
           if(victim.hp<=0)this.killEnemy(victim);
         }
         if(p.kind==='pierce'){
@@ -162,6 +172,23 @@ export class Battle {
     }
     for(let i=this.enemies.length-1;i>=0;i--){
       const e=this.enemies[i],d=ENEMIES[e.type];e.age+=dt;e.hit=Math.max(0,e.hit-dt);e.attack=Math.max(0,(e.attack||0)-dt);e.jumpTime=Math.max(0,(e.jumpTime||0)-dt);e.slowTime=Math.max(0,e.slowTime-dt);if(e.slowTime===0)e.slowFactor=1;
+      if(d.enrage&&!e.enraged&&e.hp<=e.maxHp*.5){e.enraged=true;this.addImpact(e.x,e.y-25,'jump');this.audio.play('wave');}
+      if(d.summon){
+        const threshold=[.65,.30];
+        if(e.summons<threshold.length&&e.hp<=e.maxHp*threshold[e.summons]){
+          e.summons++;const lanes=e.summons===1?[0,4]:[1,3];
+          for(const lane of lanes)this.spawnEnemy(e.summons===1?'E08':'E09',lane,0);
+          this.flashBanner('A DAMA CHAMOU MAIS PESADELOS!',3);this.audio.play('wave');
+        }
+      }
+      if(d.web){
+        e.webTimer-=dt;
+        if(e.webTimer<=0){
+          const nearby=this.grid[e.row].find(toy=>toy&&toy.x<e.x&&e.x-toy.x<BOARD.cw*3);
+          if(nearby){nearby.webTime=Math.max(nearby.webTime||0,4.1);e.webTimer=8.5;this.addImpact(nearby.x,nearby.y-20,'slow');this.audio.play('hit');}
+          else e.webTimer=.4;
+        }
+      }
       const wasAsleep=e.stunTime>0;e.stunTime=Math.max(0,(e.stunTime||0)-dt);if(wasAsleep)continue;
       if(d.jump&&!e.jumped){
         const hurdle=this.grid[e.row].filter(t=>t&&e.x>t.x+39&&e.x<t.x+87).sort((a,b)=>b.x-a.x)[0];
@@ -174,7 +201,7 @@ export class Battle {
           if(toy.hp<=0){this.grid[toy.row][toy.col]=null;this.audio.play('remove');this.puff(toy.x,toy.y,'#eecb9e',14);this.events.changed?.();}
           else this.audio.play('hit');
         }
-      }else{e.x-=d.speed*e.slowFactor*BOARD.cw*dt;e.attackTimer=Math.min(e.attackTimer,.35);}
+      }else{e.x-=d.speed*(e.enraged?1.75:1)*e.slowFactor*BOARD.cw*dt;e.attackTimer=Math.min(e.attackTimer,.35);}
       if(e.x<BOARD.x-29){
         if(this.trainReady[e.row]){
           this.trainReady[e.row]=false;this.trains.push({row:e.row,x:BOARD.x-83,age:0});
@@ -200,6 +227,6 @@ export class Battle {
   }
   killEnemy(enemy){
     const idx=this.enemies.indexOf(enemy);if(idx<0)return;
-    this.enemies.splice(idx,1);this.killCount++;this.defeated.push({type:enemy.type,x:enemy.x,y:enemy.y,age:0,life:.62});if(this.defeated.length>18)this.defeated.shift();this.puff(enemy.x,enemy.y-13,'#c4a7db',ENEMIES[enemy.type].boss?32:11);if(ENEMIES[enemy.type].boss)this.flashBanner('O REI DAS MEIAS FOI DERROTADO!',3);this.audio.play('enemy');
+    this.enemies.splice(idx,1);this.killCount++;this.defeated.push({type:enemy.type,x:enemy.x,y:enemy.y,age:0,life:.62});if(this.defeated.length>18)this.defeated.shift();this.puff(enemy.x,enemy.y-13,'#c4a7db',ENEMIES[enemy.type].boss?32:11);if(ENEMIES[enemy.type].boss)this.flashBanner(enemy.type==='E10'?'A DAMA DA INSÔNIA FOI DERROTADA!':'O REI DAS MEIAS FOI DERROTADO!',3);this.audio.play('enemy');
   }
 }

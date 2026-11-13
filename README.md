@@ -1,10 +1,21 @@
-# Brinquedos vs. Pesadelos — ALFA v0.4.0
+# Brinquedos vs. Pesadelos — ALFA v0.5.0
+
+**16 fases, dois capítulos completos.** O Capítulo 2 agora termina na fase 2-8, contra a Dama da Insônia.
+
+## Novidades da v0.5.0
+
+- Quatro fases novas: 2-5, 2-6, 2-7 e 2-8.
+- Novos brinquedos: **Móbile Musical** (paralisa até 3 faixas) e **Estilingue de Estrelas** (dano em faixas vizinhas).
+- Novos pesadelos: **Aranha do Estrado** (teias), **Despertador Zangado** (acelera ferido), **Dama da Insônia** (chefe com reforços).
+- Progresso existente preservado e modo offline atualizado para v0.5.0.
+- Testes automatizados de campanha, novos poderes e saves.
+
 
 Jogo 2D original de defesa por faixas, com jogabilidade acessível no estilo dos clássicos de estratégia de tabuleiro. Funciona em navegador de PC e celular, sem dependências externas ou instalação.
 
 ## Novidades da v0.4.0
 
-- **Capítulo 1 completo com 12 fases** (antes eram 3). O confronto da 1-8 é contra o **Rei das Meias**.
+- **Capítulo 1 completo com 8 fases** (antes eram 3). O confronto da 1-8 é contra o **Rei das Meias**.
 - **5 brinquedos defensores:** Soldadinho Estalo, Abajur Pirilampo, Urso Travesseiro, **Pião de Geada** (lentidão) e **Canhão de Confetes** (dano em área).
 - **5 inimigos:** Poeira Andante, Meia Zanzante, **Colcha Ambulante** (resistência), **Rabisco Corredor** (velocidade) e **Rei das Meias** (chefe).
 - Ilustrações Canvas procedurais originais, novas partículas e efeitos sonoros, ajuste de dificuldade na 1-4.
@@ -48,7 +59,7 @@ Escolha um brinquedo na barra superior e toque em uma casa vazia do tapete de 5 
 
 ## Escopo e próximos passos
 
-Esta é uma **ALFA jogável** com o capítulo 1. O projeto completo do `GDD.md` prevê 40 fases, mais personagens, capítulos, minigames e melhorias. Os desenhos ainda são procedurais; não existe APK Android nativo. Ainda faltam playtests manuais extensivos e testes específicos em celulares reais.
+Esta é uma **ALFA jogável** com os capítulos 1 e 2. O projeto completo do `GDD.md` prevê 40 fases, mais personagens, capítulos, minigames e melhorias. Os desenhos ainda são procedurais; não existe APK Android nativo. Ainda faltam playtests manuais extensivos e testes específicos em celulares reais.
 
 ## Novidades da versão 0.3.0
 
