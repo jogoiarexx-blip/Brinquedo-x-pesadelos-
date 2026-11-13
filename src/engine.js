@@ -71,6 +71,7 @@ export class Battle {
   spawnEnemy(type,lane,offset=0){
     const d=ENEMIES[type];if(!d)return;
     this.enemies.push({id:this.id++,type,row:lane,x:BOARD_RIGHT+65+offset,y:rowY(lane),hp:d.hp,maxHp:d.hp,shield:d.shield||0,maxShield:d.shield||0,summons:0,webTimer:4.8,enraged:false,jumped:false,jumpTime:0,stunTime:0,attackTimer:.45,hit:0,age:0,slowTime:0,slowFactor:1,attack:0,stealTimer:1.4});
+    if(d.boss)this.flashBanner(type==='E10'?'☾  A DAMA DA INSÔNIA DESPERTOU!':'👑  O REI DAS MEIAS CHEGOU!',3.4);
     this.totalSpawns++;
     this.events.enemySeen?.(type);
   }
