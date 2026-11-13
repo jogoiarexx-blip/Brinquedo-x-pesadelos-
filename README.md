@@ -1,8 +1,15 @@
-# Brinquedos vs. Pesadelos — ALFA v0.6.0
+# Brinquedos vs. Pesadelos — ALFA v0.7.0
 
-**16 fases, dois capítulos completos.** O Capítulo 2 agora termina na fase 2-8, contra a Dama da Insônia.
+**20 fases, três capítulos em desenvolvimento.** O Capítulo 2 agora termina na fase 2-8, contra a Dama da Insônia.
 
-## Novidades da v0.6.0
+## Novidades da v0.7.0
+
+- Miniaturas desenhadas dos brinquedos nas cartas de seleção.
+- Iluminação ambiente, vinheta suave, poeira flutuante e moldura de tabuleiro refinada.
+- Sombras radiais, brilhos especulares, rastros de projéteis e impactos mais luminosos.
+- Interface com acabamento em camadas e destaque visual na carta selecionada.
+
+## Histórico — v0.6.0
 
 - Quatro fases novas: 2-5, 2-6, 2-7 e 2-8.
 - Novos brinquedos: **Móbile Musical** (paralisa até 3 faixas) e **Estilingue de Estrelas** (dano em faixas vizinhas).

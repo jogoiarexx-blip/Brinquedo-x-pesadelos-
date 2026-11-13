@@ -1,3 +1,13 @@
+# v0.7.0 — 13/11/2026
+
+- Revisão gráfica geral sem alterar regras, hitboxes ou balanceamento.
+- Cartas de defesa agora exibem miniaturas desenhadas no mesmo Canvas dos personagens.
+- Iluminação ambiente por capítulo, vinheta suave, poeira flutuante e acabamento do tabuleiro.
+- Sombras radiais, brilhos especulares nos brinquedos e inimigos e rastros coloridos dos projéteis.
+- Impactos com núcleo luminoso, moldura e interface com relevo e brilho selecionado.
+- Mantidos os 20 níveis, os três capítulos e a compatibilidade com os salvamentos anteriores.
+- Testes específicos do renderizador e miniaturas adicionados.
+
 # v0.6.0 — 13/11/2026
 
 - Capítulo 3: Corredor Rangente, fases 3-1 a 3-4.

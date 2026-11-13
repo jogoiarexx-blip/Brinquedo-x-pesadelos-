@@ -50,6 +50,6 @@ test('v0.5: desenho dos personagens inéditos sem exceção',async()=>{
  const {render}=await import('../src/render.js');const b=new Battle(15,quiet);
  for(const [i,id] of ['T08','T09'].entries()){b.grid[i+1][2]={id:i,type:id,row:i+1,col:2,x:colX(2),y:rowY(i+1),hp:TOYS[id].maxHp,maxHp:TOYS[id].maxHp,age:0,hit:0,webTime:1};}
  for(const [i,id] of ['E08','E09','E10'].entries()){b.spawnEnemy(id,i);b.enemies[i].x=colX(6);}
- const gradient={addColorStop(){}};const c=new Proxy({}, {get:(o,k)=>k==='createLinearGradient'?()=>gradient:(o[k]??(()=>{})),set:(o,k,v)=>(o[k]=v,true)});
+ const gradient={addColorStop(){}};const c=new Proxy({}, {get:(o,k)=>(k==='createLinearGradient'||k==='createRadialGradient')?()=>gradient:(o[k]??(()=>{})),set:(o,k,v)=>(o[k]=v,true)});
  assert.doesNotThrow(()=>render(c,b,false,true));
 });

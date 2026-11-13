@@ -116,7 +116,7 @@ test('o renderizador suporta todas as cinco defesas, cinco monstros e projéteis
   b.projectiles.push({id:202,row:3,x:colX(4),y:rowY(3)-12,kind:'slow'});
   b.projectiles.push({id:203,row:4,x:colX(4),y:rowY(4)-12,kind:'splash'});
   const gradient={addColorStop(){}};
-  const c=new Proxy({}, {get:(obj,key)=>key==='createLinearGradient'?()=>gradient:(obj[key]??(()=>{})),set:(obj,key,value)=>(obj[key]=value,true)});
+  const c=new Proxy({}, {get:(obj,key)=>(key==='createLinearGradient'||key==='createRadialGradient')?()=>gradient:(obj[key]??(()=>{})),set:(obj,key,value)=>(obj[key]=value,true)});
   assert.doesNotThrow(()=>render(c,b,false,true));
   assert.doesNotThrow(()=>render(c,null,true,true));
 });

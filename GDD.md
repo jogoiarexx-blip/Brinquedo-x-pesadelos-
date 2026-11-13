@@ -857,3 +857,10 @@ Os capítulos anteriores e os saves das versões 0.1–0.4 permanecem compatíve
 ## Implementação v0.6.0 — Capítulo 3: O Corredor Rangente
 
 Fases jogáveis 3-1 a 3-4, somando 20. Portas avisam a faixa principal de ondas selecionadas com cinco segundos de antecedência. A fase 3-1 libera o Arco de Elástico (150 Brilhos, rebate num segundo alvo); a 3-3 libera a Caixa Surpresa (125 Brilhos, arma após 1,05 s, dano 190 em três faixas). O Ladrão de Brilhos pode roubar estrelas no tabuleiro mas nunca desconta energia guardada. Grid 5×9 preservado. Pendências: fases 3-5 a 3-8, chefe Vovô Poeirão e testes Android físicos.
+
+
+---
+
+## Adendo visual — v0.7.0
+
+A direção de arte deve manter a leitura clara do tabuleiro 5×9 e o humor de desenho animado. A revisão gráfica acrescenta miniaturas pintadas dos próprios brinquedos nas cartas, iluminação ambiente por capítulo, sombras radiais de contato, brilhos especulares discretos, rastros de projéteis e impactos com núcleo luminoso. Os efeitos devem ser leves, respeitar a opção de reduzir movimento e nunca esconder inimigos, casas, custos ou avisos de onda.
