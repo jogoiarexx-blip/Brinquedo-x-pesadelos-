@@ -78,3 +78,31 @@
 .speed-btn[aria-pressed="true"]{background:linear-gradient(#a7deba,#5caa97);border-color:#e8f6ba;color:#173b3d}
 .speed-btn small{font-size:.44em}
 @media(max-width:900px){.speed-btn{font-size:clamp(12px,2.4vw,22px)}}
+
+/* Oficina: estrelas da campanha e evolução permanente. */
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap;border:0}
+.workshop-panel{width:100%;max-width:1160px;padding:24px 28px;scrollbar-color:#d4b08e #3d2e56;scrollbar-width:thin}
+.workshop-panel h1{font-size:clamp(21px,2.8vw,36px)}
+.workshop-summary{display:flex;align-items:center;gap:20px;background:linear-gradient(115deg,#ffdf9430,#aab7ff12);border:1px solid #f7dca66b;border-radius:18px;margin:16px 0 12px;padding:15px 20px}
+.wallet-primary{display:grid;grid-template-columns:auto auto;column-gap:8px;align-items:center;text-align:center;flex-shrink:0;color:#ffe69d}
+.wallet-primary>span{font-size:28px}.wallet-primary>strong{font-size:38px;line-height:1}.wallet-primary>small{grid-column:1/-1;font-size:10px;font-weight:900;letter-spacing:.1em;margin-top:5px}
+.workshop-summary p{flex:1;margin:0;font-size:18px;font-weight:900;color:#fff0cc}.workshop-summary p small{display:block;font-size:12px;font-weight:400;margin-top:5px;line-height:1.4;color:#e0cadd}
+.wallet-history{font-size:12px;line-height:1.8;color:#e5d5e8;text-align:right}.wallet-history strong{color:#ffe5a4}
+.workshop-panel .workshop-help{font-size:12px;line-height:1.5;color:#e2cede;max-width:890px}
+.upgrade-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:18px}
+.upgrade-card{display:flex;flex-direction:column;min-width:0;padding:16px;background:linear-gradient(145deg,#8f72935c,#211b3e80);border:1px solid #c5a2bc70;border-radius:18px;box-shadow:inset 0 1px 0 #fff2}
+.upgrade-card.locked{background:#2c234350;border-style:dashed}.upgrade-card.locked .upgrade-art{filter:grayscale(.85);opacity:.55}.upgrade-card.maxed{border-color:#efcd7c}
+.upgrade-card-head{display:flex;gap:10px;align-items:center}.upgrade-art{width:62px;height:68px;flex-shrink:0;filter:drop-shadow(0 4px 3px #21173288)}
+.upgrade-level{color:#f7d98e;font-size:10px;font-weight:900;letter-spacing:.12em}.upgrade-card h2{font-size:15px;line-height:1.25;margin:4px 0 8px;color:#fff0d5}
+.upgrade-pips{display:flex;gap:5px}.upgrade-pips i{width:19px;height:5px;border-radius:4px;background:#30263e;border:1px solid #a2869a}.upgrade-pips i.filled{background:#f6d17e;border-color:#ffe9a7}
+.upgrade-card .upgrade-role{font-size:11px;line-height:1.5;min-height:34px;color:#dfcddd;margin:11px 0 8px}
+.upgrade-stats{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums;font-size:12px;margin-bottom:8px}.upgrade-stats th,.upgrade-stats td{padding:6px 2px;border-bottom:1px solid #e2cfdf19;text-align:right}.upgrade-stats th:first-child{text-align:left}.upgrade-stats thead th{font-size:9px;color:#bdabc6;text-transform:uppercase;letter-spacing:.05em}.upgrade-stats tbody th{font-weight:400;color:#ead8e5}.upgrade-stats td:last-child{color:#bde9cc;font-weight:900}
+.upgrade-card .upgrade-detail{font-size:10px;line-height:1.4;color:#dcc6d8;margin:auto 0 10px;padding-top:6px}
+.upgrade-btn{width:100%;min-height:40px;border-radius:10px;border:2px solid #ffdc93;background:linear-gradient(#ffe5a5,#efba77);color:#3c2e4c;font-weight:900;font-size:13px;box-shadow:0 3px 0 #30253d}
+.upgrade-btn:enabled:hover{filter:brightness(1.1)}.upgrade-btn:disabled{background:#77617d55;color:#d5c0d1;border-color:#c5a4bb60;cursor:not-allowed;box-shadow:none}
+.workshop-footer{display:flex;gap:15px;align-items:center;margin-top:20px;border-top:1px solid #efc8d633;padding-top:12px}.workshop-footer p{flex:1;font-size:11px;line-height:1.5;color:#e1c7d7}.workshop-footer button{flex-shrink:0;min-height:42px}.workshop-footer button:disabled{opacity:.5;cursor:not-allowed}
+.map-workshop{display:flex;align-items:center;justify-content:space-between;gap:10px}.map-workshop .tiny-btn{flex-shrink:0}.star-reward{background:#f6d4821c;border:1px solid #f3cf8655;border-radius:14px;padding:12px;color:#ffe39a;font-size:18px;font-weight:900;margin:12px 0}.star-reward small{font-size:12px;font-weight:400;color:#f4dcc0}
+.menu-actions{gap:clamp(5px,1vw,12px)}
+@media(max-width:1000px){.workshop-panel{padding:16px}.upgrade-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.upgrade-card{padding:12px}.workshop-summary{padding:12px;gap:12px}.workshop-summary p{font-size:15px}.workshop-footer{flex-wrap:wrap}.workshop-footer p{flex-basis:100%;margin:0}}
+@media(max-width:600px){.upgrade-grid{grid-template-columns:1fr}.workshop-summary{flex-wrap:wrap}.workshop-summary p{flex-basis:50%}.wallet-history{width:100%;text-align:left;font-size:11px}.wallet-history br{display:none}.wallet-history strong:last-of-type{margin-left:15px}.workshop-panel .workshop-help{font-size:11px}.workshop-panel h1{font-size:20px}.workshop-panel .subheading{font-size:9px}.upgrade-card .upgrade-role{min-height:0}}
+@media(orientation:portrait) and (max-width:900px){.screen:has(.workshop-panel){padding:8px;align-items:flex-start}.game-frame:has(.workshop-panel){height:min(88dvh,760px);aspect-ratio:auto}.workshop-panel{max-height:100%;padding:14px}.workshop-panel .panel-head .tiny-btn{min-height:40px}.workshop-footer p{font-size:11px}}

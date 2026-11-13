@@ -1,13 +1,15 @@
 import { BOARD, BOARD_RIGHT, BOARD_BOTTOM, colX, rowY, rectCell, clamp } from './config.js';
 import { LEVELS, TOYS, ENEMIES } from './data.js';
+import { upgradedToy } from './upgrades.js';
 
 export class Battle {
-  constructor(index=0, audio=null, events={}) {
+  constructor(index=0, audio=null, events={}, upgrades={}) {
     this.levelIndex=index;
     this.level=LEVELS[index];
     if(!this.level)throw new Error('Fase desconhecida');
     this.audio=audio || {play(){}};
     this.events=events;
+    this.toyStats=Object.fromEntries(Object.keys(TOYS).map(id=>[id,upgradedToy(id,upgrades[id])]));
     this.time=0;
     this.state='playing';
     this.glow=this.level.startingGlow;
@@ -21,11 +23,13 @@ export class Battle {
     this.waveIndex=0;this.bigWaveAlert=false;this.totalSpawns=0;this.killCount=0;this.toysPlaced=0;
     this.lastDrop=0;this.nextDrop=5.8;this.banner='';this.bannerUntil=0;
     this.seed=0x2af00+(index+1)*1543;
+    this.visualSeed=this.seed^0x7f4a;
     this.id=0;
     this.lastAction='';this.doorWarned=new Set();this.doorWarning=null;
     this.startToast(this.level.hint,6.3);
   }
   rand(){let x=this.seed|0;x^=x<<13;x^=x>>>17;x^=x<<5;this.seed=x|0;return (x>>>0)/4294967296;}
+  visualRand(){let x=this.visualSeed|0;x^=x<<13;x^=x>>>17;x^=x<<5;this.visualSeed=x|0;return (x>>>0)/4294967296;}
   startToast(text,seconds=2.3){this.lastAction=text;this.toastUntil=this.time+seconds;this.events.toast?.(text,seconds);}
   selectToy(id){if(!this.level.toys.includes(id))return false;this.selected=id;this.shovel=false;this.audio.play('click');return true;}
   selectShovel(){this.shovel=!this.shovel;this.audio.play('click');}
@@ -42,9 +46,9 @@ export class Battle {
   place(row,col,id=this.selected){
     const error=this.canPlace(row,col,id);
     if(error){this.audio.play('no');this.startToast(error,1.3);return false;}
-    const data=TOYS[id];
+    const data=this.toyStats[id];
     const toy={id:this.id++,type:id,row,col,x:colX(col),y:rowY(row),hp:data.maxHp,maxHp:data.maxHp,
-      timer:data.kind==='producer'?7.5:data.kind==='music'?3.2:.33+this.rand()*.6,hit:0,age:0,recoil:0,webTime:0,armed:false};
+      rank:data.rank,timer:data.kind==='producer'?7.5:data.kind==='music'?3.2:.33+this.rand()*.6,hit:0,age:0,recoil:0,webTime:0,armed:false};
     this.grid[row][col]=toy;this.glow-=data.cost;this.toyCooldowns[id]=data.cooldown;this.toysPlaced++;
     this.audio.play('place');this.puff(toy.x,toy.y,'#ffe2a1',9);this.addFeedback(toy.x,toy.y-68,'+ Defesa','#fff1bd');this.events.changed?.();
     return true;
@@ -78,8 +82,8 @@ export class Battle {
   }
   puff(x,y,color,n=6){
     if(!this.effectsEnabled)return;
-    for(let i=0;i<n;i++){const a=this.rand()*6.283,v=34+this.rand()*95;
-      this.particles.push({x,y,vx:Math.cos(a)*v,vy:Math.sin(a)*v-20,color,life:.38+this.rand()*.42,maxLife:.8,r:2+this.rand()*3});
+    for(let i=0;i<n;i++){const a=this.visualRand()*6.283,v=34+this.visualRand()*95;
+      this.particles.push({x,y,vx:Math.cos(a)*v,vy:Math.sin(a)*v-20,color,life:.38+this.visualRand()*.42,maxLife:.8,r:2+this.visualRand()*3});
     }
     if(this.particles.length>200)this.particles.splice(0,this.particles.length-200);
   }
@@ -130,7 +134,7 @@ export class Battle {
     }
     for(const toy of this.allToys){
       toy.age+=dt;toy.hit=Math.max(0,toy.hit-dt);toy.recoil=Math.max(0,(toy.recoil||0)-dt);toy.webTime=Math.max(0,(toy.webTime||0)-dt);toy.timer-=dt*(toy.webTime>0?.56:1);
-      const d=TOYS[toy.type];
+      const d=this.toyStats[toy.type];
       if(d.kind==='producer'&&toy.timer<=0){
         toy.timer+=d.interval;
         this.spawnStar(toy.x+21,toy.y-27,false);this.puff(toy.x,toy.y-23,'#ffee84',5);

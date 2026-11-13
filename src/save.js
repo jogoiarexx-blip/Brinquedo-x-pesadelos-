@@ -1,12 +1,36 @@
-import { LEVELS } from './data.js';
+import { LEVELS,TOYS,ENEMIES } from './data.js';
 import { SAVE_KEY } from './config.js';
-const defaults = () => ({ version:1, unlocked:1, stars:{}, seenEnemies:[], settings:{ music:true, sfx:true, motion:true } });
+import { UPGRADE_COSTS,upgradeRank,upgradeSpent } from './upgrades.js';
+const defaults = () => ({ version:1, unlocked:1, stars:{}, upgrades:{}, seenEnemies:[], settings:{ music:true, sfx:true, motion:true } });
+const starScore=value=>['number','string'].includes(typeof value)&&Number.isFinite(Number(value))?Math.max(0,Math.min(3,Math.floor(Number(value)))):0;
+export function unlockedToys(save) {
+  return new Set(LEVELS.slice(0,save.unlocked).flatMap(level=>level.toys));
+}
+export function starWallet(save) {
+  const earned=LEVELS.reduce((sum,level)=>sum+starScore(save.stars?.[level.id]),0);
+  const spent=Object.keys(TOYS).reduce((sum,id)=>sum+upgradeSpent(save.upgrades?.[id]),0);
+  return {earned,spent,available:Math.max(0,earned-spent)};
+}
+function normalizeSave(raw) {
+  const save=defaults();
+  if(!raw||raw.version!==1)return save;
+  const unlocked=Number(raw.unlocked);
+  save.unlocked=Number.isFinite(unlocked)?Math.max(1,Math.min(LEVELS.length,Math.floor(unlocked))):1;
+  for(const level of LEVELS){const score=starScore(raw.stars?.[level.id]);if(score)save.stars[level.id]=score;}
+  save.seenEnemies=Array.isArray(raw.seenEnemies)?[...new Set(raw.seenEnemies.filter(id=>Object.hasOwn(ENEMIES,id)))]:[];
+  for(const key of Object.keys(save.settings))if(typeof raw.settings?.[key]==='boolean')save.settings[key]=raw.settings[key];
+  let budget=starWallet(save).earned;
+  const unlockedIds=unlockedToys(save);
+  for(const id of Object.keys(TOYS)){
+    const rank=upgradeRank(raw.upgrades?.[id]),cost=upgradeSpent(rank);
+    if(rank&&unlockedIds.has(id)&&cost<=budget){save.upgrades[id]=rank;budget-=cost;}
+  }
+  return save;
+}
 export function loadSave(storage=null) {
   try {
     storage ||= globalThis.localStorage;
-    const raw = JSON.parse(storage.getItem(SAVE_KEY));
-    if (!raw || raw.version !== 1) return defaults();
-    return { ...defaults(), ...raw, unlocked:Math.max(1,Math.min(LEVELS.length,Number(raw.unlocked)||1)), stars:raw.stars && typeof raw.stars==='object'&&!Array.isArray(raw.stars)?raw.stars:{}, seenEnemies:Array.isArray(raw.seenEnemies)?raw.seenEnemies:[], settings:{ ...defaults().settings, ...(raw.settings||{}) } };
+    return normalizeSave(JSON.parse(storage.getItem(SAVE_KEY)));
   } catch { return defaults(); }
 }
 export function persistSave(save,storage=null) {
@@ -15,9 +39,23 @@ export function persistSave(save,storage=null) {
   catch { return false; }
 }
 export function recordVictory(save,levelIndex,stars) {
+  if(!Number.isInteger(levelIndex)||!LEVELS[levelIndex]||!Number.isInteger(stars)||stars<1||stars>3)return save;
   save.unlocked = Math.max(save.unlocked,Math.min(LEVELS.length,levelIndex+2));
   const id=LEVELS[levelIndex]?.id;
-  if(!id)return save;
-  save.stars[id]=Math.max(save.stars[id]||0,stars);
+  save.stars[id]=Math.max(starScore(save.stars[id]),stars);
   return save;
+}
+export function purchaseUpgrade(save,id,storage=null) {
+  if(!Object.hasOwn(TOYS,id))return {ok:false,reason:'unknown'};
+  if(!unlockedToys(save).has(id))return {ok:false,reason:'locked'};
+  const rank=upgradeRank(save.upgrades?.[id]);
+  if(rank>=UPGRADE_COSTS.length)return {ok:false,reason:'max'};
+  if(starWallet(save).available<UPGRADE_COSTS[rank])return {ok:false,reason:'stars'};
+  const upgrades={...save.upgrades,[id]:rank+1};
+  if(!persistSave({...save,upgrades},storage))return {ok:false,reason:'storage'};
+  save.upgrades=upgrades;return {ok:true};
+}
+export function resetUpgrades(save,storage=null) {
+  if(!persistSave({...save,upgrades:{}},storage))return false;
+  save.upgrades={};return true;
 }

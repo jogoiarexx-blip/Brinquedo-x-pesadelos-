@@ -1,4 +1,19 @@
-# Brinquedos vs. Pesadelos — ALFA v1.1.0
+# Brinquedos vs. Pesadelos — ALFA v1.2.0
+
+## Novidades da v1.2.0 — Oficina de estrelas
+
+- **Oficina dos Brinquedos** no menu, mapa e resultado da vitória: evolua os 11 brinquedos até o nível 4.
+- Use as estrelas das fases em melhorias permanentes: custos de 2, 4 e 6 estrelas. Pontuação do mapa preservada.
+- Vida e dano melhorados; Abajur produz mais rápido, gelo e sono duram mais. Custos de colocação e ondas preservados.
+- Estrelas dos saves antigos são aproveitadas. Rejogar só rende a diferença para o melhor resultado.
+- Redistribuição gratuita devolve as estrelas sem apagar progresso.
+- Compras protegidas contra falha de armazenamento e saves inválidos.
+- Corrigida a aleatoriedade: desligar partículas não altera a sequência de Brilhos ou combate.
+- HTML offline inclui o atlas de retratos; cache PWA e standalone atualizados.
+
+**Análise completa, regras e pendências do GDD:** [docs/ANALISE_E_MELHORIAS.md](docs/ANALISE_E_MELHORIAS.md).
+
+**Validação:** `node --test tests/*.test.mjs`; `python3 tools/build_standalone.py`. Playtest opcional com Playwright: `node tools/browser_smoke.mjs`, com servidor local em 8000. Playwright não é dependência do jogo.
 
 ## Novidades da v1.1.0 — qualidade e desempenho
 

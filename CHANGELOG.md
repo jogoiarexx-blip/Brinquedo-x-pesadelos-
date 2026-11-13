@@ -1,3 +1,12 @@
+# 1.2.0 — 13/11/2026
+
+- Oficina permanente para os 11 brinquedos, níveis 1–4, compras com estrelas e redistribuição gratuita.
+- Crédito por melhores resultados, migração dos saves existentes e gravação transacional das compras.
+- Atributos reais por batalha, níveis nas cartas e insígnias no tabuleiro.
+- Gerador visual separado: desligar partículas não muda a simulação.
+- Atlas SVG incorporado no HTML independente, novo módulo no cache PWA.
+- Análise do GDD, documentação de lacunas e testes de regressão de progressão.
+
 # v0.7.0 — 13/11/2026
 
 - Revisão gráfica geral sem alterar regras, hitboxes ou balanceamento.

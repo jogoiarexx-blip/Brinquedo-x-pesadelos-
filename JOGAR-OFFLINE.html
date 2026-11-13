@@ -91,10 +91,39 @@
 .speed-btn small{font-size:.44em}
 @media(max-width:900px){.speed-btn{font-size:clamp(12px,2.4vw,22px)}}
 
+/* Oficina: estrelas da campanha e evolução permanente. */
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap;border:0}
+.workshop-panel{width:100%;max-width:1160px;padding:24px 28px;scrollbar-color:#d4b08e #3d2e56;scrollbar-width:thin}
+.workshop-panel h1{font-size:clamp(21px,2.8vw,36px)}
+.workshop-summary{display:flex;align-items:center;gap:20px;background:linear-gradient(115deg,#ffdf9430,#aab7ff12);border:1px solid #f7dca66b;border-radius:18px;margin:16px 0 12px;padding:15px 20px}
+.wallet-primary{display:grid;grid-template-columns:auto auto;column-gap:8px;align-items:center;text-align:center;flex-shrink:0;color:#ffe69d}
+.wallet-primary>span{font-size:28px}.wallet-primary>strong{font-size:38px;line-height:1}.wallet-primary>small{grid-column:1/-1;font-size:10px;font-weight:900;letter-spacing:.1em;margin-top:5px}
+.workshop-summary p{flex:1;margin:0;font-size:18px;font-weight:900;color:#fff0cc}.workshop-summary p small{display:block;font-size:12px;font-weight:400;margin-top:5px;line-height:1.4;color:#e0cadd}
+.wallet-history{font-size:12px;line-height:1.8;color:#e5d5e8;text-align:right}.wallet-history strong{color:#ffe5a4}
+.workshop-panel .workshop-help{font-size:12px;line-height:1.5;color:#e2cede;max-width:890px}
+.upgrade-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:18px}
+.upgrade-card{display:flex;flex-direction:column;min-width:0;padding:16px;background:linear-gradient(145deg,#8f72935c,#211b3e80);border:1px solid #c5a2bc70;border-radius:18px;box-shadow:inset 0 1px 0 #fff2}
+.upgrade-card.locked{background:#2c234350;border-style:dashed}.upgrade-card.locked .upgrade-art{filter:grayscale(.85);opacity:.55}.upgrade-card.maxed{border-color:#efcd7c}
+.upgrade-card-head{display:flex;gap:10px;align-items:center}.upgrade-art{width:62px;height:68px;flex-shrink:0;filter:drop-shadow(0 4px 3px #21173288)}
+.upgrade-level{color:#f7d98e;font-size:10px;font-weight:900;letter-spacing:.12em}.upgrade-card h2{font-size:15px;line-height:1.25;margin:4px 0 8px;color:#fff0d5}
+.upgrade-pips{display:flex;gap:5px}.upgrade-pips i{width:19px;height:5px;border-radius:4px;background:#30263e;border:1px solid #a2869a}.upgrade-pips i.filled{background:#f6d17e;border-color:#ffe9a7}
+.upgrade-card .upgrade-role{font-size:11px;line-height:1.5;min-height:34px;color:#dfcddd;margin:11px 0 8px}
+.upgrade-stats{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums;font-size:12px;margin-bottom:8px}.upgrade-stats th,.upgrade-stats td{padding:6px 2px;border-bottom:1px solid #e2cfdf19;text-align:right}.upgrade-stats th:first-child{text-align:left}.upgrade-stats thead th{font-size:9px;color:#bdabc6;text-transform:uppercase;letter-spacing:.05em}.upgrade-stats tbody th{font-weight:400;color:#ead8e5}.upgrade-stats td:last-child{color:#bde9cc;font-weight:900}
+.upgrade-card .upgrade-detail{font-size:10px;line-height:1.4;color:#dcc6d8;margin:auto 0 10px;padding-top:6px}
+.upgrade-btn{width:100%;min-height:40px;border-radius:10px;border:2px solid #ffdc93;background:linear-gradient(#ffe5a5,#efba77);color:#3c2e4c;font-weight:900;font-size:13px;box-shadow:0 3px 0 #30253d}
+.upgrade-btn:enabled:hover{filter:brightness(1.1)}.upgrade-btn:disabled{background:#77617d55;color:#d5c0d1;border-color:#c5a4bb60;cursor:not-allowed;box-shadow:none}
+.workshop-footer{display:flex;gap:15px;align-items:center;margin-top:20px;border-top:1px solid #efc8d633;padding-top:12px}.workshop-footer p{flex:1;font-size:11px;line-height:1.5;color:#e1c7d7}.workshop-footer button{flex-shrink:0;min-height:42px}.workshop-footer button:disabled{opacity:.5;cursor:not-allowed}
+.map-workshop{display:flex;align-items:center;justify-content:space-between;gap:10px}.map-workshop .tiny-btn{flex-shrink:0}.star-reward{background:#f6d4821c;border:1px solid #f3cf8655;border-radius:14px;padding:12px;color:#ffe39a;font-size:18px;font-weight:900;margin:12px 0}.star-reward small{font-size:12px;font-weight:400;color:#f4dcc0}
+.menu-actions{gap:clamp(5px,1vw,12px)}
+@media(max-width:1000px){.workshop-panel{padding:16px}.upgrade-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.upgrade-card{padding:12px}.workshop-summary{padding:12px;gap:12px}.workshop-summary p{font-size:15px}.workshop-footer{flex-wrap:wrap}.workshop-footer p{flex-basis:100%;margin:0}}
+@media(max-width:600px){.upgrade-grid{grid-template-columns:1fr}.workshop-summary{flex-wrap:wrap}.workshop-summary p{flex-basis:50%}.wallet-history{width:100%;text-align:left;font-size:11px}.wallet-history br{display:none}.wallet-history strong:last-of-type{margin-left:15px}.workshop-panel .workshop-help{font-size:11px}.workshop-panel h1{font-size:20px}.workshop-panel .subheading{font-size:9px}.upgrade-card .upgrade-role{min-height:0}}
+@media(orientation:portrait) and (max-width:900px){.screen:has(.workshop-panel){padding:8px;align-items:flex-start}.game-frame:has(.workshop-panel){height:min(88dvh,760px);aspect-ratio:auto}.workshop-panel{max-height:100%;padding:14px}.workshop-panel .panel-head .tiny-btn{min-height:40px}.workshop-footer p{font-size:11px}}
+
 </style>
-  <title>Brinquedos vs. Pesadelos — Jogar Offline v1.1.0</title>
+  <title>Brinquedos vs. Pesadelos — Jogar Offline v1.2.0</title>
 </head>
 <body>
+<svg xmlns="http://www.w3.org/2000/svg" width="0" height="0" aria-hidden="true" style="position:absolute;overflow:hidden"><defs><symbol id="toy-T01" viewBox="0 0 80 80"><g style="color:#f7cf65" stroke="#59486f" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"><path d="M23 35 Q25 10 40 10 Q55 10 57 35Z" fill="currentColor"/><rect x="34" y="34" width="12" height="22" rx="4" fill="#8bcdbd"/><rect x="26" y="54" width="28" height="7" rx="3" fill="#b77d85"/><ellipse cx="32" cy="39" rx="4.5" ry="6" fill="#fffdf4" stroke="none"/><ellipse cx="49" cy="39" rx="4.5" ry="6" fill="#fffdf4" stroke="none"/><circle cx="33" cy="40" r="2" fill="#493d62" stroke="none"/><circle cx="50" cy="40" r="2" fill="#493d62" stroke="none"/><path d="M34 51 Q41 57 48 51" fill="none" stroke="#80566f" stroke-width="2.5"/><circle cx="18" cy="18" r="3" fill="#fff1b5" stroke="none"/><path d="M9 68 Q40 74 71 68" fill="none" stroke="#ffffff55" stroke-width="2"/></g></symbol><symbol id="toy-T02" viewBox="0 0 80 80"><g style="color:#72b8d5" stroke="#59486f" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"><rect x="22" y="29" width="36" height="31" rx="10" fill="currentColor"/><path d="M25 31 Q23 10 40 10 Q57 10 55 31Z" fill="#f0c79c"/><path d="M19 26 H61 L55 16 H26Z" fill="#5b84b6"/><rect x="48" y="34" width="24" height="7" rx="3" fill="#d8a66d"/><ellipse cx="32" cy="39" rx="4.5" ry="6" fill="#fffdf4" stroke="none"/><ellipse cx="49" cy="39" rx="4.5" ry="6" fill="#fffdf4" stroke="none"/><circle cx="33" cy="40" r="2" fill="#493d62" stroke="none"/><circle cx="50" cy="40" r="2" fill="#493d62" stroke="none"/><path d="M34 51 Q41 57 48 51" fill="none" stroke="#80566f" stroke-width="2.5"/><circle cx="18" cy="18" r="3" fill="#fff1b5" stroke="none"/><path d="M9 68 Q40 74 71 68" fill="none" stroke="#ffffff55" stroke-width="2"/></g></symbol><symbol id="toy-T03" viewBox="0 0 80 80"><g style="color:#d99d91" stroke="#59486f" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"><circle cx="25" cy="22" r="11" fill="currentColor"/><circle cx="55" cy="22" r="11" fill="currentColor"/><ellipse cx="40" cy="42" rx="25" ry="23" fill="currentColor"/><ellipse cx="40" cy="48" rx="12" ry="9" fill="#f4d9bf"/><ellipse cx="32" cy="39" rx="4.5" ry="6" fill="#fffdf4" stroke="none"/><ellipse cx="49" cy="39" rx="4.5" ry="6" fill="#fffdf4" stroke="none"/><circle cx="33" cy="40" r="2" fill="#493d62" stroke="none"/><circle cx="50" cy="40" r="2" fill="#493d62" stroke="none"/><path d="M34 51 Q41 57 48 51" fill="none" stroke="#80566f" stroke-width="2.5"/><circle cx="18" cy="18" r="3" fill="#fff1b5" stroke="none"/><path d="M9 68 Q40 74 71 68" fill="none" stroke="#ffffff55" stroke-width="2"/></g></symbol><symbol id="toy-T04" viewBox="0 0 80 80"><g style="color:#9ce5ef" stroke="#59486f" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"><path d="M40 8 L47 27 L65 34 L57 54 L40 69 L23 54 L15 34 L33 27Z" fill="currentColor"/><rect x="36" y="3" width="8" height="13" rx="3" fill="#d8b17a"/><ellipse cx="32" cy="39" rx="4.5" ry="6" fill="#fffdf4" stroke="none"/><ellipse cx="49" cy="39" rx="4.5" ry="6" fill="#fffdf4" stroke="none"/><circle cx="33" cy="40" r="2" fill="#493d62" stroke="none"/><circle cx="50" cy="40" r="2" fill="#493d62" stroke="none"/><path d="M34 51 Q41 57 48 51" fill="none" stroke="#80566f" stroke-width="2.5"/><circle cx="18" cy="18" r="3" fill="#fff1b5" stroke="none"/><path d="M9 68 Q40 74 71 68" fill="none" stroke="#ffffff55" stroke-width="2"/></g></symbol><symbol id="toy-T05" viewBox="0 0 80 80"><g style="color:#e99bc4" stroke="#59486f" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"><rect x="18" y="29" width="42" height="29" rx="11" fill="currentColor"/><path d="M37 25 L65 15 Q73 14 72 25 L60 38Z" fill="#d9b4e9"/><circle cx="65" cy="26" r="7" fill="#fff0c0"/><ellipse cx="32" cy="39" rx="4.5" ry="6" fill="#fffdf4" stroke="none"/><ellipse cx="49" cy="39" rx="4.5" ry="6" fill="#fffdf4" stroke="none"/><circle cx="33" cy="40" r="2" fill="#493d62" stroke="none"/><circle cx="50" cy="40" r="2" fill="#493d62" stroke="none"/><path d="M34 51 Q41 57 48 51" fill="none" stroke="#80566f" stroke-width="2.5"/><circle cx="18" cy="18" r="3" fill="#fff1b5" stroke="none"/><path d="M9 68 Q40 74 71 68" fill="none" stroke="#ffffff55" stroke-width="2"/></g></symbol><symbol id="toy-T06" viewBox="0 0 80 80"><g style="color:#ffc16d" stroke="#59486f" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"><path d="M13 43 L20 27 Q23 22 31 22 H52 Q60 22 65 38 L69 45 V56 H12Z" fill="currentColor"/><rect x="28" y="24" width="22" height="14" rx="5" fill="#9bd9e7"/><circle cx="25" cy="57" r="8" fill="#51496f"/><circle cx="57" cy="57" r="8" fill="#51496f"/><ellipse cx="32" cy="39" rx="4.5" ry="6" fill="#fffdf4" stroke="none"/><ellipse cx="49" cy="39" rx="4.5" ry="6" fill="#fffdf4" stroke="none"/><circle cx="33" cy="40" r="2" fill="#493d62" stroke="none"/><circle cx="50" cy="40" r="2" fill="#493d62" stroke="none"/><path d="M34 51 Q41 57 48 51" fill="none" stroke="#80566f" stroke-width="2.5"/><circle cx="18" cy="18" r="3" fill="#fff1b5" stroke="none"/><path d="M9 68 Q40 74 71 68" fill="none" stroke="#ffffff55" stroke-width="2"/></g></symbol><symbol id="toy-T07" viewBox="0 0 80 80"><g style="color:#c2b0ec" stroke="#59486f" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"><circle cx="40" cy="24" r="18" fill="#f4cdb7"/><path d="M20 27 Q20 2 42 7 Q63 7 60 30 L52 20 L29 20Z" fill="currentColor"/><path d="M17 47 Q40 34 63 47 L58 67 H22Z" fill="#a99ad8"/><ellipse cx="32" cy="39" rx="4.5" ry="6" fill="#fffdf4" stroke="none"/><ellipse cx="49" cy="39" rx="4.5" ry="6" fill="#fffdf4" stroke="none"/><circle cx="33" cy="40" r="2" fill="#493d62" stroke="none"/><circle cx="50" cy="40" r="2" fill="#493d62" stroke="none"/><path d="M34 51 Q41 57 48 51" fill="none" stroke="#80566f" stroke-width="2.5"/><circle cx="18" cy="18" r="3" fill="#fff1b5" stroke="none"/><path d="M9 68 Q40 74 71 68" fill="none" stroke="#ffffff55" stroke-width="2"/></g></symbol><symbol id="toy-T08" viewBox="0 0 80 80"><g style="color:#a7dfc8" stroke="#59486f" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"><path d="M13 17 Q40 4 67 17" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round"/><path d="M22 18 V42 M40 13 V45 M58 18 V42" stroke="#e7dfc5" stroke-width="3"/><circle cx="22" cy="49" r="9" fill="#f1cf83"/><circle cx="40" cy="52" r="10" fill="currentColor"/><circle cx="58" cy="49" r="9" fill="#a9d7e8"/><ellipse cx="32" cy="39" rx="4.5" ry="6" fill="#fffdf4" stroke="none"/><ellipse cx="49" cy="39" rx="4.5" ry="6" fill="#fffdf4" stroke="none"/><circle cx="33" cy="40" r="2" fill="#493d62" stroke="none"/><circle cx="50" cy="40" r="2" fill="#493d62" stroke="none"/><path d="M34 51 Q41 57 48 51" fill="none" stroke="#80566f" stroke-width="2.5"/><circle cx="18" cy="18" r="3" fill="#fff1b5" stroke="none"/><path d="M9 68 Q40 74 71 68" fill="none" stroke="#ffffff55" stroke-width="2"/></g></symbol><symbol id="toy-T09" viewBox="0 0 80 80"><g style="color:#f1d27e" stroke="#59486f" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"><path d="M23 64 L23 24 L12 10 M23 24 L54 10" fill="none" stroke="#b58a73" stroke-width="8" stroke-linecap="round"/><path d="M12 10 Q34 34 54 10" fill="none" stroke="#f4e3b8" stroke-width="4"/><circle cx="34" cy="24" r="12" fill="currentColor"/><ellipse cx="32" cy="39" rx="4.5" ry="6" fill="#fffdf4" stroke="none"/><ellipse cx="49" cy="39" rx="4.5" ry="6" fill="#fffdf4" stroke="none"/><circle cx="33" cy="40" r="2" fill="#493d62" stroke="none"/><circle cx="50" cy="40" r="2" fill="#493d62" stroke="none"/><path d="M34 51 Q41 57 48 51" fill="none" stroke="#80566f" stroke-width="2.5"/><circle cx="18" cy="18" r="3" fill="#fff1b5" stroke="none"/><path d="M9 68 Q40 74 71 68" fill="none" stroke="#ffffff55" stroke-width="2"/></g></symbol><symbol id="toy-T10" viewBox="0 0 80 80"><g style="color:#a9d997" stroke="#59486f" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"><path d="M19 12 Q-1 40 19 67 M61 12 Q81 40 61 67" fill="none" stroke="#b88a69" stroke-width="7"/><path d="M19 12 L61 67 M61 12 L19 67" stroke="#d6f0bd" stroke-width="3"/><circle cx="40" cy="40" r="11" fill="currentColor"/><ellipse cx="32" cy="39" rx="4.5" ry="6" fill="#fffdf4" stroke="none"/><ellipse cx="49" cy="39" rx="4.5" ry="6" fill="#fffdf4" stroke="none"/><circle cx="33" cy="40" r="2" fill="#493d62" stroke="none"/><circle cx="50" cy="40" r="2" fill="#493d62" stroke="none"/><path d="M34 51 Q41 57 48 51" fill="none" stroke="#80566f" stroke-width="2.5"/><circle cx="18" cy="18" r="3" fill="#fff1b5" stroke="none"/><path d="M9 68 Q40 74 71 68" fill="none" stroke="#ffffff55" stroke-width="2"/></g></symbol><symbol id="toy-T11" viewBox="0 0 80 80"><g style="color:#e7a5a5" stroke="#59486f" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"><rect x="13" y="26" width="54" height="42" rx="7" fill="currentColor"/><path d="M9 25 H71 V36 H9Z" fill="#f6d88e"/><path d="M34 25 V68 H46 V25" fill="#f8e4a4"/><path d="M40 26 Q15 6 31 8 Q42 9 40 26 Q56 5 62 13 Q66 23 40 26" fill="#e78da8"/><ellipse cx="32" cy="39" rx="4.5" ry="6" fill="#fffdf4" stroke="none"/><ellipse cx="49" cy="39" rx="4.5" ry="6" fill="#fffdf4" stroke="none"/><circle cx="33" cy="40" r="2" fill="#493d62" stroke="none"/><circle cx="50" cy="40" r="2" fill="#493d62" stroke="none"/><path d="M34 51 Q41 57 48 51" fill="none" stroke="#80566f" stroke-width="2.5"/><circle cx="18" cy="18" r="3" fill="#fff1b5" stroke="none"/><path d="M9 68 Q40 74 71 68" fill="none" stroke="#ffffff55" stroke-width="2"/></g></symbol><symbol id="enemy-E01" viewBox="0 0 80 80"><g style="color:#b9a9d4" stroke="#59486f" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"><circle cx="26" cy="42" r="18" fill="currentColor"/><circle cx="43" cy="30" r="23" fill="currentColor"/><circle cx="59" cy="43" r="17" fill="currentColor"/><path d="M19 53 Q40 65 63 53" stroke="#e8dff1" stroke-width="5" fill="none"/><ellipse cx="32" cy="39" rx="4.5" ry="6" fill="#fffdf4" stroke="none"/><ellipse cx="49" cy="39" rx="4.5" ry="6" fill="#fffdf4" stroke="none"/><circle cx="33" cy="40" r="2" fill="#493d62" stroke="none"/><circle cx="50" cy="40" r="2" fill="#493d62" stroke="none"/><path d="M34 51 Q41 57 48 51" fill="none" stroke="#80566f" stroke-width="2.5"/><circle cx="18" cy="18" r="3" fill="#fff1b5" stroke="none"/><path d="M9 68 Q40 74 71 68" fill="none" stroke="#ffffff55" stroke-width="2"/></g></symbol><symbol id="enemy-E02" viewBox="0 0 80 80"><g style="color:#dc829f" stroke="#59486f" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"><path d="M25 9 H54 V42 Q54 50 65 51 Q74 56 66 66 H27 Q14 64 20 53 L28 44Z" fill="currentColor"/><path d="M25 17 H54" stroke="#f4d9c3" stroke-width="7"/><ellipse cx="32" cy="39" rx="4.5" ry="6" fill="#fffdf4" stroke="none"/><ellipse cx="49" cy="39" rx="4.5" ry="6" fill="#fffdf4" stroke="none"/><circle cx="33" cy="40" r="2" fill="#493d62" stroke="none"/><circle cx="50" cy="40" r="2" fill="#493d62" stroke="none"/><path d="M34 51 Q41 57 48 51" fill="none" stroke="#80566f" stroke-width="2.5"/><circle cx="18" cy="18" r="3" fill="#fff1b5" stroke="none"/><path d="M9 68 Q40 74 71 68" fill="none" stroke="#ffffff55" stroke-width="2"/></g></symbol><symbol id="enemy-E03" viewBox="0 0 80 80"><g style="color:#8db6ad" stroke="#59486f" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"><rect x="14" y="12" width="52" height="54" rx="10" fill="currentColor"/><path d="M40 13 V65 M15 39 H65" stroke="#f6d7a5" stroke-width="4"/><rect x="19" y="18" width="17" height="17" rx="3" fill="#e7b18e"/><rect x="45" y="44" width="16" height="15" rx="3" fill="#d8b7e6"/><ellipse cx="32" cy="39" rx="4.5" ry="6" fill="#fffdf4" stroke="none"/><ellipse cx="49" cy="39" rx="4.5" ry="6" fill="#fffdf4" stroke="none"/><circle cx="33" cy="40" r="2" fill="#493d62" stroke="none"/><circle cx="50" cy="40" r="2" fill="#493d62" stroke="none"/><path d="M34 51 Q41 57 48 51" fill="none" stroke="#80566f" stroke-width="2.5"/><circle cx="18" cy="18" r="3" fill="#fff1b5" stroke="none"/><path d="M9 68 Q40 74 71 68" fill="none" stroke="#ffffff55" stroke-width="2"/></g></symbol><symbol id="enemy-E04" viewBox="0 0 80 80"><g style="color:#f1d38a" stroke="#59486f" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"><path d="M18 64 L27 12 L35 42 L47 8 L50 39 L65 17 L58 67Z" fill="currentColor"/><path d="M27 14 L49 15" stroke="#fff0bc" stroke-width="4"/><ellipse cx="32" cy="39" rx="4.5" ry="6" fill="#fffdf4" stroke="none"/><ellipse cx="49" cy="39" rx="4.5" ry="6" fill="#fffdf4" stroke="none"/><circle cx="33" cy="40" r="2" fill="#493d62" stroke="none"/><circle cx="50" cy="40" r="2" fill="#493d62" stroke="none"/><path d="M34 51 Q41 57 48 51" fill="none" stroke="#80566f" stroke-width="2.5"/><circle cx="18" cy="18" r="3" fill="#fff1b5" stroke="none"/><path d="M9 68 Q40 74 71 68" fill="none" stroke="#ffffff55" stroke-width="2"/></g></symbol><symbol id="enemy-E05" viewBox="0 0 80 80"><g style="color:#b47fb5" stroke="#59486f" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"><path d="M14 25 L25 8 L38 23 L51 7 L64 25 L61 63 H17Z" fill="currentColor"/><path d="M15 31 H65" stroke="#f4d28a" stroke-width="7"/><circle cx="27" cy="15" r="4" fill="#fff0ad"/><circle cx="51" cy="14" r="4" fill="#fff0ad"/><ellipse cx="32" cy="39" rx="4.5" ry="6" fill="#fffdf4" stroke="none"/><ellipse cx="49" cy="39" rx="4.5" ry="6" fill="#fffdf4" stroke="none"/><circle cx="33" cy="40" r="2" fill="#493d62" stroke="none"/><circle cx="50" cy="40" r="2" fill="#493d62" stroke="none"/><path d="M34 51 Q41 57 48 51" fill="none" stroke="#80566f" stroke-width="2.5"/><circle cx="18" cy="18" r="3" fill="#fff1b5" stroke="none"/><path d="M9 68 Q40 74 71 68" fill="none" stroke="#ffffff55" stroke-width="2"/></g></symbol><symbol id="enemy-E06" viewBox="0 0 80 80"><g style="color:#9989cb" stroke="#59486f" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"><path d="M40 63 Q14 55 24 43 Q56 34 40 24 Q25 13 40 8" fill="none" stroke="currentColor" stroke-width="9" stroke-linecap="round"/><circle cx="40" cy="31" r="23" fill="currentColor"/><path d="M17 60 L28 67 M52 67 L64 60" stroke="#e7c98e" stroke-width="6"/><ellipse cx="32" cy="39" rx="4.5" ry="6" fill="#fffdf4" stroke="none"/><ellipse cx="49" cy="39" rx="4.5" ry="6" fill="#fffdf4" stroke="none"/><circle cx="33" cy="40" r="2" fill="#493d62" stroke="none"/><circle cx="50" cy="40" r="2" fill="#493d62" stroke="none"/><path d="M34 51 Q41 57 48 51" fill="none" stroke="#80566f" stroke-width="2.5"/><circle cx="18" cy="18" r="3" fill="#fff1b5" stroke="none"/><path d="M9 68 Q40 74 71 68" fill="none" stroke="#ffffff55" stroke-width="2"/></g></symbol><symbol id="enemy-E07" viewBox="0 0 80 80"><g style="color:#c9a0b7" stroke="#59486f" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"><path d="M40 10 Q25 10 34 22 L10 48 Q8 54 17 54 H63 Q72 54 68 48 L44 23" fill="none" stroke="currentColor" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/><rect x="26" y="48" width="28" height="16" rx="8" fill="#d8b1c8"/><ellipse cx="32" cy="39" rx="4.5" ry="6" fill="#fffdf4" stroke="none"/><ellipse cx="49" cy="39" rx="4.5" ry="6" fill="#fffdf4" stroke="none"/><circle cx="33" cy="40" r="2" fill="#493d62" stroke="none"/><circle cx="50" cy="40" r="2" fill="#493d62" stroke="none"/><path d="M34 51 Q41 57 48 51" fill="none" stroke="#80566f" stroke-width="2.5"/><circle cx="18" cy="18" r="3" fill="#fff1b5" stroke="none"/><path d="M9 68 Q40 74 71 68" fill="none" stroke="#ffffff55" stroke-width="2"/></g></symbol><symbol id="enemy-E08" viewBox="0 0 80 80"><g style="color:#8d7db7" stroke="#59486f" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"><circle cx="40" cy="39" r="22" fill="currentColor"/><path d="M23 25 L10 12 M20 38 L5 35 M22 51 L9 65 M57 25 L70 12 M60 38 L75 35 M58 51 L71 65" stroke="currentColor" stroke-width="6" stroke-linecap="round"/><ellipse cx="32" cy="39" rx="4.5" ry="6" fill="#fffdf4" stroke="none"/><ellipse cx="49" cy="39" rx="4.5" ry="6" fill="#fffdf4" stroke="none"/><circle cx="33" cy="40" r="2" fill="#493d62" stroke="none"/><circle cx="50" cy="40" r="2" fill="#493d62" stroke="none"/><path d="M34 51 Q41 57 48 51" fill="none" stroke="#80566f" stroke-width="2.5"/><circle cx="18" cy="18" r="3" fill="#fff1b5" stroke="none"/><path d="M9 68 Q40 74 71 68" fill="none" stroke="#ffffff55" stroke-width="2"/></g></symbol><symbol id="enemy-E09" viewBox="0 0 80 80"><g style="color:#e5b37d" stroke="#59486f" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"><circle cx="40" cy="42" r="25" fill="currentColor"/><circle cx="40" cy="42" r="19" fill="#fff0c8"/><path d="M40 42 V26 M40 42 L53 49" stroke="#665a7d" stroke-width="4" stroke-linecap="round"/><path d="M21 12 Q9 -2 4 14 M59 12 Q72 -2 77 14" stroke="#a6d6e0" stroke-width="6" fill="none"/><ellipse cx="32" cy="39" rx="4.5" ry="6" fill="#fffdf4" stroke="none"/><ellipse cx="49" cy="39" rx="4.5" ry="6" fill="#fffdf4" stroke="none"/><circle cx="33" cy="40" r="2" fill="#493d62" stroke="none"/><circle cx="50" cy="40" r="2" fill="#493d62" stroke="none"/><path d="M34 51 Q41 57 48 51" fill="none" stroke="#80566f" stroke-width="2.5"/><circle cx="18" cy="18" r="3" fill="#fff1b5" stroke="none"/><path d="M9 68 Q40 74 71 68" fill="none" stroke="#ffffff55" stroke-width="2"/></g></symbol><symbol id="enemy-E10" viewBox="0 0 80 80"><g style="color:#aaa1d9" stroke="#59486f" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"><path d="M59 9 Q26 6 24 37 Q21 66 57 68 Q35 53 44 32 Q48 18 59 9Z" fill="currentColor"/><path d="M26 18 L33 5 L42 19 L53 4 L60 21" fill="#e5d6ff" stroke="#8174b0" stroke-width="3"/><ellipse cx="32" cy="39" rx="4.5" ry="6" fill="#fffdf4" stroke="none"/><ellipse cx="49" cy="39" rx="4.5" ry="6" fill="#fffdf4" stroke="none"/><circle cx="33" cy="40" r="2" fill="#493d62" stroke="none"/><circle cx="50" cy="40" r="2" fill="#493d62" stroke="none"/><path d="M34 51 Q41 57 48 51" fill="none" stroke="#80566f" stroke-width="2.5"/><circle cx="18" cy="18" r="3" fill="#fff1b5" stroke="none"/><path d="M9 68 Q40 74 71 68" fill="none" stroke="#ffffff55" stroke-width="2"/></g></symbol><symbol id="enemy-E11" viewBox="0 0 80 80"><g style="color:#9c82b7" stroke="#59486f" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"><path d="M15 27 Q40 3 65 27 L60 63 Q40 74 20 63Z" fill="currentColor"/><path d="M17 34 Q40 23 63 34" stroke="#e5c6ed" stroke-width="6"/><path d="M28 54 L40 43 L52 54" stroke="#f4d78e" stroke-width="4" fill="none"/><ellipse cx="32" cy="39" rx="4.5" ry="6" fill="#fffdf4" stroke="none"/><ellipse cx="49" cy="39" rx="4.5" ry="6" fill="#fffdf4" stroke="none"/><circle cx="33" cy="40" r="2" fill="#493d62" stroke="none"/><circle cx="50" cy="40" r="2" fill="#493d62" stroke="none"/><path d="M34 51 Q41 57 48 51" fill="none" stroke="#80566f" stroke-width="2.5"/><circle cx="18" cy="18" r="3" fill="#fff1b5" stroke="none"/><path d="M9 68 Q40 74 71 68" fill="none" stroke="#ffffff55" stroke-width="2"/></g></symbol></defs></svg>
   <main class="app" aria-label="Jogo Brinquedos vs. Pesadelos">
     <div class="game-frame" id="game-frame">
       <canvas id="battle-canvas" width="1280" height="720" aria-label="Tabuleiro do jogo com cinco faixas e nove colunas"></canvas>
@@ -113,7 +142,7 @@
       </div>
       <div id="toast" class="toast hidden" role="status" aria-live="polite"></div>
       <div id="screen" class="screen"></div>
-      <div class="version-tag">ALFA 1.1.0 · 3 capítulos</div>
+      <div class="version-tag">ALFA 1.2.0 · 3 capítulos</div>
     </div>
     <div class="mobile-tip" aria-label="Orientação recomendada">↻ Vire o celular na horizontal para ver todo o tabuleiro.</div>
     <footer class="outside-footer">Brinquedos vs. Pesadelos · Um jogo original de defesa por linhas · Salvo neste dispositivo</footer>
@@ -267,14 +296,58 @@ const LEVELS = Object.freeze([
 ]);
 
 
+const UPGRADE_COSTS = Object.freeze([2,4,6]);
+function upgradeRank(value) {
+  return Number.isInteger(value)&&value>=0&&value<=UPGRADE_COSTS.length?value:0;
+}
+function upgradeSpent(value) {
+  return UPGRADE_COSTS.slice(0,upgradeRank(value)).reduce((sum,cost)=>sum+cost,0);
+}
+function upgradedToy(id,rank=0) {
+  const base=TOYS[id];if(!base)return null;
+  rank=upgradeRank(rank);
+  const data={...base,rank,maxHp:Math.round(base.maxHp*(1+.15*rank))};
+  const precision=value=>Math.round(value*1000)/1000;
+  if(base.damage)data.damage=precision(base.damage*(1+.1*rank));
+  if(base.kind==='producer')data.interval=precision(base.interval*(1-.05*rank));
+  if(base.slowDuration)data.slowDuration=precision(base.slowDuration*(1+.1*rank));
+  if(base.stunDuration)data.stunDuration=precision(base.stunDuration*(1+.1*rank));
+  return data;
+}
 
-const defaults = () => ({ version:1, unlocked:1, stars:{}, seenEnemies:[], settings:{ music:true, sfx:true, motion:true } });
+
+
+
+const defaults = () => ({ version:1, unlocked:1, stars:{}, upgrades:{}, seenEnemies:[], settings:{ music:true, sfx:true, motion:true } });
+const starScore=value=>['number','string'].includes(typeof value)&&Number.isFinite(Number(value))?Math.max(0,Math.min(3,Math.floor(Number(value)))):0;
+function unlockedToys(save) {
+  return new Set(LEVELS.slice(0,save.unlocked).flatMap(level=>level.toys));
+}
+function starWallet(save) {
+  const earned=LEVELS.reduce((sum,level)=>sum+starScore(save.stars?.[level.id]),0);
+  const spent=Object.keys(TOYS).reduce((sum,id)=>sum+upgradeSpent(save.upgrades?.[id]),0);
+  return {earned,spent,available:Math.max(0,earned-spent)};
+}
+function normalizeSave(raw) {
+  const save=defaults();
+  if(!raw||raw.version!==1)return save;
+  const unlocked=Number(raw.unlocked);
+  save.unlocked=Number.isFinite(unlocked)?Math.max(1,Math.min(LEVELS.length,Math.floor(unlocked))):1;
+  for(const level of LEVELS){const score=starScore(raw.stars?.[level.id]);if(score)save.stars[level.id]=score;}
+  save.seenEnemies=Array.isArray(raw.seenEnemies)?[...new Set(raw.seenEnemies.filter(id=>Object.hasOwn(ENEMIES,id)))]:[];
+  for(const key of Object.keys(save.settings))if(typeof raw.settings?.[key]==='boolean')save.settings[key]=raw.settings[key];
+  let budget=starWallet(save).earned;
+  const unlockedIds=unlockedToys(save);
+  for(const id of Object.keys(TOYS)){
+    const rank=upgradeRank(raw.upgrades?.[id]),cost=upgradeSpent(rank);
+    if(rank&&unlockedIds.has(id)&&cost<=budget){save.upgrades[id]=rank;budget-=cost;}
+  }
+  return save;
+}
 function loadSave(storage=null) {
   try {
     storage ||= globalThis.localStorage;
-    const raw = JSON.parse(storage.getItem(SAVE_KEY));
-    if (!raw || raw.version !== 1) return defaults();
-    return { ...defaults(), ...raw, unlocked:Math.max(1,Math.min(LEVELS.length,Number(raw.unlocked)||1)), stars:raw.stars && typeof raw.stars==='object'&&!Array.isArray(raw.stars)?raw.stars:{}, seenEnemies:Array.isArray(raw.seenEnemies)?raw.seenEnemies:[], settings:{ ...defaults().settings, ...(raw.settings||{}) } };
+    return normalizeSave(JSON.parse(storage.getItem(SAVE_KEY)));
   } catch { return defaults(); }
 }
 function persistSave(save,storage=null) {
@@ -283,11 +356,25 @@ function persistSave(save,storage=null) {
   catch { return false; }
 }
 function recordVictory(save,levelIndex,stars) {
+  if(!Number.isInteger(levelIndex)||!LEVELS[levelIndex]||!Number.isInteger(stars)||stars<1||stars>3)return save;
   save.unlocked = Math.max(save.unlocked,Math.min(LEVELS.length,levelIndex+2));
   const id=LEVELS[levelIndex]?.id;
-  if(!id)return save;
-  save.stars[id]=Math.max(save.stars[id]||0,stars);
+  save.stars[id]=Math.max(starScore(save.stars[id]),stars);
   return save;
+}
+function purchaseUpgrade(save,id,storage=null) {
+  if(!Object.hasOwn(TOYS,id))return {ok:false,reason:'unknown'};
+  if(!unlockedToys(save).has(id))return {ok:false,reason:'locked'};
+  const rank=upgradeRank(save.upgrades?.[id]);
+  if(rank>=UPGRADE_COSTS.length)return {ok:false,reason:'max'};
+  if(starWallet(save).available<UPGRADE_COSTS[rank])return {ok:false,reason:'stars'};
+  const upgrades={...save.upgrades,[id]:rank+1};
+  if(!persistSave({...save,upgrades},storage))return {ok:false,reason:'storage'};
+  save.upgrades=upgrades;return {ok:true};
+}
+function resetUpgrades(save,storage=null) {
+  if(!persistSave({...save,upgrades:{}},storage))return false;
+  save.upgrades={};return true;
 }
 
 class AudioService {
@@ -333,13 +420,15 @@ class AudioService {
 
 
 
+
 class Battle {
-  constructor(index=0, audio=null, events={}) {
+  constructor(index=0, audio=null, events={}, upgrades={}) {
     this.levelIndex=index;
     this.level=LEVELS[index];
     if(!this.level)throw new Error('Fase desconhecida');
     this.audio=audio || {play(){}};
     this.events=events;
+    this.toyStats=Object.fromEntries(Object.keys(TOYS).map(id=>[id,upgradedToy(id,upgrades[id])]));
     this.time=0;
     this.state='playing';
     this.glow=this.level.startingGlow;
@@ -353,11 +442,13 @@ class Battle {
     this.waveIndex=0;this.bigWaveAlert=false;this.totalSpawns=0;this.killCount=0;this.toysPlaced=0;
     this.lastDrop=0;this.nextDrop=5.8;this.banner='';this.bannerUntil=0;
     this.seed=0x2af00+(index+1)*1543;
+    this.visualSeed=this.seed^0x7f4a;
     this.id=0;
     this.lastAction='';this.doorWarned=new Set();this.doorWarning=null;
     this.startToast(this.level.hint,6.3);
   }
   rand(){let x=this.seed|0;x^=x<<13;x^=x>>>17;x^=x<<5;this.seed=x|0;return (x>>>0)/4294967296;}
+  visualRand(){let x=this.visualSeed|0;x^=x<<13;x^=x>>>17;x^=x<<5;this.visualSeed=x|0;return (x>>>0)/4294967296;}
   startToast(text,seconds=2.3){this.lastAction=text;this.toastUntil=this.time+seconds;this.events.toast?.(text,seconds);}
   selectToy(id){if(!this.level.toys.includes(id))return false;this.selected=id;this.shovel=false;this.audio.play('click');return true;}
   selectShovel(){this.shovel=!this.shovel;this.audio.play('click');}
@@ -374,9 +465,9 @@ class Battle {
   place(row,col,id=this.selected){
     const error=this.canPlace(row,col,id);
     if(error){this.audio.play('no');this.startToast(error,1.3);return false;}
-    const data=TOYS[id];
+    const data=this.toyStats[id];
     const toy={id:this.id++,type:id,row,col,x:colX(col),y:rowY(row),hp:data.maxHp,maxHp:data.maxHp,
-      timer:data.kind==='producer'?7.5:data.kind==='music'?3.2:.33+this.rand()*.6,hit:0,age:0,recoil:0,webTime:0,armed:false};
+      rank:data.rank,timer:data.kind==='producer'?7.5:data.kind==='music'?3.2:.33+this.rand()*.6,hit:0,age:0,recoil:0,webTime:0,armed:false};
     this.grid[row][col]=toy;this.glow-=data.cost;this.toyCooldowns[id]=data.cooldown;this.toysPlaced++;
     this.audio.play('place');this.puff(toy.x,toy.y,'#ffe2a1',9);this.addFeedback(toy.x,toy.y-68,'+ Defesa','#fff1bd');this.events.changed?.();
     return true;
@@ -410,8 +501,8 @@ class Battle {
   }
   puff(x,y,color,n=6){
     if(!this.effectsEnabled)return;
-    for(let i=0;i<n;i++){const a=this.rand()*6.283,v=34+this.rand()*95;
-      this.particles.push({x,y,vx:Math.cos(a)*v,vy:Math.sin(a)*v-20,color,life:.38+this.rand()*.42,maxLife:.8,r:2+this.rand()*3});
+    for(let i=0;i<n;i++){const a=this.visualRand()*6.283,v=34+this.visualRand()*95;
+      this.particles.push({x,y,vx:Math.cos(a)*v,vy:Math.sin(a)*v-20,color,life:.38+this.visualRand()*.42,maxLife:.8,r:2+this.visualRand()*3});
     }
     if(this.particles.length>200)this.particles.splice(0,this.particles.length-200);
   }
@@ -462,7 +553,7 @@ class Battle {
     }
     for(const toy of this.allToys){
       toy.age+=dt;toy.hit=Math.max(0,toy.hit-dt);toy.recoil=Math.max(0,(toy.recoil||0)-dt);toy.webTime=Math.max(0,(toy.webTime||0)-dt);toy.timer-=dt*(toy.webTime>0?.56:1);
-      const d=TOYS[toy.type];
+      const d=this.toyStats[toy.type];
       if(d.kind==='producer'&&toy.timer<=0){
         toy.timer+=d.interval;
         this.spawnStar(toy.x+21,toy.y-27,false);this.puff(toy.x,toy.y-23,'#ffee84',5);
@@ -925,6 +1016,7 @@ function drawToy(c,t,time,visualMotion=true){
     for(let i=-1;i<=1;i++)line(c,[[-33,-44+i*21],[33,-12+i*21]],'#e5edfa',2);
     c.restore();
   }
+  if(t.rank>0){rr(c,-27,29,54,16,7,'#483254','#e9c36d',1);for(let i=0;i<t.rank;i++)star(c,(i-(t.rank-1)/2)*14,37,5,2.3,'#ffe7a2');}
   if(t.hp<t.maxHp){rr(c,-34,-70,68,6,3,'#5d4454');rr(c,-33,-69,66*t.hp/t.maxHp,4,2,t.hp/t.maxHp>.4?'#9bddb1':'#e67c84');}
   if(visualMotion){c.save();c.globalAlpha=.12+.055*(.5+.5*Math.sin(time*1.8+(t.id||0)));c.strokeStyle='#fff9e2';c.lineWidth=2;c.beginPath();c.ellipse(-15,-43,12,4,-.42,Math.PI,Math.PI*2);c.stroke();if(Math.sin(time*2.1+(t.id||0))>.82)star(c,28,-56,4,1.8,'#fff4c8');c.restore();}
   c.restore();
@@ -1251,10 +1343,11 @@ function drawIconCanvas(c,id,x,y,scale=.65,time=0){
 
 
 
+
 const $=id=>document.getElementById(id);
 const canvas=$('battle-canvas'),context=canvas.getContext('2d',{alpha:false});
 const audio=new AudioService();const save=loadSave();audio.music=save.settings.music;audio.sfx=save.settings.sfx;
-let battle=null,screen='menu',last=0,accumulator=0,hudUpdate=0,toastTimer=null,optionsBack='menu',lastResult=null,pendingConfirm=null,gameSpeed=1;
+let battle=null,screen='menu',last=0,accumulator=0,hudUpdate=0,toastTimer=null,optionsBack='menu',lastResult=null,pendingConfirm=null,gameSpeed=1,workshopBack='menu';
 const reducedMotion=window.matchMedia?.('(prefers-reduced-motion: reduce)');
 const motionEnabled=()=>save.settings.motion&&!reducedMotion?.matches;
 reducedMotion?.addEventListener?.('change',()=>{if(battle)battle.effectsEnabled=motionEnabled();});
@@ -1262,26 +1355,40 @@ const icons={T01:'💡',T02:'🪖',T03:'🧸',T04:'❄️',T05:'🎉',T06:'🏎�
 const escapeHTML=v=>String(v).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
 function showToast(text,seconds=2.8){let toast=$('toast');toast.textContent=text;toast.classList.remove('hidden');clearTimeout(toastTimer);toastTimer=setTimeout(()=>toast.classList.add('hidden'),seconds*1000);}
 function setScreen(name,content=''){screen=name;const layer=$('screen');if(name==='battle'){layer.classList.add('hidden');$('hud').classList.remove('hidden');return;}
-  layer.classList.remove('hidden');layer.innerHTML=content; $('hud').classList.toggle('hidden',name==='menu'||name==='levels'||name==='help'||name==='codex'||name==='credits'||(name==='options'&&!battle));
+  layer.classList.remove('hidden');layer.innerHTML=content; $('hud').classList.toggle('hidden',name==='menu'||name==='levels'||name==='help'||name==='codex'||name==='credits'||name==='workshop'||(name==='options'&&!battle));
   layer.classList.toggle('no-backdrop',false);
 }
 function button(text,action,kind='big-btn',additional=''){return `<button class="${kind}" data-action="${action}" ${additional}>${text}</button>`;}
 function panel(title,kicker,content,back='menu',extra=''){setScreen(extra||'panel',`<section class="panel" aria-label="${escapeHTML(title)}"><div class="panel-head"><div><span class="subheading">${kicker}</span><h1>${title}</h1></div>${button('✕ Voltar',back,'tiny-btn')}</div>${content}</section>`);}
 function menu(){battle=null;
-  setScreen('menu',`<div class="menu-content"><div class="menu-hero"><span class="kicker">✦ Uma aventura no quarto da Lia</span><h1 class="logo">BRINQUEDOS <span class="vs">VS.</span><br><em>PESADELOS!</em></h1><p class="menu-description">Quando o armário se abre... o quarto revida! Monte sua defesa e espante monstros muito atrapalhados.</p><div class="menu-note">✦ 20 fases jogáveis &nbsp; ✦ 3 capítulos &nbsp; ✦ 5 faixas &nbsp; ✦ Salva automaticamente</div></div><nav class="menu-actions" aria-label="Menu principal">${button(save.unlocked>1?'▶ CONTINUAR':'▶ JOGAR','play')}${button('🗺 ESCOLHER FASE','levels','outline-btn')}${button('📖 BRINQUEDOPÉDIA','codex','outline-btn')}${button('❔ COMO JOGAR','help','text-btn')}${button('⚙ OPÇÕES','options','text-btn')}${button('⛶ TELA CHEIA','fullscreen','text-btn')}</nav></div>`);
+  setScreen('menu',`<div class="menu-content"><div class="menu-hero"><span class="kicker">✦ Uma aventura no quarto da Lia</span><h1 class="logo">BRINQUEDOS <span class="vs">VS.</span><br><em>PESADELOS!</em></h1><p class="menu-description">Quando o armário se abre... o quarto revida! Monte sua defesa e espante monstros muito atrapalhados.</p><div class="menu-note">✦ 20 fases jogáveis &nbsp; ✦ 3 capítulos &nbsp; ✦ 5 faixas &nbsp; ✦ Salva automaticamente</div></div><nav class="menu-actions" aria-label="Menu principal">${button(save.unlocked>1?'▶ CONTINUAR':'▶ JOGAR','play')}${button('🗺 ESCOLHER FASE','levels','outline-btn')}${button('⭐ OFICINA · '+starWallet(save).available,'workshop','outline-btn')}${button('📖 BRINQUEDOPÉDIA','codex','outline-btn')}${button('❔ COMO JOGAR','help','text-btn')}${button('⚙ OPÇÕES','options','text-btn')}${button('⛶ TELA CHEIA','fullscreen','text-btn')}</nav></div>`);
 }
 function levels(){
   const cards=LEVELS.map((lvl,i)=>{const unlocked=i<save.unlocked;
     const card=`<button class="level-choice ${lvl.chapter===2?'level-night':lvl.chapter===3?'level-hall':''}" data-action="level" data-level="${i}" ${unlocked?'':'disabled'}><strong>${unlocked?'✦':'🔒'} ${lvl.id}</strong><span>${escapeHTML(lvl.title)}</span><small>${unlocked?'⭐'.repeat(save.stars[lvl.id]||0)||'Jogar agora':'Conclua a anterior'}</small></button>`;
     return (i===0?'<h2 class="chapter-heading">🧸 Capítulo 1 — O Armário</h2>':lvl.chapter===2 && LEVELS[i-1].chapter!==2?'<h2 class="chapter-heading">🌙 Capítulo 2 — Debaixo da Cama</h2>':lvl.chapter===3 && LEVELS[i-1].chapter!==3?'<h2 class="chapter-heading">🚪 Capítulo 3 — O Corredor Rangente</h2>':'')+card;
   }).join('');
-  panel('O Quarto Acordou','Três capítulos · escolha sua fase',`<p>Continue sua aventura, ou rejogue uma fase já liberada.</p><div class="levels">${cards}</div><p>Complete a fase 2-8 para abrir o Capítulo 3. As fases 3-1 a 3-4 apresentam portas que avisam as ondas antes da invasão.</p>`);
+  panel('O Quarto Acordou','Três capítulos · escolha sua fase',`<div class="map-workshop"><p>Rejogue para melhorar seu recorde. ⭐ ${starWallet(save).available} disponíveis para evoluir.</p>${button('⭐ Oficina','workshop','tiny-btn')}</div><div class="levels">${cards}</div><p>Complete a fase 2-8 para abrir o Capítulo 3. As fases 3-1 a 3-4 apresentam portas que avisam as ondas antes da invasão.</p>`);
+}
+function workshop(){
+  const wallet=starWallet(save),unlocked=unlockedToys(save);
+  const format=value=>Number(value.toFixed(2)).toLocaleString('pt-BR');
+  const cards=Object.values(TOYS).map(toy=>{
+    const rank=save.upgrades[toy.id]||0,current=upgradedToy(toy.id,rank),next=upgradedToy(toy.id,Math.min(3,rank+1));
+    const open=unlocked.has(toy.id),max=rank===3,cost=UPGRADE_COSTS[rank];
+    const stat=(label,key,suffix='')=>`<tr><th scope="row">${label}</th><td>${format(current[key])}${suffix}</td><td>${max?'—':format(next[key])+suffix}</td></tr>`;
+    const stats=stat('Vida','maxHp')+(toy.damage?stat('Dano','damage'):'')+(toy.kind==='producer'?stat('Produção a cada','interval','s'):'')+(toy.slowDuration?stat('Duração do gelo','slowDuration','s'):'')+(toy.stunDuration?stat('Duração do sono','stunDuration','s'):'');
+    const earnedAt=LEVELS.find(level=>level.reward===toy.id);
+    const label=!open?'🔒 Bloqueado':max?'✓ Nível máximo':wallet.available<cost?`Faltam ${cost-wallet.available} ⭐`:`Melhorar · ${cost} ⭐`;
+    return `<article class="upgrade-card ${open?'':'locked'} ${max?'maxed':''}" data-upgrade-card="${toy.id}"><div class="upgrade-card-head"><svg class="upgrade-art" viewBox="0 0 80 80" aria-hidden="true"><use href="#toy-${toy.id}"></use></svg><div><span class="upgrade-level">${open?'NÍVEL '+(rank+1):'A DESCOBRIR'}</span><h2>${toy.name}</h2><span class="upgrade-pips" aria-label="${rank} de 3 melhorias">${[1,2,3].map(n=>`<i class="${n<=rank?'filled':''}"></i>`).join('')}</span></div></div><p class="upgrade-role">${toy.description}</p><table class="upgrade-stats"><caption class="sr-only">Atributos de ${toy.name}</caption><thead><tr><th scope="col">Atributo</th><th scope="col">Atual</th><th scope="col">Próximo</th></tr></thead><tbody>${stats}</tbody></table><p class="upgrade-detail">${!open?`Vença a fase ${earnedAt?.id||'anterior'} para liberar.`:max?'Pronto para espantar qualquer bagunça!':`Custo da melhoria: ${cost} ⭐ · colocação: ${toy.cost} Brilhos`}</p><button class="upgrade-btn" data-action="upgrade" data-upgrade="${toy.id}" ${!open||max||wallet.available<cost?'disabled':''} aria-label="${toy.name}: ${label}">${label}</button></article>`;
+  }).join('');
+  setScreen('workshop',`<section class="panel workshop-panel" aria-label="Oficina dos Brinquedos"><div class="panel-head"><div><span class="subheading">Cada vitória dá novas possibilidades</span><h1>Oficina dos Brinquedos</h1></div>${button('✕ Voltar','workshop-back','tiny-btn')}</div><div class="workshop-summary"><div class="wallet-primary"><span>⭐</span><strong data-wallet="available">${wallet.available}</strong><small>DISPONÍVEIS</small></div><p>Uma dose extra de imaginação.<small>Melhorias permanentes para suas próximas partidas.</small></p><div class="wallet-history"><strong>${wallet.earned}</strong> conquistadas<br><strong>${wallet.spent}</strong> investidas</div></div><p class="workshop-help">Cada fase rende até 3 estrelas. Ao rejogar, você ganha apenas a diferença para seu melhor resultado. Os Brilhos continuam sendo usados dentro da batalha.</p><div class="upgrade-grid">${cards}</div><div class="workshop-footer"><p>Ganhe até 3 melhorias por brinquedo. As fases podem ser vencidas sem evoluir. Você pode devolver todas as melhorias e recuperar as estrelas gratuitamente.</p>${button('↺ Redistribuir estrelas','reset-upgrades','tiny-btn',wallet.spent?'':'disabled')}</div></section>`);
 }
 function help(back=battle?'pause':'menu'){
   panel('Como jogar','Seu Pião explica',`<p>Você precisa impedir que os pesadelos cheguem ao baú da imaginação.</p><div class="guide"><div class="guide-item"><strong>1. Escolha um brinquedo</strong><br>Toque em uma carta na faixa superior.</div><div class="guide-item"><strong>2. Defenda uma casa</strong><br>Toque em um quadradinho vazio do tapete.</div><div class="guide-item"><strong>3. Colete ✦ Brilhos</strong><br>Toque nas estrelinhas douradas; cada uma vale 25.</div><div class="guide-item"><strong>4. Proteja as 5 faixas</strong><br>Um trenzinho salva cada faixa apenas uma vez.</div><div class="guide-item"><strong>5. Economize</strong><br>Abajures criam Brilhos; soldados atacam; ursos bloqueiam; piões congelam; confetes atingem grupos; Cometas atravessam dois monstros; Soninho provoca sono; Móbile Musical paralisa até três faixas; Estilingue de Estrelas atinge faixas vizinhas; Arco de Elástico rebate em dois inimigos; Caixa Surpresa explode perto dos pesadelos.</div><div class="guide-item"><strong>6. Portas do corredor</strong><br>No Capítulo 3, a porta avisa a faixa atacada cinco segundos antes da onda.</div><div class="guide-item"><strong>7. Vitória!</strong><br>Espante todos os monstros, inclusive a grande onda.</div></div><p>Atalhos no PC: teclas <strong>1 a 6</strong> selecionam cartas, <strong>⏩ 1×/2×</strong> altera a velocidade da partida, <strong>F</strong> ativa tela cheia e <strong>Esc</strong> abre a pausa. No celular, prefira a orientação horizontal e toque em <strong>⛶ Tela</strong> para ampliar.</p>`,back,'help');
 }
 function codex(){
-  const art=(id,name,kind)=>`<svg class="catalog-art" viewBox="0 0 80 80" role="img" aria-label="Ilustração original: ${escapeHTML(name)}"><use href="./assets/codex-atlas.svg#${kind}-${id}"></use></svg>`;
+  const art=(id,name,kind)=>`<svg class="catalog-art" viewBox="0 0 80 80" role="img" aria-label="Ilustração original: ${escapeHTML(name)}"><use href="#${kind}-${id}"></use></svg>`;
   const toys=Object.values(TOYS).map(t=>`<div class="catalog-entry">${art(t.id,t.name,'toy')}<div><strong>${t.name}</strong><small>✦ ${t.cost} · ${t.description}</small></div></div>`).join('');
   const enemies=Object.values(ENEMIES).map(e=>`<div class="catalog-entry">${art(e.id,e.name,'enemy')}<div><strong>${e.name}</strong><small>${e.description}</small></div></div>`).join('');
   panel('Brinquedopédia','Ilustrações originais · conheça os moradores',`<p>Brinquedos e pesadelos agora têm retratos vetoriais próprios, desenhados para este universo.</p><div class="catalog">${toys}${enemies}</div>`,'menu','codex');
@@ -1301,18 +1408,24 @@ function confirmBefore(kind){
 function resume(){if(!battle)return;battle.state='playing';setScreen('battle');last=performance.now();accumulator=0;}
 function start(index){if(index>=save.unlocked)return;
   gameSpeed=1;
-  battle=new Battle(index,audio,{toast:showToast,changed:()=>updateHUD(),end:finish,enemySeen:type=>{if(!save.seenEnemies.includes(type)){save.seenEnemies.push(type);persistSave(save);}}});
+  battle=new Battle(index,audio,{toast:showToast,changed:()=>updateHUD(),end:finish,enemySeen:type=>{if(!save.seenEnemies.includes(type)){save.seenEnemies.push(type);persistSave(save);}}},save.upgrades);
   battle.effectsEnabled=motionEnabled();
   audio.resume();renderCards();setScreen('battle');$('level-label').textContent=`Fase ${battle.level.id}`;$('phase-name').textContent=battle.level.title;
   last=performance.now();accumulator=0;hudUpdate=0;updateHUD();
 }
 function finish(result,stars){if(!battle)return;
-  lastResult=result;if(result==='victory'){recordVictory(save,battle.levelIndex,stars);persistSave(save);}
-  const isLast=battle.levelIndex>=LEVELS.length-1;
-  const unlock=battle.level.reward?`<div class="result-unlock">🎁 Novo brinquedo para a próxima fase: <strong>${TOYS[battle.level.reward].name}</strong>!</div>`:'';
-  setScreen('result',`<section class="panel result-panel"><span class="subheading">${result==='victory'?'A noite está a salvo!':'Os pesadelos bagunçaram tudo!'}</span><h1>${result==='victory'?'🎉 Vitória!':'😵 Tente de novo!'}</h1><div class="result-score ${result==='victory'?'win-animation':'lose-animation'}">${result==='victory'?'⭐'.repeat(stars)+'☆'.repeat(3-stars):'☁️'}</div><p>${result==='victory'?'Você espantou '+battle.killCount+' monstros e protegeu a imaginação da Lia.':'Sua defesa não segurou a invasão. Experimente colocar soldados em mais faixas.'}</p>${result==='victory'?unlock:''}<div class="panel-actions">${result==='victory'&&!isLast?button('▶ Próxima fase','next'):''}${button('↻ '+(result==='victory'?'Jogar novamente':'Tentar de novo'),'restart','outline-btn')}${button('🗺 Escolher fase','levels','text-btn')}${button('⌂ Menu','menu','text-btn')}</div>${isLast&&result==='victory'?'<p>Você completou as 20 fases disponíveis! Mais aventuras chegarão em outra atualização. ✨</p>':''}</section>`);
+  const before=starWallet(save).earned,firstWin=!save.stars[battle.level.id];let stored=true;
+  if(result==='victory'){recordVictory(save,battle.levelIndex,stars);stored=persistSave(save);}
+  lastResult={result,stars,earned:starWallet(save).earned-before,stored,firstWin};resultScreen();
 }
-function renderCards(){if(!battle)return;const el=$('toy-cards');el.innerHTML=battle.level.toys.map((id,i)=>{const d=TOYS[id];return `<button class="toy-card ${battle.selected===id?'selected':''}" data-toy="${id}" title="${d.name}: ${d.description}" aria-label="${d.name}, custa ${d.cost} Brilhos"><span class="toy-card-icon"><canvas class="toy-card-art" data-icon="${id}" width="96" height="72" aria-hidden="true"></canvas></span><span class="toy-card-name">${d.short}</span><span class="cost">✦ ${d.cost}</span><span class="cooldown hidden"></span></button>`;}).join('');el.querySelectorAll('.toy-card-art').forEach(art=>{const ctx=art.getContext('2d');if(!ctx)return;ctx.clearRect(0,0,art.width,art.height);ctx.save();ctx.translate(art.width/2,art.height*.73);drawIconCanvas(ctx,art.dataset.icon,0,0,.66,0);ctx.restore();});}
+function resultScreen(){
+  if(!battle||!lastResult)return;
+  const {result,stars,earned,stored,firstWin}=lastResult;
+  const isLast=battle.levelIndex>=LEVELS.length-1;
+  const unlock=battle.level.reward&&firstWin?`<div class="result-unlock">🎁 Novo brinquedo para a próxima fase: <strong>${TOYS[battle.level.reward].name}</strong>!</div>`:'';
+  setScreen('result',`<section class="panel result-panel"><span class="subheading">${result==='victory'?'A noite está a salvo!':'Os pesadelos bagunçaram tudo!'}</span><h1>${result==='victory'?'🎉 Vitória!':'😵 Tente de novo!'}</h1><div class="result-score ${result==='victory'?'win-animation':'lose-animation'}">${result==='victory'?'⭐'.repeat(stars)+'☆'.repeat(3-stars):'☁️'}</div><p>${result==='victory'?'Você espantou '+battle.killCount+' monstros e protegeu a imaginação da Lia.':'Sua defesa não segurou a invasão. Experimente colocar soldados em mais faixas.'}</p>${result==='victory'?`<div class="star-reward">${earned?`+${earned} ⭐ novas estrelas!`:'Recorde mantido · conquiste mais estrelas para ganhar saldo.'}<br><small>⭐ ${starWallet(save).available} disponíveis na Oficina · ${starWallet(save).earned} conquistadas</small></div>${unlock}`:''}${!stored?'<p role="alert">Não foi possível salvar. Mantenha esta aba aberta e libere o armazenamento do navegador.</p>':''}<div class="panel-actions">${result==='victory'&&!isLast?button('▶ Próxima fase','next'):''}${button('↻ '+(result==='victory'?'Jogar novamente':'Tentar de novo'),'restart','outline-btn')}${result==='victory'?button('⭐ Melhorar brinquedos','workshop','outline-btn'):''}${button('🗺 Escolher fase','levels','text-btn')}${button('⌂ Menu','menu','text-btn')}</div>${isLast&&result==='victory'?'<p>Você completou as 20 fases disponíveis! Mais aventuras chegarão em outra atualização. ✨</p>':''}</section>`);
+}
+function renderCards(){if(!battle)return;const el=$('toy-cards');el.innerHTML=battle.level.toys.map((id,i)=>{const d=battle.toyStats[id];return `<button class="toy-card ${battle.selected===id?'selected':''}" data-toy="${id}" title="${d.name}: ${d.description}" aria-label="${d.name}, nível ${d.rank+1}, custa ${d.cost} Brilhos"><span class="toy-card-icon"><canvas class="toy-card-art" data-icon="${id}" width="96" height="72" aria-hidden="true"></canvas></span><span class="toy-card-name">${d.short}${d.rank?` <small>N${d.rank+1}</small>`:''}</span><span class="cost">✦ ${d.cost}</span><span class="cooldown hidden"></span></button>`;}).join('');el.querySelectorAll('.toy-card-art').forEach(art=>{const ctx=art.getContext('2d');if(!ctx)return;ctx.clearRect(0,0,art.width,art.height);ctx.save();ctx.translate(art.width/2,art.height*.73);drawIconCanvas(ctx,art.dataset.icon,0,0,.66,0);ctx.restore();});}
 function updateHUD(){if(!battle)return;$('glow-count').textContent=Math.floor(battle.glow);
   $('wave-progress').style.width=`${Math.round(battle.progress*100)}%`;
   const nextWave=battle.level.waves[battle.waveIndex];
@@ -1326,6 +1439,14 @@ function handleAction(action,target){
   if(action==='play')start(Math.min(save.unlocked-1,LEVELS.length-1));
   else if(action==='level')start(Number(target.dataset.level));
   else if(action==='levels')levels();
+  else if(action==='workshop'){workshopBack=screen==='result'?'result':screen==='panel'?'levels':'menu';workshop();}
+  else if(action==='workshop-back'){if(workshopBack==='result')resultScreen();else if(workshopBack==='levels')levels();else menu();}
+  else if(action==='upgrade'){
+    const id=target.dataset.upgrade,result=purchaseUpgrade(save,id);
+    if(result.ok){const scroll=document.querySelector('.workshop-panel').scrollTop;workshop();document.querySelector('.workshop-panel').scrollTop=scroll;document.querySelector(`[data-upgrade="${id}"]`)?.focus({preventScroll:true});showToast(`${TOYS[id].short} evoluiu para o nível ${save.upgrades[id]+1}!`);}
+    else showToast(result.reason==='storage'?'Não foi possível salvar. Nenhuma estrela foi gasta.':'Esta melhoria está indisponível.');
+  }
+  else if(action==='reset-upgrades'){if(resetUpgrades(save)){workshop();showToast('Estrelas devolvidas! Escolha novas melhorias.');}else showToast('Não foi possível salvar. Suas melhorias foram mantidas.');}
   else if(action==='menu'){if(battle&&battle.state==='paused'&&screen==='pause')confirmBefore('menu');else menu();}
   else if(action==='help')help();
   else if(action==='codex')codex();
@@ -1366,7 +1487,7 @@ canvas.addEventListener('pointermove',event=>{
 });
 canvas.addEventListener('pointerleave',()=>{if(battle)battle.hover=null;});
 document.addEventListener('keydown',event=>{
-  if(event.key==='Escape'){if(screen==='battle')pause();else if(screen==='pause')resume();else if(screen==='options'&&battle)pause();else if(screen!=='menu')menu();}
+  if(event.key==='Escape'){if(screen==='battle')pause();else if(screen==='pause')resume();else if(screen==='options'&&battle)pause();else if(screen==='workshop')handleAction('workshop-back',null);else if(screen!=='menu')menu();}
   if(screen==='battle'&&battle){if(event.key.toLowerCase()==='f'){handleAction('fullscreen',null);return;}const num=Number(event.key);if(num>=1&&num<=battle.level.toys.length){battle.selectToy(battle.level.toys[num-1]);updateHUD();}}
 });
 document.addEventListener('visibilitychange',()=>{if(document.hidden&&screen==='battle')pause();});
@@ -1384,7 +1505,7 @@ function loop(now){let delta=last?Math.min((now-last)/1000,.16):0;last=now;
 }
 menu();requestAnimationFrame(loop);
 window.addEventListener('orientationchange',()=>{last=performance.now();accumulator=0;});
-if('serviceWorker' in navigator&&location.protocol==='https:')navigator.serviceWorker.register('./sw.js').catch(()=>{});
+if('serviceWorker' in navigator&&(location.protocol==='https:'||location.hostname==='localhost'||location.hostname==='127.0.0.1'))navigator.serviceWorker.register('./sw.js').catch(()=>{});
 if(new URLSearchParams(location.search).has('qa'))window.__QA__={start,battle:()=>battle,save,menu};
 
 </script>

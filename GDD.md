@@ -1,4 +1,6 @@
 # BRINQUEDOS VS. PESADELOS
+
+> **Produção v1.2.0 — 13/11/2026:** por solicitação do proprietário, a campanha passa a oferecer melhorias permanentes opcionais com estrelas. Esta decisão atual substitui a restrição original do §10. A campanha continua vencível sem melhorias, sem grind obrigatório. Ver regras e análise completa em [docs/ANALISE_E_MELHORIAS.md](docs/ANALISE_E_MELHORIAS.md).
 ## Game Design Document (GDD) — Versão 1.0
 
 > **Proposta:** tower defense 2D por linhas, com humor, progressão clara e partidas rápidas, inspirado no ritmo acessível do *Plants vs. Zombies* clássico (2009), mas com universo, personagens, apresentação e interações próprios.

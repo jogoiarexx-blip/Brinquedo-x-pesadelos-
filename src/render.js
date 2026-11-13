@@ -319,6 +319,7 @@ function drawToy(c,t,time,visualMotion=true){
     for(let i=-1;i<=1;i++)line(c,[[-33,-44+i*21],[33,-12+i*21]],'#e5edfa',2);
     c.restore();
   }
+  if(t.rank>0){rr(c,-27,29,54,16,7,'#483254','#e9c36d',1);for(let i=0;i<t.rank;i++)star(c,(i-(t.rank-1)/2)*14,37,5,2.3,'#ffe7a2');}
   if(t.hp<t.maxHp){rr(c,-34,-70,68,6,3,'#5d4454');rr(c,-33,-69,66*t.hp/t.maxHp,4,2,t.hp/t.maxHp>.4?'#9bddb1':'#e67c84');}
   if(visualMotion){c.save();c.globalAlpha=.12+.055*(.5+.5*Math.sin(time*1.8+(t.id||0)));c.strokeStyle='#fff9e2';c.lineWidth=2;c.beginPath();c.ellipse(-15,-43,12,4,-.42,Math.PI,Math.PI*2);c.stroke();if(Math.sin(time*2.1+(t.id||0))>.82)star(c,28,-56,4,1.8,'#fff4c8');c.restore();}
   c.restore();
