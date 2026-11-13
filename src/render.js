@@ -490,7 +490,7 @@ function drawFeedback(c,f){
 }
 function drawDefeated(c,d){
   c.save();const k=clamp(d.age/d.life,0,1);c.globalAlpha=(1-k)*.7;c.translate(0,-35*k);c.rotate((d.type==='E05'?-1:1)*k*.12);
-  const data=ENEMIES[d.type];drawEnemy(c,{...d,id:0,age:d.age,hit:0,attack:0,slowTime:0,hp:data.hp,maxHp:data.hp},d.age);
+  const data=ENEMIES[d.type];drawEnemy(c,{...d,id:0,age:d.age,hit:0,attack:0,slowTime:0,hp:data.hp,maxHp:data.hp,defeated:true},d.age);
   c.restore();
 }
 function drawBossHealth(c,game){
