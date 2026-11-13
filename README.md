@@ -1,4 +1,17 @@
-# Brinquedos vs. Pesadelos — ALFA v0.8.0
+# Brinquedos vs. Pesadelos — ALFA v0.9.0
+
+## Novidades da v0.9.0 — brinquedos com personalidade
+
+- Braços articulados e mãos com balanço próprio em todas as unidades durante a espera.
+- Recuo do corpo e braços acompanham a ação de disparo, sem alterar cadência, dano ou alcance.
+- Abajur recebe pulsação de luz e brilho de produção; atiradores, gelo, confetes e projéteis especiais recebem flashes de ação.
+- Móbile musical ganha notas flutuantes e a Caixa Surpresa pulsa quando armada.
+- Efeitos respeitam a opção de movimento reduzido; animações usam o relógio já existente da partida.
+- Mantidos IDs, economia, grade, ondas, fases, balanceamento e chave de salvamento.
+
+**Validação:** testes automatizados de lógica existentes mantidos; execução de Node.js e playtest real ainda pendentes nesta sessão.
+
+
 
 ## Novidades da v0.8.0 — salto de apresentação cartoon
 
