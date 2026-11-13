@@ -156,7 +156,7 @@ test('v0.3: inimigo derrotado deixa efeito visual temporário sem causar novo da
 
 test('v0.4: capítulo 2 possui quatro fases, desbloqueio após 1-8 e salva estrelas corretamente',async()=>{
   const {LEVELS}=await import('../src/data.js');
-  assert.deepEqual(LEVELS.slice(8).map(l=>l.id),['2-1','2-2','2-3','2-4','2-5','2-6','2-7','2-8']);
+  assert.deepEqual(LEVELS.slice(8,16).map(l=>l.id),['2-1','2-2','2-3','2-4','2-5','2-6','2-7','2-8']);
   assert.ok(LEVELS.slice(8,16).every(l=>l.chapter===2));
   const save=loadSave({getItem:()=>JSON.stringify({version:1,unlocked:8,stars:{'1-8':2},seenEnemies:[],settings:{}})});
   assert.equal(save.unlocked,8);
