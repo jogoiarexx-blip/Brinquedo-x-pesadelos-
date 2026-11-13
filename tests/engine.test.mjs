@@ -209,3 +209,21 @@ test('v0.4: renderizador aceita novos brinquedos, inimigos e cenário noturno',a
   const c=new Proxy({}, {get:(o,k)=>(k==='createLinearGradient'||k==='createRadialGradient')?()=>grad:(o[k]??(()=>{})),set:(o,k,v)=>(o[k]=v,true)});
   assert.doesNotThrow(()=>render(c,b,false,true));
 });
+
+
+test('v0.9: todos os brinquedos renderizam com animação ligada e movimento reduzido',async()=>{
+  const {render}=await import('../src/render.js');const {TOYS}=await import('../src/data.js');
+  const b=new Battle(19,quiet);
+  for(const [row,id] of Object.keys(TOYS).entries()){
+    const d=TOYS[id];b.grid[row%5][Math.floor(row/5)]={id:row,type:id,row:row%5,col:Math.floor(row/5),x:colX(Math.floor(row/5)),y:rowY(row%5),hp:d.maxHp,maxHp:d.maxHp,hit:0,age:row*.31,recoil:row%2?.12:0,webTime:0,armed:row%3===0};
+  }
+  const gradient={addColorStop(){}};const ctx=new Proxy({}, {get:(o,k)=>(k==='createLinearGradient'||k==='createRadialGradient')?()=>gradient:(o[k]??(()=>{})),set:(o,k,v)=>(o[k]=v,true)});
+  assert.doesNotThrow(()=>render(ctx,b,false,true));
+  assert.doesNotThrow(()=>render(ctx,b,false,false));
+});
+
+test('v0.9: renderizar efeitos não altera estado da partida nem atributos das defesas',async()=>{
+  const {render}=await import('../src/render.js');const b=new Battle(19,quiet);b.place(2,1,'T02');const toy=b.grid[2][1];toy.recoil=.18;const before={age:toy.age,recoil:toy.recoil,hp:toy.hp,glow:b.glow};
+  const gradient={addColorStop(){}};const ctx=new Proxy({}, {get:(o,k)=>(k==='createLinearGradient'||k==='createRadialGradient')?()=>gradient:(o[k]??(()=>{})),set:(o,k,v)=>(o[k]=v,true)});
+  render(ctx,b,false,true);assert.deepEqual({age:toy.age,recoil:toy.recoil,hp:toy.hp,glow:b.glow},before);
+});
