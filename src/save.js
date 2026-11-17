@@ -1,8 +1,8 @@
-import { LEVELS,TOYS,ENEMIES } from './data.js?v=1.5.0';
-import { SAVE_KEY } from './config.js?v=1.5.0';
-import { validDeck, deckForLevel } from './deck.js?v=1.5.0';
-import { UPGRADE_COSTS,upgradeRank,upgradeSpent } from './upgrades.js?v=1.5.0';
-const defaults = () => ({ version:1, campaignSize:LEVELS.length, unlocked:1, stars:{}, upgrades:{}, decks:{}, seenEnemies:[], settings:{ music:true, sfx:true, motion:true } });
+import { LEVELS,TOYS,ENEMIES } from './data.js?v=1.6.0';
+import { SAVE_KEY } from './config.js?v=1.6.0';
+import { validDeck, deckForLevel } from './deck.js?v=1.6.0';
+import { UPGRADE_COSTS,upgradeRank,upgradeSpent } from './upgrades.js?v=1.6.0';
+const defaults = () => ({ version:1, campaignSize:LEVELS.length, unlocked:1, stars:{}, upgrades:{}, decks:{}, survival:{ best:{waves:0,kills:0,seconds:0,score:0},runs:0,deck:[] }, seenEnemies:[], settings:{ music:true, sfx:true, motion:true } });
 const starScore=value=>['number','string'].includes(typeof value)&&Number.isFinite(Number(value))?Math.max(0,Math.min(3,Math.floor(Number(value)))):0;
 export function unlockedToys(save) {
   return new Set(LEVELS.slice(0,save.unlocked).flatMap(level=>level.toys));
@@ -35,6 +35,13 @@ function normalizeSave(raw) {
     const deck=configured[level.id];
     if(validDeck(deck,unlockedIds))save.decks[level.id]=[...deck];
   }
+  // Recordes e equipes opcionais: carregamento não altera o progresso da campanha.
+  const rs=raw.survival&&typeof raw.survival==='object'&&!Array.isArray(raw.survival)?raw.survival:{};
+  const b=rs.best&&typeof rs.best==='object'?rs.best:{};
+  const safeInt=(value,max)=>Number.isSafeInteger(value)&&value>=0?Math.min(value,max):0;
+  save.survival.best={waves:safeInt(b.waves,10000000),kills:safeInt(b.kills,100000000),seconds:safeInt(b.seconds,1000000000),score:safeInt(b.score,1000000000)};
+  save.survival.runs=safeInt(rs.runs,10000000);
+  if(canPlaySurvival(save)&&validDeck(rs.deck,unlockedIds))save.survival.deck=[...rs.deck];
   return save;
 }
 export function loadSave(storage=null) {
@@ -88,4 +95,37 @@ export function saveDeck(save,index,deck,storage=null) {
 export function resetDeck(save,index,storage=null) {
   if(!Number.isInteger(index)||index<0||index>=save.unlocked||index>=LEVELS.length)return {ok:false,reason:'locked'};
   return saveDeck(save,index,[...LEVELS[index].toys],storage);
+}
+
+export function canPlaySurvival(save) {
+  return Boolean(save?.unlocked>=9 && Number(save?.stars?.['1-8'])>=1);
+}
+export function getSurvivalDeck(save) {
+  const suggested=LEVELS[7].toys;
+  return canPlaySurvival(save)&&validDeck(save.survival?.deck,unlockedToys(save))
+    ? [...save.survival.deck]:[...suggested];
+}
+export function saveSurvivalDeck(save,deck,storage=null) {
+  if(!canPlaySurvival(save))return {ok:false,reason:'locked'};
+  if(!validDeck(deck,unlockedToys(save)))return {ok:false,reason:'invalid'};
+  const survival={...save.survival,deck:[...deck]};
+  if(!persistSave({...save,survival},storage))return {ok:false,reason:'storage'};
+  save.survival=survival;return {ok:true};
+}
+// Recorde local de ondas alcançadas; não concede estrelas ou upgrades.
+export function recordSurvivalRun(save,result,storage=null) {
+  if(!canPlaySurvival(save))return {ok:false,reason:'locked'};
+  if(!result || !Number.isSafeInteger(result.waves) || result.waves<0 ||
+     !Number.isSafeInteger(result.kills) || result.kills<0 ||
+     !Number.isFinite(result.seconds) || result.seconds<0)return {ok:false,reason:'invalid'};
+  const waves=Math.min(10000000,result.waves),kills=Math.min(100000000,result.kills);
+  const seconds=Math.min(1000000000,Math.floor(result.seconds));
+  const score=Math.min(1000000000,waves*100+kills*10+seconds);
+  const current={waves,kills,seconds,score};
+  const old=save.survival?.best??{waves:0,score:0};
+  const newRecord=waves>old.waves||(waves===old.waves&&score>old.score);
+  const survival={...save.survival,best:newRecord?current:{...old},runs:Math.min(10000000,(save.survival?.runs||0)+1)};
+  if(!persistSave({...save,survival},storage))return {ok:false,reason:'storage',newRecord};
+  save.survival=survival;
+  return {ok:true,newRecord,record:survival.best,run:current};
 }
