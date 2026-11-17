@@ -127,15 +127,15 @@ test('auditoria das 40 fases aprova integridade estrutural e expõe métricas de
 test('PWA, import map e standalone conectam o 3D sem carregar Three.js por padrão',()=>{
   const index=read('index.html'),main=read('src/main.js'),sw=read('sw.js');
   const offline=read('JOGAR-OFFLINE.html'),module=read('src/story-3d.js');
-  assert.ok(index.includes('v2.2.0'));
+  assert.ok(index.includes('v2.3.0'));
   assert.ok(index.includes('type="importmap"'));
   assert.ok(index.includes('three@0.170.0'));
   assert.ok(index.includes('id="perf-stats"'));
   assert.ok(main.includes('cinematic3d')&&main.includes('showPerf'));
   assert.ok(main.includes('void mountStory3D(stage,frame,motionEnabled())'));
-  assert.ok(sw.includes('brinquedos-vs-pesadelos-v2.2.0'));
-  assert.ok(sw.includes('story-3d.js?v=2.2.0'));
-  assert.ok(sw.includes('perf.js?v=2.2.0'));
+  assert.ok(sw.includes('brinquedos-vs-pesadelos-v2.3.0'));
+  assert.ok(sw.includes('story-3d.js?v=2.3.0'));
+  assert.ok(sw.includes('perf.js?v=2.3.0'));
   assert.ok(!sw.includes('cdn.jsdelivr.net'),'CDN não deve ser pré-requisito do cache offline');
   assert.ok(module.includes("import('three')"));
   assert.ok(module.includes('forceContextLoss'));

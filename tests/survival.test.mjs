@@ -89,8 +89,8 @@ test('site e versão offline incluem a sobrevivência e seus arquivos',()=>{
   const build=readFileSync(new URL('../tools/build_standalone.py',import.meta.url),'utf8');
   assert.ok(main.includes('function startSurvival'));
   assert.ok(main.includes("action==='survival'"));
-  assert.ok(sw.includes('survival.js?v=2.2.0'));
-  assert.ok(sw.includes('survival-ui.js?v=2.2.0'));
+  assert.ok(sw.includes('survival.js?v=2.3.0'));
+  assert.ok(sw.includes('survival-ui.js?v=2.3.0'));
   assert.ok(build.includes("'survival.js'"));
   assert.ok(offline.includes('class SurvivalBattle'));
   assert.ok(offline.includes('function survivalSetup'));
