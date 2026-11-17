@@ -14,8 +14,8 @@ import {render,drawIconCanvas} from '../src/render.js';
 const audio={play(){}};
 const store=()=>({raw:null,getItem(){return this.raw;},setItem(k,v){this.raw=v;}});
 test('32 fases, Capítulo 4 completo e chefe exclusivo da fase 4-8',()=>{
-  assert.equal(LEVELS.length,32);
-  assert.deepEqual(LEVELS.slice(24).map(l=>l.id),['4-1','4-2','4-3','4-4','4-5','4-6','4-7','4-8']);
+  assert.equal(LEVELS.length,40);
+  assert.deepEqual(LEVELS.slice(24,32).map(l=>l.id),['4-1','4-2','4-3','4-4','4-5','4-6','4-7','4-8']);
   for(const level of LEVELS.slice(28)){
     assert.equal(level.chapter,4);
     assert.ok(level.toys.length>0&&level.toys.length<=6);
@@ -120,7 +120,7 @@ test('save v1.8 com vitória 4-4 libera 4-5 sem apagar stars, oficina e históri
   storage.raw=JSON.stringify({version:1,campaignSize:28,unlocked:28,stars:{'4-4':3,'1-1':3,'1-2':2},upgrades:{T02:1},
     decks:{'1-2':['T01','T02']},storySeen:['C03'],survival:{best:{waves:9,kills:23,seconds:160,score:1260},runs:2,deck:[]}});
   const save=loadSave(storage);
-  assert.equal(save.campaignSize,32);assert.equal(save.unlocked,29);
+  assert.equal(save.campaignSize,40);assert.equal(save.unlocked,29);
   assert.deepEqual(save.decks['1-2'],['T01','T02']);
   assert.equal(save.upgrades.T02,1);
   assert.equal(save.stars['4-4'],3);
@@ -131,7 +131,7 @@ test('save v1.8 com vitória 4-4 libera 4-5 sem apagar stars, oficina e históri
 });
 
 test('C04 aparece após 4-8, pode ser pulada/revista e não existe sem vitória',()=>{
-  assert.deepEqual(STORY_ORDER,['C00','C01','C02','C03','C04']);
+  assert.deepEqual(STORY_ORDER,['C00','C01','C02','C03','C04','C05','C06','C07']);
   assert.equal(storyForVictory('4-8'),'C04');
   assert.equal(storyForVictory('4-7'),null);
   assert.equal(getStory('C04').slides.length,4);
@@ -164,7 +164,7 @@ test('Canvas, bestiário e offline contêm chefe e mecânicas novas',()=>{
   assert.ok(script);
   assert.doesNotThrow(()=>new vm.Script(script[1],{filename:'JOGAR-OFFLINE.html'}));
   const sw=readFileSync(new URL('../sw.js',import.meta.url),'utf8');
-  assert.ok(sw.includes('brinquedos-vs-pesadelos-v1.9.0'));
+  assert.ok(sw.includes('brinquedos-vs-pesadelos-v2.0.0'));
   for(const path of ['src/data.js','src/engine.js','src/render.js','src/main.js','src/story.js','sw.js'])
     execFileSync(process.execPath,['--check',new URL('../'+path,import.meta.url).pathname]);
 });
