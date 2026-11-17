@@ -137,8 +137,8 @@ test('PWA e arquivo offline incluem visual, áudio e navegação sem imports ext
   assert.ok(renderSource.includes('export function bossPresentationState'));
   assert.ok(css.includes('prefers-reduced-motion:reduce'));
   assert.ok(css.includes('story-camera-credits'));
-  assert.ok(sw.includes('brinquedos-vs-pesadelos-v2.2.0'));
-  assert.ok(index.includes('v2.2.0'));
+  assert.ok(sw.includes('brinquedos-vs-pesadelos-v2.3.0'));
+  assert.ok(index.includes('v2.3.0'));
   assert.ok(offline.includes('function drawBossWarningCountdown'));
   assert.ok(offline.includes('function bossPresentationState'));
   assert.ok(offline.includes('story-credits-logo'));
