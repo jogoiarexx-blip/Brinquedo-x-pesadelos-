@@ -925,9 +925,15 @@ export function bossPresentationState(boss){
   const base=boss.type==='E05'?'O REI AVANÇA':boss.type==='E10'?'SOMBRAS SE REÚNEM':boss.type==='E14'?'ESPIRE E CONTRA-ATAQUE':boss.type==='E18'?'ESPERE A CORTINA':'A IMAGINAÇÃO RESISTE';
   const status=phase==='warning'?'⚠ ATAQUE EM PREPARAÇÃO':phase==='rest'?'✨ ABERTO • CONTRA-ATAQUE':formName?'FORMA '+form+' — '+formName:base;
   const lane=phase==='warning'?(boss.targetLane??boss.row):null;
+  const primary=Number.isInteger(lane)&&lane>=0&&lane<BOARD.rows?lane:null;
+  let warningLanes=primary===null?[]:[primary];
+  if(primary!==null&&config.dreamBoss&&form===3)
+    warningLanes=[...new Set([primary,Math.max(0,primary-1)])];
+  if(primary!==null&&config.dustBoss&&boss.nextAttack==='dust')
+    warningLanes=[primary-1,primary+1].filter(row=>row>=0&&row<BOARD.rows);
   return {
     name:config.bossLabel||config.name,accent,dark,phase,form,formName,status,
-    warningLane:Number.isInteger(lane)&&lane>=0&&lane<BOARD.rows?lane:null,
+    warningLane:primary,warningLanes,
     warningSeconds:phase==='warning'?Math.max(0,Number(boss.phaseTimer)||0):0,
     hpFraction:clamp((Number(boss.hp)||0)/(Number(boss.maxHp)||1),0,1)
   };
@@ -976,17 +982,18 @@ function drawBossHealth(c,game){
   }
 }
 function drawBossWarningCountdown(c,state,time,visualMotion=true){
-  if(state.warningLane===null)return;
-  const row=state.warningLane;
-  const x=BOARD_RIGHT-165,y=BOARD.y+row*BOARD.ch+26;
-  c.save();
-  c.globalAlpha=visualMotion?.75+.2*Math.sin(time*9):.88;
-  rr(c,x,y,152,37,10,'#2b2040de',state.accent,2.5);
-  c.globalAlpha=1;
-  txt(c,'⚠ FAIXA '+(row+1),x+76,y+11,13,'#fff3dc');
-  rr(c,x+12,y+24,127,5,3,'#2d2342');
-  rr(c,x+12,y+24,127*clamp(state.warningSeconds/1.8,0,1),5,3,state.accent);
-  c.restore();
+  if(!state.warningLanes?.length)return;
+  for(const row of state.warningLanes){
+    const x=BOARD_RIGHT-165,y=BOARD.y+row*BOARD.ch+26;
+    c.save();
+    c.globalAlpha=visualMotion?.75+.2*Math.sin(time*9+row):.88;
+    rr(c,x,y,152,37,10,'#2b2040de',state.accent,2.5);
+    c.globalAlpha=1;
+    txt(c,'⚠ FAIXA '+(row+1),x+76,y+11,13,'#fff3dc');
+    rr(c,x+12,y+24,127,5,3,'#2d2342');
+    rr(c,x+12,y+24,127*clamp(state.warningSeconds/1.8,0,1),5,3,state.accent);
+    c.restore();
+  }
 }
 function drawBossIntroCard(c,game){
   const boss=game.enemies.find(e=>ENEMIES[e.type]?.boss&&e.age<3);
@@ -1005,9 +1012,10 @@ function drawBossIntent(c,boss,visualMotion=true){
   drawBossWarningCountdown(c,presentation,boss.age,visualMotion);
   if(ENEMIES[boss.type].dreamBoss){
     if(boss.bossPhase==='warning'){
-      const row=boss.targetLane??boss.row;
-      rr(c,BOARD.x+3,BOARD.y+row*BOARD.ch+3,BOARD.cols*BOARD.cw-6,BOARD.ch-6,12,'#df9ce45a','#ffe6bd',4);
-      txt(c,'⚠ BICHO-PAPÃO • FORMA '+boss.bossForm+' • FAIXA '+(row+1),640,626,18,'#ffe4eb');
+      for(const row of presentation.warningLanes)
+        rr(c,BOARD.x+3,BOARD.y+row*BOARD.ch+3,BOARD.cols*BOARD.cw-6,BOARD.ch-6,12,'#df9ce45a','#ffe6bd',4);
+      const lanes=presentation.warningLanes.map(row=>row+1).join(' / ');
+      txt(c,'⚠ BICHO-PAPÃO • FORMA '+boss.bossForm+' • '+(presentation.warningLanes.length>1?'FAIXAS ':'FAIXA ')+lanes,640,626,18,'#ffe4eb');
     }else if(boss.bossPhase==='rest')txt(c,'CHEFE EXPOSTO • DANO +40%!',640,625,18,'#e5f8bb');
     return;
   }
