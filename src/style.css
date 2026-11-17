@@ -240,3 +240,27 @@
 .level-attic:has(.level-entry:enabled):hover{filter:brightness(1.11)}
 .brief-dust-warning{border:1px solid #ddba7e;border-radius:12px;padding:9px 13px;background:#78533c52;color:#ffe5bd;font-size:12px;font-weight:900;line-height:1.5;margin:9px 0}
 @media(max-width:650px){.brief-dust-warning{font-size:10px;padding:6px 8px}}
+
+
+/* v2.0.0 — A Noite dos Mil Bocejos: mundo onírico e encerramento */
+.level-dream{background:linear-gradient(145deg,#6e628f,#b39ac5 58%,#695c8f);border:2px solid #e0c8f0;color:#261d43;box-shadow:inset 0 2px 9px #d5baee40}
+.level-dream .level-entry{color:#231942}
+.level-dream .level-scout{background:#443858;color:#fff0d5}
+.level-dream:has(.level-entry:enabled):hover{filter:brightness(1.12)}
+.story-stage-dream{background:radial-gradient(ellipse at 34% 28%,#ecdaaf75,transparent 33%),linear-gradient(125deg,#262448,#67528d 54%,#3d315a)}
+.story-stage-dream .story-moon{background:#efd7fa;box-shadow:0 0 65px 35px #cbaafa59;right:12%;top:8%}
+.story-stage-dream .story-backdrop{background:linear-gradient(#60467c,#292347);clip-path:polygon(0 50%,9% 8%,19% 8%,25% 64%,42% 39%,51% 5%,61% 39%,77% 57%,82% 10%,100% 10%,100% 100%,0 100%)}
+.story-stage-dream .story-backdrop-front{background:linear-gradient(#896ea18a,#2b234f);border-top-color:#e3b8e3}
+.story-stage-dream .story-character{filter:drop-shadow(0 9px 15px #d5a4eb77);width:clamp(125px,22vw,205px);height:clamp(120px,21vw,195px)}
+.story-stage-bedrooms .story-character{filter:drop-shadow(0 12px 11px #f4d2b477)}
+.finale-ending{border:2px solid #ffdfb3;border-radius:17px;background:linear-gradient(140deg,#695577,#302c5c);box-shadow:0 6px 18px #1e143d66;padding:18px;margin:14px 0;text-align:center;color:#fff4d8}
+.finale-ending strong{display:block;color:#fff2b7;font-size:clamp(19px,3vw,29px);letter-spacing:.07em}
+.finale-ending p{font-size:clamp(13px,1.65vw,18px)!important;line-height:1.5}
+.finale-ending small{color:#e6cfeb;font-size:12px}
+.story-gallery-card:has([data-story="C07"]){border-color:#efcaa7;background:linear-gradient(125deg,#67476a,#45395d)}
+@media(max-width:650px){
+  .level-dream{border-width:1px}
+  .finale-ending{padding:11px}
+  .finale-ending p{font-size:12px!important}
+  .story-stage-dream .story-character{width:125px;height:120px}
+}
