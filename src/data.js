@@ -1,5 +1,7 @@
-// Capítulos 1 a 3 completos e primeiras quatro fases do 4 (28 fases); tabuleiro clássico 5×9.
+// Capítulos 1 a 4 completos (32 fases); tabuleiro clássico 5×9 e mecânicas autorais.
 export const TOYS = Object.freeze({
+  T16: {id:'T16',name:'Lencinho Invisível',short:'Lencinho',cost:125,cooldown:16,maxHp:145,kind:'veil',rangeCells:1,color:'#d9d3ec',description:'Forma uma proteção delicada que reduz em 40% o dano recebido por brinquedos próximos, inclusive dos ataques da Baronesa.'},
+  T17: {id:'T17',name:'Tambor Fanfarrão',short:'Tambor',cost:175,cooldown:13,maxHp:140,kind:'drum',interval:7.2,damage:25,rangeCells:4,stunDuration:.75,color:'#e3b17c',description:'Toca um ritmo que causa dano e atordoa brevemente pesadelos em três faixas próximas.'},
   T13: {id:'T13',name:'Boneca Guarda-Chuva',short:'Guarda-Chuva',cost:125,cooldown:14,maxHp:185,kind:'umbrella',interval:9.5,heal:20,color:'#a4c8db',description:'Limpa casas empoeiradas próximas ao chegar e conserta brinquedos vizinhos a cada 9,5 s.'},
   T14: {id:'T14',name:'Sombrinha Assobiadora',short:'Assobio',cost:150,cooldown:10,maxHp:115,kind:'whistle',interval:3.4,damage:27,slowFactor:.77,slowDuration:2.5,rangeCells:3,color:'#d2a8d7',description:'Assobia contra pesadelos de três faixas, causando dano e lentidão com alcance limitado.'},
   T15: {id:'T15',name:'Robô de Lata Desajeitado',short:'Robô Lata',cost:200,cooldown:16,maxHp:270,kind:'pierce',interval:2.8,damage:40,pierces:2,color:'#c6a47d',description:'Um robô resistente que dispara parafusos atravessando até dois pesadelos.'},
@@ -18,6 +20,8 @@ export const TOYS = Object.freeze({
   T09: { id:'T09', name:'Estilingue de Estrelas', short:'Estrelas', cost:200, cooldown:15, maxHp:100, kind:'starburst', interval:3.3, damage:46, splashRatio:.5, splashRadius:115, color:'#f7d88c', description:'Dispara uma estrela que causa dano também aos inimigos das faixas vizinhas.' },
 });
 export const ENEMIES = Object.freeze({
+  E17: {id:'E17',name:'Retalho Escorregadio',hp:125,speed:.46,damage:23,interval:1.05,flutter:true,description:'Muda de faixa uma vez ao chegar perto da defesa: observe o movimento antes de colocar os brinquedos.'},
+  E18: {id:'E18',name:'Baronesa das Cortinas',hp:2050,speed:.095,damage:33,interval:1.2,boss:true,curtainBoss:true,slowResistance:.5,stunResistance:.5,bossIntro:'🎭 A BARONESA DAS CORTINAS CHEGOU!',bossDefeat:'AS CORTINAS DA BARONESA CAÍRAM!',bossLabel:'🎭 Baronesa das Cortinas',description:'Anuncia a faixa de sua próxima cortina, dispara um retalho perigoso, cobre casas com poeira e fica vulnerável enquanto descansa.'},
   E15: {id:'E15',name:'Traça do Sótão',hp:155,speed:.35,damage:22,interval:1.1,web:true,description:'Uma traça saltitante que enrola brinquedos em fios de tecido e reduz sua cadência.'},
   E16: {id:'E16',name:'Baú Saltitante',hp:245,speed:.28,damage:31,interval:1.15,jump:true,description:'Baú animado que aguenta muitos golpes e salta sua primeira defesa.'},
 
@@ -187,5 +191,29 @@ export const LEVELS = Object.freeze([
     startingGlow:550, toys:['T01','T02','T03','T13','T14','T15'], reward:null, duration:292,
     dust:[[0,3],[0,6],[1,2],[1,5],[2,3],[2,6],[3,1],[3,6],[4,2],[4,5]],
     waves:[wave(15,[['E16',2],['E15',2]]),wave(38,[['E15',0],['E02',4]]),wave(63,[['E07',1],['E16',3]]),wave(87,[['E16',0],['E15',2],['E08',4]]),wave(113,[['E03',2],['E15',0],['E15',4]]),wave(139,[['E16',4],['E09',1],['E07',3]]),wave(166,[['E15',1],['E16',2],['E15',3]]),wave(193,[['E16',0],['E07',1],['E16',4]]),wave(221,[['E15',0],['E16',2],['E15',4],['E12',3]]),wave(250,[['E16',0],['E15',1],['E16',2],['E15',3],['E16',4]],true)]
+  },
+  { id:'4-5', chapter:4, title:'O segredo do Lencinho', subtitle:'Um lencinho esquecido revela como proteger o grupo dos retalhos.',
+    hint:'Reforce as faixas com Robôs de Lata e Guarda-Chuvas. Ao vencer, você libera o Lencinho Invisível, protetor de aliados próximos.',
+    startingGlow:560, toys:['T01','T02','T03','T13','T14','T15'], reward:'T16', duration:304,
+    dust:[[0,2],[0,5],[1,3],[1,6],[2,4],[3,2],[3,5],[4,3],[4,6]],
+    waves:[wave(17,[['E17',2]]),wave(42,[['E15',0],['E17',4]]),wave(67,[['E16',1],['E17',3]]),wave(91,[['E17',2],['E07',2]]),wave(117,[['E16',0],['E15',4]]),wave(143,[['E17',1],['E17',3],['E09',2]]),wave(171,[['E16',2],['E17',4],['E08',0]]),wave(199,[['E15',1],['E16',3],['E17',2]]),wave(227,[['E16',0],['E17',1],['E07',4]]),wave(266,[['E17',0],['E16',1],['E17',2],['E16',3],['E17',4]],true)]
+  },
+  { id:'4-6', chapter:4, title:'O som do Tambor', subtitle:'Uma fanfarra antiga dá o ritmo de resistência aos brinquedos.',
+    hint:'O Lencinho protege aliados próximos do dano. Conclua esta fase para liberar o Tambor Fanfarrão e sua onda sonora.',
+    startingGlow:575, toys:['T01','T02','T13','T14','T15','T16'], reward:'T17', duration:318,
+    dust:[[0,3],[0,6],[1,2],[1,5],[2,3],[2,5],[3,2],[3,6],[4,3],[4,7]],
+    waves:[wave(17,[['E15',2]]),wave(44,[['E17',0],['E17',4]]),wave(71,[['E16',1],['E15',3]]),wave(99,[['E17',2],['E12',4]]),wave(126,[['E16',0],['E16',4]]),wave(153,[['E17',1],['E07',2],['E17',3]]),wave(180,[['E16',2],['E15',0],['E09',4]]),wave(209,[['E17',0],['E16',3],['E15',4]]),wave(239,[['E16',1],['E17',2],['E07',3]]),wave(282,[['E16',0],['E17',1],['E16',2],['E17',3],['E16',4]],true)]
+  },
+  { id:'4-7', chapter:4, title:'Todos os brinquedos ao sótão', subtitle:'Traças, baús e retalhos se juntam para defender a Baronesa.',
+    hint:'O Tambor atordoa três faixas. Lencinhos protegem seus atacantes, enquanto Guarda-Chuvas limpam os espaços críticos.',
+    startingGlow:600, toys:['T01','T02','T13','T15','T16','T17'], reward:null, duration:341,
+    dust:[[0,2],[0,4],[0,7],[1,3],[1,5],[2,2],[2,5],[3,3],[3,6],[4,2],[4,5],[4,7]],
+    waves:[wave(16,[['E17',2]]),wave(43,[['E16',0],['E15',4]]),wave(69,[['E17',1],['E17',3]]),wave(97,[['E16',2],['E07',0]]),wave(123,[['E15',1],['E16',3],['E17',4]]),wave(152,[['E16',0],['E17',2],['E16',4]]),wave(182,[['E17',1],['E09',2],['E17',3]]),wave(212,[['E16',1],['E16',3],['E08',4]]),wave(244,[['E17',0],['E15',2],['E16',4]]),wave(273,[['E16',0],['E17',1],['E16',2],['E17',3],['E16',4]]),wave(308,[['E15',0],['E16',1],['E17',2],['E16',3],['E15',4]],true)]
+  },
+  { id:'4-8', chapter:4, title:'A Baronesa das Cortinas', subtitle:'A senhora do sótão prepara seu último espetáculo de sombras.',
+    hint:'A Baronesa avisa antes de lançar retalhos contra uma faixa. Proteja aliados com Lencinhos e aproveite seu descanso para atacar!',
+    startingGlow:650, toys:['T01','T02','T13','T15','T16','T17'], reward:null, duration:390,
+    dust:[[0,2],[0,6],[1,3],[1,6],[2,2],[2,5],[3,3],[3,6],[4,2],[4,5],[4,7]],
+    waves:[wave(18,[['E17',2]]),wave(48,[['E15',0],['E16',4]]),wave(78,[['E17',1],['E17',3]]),wave(108,[['E16',2],['E12',4]]),wave(140,[['E16',0],['E15',3]]),wave(172,[['E17',0],['E16',2],['E17',4]]),wave(205,[['E16',1],['E15',3],['E09',4]]),wave(238,[['E17',0],['E16',2],['E17',4]]),wave(272,[['E15',0],['E16',1],['E17',2],['E16',3],['E15',4]]),wave(319,[['E18',2],['E17',0],['E17',4]],true)]
   }
 ]);
