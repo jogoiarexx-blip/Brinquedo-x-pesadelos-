@@ -27,6 +27,10 @@ export class AudioService {
       case 'no':this.tone(170,.16,'sawtooth',.03);break;
       case 'enemy':this.tone(245,.07,'triangle',.022);break;
       case 'wave':this.tone(390,.22,'square',.038);this.tone(310,.24,'square',.035,.24);break;
+      case 'story-turn':this.tone(510,.11,'sine',.019);this.tone(770,.16,'triangle',.018,.10);break;
+      case 'boss-arrival':[220,277,330,440].forEach((f,i)=>this.tone(f,.21,'triangle',.035,i*.10));break;
+      case 'boss-attack':this.tone(290,.13,'square',.022);this.tone(185,.18,'triangle',.033,.16);break;
+      case 'boss-phase':[311,392,466,622].forEach((f,i)=>this.tone(f,.18,'triangle',.036,i*.085));break;
       case 'victory': [523,659,784,1047].forEach((f,i)=>this.tone(f,.26,'triangle',.065,i*.14));break;
       case 'defeat':[350,310,220].forEach((f,i)=>this.tone(f,.25,'triangle',.046,i*.22));break;
     }
