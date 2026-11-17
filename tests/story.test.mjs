@@ -89,8 +89,8 @@ test('integração: PWA, browser, conteúdo offline e código sintaticamente vá
   assert.ok(main.includes("result==='victory'?storyForVictory"));
   assert.ok(main.includes("action==='story-skip'"));
   assert.ok(main.includes("action==='story-gallery'"));
-  assert.ok(sw.includes('story.js?v=2.0.0'));
-  assert.ok(sw.includes('story-ui.js?v=2.0.0'));
+  assert.ok(sw.includes('story.js?v=2.1.0'));
+  assert.ok(sw.includes('story-ui.js?v=2.1.0'));
   assert.ok(builder.includes("'story.js','save.js'"));
   assert.ok(builder.includes("'story-ui.js','main.js'"));
   assert.ok(offline.includes('function buildStoryScreen'));
