@@ -264,3 +264,49 @@
   .finale-ending p{font-size:12px!important}
   .story-stage-dream .story-character{width:125px;height:120px}
 }
+
+
+/* v2.1 — direção de cena e legibilidade cinematográfica, sem WebGL ou arquivos pesados */
+.story-stage{overflow:hidden;isolation:isolate;perspective:520px}
+.story-stage::before,.story-stage::after{content:"";position:absolute;left:0;right:0;height:12px;background:#1b142e;pointer-events:none;z-index:8}
+.story-stage::before{top:0}.story-stage::after{bottom:0}
+.story-stage .story-backdrop{transform-origin:center center}
+.story-camera-left .story-character{left:40%;animation:storyCameraLeft 4.1s ease-in-out infinite alternate}
+.story-camera-right .story-character{left:62%;animation:storyCameraRight 4.1s ease-in-out infinite alternate}
+.story-camera-credits .story-character{left:82%;bottom:2%;width:clamp(90px,14vw,145px);height:clamp(90px,14vw,145px);animation:storyCameraCredits 5.4s ease-in-out infinite alternate}
+.story-stage-wardrobe .story-moon{background:#dbaeee;box-shadow:0 0 56px #e9bcf688}
+.story-stage-underbed .story-character{filter:drop-shadow(0 0 18px #d8bafb9c)}
+.story-stage-corridor .story-backdrop-front{transform:perspective(280px) rotateX(28deg)}
+.story-stage-attic .story-moon{background:#ffdea4;box-shadow:0 0 70px 32px #ffdfa454}
+.story-stage-dream .story-character{filter:drop-shadow(0 0 26px #e7abf9b5)}
+.story-stage.story-scene-C06{background:radial-gradient(ellipse at 50% 12%,#ffe3abbb,transparent 65%),linear-gradient(140deg,#875f9d,#d6b9a2)}
+.story-credits-mode{border-color:#efc9aa;background:linear-gradient(145deg,#594066,#262142)}
+.story-credits-logo{position:absolute;top:14%;left:8%;right:29%;z-index:4;display:flex;align-items:flex-start;flex-direction:column;gap:8px;padding:clamp(8px,2vw,22px);border-radius:13px;background:linear-gradient(90deg,#211836cb,#30244a66);text-shadow:0 3px 12px #17102a;color:#fff4d9}
+.story-credits-logo span{font-weight:1000;letter-spacing:.1em;font-size:clamp(15px,2.7vw,27px)}
+.story-credits-logo b{font-size:clamp(16px,3.2vw,36px);line-height:1.1;color:#ffe1ac}
+.story-credits-logo small{font-weight:900;letter-spacing:.17em;font-size:clamp(9px,1.2vw,13px);color:#d6c3ef}
+.story-scene-C05 .story-vignette{background:linear-gradient(90deg,#190d3b88,transparent 55%,#120629a1)}
+.story-scene-C07 .story-vignette{background:linear-gradient(0deg,#110b3088,transparent 50%,#170b2c55)}
+.story-dialogue{position:relative;box-shadow:inset 0 1px 2px #ffffff1c,0 5px 20px #1b0c3266}
+.story-dialogue::before{content:"";position:absolute;top:12px;bottom:12px;left:0;width:4px;border-radius:3px;background:#edc4a6}
+.story-progress-track{width:clamp(110px,22vw,215px);height:5px;border-radius:8px;background:#6c5781;margin-top:9px;overflow:hidden}
+.story-progress-track span{display:block;height:100%;background:linear-gradient(90deg,#e6a2c5,#ffe4a5);border-radius:inherit}
+.story-navigation{display:flex;align-items:center;justify-content:flex-end;gap:10px;flex-wrap:wrap}
+.story-prev{min-height:43px;border:1px solid #e8cda4;border-radius:12px;background:#392e55;color:#ffeacb;font-weight:800;cursor:pointer;padding:9px 14px}
+.story-prev:hover,.story-prev:focus-visible{background:#67517d;outline:2px solid #f6d9ae;outline-offset:2px}
+.story-skip:focus-visible,.story-next:focus-visible{outline:3px solid #fff5c9;outline-offset:3px}
+@keyframes storyCameraLeft{from{transform:translateX(-50%) translateY(3px) scale(.93)}to{transform:translateX(-49%) translateY(-4px) scale(1.06)}}
+@keyframes storyCameraRight{from{transform:translateX(-50%) translateY(2px) scale(1.04)}to{transform:translateX(-52%) translateY(-6px) scale(.95)}}
+@keyframes storyCameraCredits{from{transform:translateX(-50%) rotate(-2deg)}to{transform:translateX(-50%) rotate(3deg) translateY(-5px)}}
+@media(max-width:600px){
+  .story-stage::before,.story-stage::after{height:7px}
+  .story-camera-left .story-character{left:43%}
+  .story-camera-right .story-character{left:59%}
+  .story-credits-logo{left:3%;right:24%;top:9%;padding:9px;gap:4px}
+  .story-credits-logo span{font-size:13px}.story-credits-logo b{font-size:17px}.story-credits-logo small{font-size:8px}
+  .story-navigation{gap:6px}.story-prev{min-height:40px;font-size:11px;padding:7px 9px}
+  .story-next{min-height:40px}
+  .story-progress-track{width:90px}
+}
+@media(prefers-reduced-motion:reduce){.story-panel *{animation:none!important;transition:none!important}}
+.story-no-motion *{animation:none!important;transition:none!important}
