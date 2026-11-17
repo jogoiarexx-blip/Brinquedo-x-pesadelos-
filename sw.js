@@ -1,6 +1,6 @@
-const CACHE='brinquedos-vs-pesadelos-v2.2.0';
-const ASSETS=['./','./index.html','./manifest.webmanifest','./assets/icon.svg','./assets/icon-192.png','./assets/icon-512.png','./assets/codex-atlas.svg?v=2.2.0',
-  './src/main.js?v=2.2.0','./src/style.css?v=2.2.0','./src/config.js?v=2.2.0','./src/data.js?v=2.2.0','./src/upgrades.js?v=2.2.0','./src/deck.js?v=2.2.0','./src/story.js?v=2.2.0','./src/briefing.js?v=2.2.0','./src/save.js?v=2.2.0','./src/audio.js?v=2.2.0','./src/engine.js?v=2.2.0','./src/survival.js?v=2.2.0','./src/survival-ui.js?v=2.2.0','./src/story-ui.js?v=2.2.0','./src/render.js?v=2.2.0','./src/story-3d.js?v=2.2.0','./src/perf.js?v=2.2.0'];
+const CACHE='brinquedos-vs-pesadelos-v2.3.0';
+const ASSETS=['./','./index.html','./manifest.webmanifest','./assets/icon.svg','./assets/icon-192.png','./assets/icon-512.png','./assets/codex-atlas.svg?v=2.3.0',
+  './src/main.js?v=2.3.0','./src/style.css?v=2.3.0','./src/config.js?v=2.3.0','./src/data.js?v=2.3.0','./src/upgrades.js?v=2.3.0','./src/deck.js?v=2.3.0','./src/story.js?v=2.3.0','./src/briefing.js?v=2.3.0','./src/save.js?v=2.3.0','./src/audio.js?v=2.3.0','./src/engine.js?v=2.3.0','./src/survival.js?v=2.3.0','./src/survival-ui.js?v=2.3.0','./src/story-ui.js?v=2.3.0','./src/render.js?v=2.3.0','./src/story-3d.js?v=2.3.0','./src/perf.js?v=2.3.0'];
 self.addEventListener('install',e=>e.waitUntil(caches.open(CACHE).then(c=>c.addAll(ASSETS.map(path=>new Request(path,{cache:'reload'})))).then(()=>self.skipWaiting())));
 self.addEventListener('activate',e=>e.waitUntil(Promise.all([
   caches.keys().then(keys=>Promise.all(keys.filter(k=>k.startsWith('brinquedos-vs-pesadelos-')&&k!==CACHE).map(k=>caches.delete(k)))),
