@@ -7,7 +7,7 @@ import {Battle} from '../src/engine.js';
 import {ENEMIES,LEVELS} from '../src/data.js';
 import {bossPresentationState,render} from '../src/render.js';
 import {buildStoryScreen} from '../src/story-ui.js';
-import {STORY_ORDER} from '../src/story.js';
+import {STORY_ORDER,getStory} from '../src/story.js';
 import {loadSave,markStorySeen} from '../src/save.js';
 
 const audio={play(){}};
@@ -77,6 +77,7 @@ test('Vovô anuncia faixas adjacentes quando chama mini-poeiras e Baronesa desta
 test('cinemática inclui 8 cenas, storyboard, créditos, avanço acessível e quadros anteriores',()=>{
   assert.equal(STORY_ORDER.length,8);
   for(const id of STORY_ORDER){
+    const total=getStory(id).slides.length;
     const first=buildStoryScreen(id,0,false);
     assert.ok(first.includes('story-no-motion'));
     assert.ok(first.includes('story-camera-'));
@@ -84,13 +85,13 @@ test('cinemática inclui 8 cenas, storyboard, créditos, avanço acessível e qu
     assert.ok(first.includes('data-action="story-skip"'));
     assert.ok(first.includes('data-action="story-next"'));
     assert.ok(first.includes('role="progressbar"'));
-    assert.ok(first.includes('aria-valuenow="25"'));
+    assert.ok(first.includes('aria-valuenow="'+Math.round(100/total)+'"'));
     assert.ok(!first.includes('data-action="story-prev"'));
     const second=buildStoryScreen(id,1,true);
     assert.ok(second.includes('data-action="story-prev"'));
-    assert.ok(second.includes('aria-valuenow="50"'));
+    assert.ok(second.includes('aria-valuenow="'+Math.round(200/total)+'"'));
     assert.ok(!second.includes('story-no-motion'));
-    assert.ok(buildStoryScreen(id,3).includes('aria-valuenow="100"'));
+    assert.ok(buildStoryScreen(id,total-1).includes('aria-valuenow="100"'));
   }
   assert.ok(buildStoryScreen('C07',0).includes('story-credits-logo'));
   assert.ok(buildStoryScreen('C07',2).includes('FIM DA HISTÓRIA'));
