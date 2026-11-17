@@ -1,19 +1,19 @@
 import { LEVELS, TOYS } from './data.js?v=1.6.0';
 import { MAX_DECK, offensive } from './deck.js?v=1.6.0';
 import { unlockedToys } from './save.js?v=1.6.0';
-const escapeHTML=value=>String(value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const escapeSurvivalHTML=value=>String(value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 
 export function survivalPanel(save,deck) {
   const record=save.survival?.best??{waves:0,kills:0,seconds:0,score:0};
   const selected=new Set(deck),suggested=new Set(LEVELS[7].toys);
   const choices=[...unlockedToys(save)].filter(id=>TOYS[id]).map(id=>{
     const toy=TOYS[id],picked=selected.has(id),rank=1+(save.upgrades[id]||0);
-    return '<button class="survival-choice '+(picked?'survival-picked':'')+'" data-action="survival-toggle" data-survival-id="'+id+'" aria-pressed="'+picked+'" aria-label="'+escapeHTML(toy.name)+(picked?', remover':', adicionar')+'">'+
+    return '<button class="survival-choice '+(picked?'survival-picked':'')+'" data-action="survival-toggle" data-survival-id="'+id+'" aria-pressed="'+picked+'" aria-label="'+escapeSurvivalHTML(toy.name)+(picked?', remover':', adicionar')+'">'+
       '<svg class="deck-art" viewBox="0 0 80 80" aria-hidden="true"><use href="./assets/codex-atlas.svg?v=1.6.0#toy-'+id+'"></use></svg>'+
-      '<span class="deck-copy"><strong>'+escapeHTML(toy.short)+'</strong><small>✦ '+toy.cost+' · N'+rank+'</small><small>'+(suggested.has(id)?'★ Original':'Desbloqueado')+'</small></span>'+
+      '<span class="deck-copy"><strong>'+escapeSurvivalHTML(toy.short)+'</strong><small>✦ '+toy.cost+' · N'+rank+'</small><small>'+(suggested.has(id)?'★ Original':'Desbloqueado')+'</small></span>'+
       '<span class="deck-check">'+(picked?'✓':'+')+'</span></button>';
   }).join('');
-  const slots=Array.from({length:MAX_DECK},(_,i)=>'<div class="deck-slot '+(deck[i]?'occupied':'')+'">'+(deck[i]?escapeHTML(TOYS[deck[i]].short):'Vazio')+'<small>'+(i+1)+'/'+MAX_DECK+'</small></div>').join('');
+  const slots=Array.from({length:MAX_DECK},(_,i)=>'<div class="deck-slot '+(deck[i]?'occupied':'')+'">'+(deck[i]?escapeSurvivalHTML(TOYS[deck[i]].short):'Vazio')+'<small>'+(i+1)+'/'+MAX_DECK+'</small></div>').join('');
   const best=record.waves>0?'🌊 Onda '+record.waves+' · '+record.kills+' derrotados · '+record.score+' pontos':'Sem recorde ainda';
   return '<div class="survival-record"><strong>🏆 Melhor resultado</strong><p>'+best+'</p><small>'+Number(save.survival?.runs||0)+' tentativa(s) registradas neste navegador</small></div>'+
     '<p>Defenda o quarto pelo maior tempo possível. Uma nova onda chega a cada 17 segundos, a resistência dos inimigos aumenta e há um chefe a cada dez ondas.</p>'+

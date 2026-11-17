@@ -5,6 +5,7 @@ import { SurvivalBattle,makeSurvivalWave,waveTime,SURVIVAL_INTERVAL } from '../s
 import { loadSave,canPlaySurvival,getSurvivalDeck,saveSurvivalDeck,recordSurvivalRun,starWallet } from '../src/save.js';
 import { readFileSync } from 'node:fs';
 import { execFileSync } from 'node:child_process';
+import vm from 'node:vm';
 
 const audio={play(){}};
 const storage=()=>({text:null,getItem(){return this.text;},setItem(key,value){this.text=value;}});
@@ -95,4 +96,11 @@ test('site e versão offline incluem a sobrevivência e seus arquivos',()=>{
   assert.ok(offline.includes('function survivalSetup'));
   for(const name of ['src/survival.js','src/survival-ui.js','src/main.js','src/save.js','sw.js'])
     execFileSync(process.execPath,['--check',new URL('../'+name,import.meta.url).pathname]);
+});
+
+test('script independente offline é JavaScript sintaticamente válido',()=>{
+  const html=readFileSync(new URL('../JOGAR-OFFLINE.html',import.meta.url),'utf8');
+  const match=html.match(/<script>\s*([\s\S]*?)<\/script>/);
+  assert.ok(match,'script embutido não encontrado');
+  assert.doesNotThrow(()=>new vm.Script(match[1],{filename:'JOGAR-OFFLINE.html'}));
 });
