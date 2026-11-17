@@ -1,11 +1,11 @@
 {
   "name": "brinquedos-vs-pesadelos",
   "private": true,
-  "version": "1.9.0",
+  "version": "2.0.0",
   "type": "module",
   "scripts": {
     "test": "node --test tests/*.test.mjs",
     "dev": "python3 -m http.server 8000"
   },
-  "description": "Brinquedos vs. Pesadelos: 32 fases, 4 capítulos completos, chefes, histórias e modo Sobrevivência."
+  "description": "Brinquedos vs. Pesadelos: campanha completa de 40 fases, 5 capítulos, boss final, cutscenes e sobrevivência."
 }

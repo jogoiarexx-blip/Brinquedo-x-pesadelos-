@@ -1,9 +1,9 @@
-import { getStory } from './story.js?v=1.9.0';
+import { getStory } from './story.js?v=2.0.0';
 const storyEscapeText=value=>String(value).replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
 export function buildStoryScreen(id,index,animate=true){
   const story=getStory(id),frame=story?.slides[index];
   if(!frame)return '';
-  const sprite=frame.art?'<svg class="story-character-art" viewBox="0 0 80 80" aria-hidden="true"><use href="./assets/codex-atlas.svg?v=1.9.0#'+frame.art+'"></use></svg>':'<span class="story-character-emoji" aria-hidden="true">'+storyEscapeText(frame.emoji)+'</span>';
+  const sprite=frame.art?'<svg class="story-character-art" viewBox="0 0 80 80" aria-hidden="true"><use href="./assets/codex-atlas.svg?v=2.0.0#'+frame.art+'"></use></svg>':'<span class="story-character-emoji" aria-hidden="true">'+storyEscapeText(frame.emoji)+'</span>';
   const dots=story.slides.map((_,i)=>'<span class="story-dot '+(i===index?'active':'')+'" aria-hidden="true"></span>').join('');
   return '<section class="story-panel '+(animate?'':'story-no-motion')+'" aria-label="História: '+storyEscapeText(story.title)+'">'+
     '<div class="story-header"><span class="story-kicker">CAPÍTULO '+story.chapter+' · CENA '+storyEscapeText(id)+'</span><h1>'+storyEscapeText(story.title)+'</h1>'+

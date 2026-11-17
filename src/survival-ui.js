@@ -1,6 +1,6 @@
-import { LEVELS, TOYS } from './data.js?v=1.9.0';
-import { MAX_DECK, offensive } from './deck.js?v=1.9.0';
-import { unlockedToys } from './save.js?v=1.9.0';
+import { LEVELS, TOYS } from './data.js?v=2.0.0';
+import { MAX_DECK, offensive } from './deck.js?v=2.0.0';
+import { unlockedToys } from './save.js?v=2.0.0';
 const escapeSurvivalHTML=value=>String(value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 
 export function survivalPanel(save,deck) {
@@ -9,7 +9,7 @@ export function survivalPanel(save,deck) {
   const choices=[...unlockedToys(save)].filter(id=>TOYS[id]).map(id=>{
     const toy=TOYS[id],picked=selected.has(id),rank=1+(save.upgrades[id]||0);
     return '<button class="survival-choice '+(picked?'survival-picked':'')+'" data-action="survival-toggle" data-survival-id="'+id+'" aria-pressed="'+picked+'" aria-label="'+escapeSurvivalHTML(toy.name)+(picked?', remover':', adicionar')+'">'+
-      '<svg class="deck-art" viewBox="0 0 80 80" aria-hidden="true"><use href="./assets/codex-atlas.svg?v=1.9.0#toy-'+id+'"></use></svg>'+
+      '<svg class="deck-art" viewBox="0 0 80 80" aria-hidden="true"><use href="./assets/codex-atlas.svg?v=2.0.0#toy-'+id+'"></use></svg>'+
       '<span class="deck-copy"><strong>'+escapeSurvivalHTML(toy.short)+'</strong><small>✦ '+toy.cost+' · N'+rank+'</small><small>'+(suggested.has(id)?'★ Original':'Desbloqueado')+'</small></span>'+
       '<span class="deck-check">'+(picked?'✓':'+')+'</span></button>';
   }).join('');
