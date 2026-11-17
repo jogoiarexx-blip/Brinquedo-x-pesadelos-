@@ -1,3 +1,14 @@
+# 2.1.0 — 17/11/2026
+
+- Direção visual específica para os cinco chefes: halos, animações, cartões de entrada, status de combate e HUD mais legível.
+- Chefe final com indicador visual das três formas, divisões da vida e contagem regressiva para ataques.
+- Tempestade da terceira forma alerta explicitamente as duas faixas atingidas, com testes automatizados de telegráfico.
+- Oito cutscenes com enquadramentos alternados, letterbox, créditos e progressão acessível.
+- Voltar/avançar entre quadros por botão e setas, mantidos Pular, replay e movimento reduzido.
+- Cinco novos eventos de áudio? Não: quatro novos tipos de sinal: página, entrada de boss, aviso de ataque, transformação, sintetizados localmente.
+- PWA, HTML standalone, documentação e testes integrados. Preservados dois checkpoints existentes.
+- O 3D em tempo real fica para protótipo opcional posterior; esta versão mantém Canvas 2D.
+
 # 2.0.0 — 17/11/2026
 
 - Campanha completa: 40 fases em cinco capítulos, incluindo 5-1…5-8.
