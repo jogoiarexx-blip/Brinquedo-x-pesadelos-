@@ -78,7 +78,7 @@ test('PWA e standalone incluem seleção e imports do novo módulo',()=>{
   assert.ok(main.includes('function toggleDeckToy'));
   assert.ok(html.includes('function deckForLevel'));
   assert.ok(html.includes('function toggleDeckToy'));
-  assert.ok(sw.includes('deck.js?v=1.5.0'));
+  assert.ok(sw.includes('deck.js?v=1.6.0'));
   assert.ok(builder.includes("'deck.js'"));
   for(const name of ['src/deck.js','src/save.js','src/engine.js','src/main.js','sw.js'])
     execFileSync(process.execPath,['--check',new URL('../'+name,import.meta.url).pathname]);

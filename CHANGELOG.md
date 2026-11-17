@@ -1,3 +1,11 @@
+# 1.6.0 — 17/11/2026
+
+- Novo Modo Sobrevivência com ondas infinitas e resistência progressiva.
+- Chefes a cada dez ondas, alternando os três existentes.
+- Seleção de baralho para o modo e recordes locais.
+- Desbloqueio pela fase 1-8, sem afetar estrelas da campanha.
+- Preservados pause, teclas, upgrades, offline e PWA; novos testes de regressão.
+
 # 1.5.0 — 17/11/2026
 
 - Editor de baralhos de até seis brinquedos desbloqueados na preparação de fases.
