@@ -1,5 +1,11 @@
-// Capítulos 1 a 4 completos (32 fases); tabuleiro clássico 5×9 e mecânicas autorais.
+// Campanha completa: 40 fases em 5 capítulos e chefes; tabuleiro clássico 5×9.
 export const TOYS = Object.freeze({
+  T18: {id:'T18',name:'Bichinho Sonolento',short:'Sonolento',cost:135,cooldown:13,maxHp:125,kind:'sleep',interval:3.6,damage:21,stunDuration:1.9,color:'#bdafe5',description:'Boceja magicamente, causando dano e adormecendo um pesadelo por instantes.'},
+  T19: {id:'T19',name:'Bola-Ímã',short:'Bola-Ímã',cost:175,cooldown:13,maxHp:145,kind:'magnet',interval:5.8,damage:31,pullCells:.55,rangeCells:5,color:'#a8d6e1',description:'Atrai para trás um pesadelo de sua faixa e o danifica. Chefes sofrem somente um pequeno recuo.'},
+  T20: {id:'T20',name:'Boneco de Neve de Algodão',short:'Neve',cost:155,cooldown:12,maxHp:160,kind:'slow',interval:2.65,damage:24,slowFactor:.61,slowDuration:3.7,color:'#d8edf5',description:'Atira flocos de algodão que diminuem a velocidade dos pesadelos.'},
+  T21: {id:'T21',name:'Guitarrinha Desafinada',short:'Guitarrinha',cost:190,cooldown:15,maxHp:150,kind:'guitar',interval:7.5,damage:32,rangeCells:4,color:'#e5c1e4',description:'O som atinge três faixas e antecipa um pouco a próxima ação dos brinquedos vizinhos.'},
+  T22: {id:'T22',name:'Cavalinho de Madeira',short:'Cavalinho',cost:205,cooldown:14,maxHp:265,kind:'pierce',interval:2.6,damage:44,pierces:3,color:'#d1a47e',description:'Cavalinho robusto que arremessa ferraduras atravessando até três pesadelos.'},
+
   T16: {id:'T16',name:'Lencinho Invisível',short:'Lencinho',cost:125,cooldown:16,maxHp:145,kind:'veil',rangeCells:1,color:'#d9d3ec',description:'Forma uma proteção delicada que reduz em 40% o dano recebido por brinquedos próximos, inclusive dos ataques da Baronesa.'},
   T17: {id:'T17',name:'Tambor Fanfarrão',short:'Tambor',cost:175,cooldown:13,maxHp:140,kind:'drum',interval:7.2,damage:25,rangeCells:4,stunDuration:.75,color:'#e3b17c',description:'Toca um ritmo que causa dano e atordoa brevemente pesadelos em três faixas próximas.'},
   T13: {id:'T13',name:'Boneca Guarda-Chuva',short:'Guarda-Chuva',cost:125,cooldown:14,maxHp:185,kind:'umbrella',interval:9.5,heal:20,color:'#a4c8db',description:'Limpa casas empoeiradas próximas ao chegar e conserta brinquedos vizinhos a cada 9,5 s.'},
@@ -20,6 +26,11 @@ export const TOYS = Object.freeze({
   T09: { id:'T09', name:'Estilingue de Estrelas', short:'Estrelas', cost:200, cooldown:15, maxHp:100, kind:'starburst', interval:3.3, damage:46, splashRatio:.5, splashRadius:115, color:'#f7d88c', description:'Dispara uma estrela que causa dano também aos inimigos das faixas vizinhas.' },
 });
 export const ENEMIES = Object.freeze({
+  E19: {id:'E19',name:'Pijama Sussurrante',hp:165,speed:.32,damage:25,interval:1.1,web:true,description:'O pijama assombra os brinquedos com fios sonolentos, reduzindo sua velocidade de ação.'},
+  E20: {id:'E20',name:'Bocejo Corredor',hp:110,speed:.59,damage:18,interval:1.0,description:'Um bocejo veloz que aproveita as acelerações do sonho para atravessar o tapete.'},
+  E21: {id:'E21',name:'Sombrinha do Escuro',hp:215,shield:115,speed:.27,damage:29,interval:1.15,description:'Carrega uma sombrinha sombria que absorve os primeiros impactos.'},
+  E22: {id:'E22',name:'Grande Bicho-Papão',hp:3100,speed:.09,damage:38,interval:1.18,boss:true,dreamBoss:true,slowResistance:.45,stunResistance:.25,bossIntro:'🌑 O GRANDE BICHO-PAPÃO DESPERTOU!',bossDefeat:'O CORAÇÃO DA IMAGINAÇÃO FOI SALVO!',bossLabel:'🌑 Grande Bicho-Papão',description:'Chefe final em três formas: Sussurro, Espelhos e Tempestade. Cada etapa avisa o ataque e oferece uma janela de contra-ataque.'},
+
   E17: {id:'E17',name:'Retalho Escorregadio',hp:125,speed:.46,damage:23,interval:1.05,flutter:true,description:'Muda de faixa uma vez ao chegar perto da defesa: observe o movimento antes de colocar os brinquedos.'},
   E18: {id:'E18',name:'Baronesa das Cortinas',hp:2050,speed:.095,damage:33,interval:1.2,boss:true,curtainBoss:true,slowResistance:.5,stunResistance:.5,bossIntro:'🎭 A BARONESA DAS CORTINAS CHEGOU!',bossDefeat:'AS CORTINAS DA BARONESA CAÍRAM!',bossLabel:'🎭 Baronesa das Cortinas',description:'Anuncia a faixa de sua próxima cortina, dispara um retalho perigoso, cobre casas com poeira e fica vulnerável enquanto descansa.'},
   E15: {id:'E15',name:'Traça do Sótão',hp:155,speed:.35,damage:22,interval:1.1,web:true,description:'Uma traça saltitante que enrola brinquedos em fios de tecido e reduz sua cadência.'},
@@ -215,5 +226,45 @@ export const LEVELS = Object.freeze([
     startingGlow:650, toys:['T01','T02','T13','T15','T16','T17'], reward:null, duration:390,
     dust:[[0,2],[0,6],[1,3],[1,6],[2,2],[2,5],[3,3],[3,6],[4,2],[4,5],[4,7]],
     waves:[wave(18,[['E17',2]]),wave(48,[['E15',0],['E16',4]]),wave(78,[['E17',1],['E17',3]]),wave(108,[['E16',2],['E12',4]]),wave(140,[['E16',0],['E15',3]]),wave(172,[['E17',0],['E16',2],['E17',4]]),wave(205,[['E16',1],['E15',3],['E09',4]]),wave(238,[['E17',0],['E16',2],['E17',4]]),wave(272,[['E15',0],['E16',1],['E17',2],['E16',3],['E15',4]]),wave(319,[['E18',2],['E17',0],['E17',4]],true)]
+  },
+  { id:'5-1', chapter:5, title:'O primeiro bocejo', subtitle:'O quarto se transforma num sonho onde o tempo acelera e desacelera.',
+    hint:'Observe o aviso do pulso de sonho. No pulso rápido, os pesadelos correm mais; no lento, ficam vulneráveis à defesa.',
+    startingGlow:610, toys:['T01','T02','T13','T15','T16','T17'], reward:'T18', duration:310,
+    waves:[wave(18,[['E20',2]]),wave(46,[['E19',0],['E20',4]]),wave(75,[['E21',1],['E20',3]]),wave(105,[['E20',2],['E15',2]]),wave(135,[['E21',0],['E19',4]]),wave(165,[['E20',1],['E20',3],['E17',2]]),wave(195,[['E21',2],['E19',0],['E20',4]]),wave(224,[['E19',1],['E21',3],['E20',2]]),wave(252,[['E20',0],['E21',1],['E20',4]]),wave(281,[['E21',0],['E20',1],['E19',2],['E20',3],['E21',4]],true)]
+  },
+  { id:'5-2', chapter:5, title:'O Bichinho Sonolento', subtitle:'Uma pelúcia sonolenta transforma os bocejos em magia.',
+    hint:'Use o Bichinho Sonolento para paralisar os corredores, mas cuidado com inimigos protegidos pela Sombrinha do Escuro.',
+    startingGlow:625, toys:['T01','T02','T13','T15','T17','T18'], reward:'T19', duration:317,
+    waves:[wave(17,[['E20',2]]),wave(45,[['E19',0],['E21',4]]),wave(74,[['E20',1],['E20',3]]),wave(104,[['E21',2],['E20',2]]),wave(134,[['E19',0],['E21',4]]),wave(163,[['E21',1],['E20',3],['E17',2]]),wave(193,[['E20',0],['E19',2],['E20',4]]),wave(224,[['E21',1],['E21',3],['E20',2]]),wave(254,[['E19',0],['E20',1],['E21',4]]),wave(285,[['E20',0],['E21',1],['E19',2],['E21',3],['E20',4]],true)]
+  },
+  { id:'5-3', chapter:5, title:'A Bola-Ímã', subtitle:'Uma bola encantada pode atrasar o avanço dos pesadelos.',
+    hint:'A Bola-Ímã puxa um inimigo para trás; use-a antes do pulso rápido para evitar uma invasão repentina.',
+    startingGlow:645, toys:['T01','T02','T15','T18','T19','T16'], reward:'T20', duration:324,
+    waves:[wave(16,[['E21',2]]),wave(44,[['E20',0],['E19',4]]),wave(74,[['E21',1],['E20',3]]),wave(105,[['E20',2],['E21',2]]),wave(135,[['E19',0],['E20',4]]),wave(166,[['E21',1],['E20',2],['E21',3]]),wave(197,[['E20',0],['E19',2],['E20',4]]),wave(229,[['E21',1],['E21',3],['E20',2]]),wave(260,[['E19',0],['E21',2],['E20',4]]),wave(291,[['E21',0],['E20',1],['E19',2],['E20',3],['E21',4]],true)]
+  },
+  { id:'5-4', chapter:5, title:'Neve de algodão', subtitle:'Flocos encantados congelam a pressa dos pesadelos.',
+    hint:'O Boneco de Neve desacelera, mas o pulso de sonho altera a velocidade de todo o tabuleiro. Misture efeitos.',
+    startingGlow:660, toys:['T01','T02','T15','T18','T19','T20'], reward:'T21', duration:330,
+    waves:[wave(17,[['E20',2]]),wave(46,[['E21',0],['E19',4]]),wave(75,[['E20',1],['E21',3]]),wave(105,[['E21',2],['E20',2]]),wave(136,[['E19',0],['E21',4]]),wave(168,[['E20',1],['E21',2],['E20',3]]),wave(200,[['E21',0],['E19',2],['E21',4]]),wave(231,[['E20',1],['E20',3],['E21',2]]),wave(263,[['E21',0],['E19',2],['E20',4]]),wave(294,[['E20',0],['E21',1],['E20',2],['E21',3],['E20',4]],true)]
+  },
+  { id:'5-5', chapter:5, title:'A Guitarrinha Desafinada', subtitle:'Um acorde desajeitado faz os brinquedos agirem juntos.',
+    hint:'A Guitarrinha atinge três faixas e adianta o ataque dos vizinhos. Posicione-a no centro do tabuleiro.',
+    startingGlow:685, toys:['T01','T02','T15','T19','T20','T21'], reward:'T22', duration:337,
+    waves:[wave(17,[['E19',2]]),wave(47,[['E20',0],['E21',4]]),wave(77,[['E21',1],['E20',3]]),wave(109,[['E19',2],['E21',2]]),wave(141,[['E21',0],['E20',4]]),wave(173,[['E20',1],['E19',2],['E21',3]]),wave(204,[['E21',0],['E20',2],['E19',4]]),wave(235,[['E20',1],['E21',3],['E20',4]]),wave(266,[['E21',0],['E19',2],['E21',4]]),wave(300,[['E21',0],['E20',1],['E21',2],['E20',3],['E21',4]],true)]
+  },
+  { id:'5-6', chapter:5, title:'O Cavalinho de Madeira', subtitle:'Ferraduras atravessam grupos de sombras na noite decisiva.',
+    hint:'O Cavalinho de Madeira aguenta muita pancada e seus ataques perfuram três inimigos. Use suportes para protegê-lo.',
+    startingGlow:700, toys:['T01','T02','T16','T19','T21','T22'], reward:null, duration:346,
+    waves:[wave(17,[['E21',2]]),wave(47,[['E20',0],['E19',4]]),wave(78,[['E21',1],['E21',3]]),wave(110,[['E20',2],['E21',2]]),wave(141,[['E19',0],['E21',4]]),wave(174,[['E20',1],['E21',2],['E20',3]]),wave(207,[['E21',0],['E19',2],['E21',4]]),wave(240,[['E20',1],['E21',3],['E19',4]]),wave(273,[['E21',0],['E20',2],['E21',4]]),wave(308,[['E21',0],['E20',1],['E21',2],['E20',3],['E21',4]],true)]
+  },
+  { id:'5-7', chapter:5, title:'O último plano', subtitle:'Os brinquedos se unem para proteger a última luz da imaginação.',
+    hint:'Combine produtores, Lencinho, Cavalinho, Bola-Ímã e Guitarrinha. A luta final terá três transformações.',
+    startingGlow:750, toys:['T01','T02','T16','T19','T21','T22'], reward:null, duration:358,
+    waves:[wave(16,[['E20',2]]),wave(46,[['E21',0],['E19',4]]),wave(77,[['E20',1],['E21',3]]),wave(108,[['E21',2],['E20',2]]),wave(142,[['E19',0],['E21',4]]),wave(176,[['E21',1],['E20',2],['E19',3]]),wave(210,[['E20',0],['E21',2],['E20',4]]),wave(244,[['E21',1],['E19',2],['E21',3]]),wave(279,[['E21',0],['E20',2],['E21',4]]),wave(316,[['E21',0],['E20',1],['E21',2],['E20',3],['E21',4]],true)]
+  },
+  { id:'5-8', chapter:5, title:'O Grande Bicho-Papão', subtitle:'Três formas de um único medo. O último amanhecer de Lia está em suas mãos.',
+    hint:'Primeiro Sussurro, depois Espelhos, por fim Tempestade. Observe os avisos e ataque durante o descanso do chefe!',
+    startingGlow:850, toys:['T01','T02','T16','T19','T21','T22'], reward:null, duration:435,
+    waves:[wave(18,[['E20',2]]),wave(53,[['E21',0],['E19',4]]),wave(88,[['E20',1],['E21',3]]),wave(125,[['E21',2],['E20',2]]),wave(161,[['E19',0],['E21',4]]),wave(198,[['E20',1],['E21',2],['E20',3]]),wave(235,[['E21',0],['E19',2],['E21',4]]),wave(270,[['E20',1],['E21',3],['E19',4]]),wave(304,[['E21',0],['E20',2],['E21',4]]),wave(350,[['E22',2],['E20',0],['E20',4]],true)]
   }
 ]);
