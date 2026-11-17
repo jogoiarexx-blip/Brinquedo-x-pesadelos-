@@ -1,5 +1,5 @@
 import { getStory } from './story.js?v=1.7.0';
-const storyEscapeText=value=>String(value).replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;':'&quot;',"'":'&#39;'}[char]));
+const storyEscapeText=value=>String(value).replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
 export function buildStoryScreen(id,index,animate=true){
   const story=getStory(id),frame=story?.slides[index];
   if(!frame)return '';
