@@ -116,7 +116,7 @@ test('save v1.7 que concluiu Vovô abre 4-1 mantendo estrelas, baralhos e Oficin
   const raw={version:1,campaignSize:24,unlocked:24,stars:{'3-8':3,'1-1':3,'1-2':2},upgrades:{T02:1},decks:{'1-2':['T02','T01']},storySeen:['C00','C03']};
   const st=mockStorage();st.data=JSON.stringify(raw);
   const save=loadSave(st);
-  assert.equal(save.campaignSize,28);
+  assert.equal(save.campaignSize,32);
   assert.equal(save.unlocked,25);
   assert.equal(save.stars['3-8'],3);
   assert.equal(save.upgrades.T02,1);
