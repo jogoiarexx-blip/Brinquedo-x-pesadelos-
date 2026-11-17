@@ -1,3 +1,11 @@
+# 1.5.0 — 17/11/2026
+
+- Editor de baralhos de até seis brinquedos desbloqueados na preparação de fases.
+- Cartas selecionadas impactam batalha, cooldown, posicionamento e teclas 1–6.
+- Validação de pelo menos um atacante e bloqueio de unidades não conquistadas.
+- Salvamento por fase, compatibilidade com saves antigos e restaurar padrão.
+- Atualização coordenada do cache PWA, HTML offline e testes de regressão.
+
 # 1.4.0 — 17/11/2026
 
 - Adicionada preparação de batalha para fases desbloqueadas: inimigos, chefes, ondas, brinquedos, recompensas e dicas.

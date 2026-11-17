@@ -1,4 +1,15 @@
-# Brinquedos vs. Pesadelos — ALFA v1.4.0
+# Brinquedos vs. Pesadelos — ALFA v1.5.0
+
+## Novidades da v1.5.0 — Seis brinquedos escolhidos por você
+
+- **Monte seu baralho** na tela Preparar defesa, escolhendo de 1 a 6 brinquedos já desbloqueados e pelo menos um atacante.
+- Cada carta mostra arte, custo em Brilhos e nível da Oficina; ★ marca a sugestão original da fase.
+- Seis espaços mostram as unidades escolhidas. Use Salvar, Restaurar padrão ou Começar com este baralho.
+- O motor aplica realmente a seleção às cartas, custos, recargas e atalhos 1 a 6 do PC.
+- Escolhas são salvas por fase no mesmo `localStorage`, preservadas após recarregar, reiniciar e continuar.
+- O botão Jogar do mapa usa o baralho salvo ou a equipe original se não houver personalização.
+- Arquivos de saves antigos permanecem compatíveis; escolhas inválidas, repetidas ou não desbloqueadas são descartadas.
+- Todas as ondas, 24 fases, chefes, custos, estrelas e upgrades permanentes permanecem iguais.
 
 ## Novidades da v1.4.0 — Preparação de fase
 
