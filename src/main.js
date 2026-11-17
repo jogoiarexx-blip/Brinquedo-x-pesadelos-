@@ -1,18 +1,21 @@
-import { W,H,STEP,BOARD,rectCell,clamp } from './config.js?v=1.6.0';
-import { LEVELS,TOYS,ENEMIES } from './data.js?v=1.6.0';
-import { Battle } from './engine.js?v=1.6.0';
-import { SurvivalBattle } from './survival.js?v=1.6.0';
-import { loadSave,persistSave,recordVictory,starWallet,unlockedToys,purchaseUpgrade,resetUpgrades,getDeck,saveDeck,resetDeck,canPlaySurvival,getSurvivalDeck,saveSurvivalDeck,recordSurvivalRun } from './save.js?v=1.6.0';
-import { UPGRADE_COSTS,upgradedToy } from './upgrades.js?v=1.6.0';
-import { AudioService } from './audio.js?v=1.6.0';
-import { buildBriefing } from './briefing.js?v=1.6.0';
-import { MAX_DECK, offensive } from './deck.js?v=1.6.0';
-import { survivalPanel, changeSurvivalDeck } from './survival-ui.js?v=1.6.0';
-import { render, drawIconCanvas } from './render.js?v=1.6.0';
+import { W,H,STEP,BOARD,rectCell,clamp } from './config.js?v=1.7.0';
+import { LEVELS,TOYS,ENEMIES } from './data.js?v=1.7.0';
+import { Battle } from './engine.js?v=1.7.0';
+import { SurvivalBattle } from './survival.js?v=1.7.0';
+import { STORY_ORDER,getStory,storyForVictory,canReplayStory } from './story.js?v=1.7.0';
+import { buildStoryScreen } from './story-ui.js?v=1.7.0';
+import { loadSave,persistSave,recordVictory,starWallet,unlockedToys,purchaseUpgrade,resetUpgrades,getDeck,saveDeck,resetDeck,canPlaySurvival,getSurvivalDeck,saveSurvivalDeck,recordSurvivalRun,markStorySeen } from './save.js?v=1.7.0';
+import { UPGRADE_COSTS,upgradedToy } from './upgrades.js?v=1.7.0';
+import { AudioService } from './audio.js?v=1.7.0';
+import { buildBriefing } from './briefing.js?v=1.7.0';
+import { MAX_DECK, offensive } from './deck.js?v=1.7.0';
+import { survivalPanel, changeSurvivalDeck } from './survival-ui.js?v=1.7.0';
+import { render, drawIconCanvas } from './render.js?v=1.7.0';
 const $=id=>document.getElementById(id);
 const canvas=$('battle-canvas'),context=canvas.getContext('2d',{alpha:false});
 const audio=new AudioService();const save=loadSave();audio.music=save.settings.music;audio.sfx=save.settings.sfx;
-let battle=null,screen='menu',last=0,accumulator=0,hudUpdate=0,toastTimer=null,optionsBack='menu',lastResult=null,pendingConfirm=null,gameSpeed=1,workshopBack='menu',deckDraft=null,deckDraftLevel=-1,survivalDraft=null;
+let battle=null,screen='menu',last=0,accumulator=0,hudUpdate=0,toastTimer=null,optionsBack='menu',lastResult=null,pendingConfirm=null,gameSpeed=1,workshopBack='menu',deckDraft=null,deckDraftLevel=-1,survivalDraft=null,storyState=null;
+const storySeenInSession=new Set();
 const reducedMotion=window.matchMedia?.('(prefers-reduced-motion: reduce)');
 const motionEnabled=()=>save.settings.motion&&!reducedMotion?.matches;
 reducedMotion?.addEventListener?.('change',()=>{if(battle)battle.effectsEnabled=motionEnabled();});
@@ -20,13 +23,49 @@ const icons={T01:'💡',T02:'🪖',T03:'🧸',T04:'❄️',T05:'🎉',T06:'🏎�
 const escapeHTML=v=>String(v).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
 function showToast(text,seconds=2.8){let toast=$('toast');toast.textContent=text;toast.classList.remove('hidden');clearTimeout(toastTimer);toastTimer=setTimeout(()=>toast.classList.add('hidden'),seconds*1000);}
 function setScreen(name,content=''){screen=name;const layer=$('screen');if(name==='battle'){layer.classList.add('hidden');$('hud').classList.remove('hidden');return;}
-  layer.classList.remove('hidden');layer.innerHTML=content; $('hud').classList.toggle('hidden',!battle||name==='panel'||name==='menu'||name==='levels'||name==='help'||name==='codex'||name==='credits'||name==='workshop'||name==='briefing'||name==='survival'||(name==='options'&&!battle));
+  layer.classList.remove('hidden');layer.innerHTML=content; $('hud').classList.toggle('hidden',!battle||name==='panel'||name==='menu'||name==='levels'||name==='help'||name==='codex'||name==='credits'||name==='workshop'||name==='briefing'||name==='survival'||name==='stories'||name==='story'||(name==='options'&&!battle));
   layer.classList.toggle('no-backdrop',false);
 }
 function button(text,action,kind='big-btn',additional=''){return `<button class="${kind}" data-action="${action}" ${additional}>${text}</button>`;}
 function panel(title,kicker,content,back='menu',extra=''){setScreen(extra||'panel',`<section class="panel" aria-label="${escapeHTML(title)}"><div class="panel-head"><div><span class="subheading">${kicker}</span><h1>${title}</h1></div>${button('✕ Voltar',back,'tiny-btn')}</div>${content}</section>`);}
+
+function hasSeenStory(id){return storySeenInSession.has(id)||save.storySeen?.includes(id);}
+function presentStory(id,then){
+  const scene=getStory(id);
+  if(!scene){then?.();return;}
+  storyState={id,slide:0,then};
+  showStorySlide();
+}
+function showStorySlide(){
+  if(!storyState)return;
+  setScreen('story',buildStoryScreen(storyState.id,storyState.slide,motionEnabled()));
+}
+function endStory(){
+  if(!storyState)return;
+  const {id,then}=storyState;storyState=null;
+  storySeenInSession.add(id);
+  const result=markStorySeen(save,id);
+  then?.();
+  if(!result.ok)showToast('História vista, mas não foi possível salvar no navegador.');
+}
+function nextStorySlide(){
+  if(!storyState)return;
+  const scene=getStory(storyState.id);
+  if(storyState.slide+1>=scene.slides.length)return endStory();
+  storyState.slide++;showStorySlide();
+}
+function stories(){
+  const entries=STORY_ORDER.map(id=>{
+    const scene=getStory(id),unlocked=canReplayStory(save,id);
+    const buttonHTML=unlocked?button('▶ Rever cena','story-replay','tiny-btn','data-story="'+id+'"'):'<span class="story-locked">🔒 Termine o capítulo para desbloquear</span>';
+    return '<article class="story-gallery-card '+(unlocked?'':'story-gallery-locked')+'"><span class="story-gallery-number">Cena '+id+' · Capítulo '+scene.chapter+'</span><h2>'+escapeHTML(scene.title)+'</h2><p>'+scene.slides.length+' quadros ilustrados</p>'+buttonHTML+'</article>';
+  }).join('');
+  panel('📜 Histórias do Quarto','A jornada de Lia, Seu Pião e Capitão Botão',
+    '<p>Reveja as cenas desbloqueadas. As cenas não modificam suas estrelas ou fases.</p><div class="story-gallery">'+entries+'</div>',
+    'menu','stories');
+}
 function menu(){battle=null;
-  setScreen('menu',`<div class="menu-content"><div class="menu-hero"><span class="kicker">✦ Uma aventura no quarto da Lia</span><h1 class="logo">BRINQUEDOS <span class="vs">VS.</span><br><em>PESADELOS!</em></h1><p class="menu-description">Quando o armário se abre... o quarto revida! Monte sua defesa e espante monstros muito atrapalhados.</p><div class="menu-note">✦ ${LEVELS.length} fases jogáveis &nbsp; ✦ 3 capítulos &nbsp; ✦ 5 faixas &nbsp; ✦ Salva automaticamente</div></div><nav class="menu-actions" aria-label="Menu principal">${button(save.unlocked>1?'▶ CONTINUAR':'▶ JOGAR','play')}${button('🗺 ESCOLHER FASE','levels','outline-btn')}${button('⭐ OFICINA · '+starWallet(save).available,'workshop','outline-btn')}${button(canPlaySurvival(save)?'♾ MODO SOBREVIVÊNCIA':'🔒 SOBREVIVÊNCIA · vença 1-8','survival','outline-btn',canPlaySurvival(save)?'':'disabled')}${button('📖 BRINQUEDOPÉDIA','codex','outline-btn')}${button('❔ COMO JOGAR','help','text-btn')}${button('⚙ OPÇÕES','options','text-btn')}${button('⛶ TELA CHEIA','fullscreen','text-btn')}</nav></div>`);
+  setScreen('menu',`<div class="menu-content"><div class="menu-hero"><span class="kicker">✦ Uma aventura no quarto da Lia</span><h1 class="logo">BRINQUEDOS <span class="vs">VS.</span><br><em>PESADELOS!</em></h1><p class="menu-description">Quando o armário se abre... o quarto revida! Monte sua defesa e espante monstros muito atrapalhados.</p><div class="menu-note">✦ ${LEVELS.length} fases jogáveis &nbsp; ✦ 3 capítulos &nbsp; ✦ 5 faixas &nbsp; ✦ Salva automaticamente</div></div><nav class="menu-actions" aria-label="Menu principal">${button(save.unlocked>1?'▶ CONTINUAR':'▶ JOGAR','play')}${button('🗺 ESCOLHER FASE','levels','outline-btn')}${button('⭐ OFICINA · '+starWallet(save).available,'workshop','outline-btn')}${button(canPlaySurvival(save)?'♾ MODO SOBREVIVÊNCIA':'🔒 SOBREVIVÊNCIA · vença 1-8','survival','outline-btn',canPlaySurvival(save)?'':'disabled')}${button('📖 BRINQUEDOPÉDIA','codex','outline-btn')}${button('📜 HISTÓRIAS','story-gallery','outline-btn')}${button('❔ COMO JOGAR','help','text-btn')}${button('⚙ OPÇÕES','options','text-btn')}${button('⛶ TELA CHEIA','fullscreen','text-btn')}</nav></div>`);
 }
 function levels(){
   const cards=LEVELS.map((lvl,i)=>{const unlocked=i<save.unlocked;
@@ -40,8 +79,8 @@ function previewLevel(index,preserveDraft=false){
   const info=buildBriefing(index);
   if(!info)return levels();
   if(!preserveDraft||deckDraftLevel!==index){deckDraftLevel=index;deckDraft=getDeck(save,index);}
-  const enemies=info.enemies.map(enemy=>`<article class="brief-entity ${enemy.boss?'brief-boss':''}"><svg class="brief-icon" viewBox="0 0 80 80" aria-hidden="true"><use href="./assets/codex-atlas.svg?v=1.6.0#enemy-${enemy.id}"></use></svg><div><strong>${escapeHTML(enemy.name)} ${enemy.boss?'<small class="brief-boss-label">CHEFE</small>':''}</strong><small>${enemy.count} previsto${enemy.count===1?'':'s'} nas ondas</small><p>${escapeHTML(enemy.description)}</p></div></article>`).join('');
-  const defenders=deckDraft.map(id=>{const toy=TOYS[id];return `<div class="brief-entity brief-toy"><svg class="brief-icon" viewBox="0 0 80 80" aria-hidden="true"><use href="./assets/codex-atlas.svg?v=1.6.0#toy-${id}"></use></svg><div><strong>${escapeHTML(toy.name)} ${save.upgrades[id]?`<small>N${save.upgrades[id]+1}</small>`:''}</strong><small>✦ ${toy.cost} Brilhos</small></div></div>`;}).join('');
+  const enemies=info.enemies.map(enemy=>`<article class="brief-entity ${enemy.boss?'brief-boss':''}"><svg class="brief-icon" viewBox="0 0 80 80" aria-hidden="true"><use href="./assets/codex-atlas.svg?v=1.7.0#enemy-${enemy.id}"></use></svg><div><strong>${escapeHTML(enemy.name)} ${enemy.boss?'<small class="brief-boss-label">CHEFE</small>':''}</strong><small>${enemy.count} previsto${enemy.count===1?'':'s'} nas ondas</small><p>${escapeHTML(enemy.description)}</p></div></article>`).join('');
+  const defenders=deckDraft.map(id=>{const toy=TOYS[id];return `<div class="brief-entity brief-toy"><svg class="brief-icon" viewBox="0 0 80 80" aria-hidden="true"><use href="./assets/codex-atlas.svg?v=1.7.0#toy-${id}"></use></svg><div><strong>${escapeHTML(toy.name)} ${save.upgrades[id]?`<small>N${save.upgrades[id]+1}</small>`:''}</strong><small>✦ ${toy.cost} Brilhos</small></div></div>`;}).join('');
   const content=`<p class="brief-subtitle">${escapeHTML(info.subtitle)}</p><div class="brief-facts"><span>🌊 ${info.waveCount} ondas</span><span>👾 ${info.totalScheduled} inimigos previstos</span><span>🎴 ${deckDraft.length} cartas escolhidas</span>${info.doorWarnings?`<span>🚪 ${info.doorWarnings} avisos de porta</span>`:''}</div><div class="brief-tip"><strong>💡 Estratégia sugerida</strong><p>${escapeHTML(info.hint)}</p></div>${renderDeckEditor(index,info)}<div class="brief-grid"><section><h2>Pesadelos desta fase</h2><div class="brief-list">${enemies}</div><p class="brief-footnote">Quantidades das ondas programadas. Reforços invocados por chefes podem aparecer além desta lista.</p></section><section><h2>Seus brinquedos</h2><div class="brief-list">${defenders}</div>${info.reward?`<p class="brief-reward">🎁 Recompensa ao vencer: <strong>${escapeHTML(info.reward.name)}</strong></p>`:''}</section></div><div class="brief-actions">${button('▶ Começar com este baralho','deck-start','big-btn')}${button('← Voltar ao mapa','levels','outline-btn')}</div>`;
   panel(`Fase ${info.id} · ${info.title}`,'Prepare sua defesa antes da invasão',content,'levels','briefing');
 }
@@ -51,7 +90,7 @@ function renderDeckEditor(index,info){
   const slots=Array.from({length:MAX_DECK},(_,i)=>`<div class="deck-slot ${deckDraft[i]?'occupied':''}">${deckDraft[i]?escapeHTML(TOYS[deckDraft[i]].short):'Vazio'}<small>${i+1}/${MAX_DECK}</small></div>`).join('');
   const options=[...unlockedToys(save)].filter(id=>TOYS[id]).map(id=>{
     const toy=TOYS[id],chosen=selected.has(id),rank=(save.upgrades[id]||0)+1;
-    return `<button class="deck-choice ${chosen?'deck-picked':''}" data-action="deck-toggle" data-deck-id="${id}" aria-pressed="${chosen}" aria-label="${escapeHTML(toy.name)}: ${chosen?'retirar':'adicionar'}"><svg class="deck-art" viewBox="0 0 80 80" aria-hidden="true"><use href="./assets/codex-atlas.svg?v=1.6.0#toy-${id}"></use></svg><span class="deck-copy"><strong>${escapeHTML(toy.short)}</strong><small>✦ ${toy.cost} · N${rank}</small><small>${recommended.has(id)?'★ Sugerido':'Liberado'}</small></span><span class="deck-check">${chosen?'✓':'+'}</span></button>`;
+    return `<button class="deck-choice ${chosen?'deck-picked':''}" data-action="deck-toggle" data-deck-id="${id}" aria-pressed="${chosen}" aria-label="${escapeHTML(toy.name)}: ${chosen?'retirar':'adicionar'}"><svg class="deck-art" viewBox="0 0 80 80" aria-hidden="true"><use href="./assets/codex-atlas.svg?v=1.7.0#toy-${id}"></use></svg><span class="deck-copy"><strong>${escapeHTML(toy.short)}</strong><small>✦ ${toy.cost} · N${rank}</small><small>${recommended.has(id)?'★ Sugerido':'Liberado'}</small></span><span class="deck-check">${chosen?'✓':'+'}</span></button>`;
   }).join('');
   return `<section class="deck-editor" aria-label="Montar baralho"><h2>🎴 Seu baralho · ${deckDraft.length}/${MAX_DECK}</h2><p>Escolha de 1 a 6 brinquedos desbloqueados, incluindo ao menos um atacante. ★ indica a equipe original sugerida.</p><div class="deck-slots">${slots}</div><div class="deck-choices">${options}</div><div class="deck-tools"><span role="status">${dirty?'● Alterações não salvas':'✓ Baralho salvo ou padrão'}</span>${button('💾 Salvar baralho','deck-save','tiny-btn',dirty?'':'disabled')}${button('↺ Baralho original','deck-reset','tiny-btn')}</div></section>`;
 }
@@ -124,7 +163,7 @@ function workshop(){
     const stats=stat('Vida','maxHp')+(toy.damage?stat('Dano','damage'):'')+(toy.kind==='producer'?stat('Produção a cada','interval','s'):'')+(toy.slowDuration?stat(toy.kind==='clock'?'Duração da lentidão':'Duração do gelo','slowDuration','s'):'')+(toy.stunDuration?stat('Duração do sono','stunDuration','s'):'');
     const earnedAt=LEVELS.find(level=>level.reward===toy.id);
     const label=!open?'🔒 Bloqueado':max?'✓ Nível máximo':wallet.available<cost?`Faltam ${cost-wallet.available} ⭐`:`Melhorar · ${cost} ⭐`;
-    return `<article class="upgrade-card ${open?'':'locked'} ${max?'maxed':''}" data-upgrade-card="${toy.id}"><div class="upgrade-card-head"><svg class="upgrade-art" viewBox="0 0 80 80" aria-hidden="true"><use href="./assets/codex-atlas.svg?v=1.6.0#toy-${toy.id}"></use></svg><div><span class="upgrade-level">${open?'NÍVEL '+(rank+1):'A DESCOBRIR'}</span><h2>${toy.name}</h2><span class="upgrade-pips" aria-label="${rank} de 3 melhorias">${[1,2,3].map(n=>`<i class="${n<=rank?'filled':''}"></i>`).join('')}</span></div></div><p class="upgrade-role">${toy.description}</p><table class="upgrade-stats"><caption class="sr-only">Atributos de ${toy.name}</caption><thead><tr><th scope="col">Atributo</th><th scope="col">Atual</th><th scope="col">Próximo</th></tr></thead><tbody>${stats}</tbody></table><p class="upgrade-detail">${!open?`Vença a fase ${earnedAt?.id||'anterior'} para liberar.`:max?'Pronto para espantar qualquer bagunça!':`Custo da melhoria: ${cost} ⭐ · colocação: ${toy.cost} Brilhos`}</p><button class="upgrade-btn" data-action="upgrade" data-upgrade="${toy.id}" ${!open||max||wallet.available<cost?'disabled':''} aria-label="${toy.name}: ${label}">${label}</button></article>`;
+    return `<article class="upgrade-card ${open?'':'locked'} ${max?'maxed':''}" data-upgrade-card="${toy.id}"><div class="upgrade-card-head"><svg class="upgrade-art" viewBox="0 0 80 80" aria-hidden="true"><use href="./assets/codex-atlas.svg?v=1.7.0#toy-${toy.id}"></use></svg><div><span class="upgrade-level">${open?'NÍVEL '+(rank+1):'A DESCOBRIR'}</span><h2>${toy.name}</h2><span class="upgrade-pips" aria-label="${rank} de 3 melhorias">${[1,2,3].map(n=>`<i class="${n<=rank?'filled':''}"></i>`).join('')}</span></div></div><p class="upgrade-role">${toy.description}</p><table class="upgrade-stats"><caption class="sr-only">Atributos de ${toy.name}</caption><thead><tr><th scope="col">Atributo</th><th scope="col">Atual</th><th scope="col">Próximo</th></tr></thead><tbody>${stats}</tbody></table><p class="upgrade-detail">${!open?`Vença a fase ${earnedAt?.id||'anterior'} para liberar.`:max?'Pronto para espantar qualquer bagunça!':`Custo da melhoria: ${cost} ⭐ · colocação: ${toy.cost} Brilhos`}</p><button class="upgrade-btn" data-action="upgrade" data-upgrade="${toy.id}" ${!open||max||wallet.available<cost?'disabled':''} aria-label="${toy.name}: ${label}">${label}</button></article>`;
   }).join('');
   setScreen('workshop',`<section class="panel workshop-panel" aria-label="Oficina dos Brinquedos"><div class="panel-head"><div><span class="subheading">Cada vitória dá novas possibilidades</span><h1>Oficina dos Brinquedos</h1></div>${button('✕ Voltar','workshop-back','tiny-btn')}</div><div class="workshop-summary"><div class="wallet-primary"><span>⭐</span><strong data-wallet="available">${wallet.available}</strong><small>DISPONÍVEIS</small></div><p>Uma dose extra de imaginação.<small>Melhorias permanentes para suas próximas partidas.</small></p><div class="wallet-history"><strong>${wallet.earned}</strong> conquistadas<br><strong>${wallet.spent}</strong> investidas</div></div><p class="workshop-help">Cada fase rende até 3 estrelas. Ao rejogar, você ganha apenas a diferença para seu melhor resultado. Os Brilhos continuam sendo usados dentro da batalha.</p><div class="upgrade-grid">${cards}</div><div class="workshop-footer"><p>Ganhe até 3 melhorias por brinquedo. As fases podem ser vencidas sem evoluir. Você pode devolver todas as melhorias e recuperar as estrelas gratuitamente.</p>${button('↺ Redistribuir estrelas','reset-upgrades','tiny-btn',wallet.spent?'':'disabled')}</div></section>`);
 }
@@ -132,7 +171,7 @@ function help(back=battle?'pause':'menu'){
   panel('Como jogar','Seu Pião explica',`<p>Você precisa impedir que os pesadelos cheguem ao baú da imaginação.</p><div class="guide"><div class="guide-item"><strong>1. Escolha um brinquedo</strong><br>Toque em uma carta na faixa superior.</div><div class="guide-item"><strong>2. Defenda uma casa</strong><br>Toque em um quadradinho vazio do tapete.</div><div class="guide-item"><strong>3. Colete ✦ Brilhos</strong><br>Toque nas estrelinhas douradas; cada uma vale 25.</div><div class="guide-item"><strong>4. Proteja as 5 faixas</strong><br>Um trenzinho salva cada faixa apenas uma vez.</div><div class="guide-item"><strong>5. Economize</strong><br>Abajures criam Brilhos; soldados atacam; ursos bloqueiam; piões congelam; confetes atingem grupos; Cometas atravessam dois monstros; Soninho provoca sono; Móbile Musical paralisa até três faixas; Estilingue de Estrelas atinge faixas vizinhas; Arco de Elástico rebate em dois inimigos; Caixa Surpresa explode perto dos pesadelos; o Cuco desacelera três faixas próximas.</div><div class="guide-item"><strong>6. Portas do corredor</strong><br>No Capítulo 3, a porta avisa a faixa atacada cinco segundos antes da onda.</div><div class="guide-item"><strong>7. Espirros do Vovô</strong><br>O chefe avisa a faixa da rajada e onde surgirão mini-poeiras. Tiros pesados, música e Cuco resistem à rajada. Ataque enquanto ele descansa.</div><div class="guide-item"><strong>8. Vitória!</strong><br>Espante todos os monstros, inclusive a grande onda.</div></div><p>Atalhos no PC: teclas <strong>1 a 6</strong> selecionam cartas, <strong>⏩ 1×/2×</strong> altera a velocidade da partida, <strong>F</strong> ativa tela cheia e <strong>Esc</strong> abre a pausa. No celular, prefira a orientação horizontal e toque em <strong>⛶ Tela</strong> para ampliar.</p>`,back,'help');
 }
 function codex(){
-  const art=(id,name,kind)=>`<svg class="catalog-art" viewBox="0 0 80 80" role="img" aria-label="Ilustração original: ${escapeHTML(name)}"><use href="./assets/codex-atlas.svg?v=1.6.0#${kind}-${id}"></use></svg>`;
+  const art=(id,name,kind)=>`<svg class="catalog-art" viewBox="0 0 80 80" role="img" aria-label="Ilustração original: ${escapeHTML(name)}"><use href="./assets/codex-atlas.svg?v=1.7.0#${kind}-${id}"></use></svg>`;
   const toys=Object.values(TOYS).map(t=>`<div class="catalog-entry">${art(t.id,t.name,'toy')}<div><strong>${t.name}</strong><small>✦ ${t.cost} · ${t.description}</small></div></div>`).join('');
   const enemies=Object.values(ENEMIES).map(e=>`<div class="catalog-entry">${art(e.id,e.name,'enemy')}<div><strong>${e.name}</strong><small>${e.description}</small></div></div>`).join('');
   panel('Brinquedopédia','Ilustrações originais · conheça os moradores',`<p>Brinquedos e pesadelos agora têm retratos vetoriais próprios, desenhados para este universo.</p><div class="catalog">${toys}${enemies}</div>`,'menu','codex');
@@ -151,6 +190,7 @@ function confirmBefore(kind){
 }
 function resume(){if(!battle)return;battle.state='playing';setScreen('battle');last=performance.now();accumulator=0;}
 function start(index,selectedDeck=null){if(!Number.isInteger(index)||index<0||index>=LEVELS.length||index>=save.unlocked)return;
+  if(index===0&&!hasSeenStory('C00'))return presentStory('C00',()=>start(index,selectedDeck));
   gameSpeed=1;
   battle=new Battle(index,audio,battleEvents(),save.upgrades,selectedDeck||getDeck(save,index),unlockedToys(save));
   battle.effectsEnabled=motionEnabled();
@@ -167,7 +207,10 @@ function finish(result,stars){if(!battle)return;
   }
   const before=starWallet(save).earned,firstWin=!save.stars[battle.level.id];let stored=true;
   if(result==='victory'){recordVictory(save,battle.levelIndex,stars);stored=persistSave(save);}
-  lastResult={result,stars,earned:starWallet(save).earned-before,stored,firstWin};resultScreen();
+  lastResult={result,stars,earned:starWallet(save).earned-before,stored,firstWin};
+  const nextScene=result==='victory'?storyForVictory(battle.level.id):null;
+  if(nextScene&&!hasSeenStory(nextScene))return presentStory(nextScene,resultScreen);
+  resultScreen();
 }
 function resultScreen(){
   if(!battle||!lastResult)return;
@@ -190,7 +233,14 @@ function updateHUD(){if(!battle)return;$('glow-count').textContent=Math.floor(ba
 }
 function handleAction(action,target){
   audio.resume();if(action!=='toggle')audio.play('click');
-  if(action==='play')start(Math.min(save.unlocked-1,LEVELS.length-1));
+  if(action==='story-gallery')stories();
+  else if(action==='story-replay'&&target){
+    const id=target.dataset.story;
+    if(canReplayStory(save,id))presentStory(id,stories);
+  }
+  else if(action==='story-next'&&screen==='story')nextStorySlide();
+  else if(action==='story-skip'&&screen==='story')endStory();
+  else if(action==='play')start(Math.min(save.unlocked-1,LEVELS.length-1));
   else if(action==='level')start(Number(target.dataset.level));
   else if(action==='levels')levels();
   else if(action==='preview')previewLevel(Number(target.dataset.level));
@@ -276,7 +326,8 @@ canvas.addEventListener('pointermove',event=>{
 });
 canvas.addEventListener('pointerleave',()=>{if(battle)battle.hover=null;});
 document.addEventListener('keydown',event=>{
-  if(event.key==='Escape'){if(screen==='battle')pause();else if(screen==='pause')resume();else if(screen==='options'&&battle)pause();else if(screen==='workshop')handleAction('workshop-back',null);else if(screen==='briefing')levels();else if(screen==='survival')menu();else if(screen!=='menu')menu();}
+  if(event.key==='ArrowRight'&&screen==='story'){event.preventDefault();nextStorySlide();return;}
+  if(event.key==='Escape'){if(screen==='story'){endStory();return;}if(screen==='battle')pause();else if(screen==='pause')resume();else if(screen==='options'&&battle)pause();else if(screen==='workshop')handleAction('workshop-back',null);else if(screen==='briefing')levels();else if(screen==='survival')menu();else if(screen!=='menu')menu();}
   if(screen==='battle'&&battle){if(event.key.toLowerCase()==='f'){handleAction('fullscreen',null);return;}const num=Number(event.key);if(num>=1&&num<=battle.deck.length){battle.selectToy(battle.deck[num-1]);updateHUD();}}
 });
 document.addEventListener('visibilitychange',()=>{if(document.hidden&&screen==='battle')pause();});
