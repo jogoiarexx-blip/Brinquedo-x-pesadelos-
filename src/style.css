@@ -141,7 +141,7 @@
 @media(orientation:portrait) and (max-width:900px){.game-frame:has(.brief-grid){height:min(88dvh,760px);aspect-ratio:auto}.panel:has(.brief-grid){max-height:100%;padding:12px}.brief-list{grid-template-columns:1fr}.brief-grid h2{font-size:14px}.brief-actions{flex-wrap:wrap}}
 
 
-/* v1.5.0 — seleção de seis brinquedos por fase */
+/* v1.6.0 — seleção de seis brinquedos por fase */
 .deck-editor{border:2px solid #edd2b48c;border-radius:16px;background:linear-gradient(135deg,#322540d9,#51426bbb);padding:14px;margin:14px 0}
 .deck-editor h2{font-size:20px!important;margin:2px 0!important;color:#ffe0a0}
 .deck-editor p{font-size:12px!important;margin:5px 0 12px;color:#e9d9db}
@@ -164,3 +164,22 @@
 .deck-tools .tiny-btn:disabled{opacity:.5;cursor:not-allowed}
 @media(max-width:900px){.deck-editor{padding:9px;margin:8px 0}.deck-choices{grid-template-columns:repeat(3,minmax(0,1fr));gap:5px}.deck-art{width:32px;height:36px;flex-basis:32px}.deck-copy strong{font-size:10px}.deck-copy small{font-size:9px}.deck-check{flex-basis:15px;font-size:13px;height:19px}.deck-slot{font-size:10px;min-height:43px}}
 @media(max-width:560px){.deck-choices{grid-template-columns:repeat(2,minmax(0,1fr))}.deck-slots{gap:3px}.deck-slot{font-size:8px;min-height:36px;padding:3px}.deck-slot small{font-size:7px}.deck-tools .tiny-btn{font-size:11px}}
+
+/* v1.6 — Modo Sobrevivência */
+.survival-record{padding:16px 18px;border-radius:16px;border:2px solid #e7bc78;background:linear-gradient(120deg,#8f6284,#47355f);box-shadow:inset 0 2px 0 #fff3d62a;margin:12px 0 16px}
+.survival-record strong{display:block;color:#ffe5a1;font-size:17px}
+.survival-record p{color:#fff4d8;font-size:20px;font-weight:900;margin:8px 0!important}
+.survival-record small{font-size:11px;color:#e7d2df}
+.survival-choices{grid-template-columns:repeat(3,minmax(0,1fr))}
+.survival-choice{display:flex;align-items:center;min-width:0;text-align:left;padding:8px;gap:6px;background:linear-gradient(#695476,#3e3255);border:2px solid #a88eac;border-radius:12px;color:#fff3d9;box-shadow:0 3px 0 #241b3a}
+.survival-choice.survival-picked{border-color:#f7d67e;background:linear-gradient(#926e7f,#60486d);box-shadow:inset 0 0 0 1px #ffedbd85}
+.survival-choice:hover{filter:brightness(1.12)}
+.survival-actions{display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end;margin:10px 0 16px}
+.survival-actions button{min-width:130px}
+.survival-final{border:2px solid #edce8c;border-radius:17px;background:#e9b9781c;padding:20px;margin:12px 0}
+.survival-final strong{color:#ffdf94;font-size:clamp(25px,3.2vw,38px)}
+.survival-final p{font-size:clamp(12px,1.6vw,17px)!important}
+.survival-record-text{font-size:22px!important;color:#ffe4a3!important;font-weight:900}
+@media(max-width:900px){.survival-record{padding:9px 12px}.survival-record strong{font-size:13px}.survival-record p{font-size:14px}.survival-choices{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:600px){.survival-choices{grid-template-columns:repeat(2,minmax(0,1fr))}.survival-actions button{flex:1;font-size:11px}}
+@media(orientation:portrait) and (max-width:900px){.game-frame:has(.survival-record){height:min(88dvh,760px);aspect-ratio:auto}.screen:has(.survival-record){align-items:flex-start;padding:8px}.panel:has(.survival-record){max-height:100%;padding:13px}}
