@@ -1,15 +1,15 @@
 #!/usr/bin/env python3
 """Gera um HTML independente para abrir diretamente no PC, sem rede.
 
-As fontes continuam modulares dentro de src/.
+As fontes continuam modulares dentro de src/. O modo GLB não carrega sob file:// e recua para SVG.
 """
 from pathlib import Path
 import re
 root=Path(__file__).resolve().parents[1]
-modules=['config.js','data.js','upgrades.js','deck.js','story.js','save.js','audio.js','engine.js','survival.js','render.js','briefing.js','survival-ui.js','story-ui.js','main.js']
+modules=['config.js','data.js','upgrades.js','deck.js','story.js','save.js','audio.js','engine.js','survival.js','render.js','briefing.js','survival-ui.js','story-ui.js','story-3d.js','perf.js','main.js']
 js='\n'.join((root/'src'/name).read_text(encoding='utf-8') for name in modules)
 js=re.sub(r'(?m)^import\s+.*?;\s*$', '', js)
-js=re.sub(r'(?m)^export\s+(?=(?:const|class|function)\s)', '', js)
+js=re.sub(r'(?m)^export\s+(?=(?:const\b|class\b|function\b|async\s+function\b))', '', js)
 html=(root/'index.html').read_text(encoding='utf-8')
 css=(root/'src/style.css').read_text(encoding='utf-8')
 html=re.sub(r'<link rel="stylesheet" href="\./src/style\.css(?:\?v=[0-9.]+)?" />',lambda _:f'<style>\n{css}\n</style>',html)
