@@ -331,3 +331,11 @@
 /* v2.3.0 — telemetria visível só após ativação manual */
 .perf-stats{position:absolute;right:1.1%;bottom:7.5%;z-index:4;pointer-events:none;padding:5px 10px;font-size:clamp(10px,1.05vw,13px);font-weight:900;border:1px solid #dcf4dd9c;border-radius:8px;color:#e5ffe8;background:#1f3540d9;box-shadow:0 2px 12px #17142866}
 .perf-stats.perf-warning{color:#ffe1b3;border-color:#ffbe91;background:#71463bdd}
+
+/* v2.3.0 — informações claras de pressão por fase, sem inventar nota de dificuldade */
+.brief-pressure{background:linear-gradient(130deg,#332a52bb,#594466bb);border:1px solid #e1c7d1a6;border-radius:13px;margin:10px 0;padding:11px 13px}
+.brief-pressure strong{display:block;margin-bottom:9px;font-size:clamp(13px,1.3vw,17px);color:#ffecbb}
+.brief-pressure div{display:flex;flex-wrap:wrap;gap:7px}
+.brief-pressure span{display:inline-flex;align-items:center;padding:5px 9px;border:1px solid #d1b5db8f;border-radius:8px;background:#ffffff12;color:#f5ebdf;font-size:clamp(10px,1vw,13px);font-weight:800}
+.brief-pressure small{display:block;color:#e2d0e8;font-size:clamp(9px,.86vw,12px);margin-top:8px;line-height:1.4}
+@media(max-width:650px){.brief-pressure{padding:7px;margin:6px 0}.brief-pressure span{font-size:10px;padding:4px 6px}}
