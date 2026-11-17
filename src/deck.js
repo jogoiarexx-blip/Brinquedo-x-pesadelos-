@@ -1,4 +1,4 @@
-import { LEVELS, TOYS } from './data.js?v=1.7.0';
+import { LEVELS, TOYS } from './data.js?v=1.8.0';
 
 export const MAX_DECK=6;
 export const offensive=id=>Boolean(TOYS[id]?.damage>0);
