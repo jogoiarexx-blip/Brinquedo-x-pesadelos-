@@ -92,7 +92,7 @@ test('integração: PWA, browser, conteúdo offline e código sintaticamente vá
   assert.ok(sw.includes('story.js?v=2.2.0'));
   assert.ok(sw.includes('story-ui.js?v=2.2.0'));
   assert.ok(builder.includes("'story.js','save.js'"));
-  assert.ok(builder.includes("'story-ui.js','main.js'"));
+  assert.ok(builder.includes("'story-ui.js','story-3d.js','perf.js','main.js'"));
   assert.ok(offline.includes('function buildStoryScreen'));
   assert.ok(offline.includes('function presentStory'));
   const script=offline.match(/<script>\s*([\s\S]*?)<\/script>/);

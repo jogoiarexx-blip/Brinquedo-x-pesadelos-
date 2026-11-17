@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
-import {execFileSync} from 'node:child_process';
+import {execFileSync,spawnSync} from 'node:child_process';
 import vm from 'node:vm';
 import {fileURLToPath} from 'node:url';
 import {STORY_GLB_MODELS,modelForStoryFrame,canAttemptStory3D,mountStory3D,stopStory3D} from '../src/story-3d.js';
@@ -110,8 +110,10 @@ test('modo 3D e medidor permanecem desligados após migrar um save da versão 2.
 });
 test('auditoria das 40 fases aprova integridade estrutural e expõe métricas de pressão',()=>{
   const script=fileURLToPath(new URL('../tools/audit_campaign.mjs',import.meta.url));
-  const output=execFileSync(process.execPath,[script,'--json'],{encoding:'utf8',timeout:30_000});
-  const audit=JSON.parse(output);
+  const run=spawnSync(process.execPath,[script,'--json'],{encoding:'utf8',timeout:30_000});
+  const audit=JSON.parse(run.stdout);
+  assert.deepEqual(audit.warnings,[],'problemas detectados: '+JSON.stringify(audit.warnings));
+  assert.equal(run.status,0,run.stderr||'auditoria retornou erro');
   assert.equal(audit.levels,40);
   assert.equal(audit.chapters,5);
   assert.equal(audit.stages.length,40);
