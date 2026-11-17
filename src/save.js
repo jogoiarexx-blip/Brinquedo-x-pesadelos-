@@ -1,8 +1,9 @@
-import { LEVELS,TOYS,ENEMIES } from './data.js?v=1.6.0';
-import { SAVE_KEY } from './config.js?v=1.6.0';
-import { validDeck, deckForLevel } from './deck.js?v=1.6.0';
-import { UPGRADE_COSTS,upgradeRank,upgradeSpent } from './upgrades.js?v=1.6.0';
-const defaults = () => ({ version:1, campaignSize:LEVELS.length, unlocked:1, stars:{}, upgrades:{}, decks:{}, survival:{ best:{waves:0,kills:0,seconds:0,score:0},runs:0,deck:[] }, seenEnemies:[], settings:{ music:true, sfx:true, motion:true } });
+import { LEVELS,TOYS,ENEMIES } from './data.js?v=1.7.0';
+import { SAVE_KEY } from './config.js?v=1.7.0';
+import { validDeck, deckForLevel } from './deck.js?v=1.7.0';
+import { getStory } from './story.js?v=1.7.0';
+import { UPGRADE_COSTS,upgradeRank,upgradeSpent } from './upgrades.js?v=1.7.0';
+const defaults = () => ({ version:1, campaignSize:LEVELS.length, unlocked:1, stars:{}, upgrades:{}, decks:{}, storySeen:[], survival:{ best:{waves:0,kills:0,seconds:0,score:0},runs:0,deck:[] }, seenEnemies:[], settings:{ music:true, sfx:true, motion:true } });
 const starScore=value=>['number','string'].includes(typeof value)&&Number.isFinite(Number(value))?Math.max(0,Math.min(3,Math.floor(Number(value)))):0;
 export function unlockedToys(save) {
   return new Set(LEVELS.slice(0,save.unlocked).flatMap(level=>level.toys));
@@ -42,6 +43,9 @@ function normalizeSave(raw) {
   save.survival.best={waves:safeInt(b.waves,10000000),kills:safeInt(b.kills,100000000),seconds:safeInt(b.seconds,1000000000),score:safeInt(b.score,1000000000)};
   save.survival.runs=safeInt(rs.runs,10000000);
   if(canPlaySurvival(save)&&validDeck(rs.deck,unlockedIds))save.survival.deck=[...rs.deck];
+  // Cenas são opcionais em saves legados, sempre identificadas por IDs conhecidos.
+  save.storySeen=Array.isArray(raw.storySeen)
+    ? [...new Set(raw.storySeen.filter(id=>Boolean(getStory(id))))]:[];
   return save;
 }
 export function loadSave(storage=null) {
@@ -128,4 +132,12 @@ export function recordSurvivalRun(save,result,storage=null) {
   if(!persistSave({...save,survival},storage))return {ok:false,reason:'storage',newRecord};
   save.survival=survival;
   return {ok:true,newRecord,record:survival.best,run:current};
+}
+
+export function markStorySeen(save,id,storage=null) {
+  if(!getStory(id))return {ok:false,reason:'unknown'};
+  if(save.storySeen?.includes(id))return {ok:true,already:true};
+  const storySeen=[...(save.storySeen||[]),id];
+  if(!persistSave({...save,storySeen},storage))return {ok:false,reason:'storage'};
+  save.storySeen=storySeen;return {ok:true,already:false};
 }
