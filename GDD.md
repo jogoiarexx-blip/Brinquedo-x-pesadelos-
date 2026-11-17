@@ -1,5 +1,8 @@
 # BRINQUEDOS VS. PESADELOS
 
+> **DOCUMENTO HISTÓRICO (pré-produção):** o roteiro e a campanha canônicos de produção foram consolidados em [docs/GDD_CANONICO_V2_CAMPANHA_2P5D.md](docs/GDD_CANONICO_V2_CAMPANHA_2P5D.md). O estado do jogo antes das mudanças está preservado no [checkpoint de 17/11/2026](docs/CHECKPOINT_2026-11-17_V1_6_0.md). Este GDD original permanece para referência; por exemplo, o segundo capítulo publicado é *Debaixo da Cama*, não *Sala de Brincadeiras*.
+
+
 > **Produção v1.3.0 — 13/11/2026:** Capítulo 3 concluído até 3-8, total de 24 fases, Relógio Cuco (T12), Fantasma Enrolado (E12), Poeirinha Espirrada (E13) e Vovô Poeirão (E14). IDs de produção prevalecem sobre tabelas preliminares. Ver [relatório da atualização](docs/CAPITULO_3_V1_3.md).
 
 > **Produção v1.2.0 — 13/11/2026:** por solicitação do proprietário, a campanha passa a oferecer melhorias permanentes opcionais com estrelas. Esta decisão atual substitui a restrição original do §10. A campanha continua vencível sem melhorias, sem grind obrigatório. Ver regras e análise completa em [docs/ANALISE_E_MELHORIAS.md](docs/ANALISE_E_MELHORIAS.md).

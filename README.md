@@ -1,5 +1,8 @@
 # Brinquedos vs. Pesadelos — ALFA v1.6.0
 
+> **Checkpoint oficial do começo da expansão:** [snapshot v1.6.0](docs/CHECKPOINT_2026-11-17_V1_6_0.md), branch `checkpoint/v1.6.0-2026-11-17-antes-campanha-2p5d`. **Plano de produção aprovado:** [GDD canônico v2](docs/GDD_CANONICO_V2_CAMPANHA_2P5D.md). O jogo permanece com 24 fases; cutscenes, capítulos 4/5 e 2.5D estão planejados, não lançados.
+
+
 ## Novidades da v1.6.0 — Modo Sobrevivência / Noite Sem Fim
 
 - **♾ Modo Sobrevivência** é liberado ao vencer a fase 1-8, sem modificar as 24 fases da campanha.
