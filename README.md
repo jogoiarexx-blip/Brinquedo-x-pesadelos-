@@ -1,4 +1,17 @@
-# Brinquedos vs. Pesadelos — CAMPANHA v2.0.0
+# Brinquedos vs. Pesadelos — CAMPANHA v2.1.0
+
+## Novidades da v2.1.0 — Polimento cinematográfico, cinco chefes e acessibilidade
+
+- **Cinco chefes com apresentação visual própria:** halos coloridos específicos por chefe, animações de ataque e descanso, HUD com estado de combate e cartão de apresentação ao chegar.
+- **Vida do Grande Bicho-Papão dividida em três etapas visuais:** barras de saúde com limiares de transformação (67% e 34%), forma exibida na tela e indicação da janela de contra-ataque.
+- **Telegráficos melhorados:** indicadores com tempo restante; a Tempestade da terceira forma destaca **ambas as faixas ameaçadas**, corrigindo a leitura do ataque secundário.
+- **Cutscenes com direção de câmera:** enquadramentos à esquerda/direita, letterbox cinematográfico, cenário por capítulo, transições suaves e créditos com identidade visual própria.
+- **Navegação acessível:** setas direita/esquerda, botão Anterior quando disponível, barra de progresso com informação para leitores de tela, botão Pular e modo de movimento reduzido.
+- **Áudio original adicional:** chimes discretos de páginas e sinais exclusivos de entrada do chefe, aviso de ataque e transformação.
+- Preservadas **40 fases, oito cenas C00–C07, cinco capítulos, modo Sobrevivência, Oficina, baralhos, saves legados e HTML offline**.
+- Não há física 3D, novos modelos GLB ou WebGL nesta atualização; a direção visual continua 2.5D leve. **Playtest humano em Android e auditoria de desempenho real permanecem pendentes**.
+
+
 
 ## Novidades da v2.0.0 — A Noite dos Mil Bocejos: a campanha tem FINAL!
 

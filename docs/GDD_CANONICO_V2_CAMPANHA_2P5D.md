@@ -174,3 +174,15 @@ A v1.7.0 introduz C00, C01, C02 e C03 em estilo ilustrado por camadas HTML/CSS, 
 **Compatibilidade:** chave de salvamento `bvp-save-v1`, `campaignSize=40`, migração automática de saves anteriores mediante vitória no último capítulo disponível, e preservação de estrelas, upgrades, baralhos, galeria e modo sobrevivência. Não habilitar 3D em tempo real sem fallback.
 
 **Etapas que ainda exigem validação adicional:** partidas completas de todos os 40 níveis sem melhorias, medição real de FPS, bateria, memória e interação em celulares Android intermediários; revisão de dificuldade após playtests; protótipo opcional 3D com fallback. Código do capítulo e testes automatizados não substituem playtest humano.
+
+## 13. Marco v2.1.0 — polimento cinematográfico após a conclusão
+
+**Objetivo:** elevar a qualidade percebida sem trocar o motor de colisão ou atrasar a narrativa com um port 3D integral.
+
+**Apresentação dos chefes:** todos os cinco chefes recebem cores e luzes únicas, sinalização de chegada, barras mais claras e leitura distinta de marcha, aviso e descanso. O Grande Bicho-Papão tem três trechos de HP representados na HUD. O ataque da Tempestade informa as duas faixas afetadas **antes** de disparar, e os outros avisos seguem os estados reais do combate; não se alteram dano, HP, velocidades, progressão, posicionamento nem hitboxes neste marco.
+
+**Cutscenes C00–C07:** câmeras 2.5D decorativas alternadas por quadro, enquadramento e letterbox, tratamento diferenciado dos créditos, avanço/retorno manual por botões e setas, progresso acessível e som sintetizado original. O usuário ainda pode pular cenas, ativar movimento reduzido e rever capítulos desbloqueados. Não existe vídeo ou modelo 3D obrigatório.
+
+**Validação esperada:** tests/ com regressão de boss, oito cenas, PWA, HTML offline compilado e parsing Node; builds de workflow e publicação Pages após PR. Playtests integrais de 40 fases com jogadores reais e medições em Android ainda precisam ser executados antes de declarar polimento final concluído.
+
+**Próximo passo recomendado:** separar o protótipo 3D opcional em branch/experimento com fallback automático 2D, sem introduzir WebGL obrigatório no jogo existente.

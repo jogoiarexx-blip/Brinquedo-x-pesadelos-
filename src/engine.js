@@ -1,7 +1,7 @@
-import { BOARD, BOARD_RIGHT, BOARD_BOTTOM, colX, rowY, rectCell, clamp } from './config.js?v=2.0.0';
-import { LEVELS, TOYS, ENEMIES } from './data.js?v=2.0.0';
-import { upgradedToy } from './upgrades.js?v=2.0.0';
-import { deckForLevel } from './deck.js?v=2.0.0';
+import { BOARD, BOARD_RIGHT, BOARD_BOTTOM, colX, rowY, rectCell, clamp } from './config.js?v=2.1.0';
+import { LEVELS, TOYS, ENEMIES } from './data.js?v=2.1.0';
+import { upgradedToy } from './upgrades.js?v=2.1.0';
+import { deckForLevel } from './deck.js?v=2.1.0';
 
 export class Battle {
   constructor(index=0, audio=null, events={}, upgrades={}, deck=null, available=null) {
@@ -100,7 +100,7 @@ export class Battle {
     if(d.dustBoss)Object.assign(this.enemies.at(-1),{bossPhase:'march',phaseTimer:6,nextAttack:'gust',attackCount:0});
     if(d.curtainBoss)Object.assign(this.enemies.at(-1),{bossPhase:'march',phaseTimer:9,nextAttack:'ribbon',attackCount:0,targetLane:lane});
     if(d.dreamBoss)Object.assign(this.enemies.at(-1),{bossPhase:'march',bossForm:1,phaseTimer:7,attackCount:0,targetLane:lane});
-    if(d.boss)this.flashBanner(d.bossIntro,3.4);
+    if(d.boss){this.flashBanner(d.bossIntro,3.4);this.audio.play('boss-arrival');}
     this.totalSpawns++;
     this.events.enemySeen?.(type);
   }
@@ -180,7 +180,7 @@ export class Battle {
     if(form>enemy.bossForm){
       enemy.bossForm=form;enemy.bossPhase='march';enemy.phaseTimer=1.2;
       this.flashBanner(form===2?'👁 SEGUNDA FORMA • SALA DOS ESPELHOS!':'🌪 TERCEIRA FORMA • TEMPESTADE DOS MEDOS!',4);
-      this.audio.play('wave');this.puff(enemy.x,enemy.y-25,'#e3b7f4',20);
+      this.audio.play('boss-phase');this.puff(enemy.x,enemy.y-25,'#e3b7f4',20);
     }
     enemy.phaseTimer-=dt;
     if(enemy.bossPhase==='march'&&enemy.phaseTimer<=0){
@@ -191,7 +191,7 @@ export class Battle {
       enemy.bossPhase='warning';enemy.phaseTimer=1.8;
       const move=enemy.bossForm===1?'SUSSURRO':enemy.bossForm===2?'ESPELHOS':'TEMPESTADE';
       this.flashBanner(`⚠ ${move} • FAIXA ${enemy.targetLane+1}!`,1.8);
-      this.audio.play('wave');return true;
+      this.audio.play('boss-attack');return true;
     }
     if(enemy.bossPhase==='warning'&&enemy.phaseTimer<=0){
       if(enemy.bossForm===1){
@@ -232,7 +232,7 @@ export class Battle {
       enemy.targetLane=occupied.length?occupied.sort((a,b)=>b.count-a.count||Math.abs(a.row-preferred)-Math.abs(b.row-preferred))[0].row:preferred;
       enemy.bossPhase='warning';enemy.phaseTimer=1.6;
       this.flashBanner(`CORTINA NA FAIXA ${enemy.targetLane+1}! PROTEJA OS BRINQUEDOS!`,1.6);
-      this.audio.play('wave');return true;
+      this.audio.play('boss-attack');return true;
     }
     if(enemy.bossPhase==='warning'&&enemy.phaseTimer<=0){
       if(enemy.nextAttack==='ribbon'){
