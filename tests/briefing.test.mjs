@@ -46,3 +46,17 @@ test('UI, service worker e versão offline incluem a prévia',()=>{
   for(const path of ['src/main.js','src/briefing.js','sw.js'])
     execFileSync(process.execPath,['--check',new URL('../'+path,import.meta.url).pathname]);
 });
+
+test('pressão de cada fase corresponde exatamente aos dados programados sem inventar dificuldade',()=>{
+  for(let i=0;i<LEVELS.length;i++){
+    const p=buildBriefing(i),level=LEVELS[i];
+    const all=level.waves.flatMap(w=>w.enemies);
+    assert.equal(p.scheduledHP,all.reduce((n,e)=>n+ENEMIES[e.type].hp+(ENEMIES[e.type].shield||0),0));
+    assert.deepEqual(p.laneCounts,[0,1,2,3,4].map(row=>all.filter(e=>e.lane===row).length));
+    assert.equal(p.laneCounts.reduce((n,x)=>n+x,0),p.totalScheduled);
+    assert.equal(p.busiestLane,p.laneCounts.indexOf(Math.max(...p.laneCounts)));
+    assert.ok(p.peak30>0&&p.peak30<=p.totalScheduled);
+    assert.ok(p.pressurePerMinute>0);
+  }
+  assert.ok(readFileSync(new URL('../src/main.js',import.meta.url),'utf8').includes('Pressão das ondas (estimativa)'));
+});
