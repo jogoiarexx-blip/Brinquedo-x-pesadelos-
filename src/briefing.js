@@ -1,4 +1,4 @@
-import { LEVELS, TOYS, ENEMIES } from './data.js?v=1.6.0';
+import { LEVELS, TOYS, ENEMIES } from './data.js?v=1.7.0';
 
 // Reconhecimento determinístico: lê o plano da fase sem iniciar nem alterar uma batalha.
 export function buildBriefing(index) {
