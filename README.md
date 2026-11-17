@@ -1,4 +1,16 @@
-# Brinquedos vs. Pesadelos — ALFA v1.5.0
+# Brinquedos vs. Pesadelos — ALFA v1.6.0
+
+## Novidades da v1.6.0 — Modo Sobrevivência / Noite Sem Fim
+
+- **♾ Modo Sobrevivência** é liberado ao vencer a fase 1-8, sem modificar as 24 fases da campanha.
+- Ondas determinísticas a cada 17 segundos, mais inimigos, resistência progressiva e chefes a cada dez ondas.
+- **Rei das Meias**, **Dama da Insônia** e **Vovô Poeirão** aparecem em rotação nas ondas de chefes.
+- Preparação com até seis brinquedos já desbloqueados e bônus permanentes da Oficina.
+- Recordes locais de maior onda alcançada, inimigos derrotados, pontuação e tempo, além do número de tentativas.
+- O jogador pode encerrar e registrar a tentativa pelo menu de pausa; o fim por derrota registra automaticamente.
+- Campanha, stars, upgrades, baralhos da campanha e chave `bvp-save-v1` foram mantidos.
+- Não há estrelas extras por sobrevivência, impedindo farm de melhorias permanentes.
+- Jogo online, HTML independente offline e PWA atualizados conjuntamente.
 
 ## Novidades da v1.5.0 — Seis brinquedos escolhidos por você
 
