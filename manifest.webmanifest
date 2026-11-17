@@ -2,7 +2,7 @@
   "id": "./",
   "name": "Brinquedos vs. Pesadelos",
   "short_name": "Brinquedos VS",
-  "description": "Brinquedos vs. Pesadelos: campanha de 40 fases, cinco chefes com apresentações especiais e oito cenas cinematográficas.",
+  "description": "Brinquedos vs. Pesadelos: 40 fases, oito cutscenes, 3D opcional e telemetria de desempenho.",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",

@@ -1,11 +1,12 @@
 {
   "name": "brinquedos-vs-pesadelos",
   "private": true,
-  "version": "2.1.0",
+  "version": "2.2.0",
   "type": "module",
   "scripts": {
     "test": "node --test tests/*.test.mjs",
-    "dev": "python3 -m http.server 8000"
+    "dev": "python3 -m http.server 8000",
+    "audit": "node tools/audit_campaign.mjs"
   },
-  "description": "Brinquedos vs. Pesadelos: 40 fases, 5 chefes, cutscenes cinematográficas e controles acessíveis."
+  "description": "Brinquedos vs. Pesadelos: campanha de 40 fases, GLB opcional nas cutscenes, medidor de FPS e auditoria."
 }
