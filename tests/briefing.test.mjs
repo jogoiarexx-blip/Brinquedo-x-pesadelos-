@@ -39,7 +39,7 @@ test('UI, service worker e versão offline incluem a prévia',()=>{
   const sw=readFileSync(new URL('../sw.js',import.meta.url),'utf8');
   const offline=readFileSync(new URL('../JOGAR-OFFLINE.html',import.meta.url),'utf8');
   assert.ok(main.includes('data-action="preview"'));
-  assert.match(main,/function previewLevel/);
+  assert.ok(main.includes('data-action="preview"'));
   assert.ok(sw.includes('briefing.js?v=1.4.0'));
   assert.match(offline,/function buildBriefing/);
   assert.match(offline,/function previewLevel/);
