@@ -13,10 +13,10 @@ import {buildBriefing} from '../src/briefing.js';
 import {render,drawIconCanvas} from '../src/render.js';
 const audio={play(){}};
 const store=()=>({raw:null,getItem(){return this.raw;},setItem(k,v){this.raw=v;}});
-test('32 fases, Capítulo 4 completo e chefe exclusivo da fase 4-8',()=>{
+test('Capítulo 4 permanece completo com 8 fases e chefe exclusivo da 4-8',()=>{
   assert.equal(LEVELS.length,40);
   assert.deepEqual(LEVELS.slice(24,32).map(l=>l.id),['4-1','4-2','4-3','4-4','4-5','4-6','4-7','4-8']);
-  for(const level of LEVELS.slice(28)){
+  for(const level of LEVELS.slice(28,32)){
     assert.equal(level.chapter,4);
     assert.ok(level.toys.length>0&&level.toys.length<=6);
     assert.ok(level.toys.every(id=>TOYS[id]));
@@ -28,7 +28,7 @@ test('32 fases, Capítulo 4 completo e chefe exclusivo da fase 4-8',()=>{
     assert.ok(level.dust.every(([row,col])=>row>=0&&row<5&&col>=0&&col<9));
     assert.equal(buildBriefing(LEVELS.indexOf(level)).totalScheduled,level.waves.reduce((n,w)=>n+w.enemies.length,0));
   }
-  assert.deepEqual(LEVELS.slice(28).map(l=>l.reward),['T16','T17',null,null]);
+  assert.deepEqual(LEVELS.slice(28,32).map(l=>l.reward),['T16','T17',null,null]);
   assert.ok(LEVELS[31].waves.at(-1).enemies.some(e=>e.type==='E18'));
   assert.ok(!LEVELS.slice(0,31).some(l=>l.waves.some(w=>w.enemies.some(e=>e.type==='E18'))));
 });
