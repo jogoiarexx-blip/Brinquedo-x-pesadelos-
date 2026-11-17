@@ -1,7 +1,7 @@
-import { BOARD, BOARD_RIGHT, BOARD_BOTTOM, colX, rowY, rectCell, clamp } from './config.js?v=1.8.0';
-import { LEVELS, TOYS, ENEMIES } from './data.js?v=1.8.0';
-import { upgradedToy } from './upgrades.js?v=1.8.0';
-import { deckForLevel } from './deck.js?v=1.8.0';
+import { BOARD, BOARD_RIGHT, BOARD_BOTTOM, colX, rowY, rectCell, clamp } from './config.js?v=1.9.0';
+import { LEVELS, TOYS, ENEMIES } from './data.js?v=1.9.0';
+import { upgradedToy } from './upgrades.js?v=1.9.0';
+import { deckForLevel } from './deck.js?v=1.9.0';
 
 export class Battle {
   constructor(index=0, audio=null, events={}, upgrades={}, deck=null, available=null) {
@@ -18,7 +18,7 @@ export class Battle {
     this.grid=Array.from({length:BOARD.rows},()=>Array(BOARD.cols).fill(null));
     this.dust=new Set((this.level.dust||[]).map(([row,col])=>`${row}:${col}`));
     this.dustTutorialShown=false;
-    this.enemies=[];this.projectiles=[];this.stars=[];this.particles=[];this.trains=[];
+    this.enemies=[];this.projectiles=[];this.curtainShots=[];this.stars=[];this.particles=[];this.trains=[];
     this.effectsEnabled=true;
     this.feedback=[];this.defeated=[];this.impacts=[];
     this.trainReady=Array(BOARD.rows).fill(true);
@@ -97,6 +97,7 @@ export class Battle {
     const d=ENEMIES[type];if(!d)return;
     this.enemies.push({id:this.id++,type,row:lane,x:BOARD_RIGHT+65+offset,y:rowY(lane),hp:d.hp,maxHp:d.hp,shield:d.shield||0,maxShield:d.shield||0,summons:0,webTimer:4.8,enraged:false,jumped:false,jumpTime:0,stunTime:0,attackTimer:.45,hit:0,age:0,slowTime:0,slowFactor:1,attack:0,stealTimer:1.4});
     if(d.dustBoss)Object.assign(this.enemies.at(-1),{bossPhase:'march',phaseTimer:6,nextAttack:'gust',attackCount:0});
+    if(d.curtainBoss)Object.assign(this.enemies.at(-1),{bossPhase:'march',phaseTimer:9,nextAttack:'ribbon',attackCount:0,targetLane:lane});
     if(d.boss)this.flashBanner(d.bossIntro,3.4);
     this.totalSpawns++;
     this.events.enemySeen?.(type);
@@ -144,6 +145,47 @@ export class Battle {
       this.puff(enemy.x-15,enemy.y-25,'#eee0c2',16);return true;
     }
     if(enemy.bossPhase==='rest'&&enemy.phaseTimer<=0){enemy.bossPhase='march';enemy.phaseTimer=14;}
+    return enemy.bossPhase!=='march';
+  }
+  // Uma defesa de Lencinho nas casas vizinhas reduz o dano; não altera hitboxes.
+  protectionFactor(toy){
+    return this.grid.some(row=>row.some(friend=>friend&&friend.type==='T16'&&friend.hp>0&&
+      Math.abs(friend.row-toy.row)<=1&&Math.abs(friend.col-toy.col)<=1))?.60:1;
+  }
+  bossDamageMultiplier(enemy){return enemy.type==='E18'&&enemy.bossPhase==='rest'?1.45:1;}
+  updateCurtainBoss(enemy,dt){
+    if(enemy.x>BOARD_RIGHT+10)return false;
+    enemy.phaseTimer-=dt;
+    if(enemy.bossPhase==='march'&&enemy.phaseTimer<=0){
+      // Alterna faixas, priorizando uma com brinquedos. Um aviso claro precede qualquer dano.
+      const counts=this.grid.map(row=>row.filter(Boolean).length);
+      const preferred=(enemy.row+enemy.attackCount)%BOARD.rows;
+      const occupied=counts.map((count,row)=>({count,row})).filter(item=>item.count>0);
+      enemy.targetLane=occupied.length?occupied.sort((a,b)=>b.count-a.count||Math.abs(a.row-preferred)-Math.abs(b.row-preferred))[0].row:preferred;
+      enemy.bossPhase='warning';enemy.phaseTimer=1.6;
+      this.flashBanner(`CORTINA NA FAIXA ${enemy.targetLane+1}! PROTEJA OS BRINQUEDOS!`,1.6);
+      this.audio.play('wave');return true;
+    }
+    if(enemy.bossPhase==='warning'&&enemy.phaseTimer<=0){
+      if(enemy.nextAttack==='ribbon'){
+        this.curtainShots.push({row:enemy.targetLane,x:Math.min(enemy.x-32,BOARD_RIGHT+65),
+          y:rowY(enemy.targetLane),damage:64,age:0});
+        enemy.nextAttack='dust';
+      }else{
+        const center=3+(enemy.attackCount%2);
+        for(const col of [center-1,center,center+1])if(col>=0&&col<BOARD.cols)this.dust.add(`${enemy.targetLane}:${col}`);
+        if(this.enemies.filter(e=>e.type==='E17').length<6){
+          this.spawnEnemy('E17',enemy.targetLane);
+          this.enemies.at(-1).x=Math.min(BOARD_RIGHT+30,enemy.x+BOARD.cw);
+        }
+        enemy.nextAttack='ribbon';
+      }
+      enemy.attackCount++;enemy.bossPhase='rest';enemy.phaseTimer=4.2;
+      this.flashBanner('CORTINAS ABERTAS! BARONESA VULNERÁVEL!',3);
+      this.puff(enemy.x,enemy.y-30,'#edc1ee',12);this.audio.play('sneeze');
+      return true;
+    }
+    if(enemy.bossPhase==='rest'&&enemy.phaseTimer<=0){enemy.bossPhase='march';enemy.phaseTimer=10;}
     return enemy.bossPhase!=='march';
   }
   get progress(){return clamp(this.time/this.level.duration,0,1);}
@@ -197,14 +239,27 @@ export class Battle {
         const target=this.enemies.filter(enemy=>enemy.hp>0&&Math.abs(enemy.row-toy.row)<=1&&enemy.x>toy.x+8&&enemy.x<toy.x+BOARD.cw*(d.rangeCells||3)).sort((a,b)=>a.x-b.x)[0];
         if(target){
           toy.timer+=d.interval;toy.recoil=.3;
-          const absorbed=Math.min(target.shield||0,d.damage);
-          target.shield=(target.shield||0)-absorbed;target.hp-=d.damage-absorbed;
+          const absorbed=Math.min(target.shield||0,d.damage*this.bossDamageMultiplier(target));
+          target.shield=(target.shield||0)-absorbed;target.hp-=d.damage*this.bossDamageMultiplier(target)-absorbed;
           const resistance=ENEMIES[target.type].slowResistance??1;
           target.slowFactor=Math.min(target.slowFactor,1-(1-d.slowFactor)*resistance);
           target.slowTime=Math.max(target.slowTime,d.slowDuration*resistance);
           target.hit=.25;this.addImpact(target.x,target.y-22,'slow');this.audio.play('sleep');
           if(target.hp<=0)this.killEnemy(target);
         }else toy.timer=.15;
+      }
+      if(d.kind==='drum'&&toy.timer<=0){
+        toy.timer+=d.interval;toy.recoil=.4;let hitCount=0;
+        for(const enemy of [...this.enemies])if(enemy.hp>0&&Math.abs(enemy.row-toy.row)<=1&&
+          Math.abs(enemy.x-toy.x)<BOARD.cw*(d.rangeCells||4)){
+          const damage=d.damage*this.bossDamageMultiplier(enemy);
+          const absorbed=Math.min(enemy.shield||0,damage);enemy.shield=(enemy.shield||0)-absorbed;
+          enemy.hp-=damage-absorbed;enemy.hit=.24;
+          enemy.stunTime=Math.max(enemy.stunTime,d.stunDuration*(ENEMIES[enemy.type].stunResistance??1));
+          this.addImpact(enemy.x,enemy.y-25,'sleep');hitCount++;
+          if(enemy.hp<=0)this.killEnemy(enemy);
+        }
+        if(hitCount){this.addFeedback(toy.x,toy.y-72,`TUM! ×${hitCount}`,'#ffe9ae');this.audio.play('cuckoo');}
       }
       if(d.kind==='producer'&&toy.timer<=0){
         toy.timer+=d.interval;
@@ -217,7 +272,7 @@ export class Battle {
           let hitCount=0;
           for(const e of [...this.enemies]){
             if(e.hp<=0||Math.abs(e.row-toy.row)>1||Math.abs(e.x-toy.x)>d.splashRadius)continue;
-            const absorbed=Math.min(e.shield||0,d.damage);e.shield=(e.shield||0)-absorbed;e.hp-=d.damage-absorbed;e.hit=.25;hitCount++;
+            const trapDamage=d.damage*this.bossDamageMultiplier(e);const absorbed=Math.min(e.shield||0,trapDamage);e.shield=(e.shield||0)-absorbed;e.hp-=trapDamage-absorbed;e.hit=.25;hitCount++;
             this.addImpact(e.x,e.y-15,'splash');this.puff(e.x,e.y-20,'#ffb8d7',8);
             if(e.hp<=0)this.killEnemy(e);
           }
@@ -266,7 +321,7 @@ export class Battle {
           ? this.enemies.filter(e=>e.hp>0&&Math.abs(e.x-hit.x)<=p.splashRadius&&(p.kind==='starburst'?Math.abs(e.row-p.row)<=1:e.row===p.row)&&(p.kind!=='ricochet'||e===hit||e.x>hit.x)).sort((a,b)=>a.x-b.x).slice(0,p.kind==='ricochet'?2:undefined)
           : [hit];
         for(const victim of victims){
-          const damage=victim===hit?p.damage:p.damage*p.splashRatio;
+          const damage=(victim===hit?p.damage:p.damage*p.splashRatio)*this.bossDamageMultiplier(victim);
           const shieldDamage=Math.min(victim.shield||0,damage);
           victim.shield=(victim.shield||0)-shieldDamage;
           victim.hp-=damage-shieldDamage;
@@ -289,6 +344,19 @@ export class Battle {
           if(p.piercesLeft<=0)this.projectiles.splice(i,1);
         }else this.projectiles.splice(i,1);
       }else if(p.x>BOARD_RIGHT+95)this.projectiles.splice(i,1);
+    }
+    // Retalhos da Baronesa percorrem a faixa avisada até atingir o primeiro brinquedo.
+    for(let i=this.curtainShots.length-1;i>=0;i--){
+      const shot=this.curtainShots[i],oldX=shot.x;shot.x-=BOARD.cw*6.2*dt;shot.age+=dt;
+      const target=this.grid[shot.row].filter(toy=>toy&&toy.x>=shot.x-38&&toy.x<=oldX+38)
+        .sort((a,b)=>b.x-a.x)[0];
+      if(target){
+        const damage=Math.round(shot.damage*this.protectionFactor(target));target.hp-=damage;target.hit=.35;
+        this.addImpact(target.x,target.y-27,'gust');this.addFeedback(target.x,target.y-65,`-${damage} ♧`,'#ffe0e9');
+        if(target.hp<=0){this.grid[target.row][target.col]=null;this.audio.play('remove');this.events.changed?.();}
+        else this.audio.play('hit');
+        this.curtainShots.splice(i,1);
+      }else if(shot.x<BOARD.x-65||shot.age>3.3)this.curtainShots.splice(i,1);
     }
     for(let i=this.enemies.length-1;i>=0;i--){
       const e=this.enemies[i],d=ENEMIES[e.type];e.age+=dt;e.hit=Math.max(0,e.hit-dt);e.attack=Math.max(0,(e.attack||0)-dt);e.jumpTime=Math.max(0,(e.jumpTime||0)-dt);e.slowTime=Math.max(0,e.slowTime-dt);if(e.slowTime===0)e.slowFactor=1;
@@ -317,8 +385,14 @@ export class Battle {
           else e.webTimer=.4;
         }
       }
+      if(d.flutter&&!e.fluttered&&e.x<colX(7)&&e.x>BOARD.x+BOARD.cw){
+        const newRow=e.row===4?3:e.row===0?1:e.row+(e.id%2?1:-1);
+        e.row=newRow;e.y=rowY(newRow);e.fluttered=true;e.jumpTime=.48;
+        this.addFeedback(e.x,e.y-65,'OUTRA FAIXA!','#f0d6e5');
+      }
       const wasAsleep=e.stunTime>0;e.stunTime=Math.max(0,(e.stunTime||0)-dt);if(wasAsleep)continue;
       if(d.dustBoss&&this.updateDustBoss(e,dt))continue;
+      if(d.curtainBoss&&this.updateCurtainBoss(e,dt))continue;
       if(d.jump&&!e.jumped){
         const hurdle=this.grid[e.row].filter(t=>t&&e.x>t.x+39&&e.x<t.x+87).sort((a,b)=>b.x-a.x)[0];
         if(hurdle){e.x=hurdle.x-53;e.jumped=true;e.jumpTime=.48;this.addImpact(e.x,e.y-20,'jump');this.audio.play('jump');}
@@ -326,7 +400,7 @@ export class Battle {
       const blockers=this.grid[e.row].filter(t=>t && e.x<=t.x+39 && e.x>=t.x-41).sort((a,b)=>b.x-a.x);
       if(blockers.length){
         const toy=blockers[0];e.attackTimer-=dt;
-        if(e.attackTimer<=0){e.attackTimer=d.interval;e.attack=.28;toy.hp-=d.damage;toy.hit=.24;this.addImpact(toy.x,toy.y-22,'bite');
+        if(e.attackTimer<=0){e.attackTimer=d.interval;e.attack=.28;toy.hp-=Math.round(d.damage*this.protectionFactor(toy));toy.hit=.24;this.addImpact(toy.x,toy.y-22,'bite');
           if(toy.hp<=0){this.grid[toy.row][toy.col]=null;this.audio.play('remove');this.puff(toy.x,toy.y,'#eecb9e',14);this.events.changed?.();}
           else this.audio.play('hit');
         }

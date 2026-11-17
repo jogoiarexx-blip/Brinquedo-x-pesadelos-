@@ -9,7 +9,7 @@ import { execFileSync } from 'node:child_process';
 
 const quiet={play(){}};
 const store=()=>({raw:null,getItem(){return this.raw;},setItem(key,value){this.raw=value;}});
-test('baralhos originais continuam idênticos nas 28 fases',()=>{
+test('baralhos originais continuam idênticos nas 32 fases',()=>{
   for(const [index,level] of LEVELS.entries()){
     const battle=new Battle(index,quiet);
     assert.deepEqual(battle.deck,level.toys);
@@ -78,7 +78,7 @@ test('PWA e standalone incluem seleção e imports do novo módulo',()=>{
   assert.ok(main.includes('function toggleDeckToy'));
   assert.ok(html.includes('function deckForLevel'));
   assert.ok(html.includes('function toggleDeckToy'));
-  assert.ok(sw.includes('deck.js?v=1.8.0'));
+  assert.ok(sw.includes('deck.js?v=1.9.0'));
   assert.ok(builder.includes("'deck.js'"));
   for(const name of ['src/deck.js','src/save.js','src/engine.js','src/main.js','sw.js'])
     execFileSync(process.execPath,['--check',new URL('../'+name,import.meta.url).pathname]);

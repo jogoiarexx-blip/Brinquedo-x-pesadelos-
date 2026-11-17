@@ -13,10 +13,10 @@ import { render,drawIconCanvas } from '../src/render.js';
 const silent={play(){}};
 const mockStorage=()=>({data:null,getItem(){return this.data;},setItem(k,v){this.data=v;}});
 test('4-1 a 4-4 são fases reais, ordenadas e com dados de onda válidos',()=>{
-  assert.equal(LEVELS.length,28);
-  assert.deepEqual(LEVELS.slice(24).map(l=>l.id),['4-1','4-2','4-3','4-4']);
+  assert.equal(LEVELS.length,32);
+  assert.deepEqual(LEVELS.slice(24,28).map(l=>l.id),['4-1','4-2','4-3','4-4']);
   assert.ok(LEVELS.slice(0,24).every(l=>l.chapter!==4));
-  for(const [i,level] of LEVELS.slice(24).entries()){
+  for(const [i,level] of LEVELS.slice(24,28).entries()){
     assert.equal(level.chapter,4);
     assert.ok(level.startingGlow>0);
     assert.ok(level.toys.length>0&&level.toys.length<=6);
@@ -38,7 +38,7 @@ test('4-1 a 4-4 são fases reais, ordenadas e com dados de onda válidos',()=>{
   assert.equal(LEVELS[25].reward,'T14');
   assert.equal(LEVELS[26].reward,'T15');
   assert.equal(LEVELS[27].reward,null);
-  assert.ok(!LEVELS.slice(24).some(l=>l.waves.some(w=>w.enemies.some(e=>ENEMIES[e.type].boss))));
+  assert.ok(!LEVELS.slice(24,28).some(l=>l.waves.some(w=>w.enemies.some(e=>ENEMIES[e.type].boss))));
 });
 
 test('poeira reduz em 15% a cadência sem travar escolhas ou combate antigo',()=>{
@@ -116,7 +116,7 @@ test('save v1.7 que concluiu Vovô abre 4-1 mantendo estrelas, baralhos e Oficin
   const raw={version:1,campaignSize:24,unlocked:24,stars:{'3-8':3,'1-1':3,'1-2':2},upgrades:{T02:1},decks:{'1-2':['T02','T01']},storySeen:['C00','C03']};
   const st=mockStorage();st.data=JSON.stringify(raw);
   const save=loadSave(st);
-  assert.equal(save.campaignSize,28);
+  assert.equal(save.campaignSize,32);
   assert.equal(save.unlocked,25);
   assert.equal(save.stars['3-8'],3);
   assert.equal(save.upgrades.T02,1);
@@ -148,9 +148,9 @@ test('site e jogo independente usam v1.8 e não vazam módulo ES no offline',()=
   const html=readFileSync(new URL('../JOGAR-OFFLINE.html',import.meta.url),'utf8');
   assert.ok(main.includes('🕯 Capítulo 4'));
   assert.ok(main.includes('level-attic'));
-  assert.ok(index.includes('v1.8.0'));
-  assert.ok(sw.includes('brinquedos-vs-pesadelos-v1.8.0'));
-  assert.ok(sw.includes('render.js?v=1.8.0'));
+  assert.ok(index.includes('v1.9.0'));
+  assert.ok(sw.includes('brinquedos-vs-pesadelos-v1.9.0'));
+  assert.ok(sw.includes('render.js?v=1.9.0'));
   assert.ok(html.includes('function drawAttic'));
   assert.ok(html.includes('function drawDustCells'));
   assert.ok(html.includes('A Boneca Guarda-Chuva'));

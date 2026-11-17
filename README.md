@@ -1,4 +1,18 @@
-# Brinquedos vs. Pesadelos — ALFA v1.8.0
+# Brinquedos vs. Pesadelos — ALFA v1.9.0
+
+## Novidades da v1.9.0 — Capítulo 4 completo: Baronesa das Cortinas
+
+- Campanha **32 de 40 fases**: conclusão de **4-5, 4-6, 4-7 e 4-8**, preservando os capítulos anteriores e o sistema de baralho.
+- **Lencinho Invisível (T16)**, desbloqueado após 4-5, protege a si e brinquedos próximos, reduzindo 40% do dano recebido.
+- **Tambor Fanfarrão (T17)**, desbloqueado após 4-6, causa dano e atordoamento breve nas três faixas adjacentes.
+- **Retalho Escorregadio (E17)** troca de faixa uma vez, exigindo adaptação da defesa.
+- **Baronesa das Cortinas (E18)** na fase 4-8, com barra de vida, anúncios claros da faixa atacada, projéteis de tecido, poeira adicional e descanso vulnerável (+45% de dano).
+- Cutscene **C04** é exibida após vencer 4-8 e pode ser pulada ou revista em **📜 Histórias**, incluindo em saves anteriores com a fase concluída.
+- Cinco cenas de história disponíveis no total (C00–C04); **C05–C07 e o Capítulo 5** continuam planejados.
+- Artes Canvas e atlas SVG novos; salvamentos v1.8.0 com vitória 4-4 liberam 4-5 sem perder estrelas, upgrades, baralhos, cenas ou recordes.
+- GitHub Pages, service worker e HTML independente offline atualizados juntos; cenário 2.5D preservado. Não há WebGL obrigatório.
+
+
 
 ## Novidades da v1.8.0 — Sótão Esquecido (parte 1) e cenários com profundidade
 
@@ -12,7 +26,7 @@
 - **Traça do Sótão (E15)** e **Baú Saltitante (E16)** entram no bestiário com desenhos próprios e padrões existentes de teia e salto.
 - Saves da v1.7.0 que terminaram 3-8 abrem automaticamente 4-1, preservando estrelas, upgrades, baralhos, cenas vistas e recordes.
 - Prévia da fase indica as casas empoeiradas; cache PWA e arquivo offline preservados e testados.
-- **Fases 4-5 a 4-8 e Baronesa das Cortinas ainda não implementadas** — próxima etapa. O Capítulo 5 permanece futuro.
+- **Nota histórica da v1.8.0:** 4-5 a 4-8 e Baronesa ainda eram pendentes naquela versão; foram implementadas na v1.9.0. Capítulo 5 continua futuro.
 
 
 

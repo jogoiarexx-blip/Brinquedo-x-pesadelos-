@@ -32,7 +32,7 @@
 
 **Ato III — Revelação / Cap. 3 — O Corredor Rangente (3-1 a 3-8) — JOGÁVEL.** Portas anunciam ondas. Vovô Poeirão é mais um guardião relutante do caminho. Ao ser derrotado, aponta involuntariamente para o **Sótão Esquecido**. Um vulto com a silhueta do Grande Bicho-Papão é avistado de relance, sem revelar a forma inteira.
 
-**Ato IV — Perda e reunião / Cap. 4 — O Sótão Esquecido (4-1 a 4-8) — PENDENTE.** Memórias esquecidas alimentam o exército do Bicho-Papão. Brinquedos antigos de Lia aparecem e exigem estratégias novas contra poeira e inimigos mistos. **Baronesa das Cortinas** tenta esconder o caminho até o Coração. Na vitória, os brinquedos descobrem que só a união — inclusive dos brinquedos esquecidos — ilumina a passagem de volta ao quarto.
+**Ato IV — Perda e reunião / Cap. 4 — O Sótão Esquecido (4-1 a 4-8) — IMPLEMENTADO v1.9.0.** Memórias esquecidas alimentam o exército do Bicho-Papão. Brinquedos antigos de Lia aparecem e exigem estratégias novas contra poeira e inimigos mistos. **Baronesa das Cortinas** tenta esconder o caminho até o Coração. Na vitória, os brinquedos descobrem que só a união — inclusive dos brinquedos esquecidos — ilumina a passagem de volta ao quarto.
 
 **Ato V — Confronto e resolução / Cap. 5 — A Noite dos Mil Bocejos (5-1 a 5-8) — PENDENTE.** O quarto vira um sonho distorcido; pulsos alteram a velocidade dos pesadelos. **Grande Bicho-Papão** surge: é um manipulador vaidoso que cresce quando os brinquedos brigam ou perdem confiança. Na última fase apresenta **três padrões/etapas**, cada uma telegráfica e contra-atacável. Após a vitória, o Coração volta a brilhar, Lia acorda, encontra seus brinquedos organizados, e a última gag mostra Seu Pião caindo de lado. **Desfecho fechado**, com gancho opcional sutil, não um final em aberto.
 
@@ -43,7 +43,7 @@
 | 1 — O Armário | 1-1…1-8 | Rei das Meias | IMPLEMENTADO | Aprender recursos, posicionamento e ondas |
 | 2 — Debaixo da Cama | 2-1…2-8 | Dama da Insônia | IMPLEMENTADO | Escudos, salto e insônia |
 | 3 — O Corredor Rangente | 3-1…3-8 | Vovô Poeirão | IMPLEMENTADO | Portas e avisos de faixa |
-| 4 — O Sótão Esquecido | 4-1…4-8 | Baronesa das Cortinas | EM ANDAMENTO: 4-1…4-4 implementadas v1.8.0; 4-5…4-8 e boss pendentes | Casas empoeiradas, penalidade de ação 15%; remoção opcional |
+| 4 — O Sótão Esquecido | 4-1…4-8 | Baronesa das Cortinas | IMPLEMENTADO v1.9.0 | Casas empoeiradas, penalidade de ação 15%; remoção opcional |
 | 5 — A Noite dos Mil Bocejos | 5-1…5-8 | Grande Bicho-Papão | PENDENTE | Pulsos de sonho telegrafados, duração até 7s |
 
 **Fases futuras:**
@@ -63,7 +63,7 @@
 | C01 | Primeira vitória 1-8 | 10–20s | Rei das Meias revela pista sob a cama | IMPLEMENTADO v1.7.0 |
 | C02 | Primeira vitória 2-8 | 10–20s | Insônia aponta para o corredor | IMPLEMENTADO v1.7.0 |
 | C03 | Primeira vitória 3-8 | 10–20s | Poeirão menciona o sótão; sombra aparece | IMPLEMENTADO v1.7.0 |
-| C04 | Primeira vitória 4-8 | 15–25s | Cortinas se abrem; Coração se ilumina | PENDENTE |
+| C04 | Primeira vitória 4-8 | 15–25s | Cortinas se abrem; Coração se ilumina | IMPLEMENTADO v1.9.0 |
 | C05 | Antes de 5-8, primeira vez | 10–20s | Grande Bicho-Papão se apresenta | PENDENTE |
 | C06 | Primeira vitória 5-8 | até 45s | Coração restaurado, Lia acorda, desfecho | PENDENTE |
 | C07 | Após C06 | 15–30s | Créditos e gag de Seu Pião; opção de rever | PENDENTE |
@@ -102,9 +102,9 @@
 | Marco | Entregas verificáveis | Estado |
 |---|---|---|
 | M0 — Checkpoint | Branch segura 1.6.0 + este GDD + plano rastreável | DOCUMENTAÇÃO |
-| M1 — Narrativa base | Motor de cutscenes, C00 e C01–C03, pular/rever, salvar flags, testes | IMPLEMENTADO v1.7.0; C04–C07 pendentes |
+| M1 — Narrativa base | Motor de cutscenes, C00 a C04, pular/rever, salvar flags, testes | IMPLEMENTADO v1.9.0; C05–C07 pendentes |
 | M2 — Fundos 2.5D | 3 cenários melhorados em camadas + fallback e medições de desempenho | EM ANDAMENTO v1.8.0: profundidade Canvas e sótão; medições Android pendentes |
-| M3 — Capítulo 4 | 8 fases, novos tipos, poeira, Baronesa, C04 | EM ANDAMENTO v1.8.0: 4/8 fases, poeira, 3 brinquedos, 2 inimigos |
+| M3 — Capítulo 4 | 8 fases, novos tipos, poeira, Baronesa, C04 | IMPLEMENTADO v1.9.0; testes de desempenho em celular ainda necessários |
 | M4 — Capítulo 5 | 8 fases, sonho, boss 3 etapas, C05–C07 e final real | PENDENTE |
 | M5 — Cutscenes 3D | Protótipo do quarto e 1 personagem 3D, fallback 2D, Android testado | PENDENTE |
 | M6 — Polimento | QA integral das 40 fases, save legado, arte, áudio, créditos, acessibilidade | PENDENTE |
@@ -144,3 +144,15 @@ A v1.7.0 introduz C00, C01, C02 e C03 em estilo ilustrado por camadas HTML/CSS, 
 **Pendente:** 4-5…4-8, Baronesa das Cortinas, C04, mais ativos detalhados para todos os capítulos, medição de FPS/memória em aparelhos reais, Capítulo 5 e cutscenes finais.
 
 **Critério de qualidade para encerrar o marco:** GitHub Actions de testes e qualidade verdes, build offline sintaticamente válido, preservação do checkpoint e GitHub Pages publicado.
+
+## 11. Marco v1.9.0 — Capítulo 4 completo e Baronesa das Cortinas
+
+**Jogável:** fases 4-5…4-8 (32/40 fases), com Lencinho Invisível, Tambor Fanfarrão e Retalho Escorregadio. O Lencinho fornece uma aura defensiva 3×3 que reduz 40% do dano de contatos e projéteis, enquanto o Tambor atinge três faixas e causa breve atordoamento. O Retalho muda de faixa uma vez antes de atingir a defesa.
+
+**Chefe E18 (4-8):** a Baronesa das Cortinas é apresentada na última onda com barra de vida e padrão em estados controlados: marcha → aviso com faixa claramente destacada → projétil de cortina ou poeira reforçada → descanso vulnerável (+45% de dano). As faixas têm sinalização visual e sonora antes do ataque. O Lencinho mitiga o retalho; a Guarda-Chuva pode limpar a poeira; Tambor e Robô exploram o descanso.
+
+**Narrativa:** C04 exibe quatro quadros após a primeira vitória em 4-8, mostra a abertura das cortinas, revela a ameaça do Grande Bicho-Papão e prepara o capítulo final. Pulável e com replay em Histórias, sem modificar o progresso ao ser vista.
+
+**Compatibilidade:** saves v1.8 com fase 4-4 vencida abrem 4-5. Saves v1.6/v1.7 continuam migrando normalmente. Preservados IDs da campanha, estrelas, upgrades, decks, recordes, acessibilidade, PWA e HTML offline.
+
+**Pendente:** Capítulo 5 (5-1…5-8), chefe final com três etapas, C05–C07, créditos, QA de vitória sem upgrades e medições reais em dispositivos móveis. O visual 3D em tempo real permanece experimental, e o jogo não depende dele.

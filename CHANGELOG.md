@@ -1,3 +1,14 @@
+# 1.9.0 — 17/11/2026
+
+- Concluído Capítulo 4 (4-5 a 4-8): 32 fases no total.
+- Lencinho Invisível protege aliados e Tambor Fanfarrão causa dano/atordoamento em três faixas.
+- Retalho Escorregadio muda de faixa. Baronesa das Cortinas anuncia faixa de ataque, lança retalhos, espalha poeira, invoca reforços e sofre +45% de dano no descanso.
+- Barra de vida, telegráficos legíveis, desenhos Canvas e atlas SVG dos quatro personagens.
+- Cutscene C04 após a vitória 4-8, pulável e disponível na galeria de Histórias.
+- Compatibilidade de save legado v1.8 (4-4) e de v1.6/v1.7 mantida.
+- Distribuição PWA e HTML offline sincronizada, testes de regressão do chefe, efeitos e replay.
+- Checkpoint v1.6.0 permanece intocado.
+
 # 1.8.0 — 17/11/2026
 
 - Adicionadas as fases 4-1 a 4-4 do Sótão Esquecido, totalizando 28 fases jogáveis.

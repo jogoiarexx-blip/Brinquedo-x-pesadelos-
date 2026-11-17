@@ -32,10 +32,19 @@ export const STORY_SCENES=Object.freeze({
       {stage:'attic',speaker:'Vovô Poeirão',line:'Ai, meu lenço! O verdadeiro chefe escondeu tudo lá no sótão!',art:'enemy-E14',emoji:'🗝️',focus:'vovo'},
       {stage:'attic',speaker:'Seu Pião',line:'O Sótão Esquecido... e aquela sombra atrás dos baús? A aventura continua!',art:null,emoji:'🌀',focus:'sombra'}
     ]
+  },
+  C04:{
+    id:'C04',title:'O Coração encontra a luz',chapter:4,unlock:'after-4-8',
+    slides:[
+      {stage:'attic',speaker:'Narrador',line:'A última cortina cai e revela a janela esquecida no alto do sótão.',art:'enemy-E18',emoji:'🎭',focus:'baronesa'},
+      {stage:'attic',speaker:'Baronesa das Cortinas',line:'O Coração da Imaginação não pertence a mim... O Grande Bicho-Papão espera no quarto dos sonhos!',art:'enemy-E18',emoji:'🌒',focus:'baronesa'},
+      {stage:'attic',speaker:'Boneca Guarda-Chuva',line:'Até os brinquedos esquecidos podem ajudar. Juntos, nossa luz alcança a noite!',art:'toy-T13',emoji:'☂️',focus:'guardachuva'},
+      {stage:'bedroom',speaker:'Seu Pião',line:'A última porta se abriu. Pela Lia, vamos enfrentar o Grande Bicho-Papão!',art:'toy-T17',emoji:'💖',focus:'coracao'}
+    ]
   }
 });
-export const STORY_ORDER=Object.freeze(['C00','C01','C02','C03']);
-export const STORY_AFTER_LEVEL=Object.freeze({'1-8':'C01','2-8':'C02','3-8':'C03'});
+export const STORY_ORDER=Object.freeze(['C00','C01','C02','C03','C04']);
+export const STORY_AFTER_LEVEL=Object.freeze({'1-8':'C01','2-8':'C02','3-8':'C03','4-8':'C04'});
 export function getStory(id){
   return typeof id==='string'&&Object.hasOwn(STORY_SCENES,id)?STORY_SCENES[id]:null;
 }
