@@ -1,3 +1,11 @@
+# 1.4.0 — 17/11/2026
+
+- Adicionada preparação de batalha para fases desbloqueadas: inimigos, chefes, ondas, brinquedos, recompensas e dicas.
+- Reconhecimento determinístico a partir de `src/data.js`, sem tocar no estado da batalha.
+- Botão direto para jogar preservado; Escape na preparação volta ao mapa.
+- Índices inválidos não conseguem iniciar fases.
+- Cache PWA, versão dos módulos, HTML standalone e testes atualizados.
+
 # 1.3.0 — 13/11/2026
 
 - Capítulo 3 completo: quatro fases novas e chefe Vovô Poeirão, totalizando 24 fases.

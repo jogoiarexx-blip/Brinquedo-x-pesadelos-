@@ -6,7 +6,7 @@ As fontes continuam modulares dentro de src/.
 from pathlib import Path
 import re
 root=Path(__file__).resolve().parents[1]
-modules=['config.js','data.js','upgrades.js','save.js','audio.js','engine.js','render.js','main.js']
+modules=['config.js','data.js','upgrades.js','save.js','audio.js','engine.js','render.js','briefing.js','main.js']
 js='\n'.join((root/'src'/name).read_text(encoding='utf-8') for name in modules)
 js=re.sub(r'(?m)^import\s+.*?;\s*$', '', js)
 js=re.sub(r'(?m)^export\s+(?=(?:const|class|function)\s)', '', js)
