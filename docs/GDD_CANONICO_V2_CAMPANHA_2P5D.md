@@ -34,7 +34,7 @@
 
 **Ato IV — Perda e reunião / Cap. 4 — O Sótão Esquecido (4-1 a 4-8) — IMPLEMENTADO v1.9.0.** Memórias esquecidas alimentam o exército do Bicho-Papão. Brinquedos antigos de Lia aparecem e exigem estratégias novas contra poeira e inimigos mistos. **Baronesa das Cortinas** tenta esconder o caminho até o Coração. Na vitória, os brinquedos descobrem que só a união — inclusive dos brinquedos esquecidos — ilumina a passagem de volta ao quarto.
 
-**Ato V — Confronto e resolução / Cap. 5 — A Noite dos Mil Bocejos (5-1 a 5-8) — PENDENTE.** O quarto vira um sonho distorcido; pulsos alteram a velocidade dos pesadelos. **Grande Bicho-Papão** surge: é um manipulador vaidoso que cresce quando os brinquedos brigam ou perdem confiança. Na última fase apresenta **três padrões/etapas**, cada uma telegráfica e contra-atacável. Após a vitória, o Coração volta a brilhar, Lia acorda, encontra seus brinquedos organizados, e a última gag mostra Seu Pião caindo de lado. **Desfecho fechado**, com gancho opcional sutil, não um final em aberto.
+**Ato V — Confronto e resolução / Cap. 5 — A Noite dos Mil Bocejos (5-1 a 5-8) — IMPLEMENTADO v2.0.0.** O quarto vira um sonho distorcido; pulsos alteram a velocidade dos pesadelos. **Grande Bicho-Papão** surge: é um manipulador vaidoso que cresce quando os brinquedos brigam ou perdem confiança. Na última fase apresenta **três padrões/etapas**, cada uma telegráfica e contra-atacável. Após a vitória, o Coração volta a brilhar, Lia acorda, encontra seus brinquedos organizados, e a última gag mostra Seu Pião caindo de lado. **Desfecho fechado**, com gancho opcional sutil, não um final em aberto.
 
 ## 3. Campanha canônica, condições e estado
 
@@ -44,7 +44,7 @@
 | 2 — Debaixo da Cama | 2-1…2-8 | Dama da Insônia | IMPLEMENTADO | Escudos, salto e insônia |
 | 3 — O Corredor Rangente | 3-1…3-8 | Vovô Poeirão | IMPLEMENTADO | Portas e avisos de faixa |
 | 4 — O Sótão Esquecido | 4-1…4-8 | Baronesa das Cortinas | IMPLEMENTADO v1.9.0 | Casas empoeiradas, penalidade de ação 15%; remoção opcional |
-| 5 — A Noite dos Mil Bocejos | 5-1…5-8 | Grande Bicho-Papão | PENDENTE | Pulsos de sonho telegrafados, duração até 7s |
+| 5 — A Noite dos Mil Bocejos | 5-1…5-8 | Grande Bicho-Papão | IMPLEMENTADO v2.0.0 | Pulsos de sonho telegrafados, duração até 7s |
 
 **Fases futuras:**
 
@@ -64,9 +64,9 @@
 | C02 | Primeira vitória 2-8 | 10–20s | Insônia aponta para o corredor | IMPLEMENTADO v1.7.0 |
 | C03 | Primeira vitória 3-8 | 10–20s | Poeirão menciona o sótão; sombra aparece | IMPLEMENTADO v1.7.0 |
 | C04 | Primeira vitória 4-8 | 15–25s | Cortinas se abrem; Coração se ilumina | IMPLEMENTADO v1.9.0 |
-| C05 | Antes de 5-8, primeira vez | 10–20s | Grande Bicho-Papão se apresenta | PENDENTE |
-| C06 | Primeira vitória 5-8 | até 45s | Coração restaurado, Lia acorda, desfecho | PENDENTE |
-| C07 | Após C06 | 15–30s | Créditos e gag de Seu Pião; opção de rever | PENDENTE |
+| C05 | Antes de 5-8, primeira vez | 10–20s | Grande Bicho-Papão se apresenta | IMPLEMENTADO v2.0.0 |
+| C06 | Primeira vitória 5-8 | até 45s | Coração restaurado, Lia acorda, desfecho | IMPLEMENTADO v2.0.0 |
+| C07 | Após C06 | 15–30s | Créditos e gag de Seu Pião; opção de rever | IMPLEMENTADO v2.0.0 |
 
 ### Storyboard C00 — Abertura
 
@@ -102,10 +102,10 @@
 | Marco | Entregas verificáveis | Estado |
 |---|---|---|
 | M0 — Checkpoint | Branch segura 1.6.0 + este GDD + plano rastreável | DOCUMENTAÇÃO |
-| M1 — Narrativa base | Motor de cutscenes, C00 a C04, pular/rever, salvar flags, testes | IMPLEMENTADO v1.9.0; C05–C07 pendentes |
+| M1 — Narrativa base | Motor de cutscenes, C00–C07, pular/rever, salvar flags, testes | IMPLEMENTADO v2.0.0 |
 | M2 — Fundos 2.5D | 3 cenários melhorados em camadas + fallback e medições de desempenho | EM ANDAMENTO v1.8.0: profundidade Canvas e sótão; medições Android pendentes |
 | M3 — Capítulo 4 | 8 fases, novos tipos, poeira, Baronesa, C04 | IMPLEMENTADO v1.9.0; testes de desempenho em celular ainda necessários |
-| M4 — Capítulo 5 | 8 fases, sonho, boss 3 etapas, C05–C07 e final real | PENDENTE |
+| M4 — Capítulo 5 | 8 fases, sonho, boss 3 etapas, C05–C07 e final real | IMPLEMENTADO v2.0.0; QA móvel real pendente |
 | M5 — Cutscenes 3D | Protótipo do quarto e 1 personagem 3D, fallback 2D, Android testado | PENDENTE |
 | M6 — Polimento | QA integral das 40 fases, save legado, arte, áudio, créditos, acessibilidade | PENDENTE |
 
@@ -156,3 +156,21 @@ A v1.7.0 introduz C00, C01, C02 e C03 em estilo ilustrado por camadas HTML/CSS, 
 **Compatibilidade:** saves v1.8 com fase 4-4 vencida abrem 4-5. Saves v1.6/v1.7 continuam migrando normalmente. Preservados IDs da campanha, estrelas, upgrades, decks, recordes, acessibilidade, PWA e HTML offline.
 
 **Pendente:** Capítulo 5 (5-1…5-8), chefe final com três etapas, C05–C07, créditos, QA de vitória sem upgrades e medições reais em dispositivos móveis. O visual 3D em tempo real permanece experimental, e o jogo não depende dele.
+
+## 12. Marco v2.0.0 — A Noite dos Mil Bocejos e FINAL da campanha
+
+**Estado:** cinco capítulos jogáveis (40/40 fases), chefes dos cinco capítulos, oito cutscenes C00–C07, créditos e conclusão narrativa. A versão 1.6.0 permanece preservada na branch de checkpoint e constitui referência de rollback; este GDD mantém o histórico de versões anteriores sem reescrevê-las.
+
+**Mecânica de sonho:** pulsos determinísticos e temporizados exclusivos do Capítulo 5, com 3 s de aviso e 6 s de efeito, alternando sonho rápido (inimigos mais velozes, brinquedos menos rápidos) e lento (inimigos mais lentos, brinquedos mais rápidos). Pausar congela pulsos. Não muda os cálculos do tabuleiro 5×9.
+
+**Novos brinquedos:** T18 Bichinho Sonolento, T19 Bola-Ímã (puxa inimigos), T20 Boneco de Neve de Algodão, T21 Guitarrinha Desafinada (som e auxílio à equipe) e T22 Cavalinho de Madeira (projéteis perfurantes). Todas as cartas podem ser escolhidas via baralho após o desbloqueio real, sem romper Oficina ou campanhas antigas.
+
+**Inimigos:** E19 Pijama Sussurrante, E20 Bocejo Corredor, E21 Sombrinha do Escuro, e E22 Grande Bicho-Papão (apenas na fase 5-8).
+
+**Boss E22, três formas por vida restante:** forma 1 (acima de 67%: Sussurro) reduz temporariamente a cadência dos brinquedos da faixa avisada; forma 2 (67% a 34%: Espelhos) convoca reflexos; forma 3 (34% ou menos: Tempestade) lança dois projéteis de sombra. Cada padrão possui estados de marcha → aviso telegrafado → ataque → descanso, com +40% de dano recebido no descanso. A HUD destaca a faixa ameaçada e a forma atual.
+
+**História:** C05 é exibida antes da primeira entrada em 5-8. Na vitória em 5-8, a progressão é salva antes do final; C06 mostra Lia acordando e o Coração restaurado, imediatamente seguida de C07 com créditos e gag de Seu Pião. Ambas podem ser puladas, e as oito cenas podem ser revistas após desbloqueio. A tela final oferece repetição de cenas e acesso à campanha existente. Nenhuma cena por si concede estrelas ou desbloqueia fases.
+
+**Compatibilidade:** chave de salvamento `bvp-save-v1`, `campaignSize=40`, migração automática de saves anteriores mediante vitória no último capítulo disponível, e preservação de estrelas, upgrades, baralhos, galeria e modo sobrevivência. Não habilitar 3D em tempo real sem fallback.
+
+**Etapas que ainda exigem validação adicional:** partidas completas de todos os 40 níveis sem melhorias, medição real de FPS, bateria, memória e interação em celulares Android intermediários; revisão de dificuldade após playtests; protótipo opcional 3D com fallback. Código do capítulo e testes automatizados não substituem playtest humano.
