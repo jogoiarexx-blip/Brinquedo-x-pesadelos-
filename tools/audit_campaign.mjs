@@ -13,7 +13,7 @@ for(const [index,stage] of LEVELS.entries()){
   if(ids.has(stage.id))issues.push('ID repetido: '+stage.id);
   ids.add(stage.id);
   const chapter=Math.floor(index/8)+1,expected=chapter+'-'+(index%8+1);
-  if(stage.id!==expected||stage.chapter!==chapter)issues.push('Ordem incorreta: '+stage.id+' esperado '+expected);
+  if(stage.id!==expected||(stage.chapter||1)!==chapter)issues.push('Ordem incorreta: '+stage.id+' esperado '+expected);
   if(!safe(stage.duration)||stage.duration<=0||!safe(stage.startingGlow))issues.push('Duração/Brilhos inválidos '+stage.id);
   if(!Array.isArray(stage.waves)||!stage.waves.length)issues.push('Sem ondas: '+stage.id);
   if(stage.reward){
@@ -52,18 +52,18 @@ if(Object.keys(TOYS).length!==22)issues.push('Catálogo de brinquedos mudou: '+O
 if(newToys.size===0)issues.push('Sem progressão de desbloqueios');
 
 // Smoke-test lógico do motor: valida execução das 40 fases mesmo sem defender (não testa vencer).
-const started=performance.now();
+const started=performance.now();let simulatedFrames=0;
 for(let index=0;index<LEVELS.length;index++){
   const b=new Battle(index,quiet);
   const initial=b.level.id;
-  for(let k=0;k<1200&&b.state==='playing';k++)b.update(1/30);
+  for(let k=0;k<1200&&b.state==='playing';k++){b.update(1/30);simulatedFrames++;}
   if(b.level.id!==initial||!Number.isFinite(b.glow)||!Number.isFinite(b.time))issues.push('Simulação inválida: '+initial);
 }
 const simulationMs=Math.round((performance.now()-started)*10)/10;
 const results={
   version:'2.2.0',levels:LEVELS.length,chapters:chapterAgg.size,
   toys:Object.keys(TOYS).length,enemies:Object.keys(ENEMIES).length,bosses,
-  simulatedFrames:LEVELS.length*1200,
+  simulatedFrames,
   simulationWallTimeMs:simulationMs,
   chapterMetrics:[...chapterAgg.values()],warnings:issues,stages:summary
 };
