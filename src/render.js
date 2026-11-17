@@ -24,7 +24,7 @@ function eye(c,x,y,r=5){ellipse(c,x,y,r,r*1.13,'#fffdf7');ellipse(c,x+1.3,y+.9,r
 function drawCloud(c,x,y,scale=1){c.save();c.translate(x,y);c.scale(scale,scale);ellipse(c,0,0,66,20,'#281a4480');ellipse(c,-20,-12,33,24,'#b7a8e0');ellipse(c,19,-15,35,29,'#cab8ed');ellipse(c,0,-30,30,31,'#dfcdf2');ellipse(c,-18,-23,11,9,'#e3d7f7');c.restore();}
 
 function drawAmbientPolish(c,time,chapter,visualMotion=true){
-  const tone=chapter===2?'rgba(117,177,255,.14)':chapter===3?'rgba(255,190,119,.13)':'rgba(255,219,156,.14)';
+  const tone=chapter===4?'rgba(231,203,167,.14)':chapter===2?'rgba(117,177,255,.14)':chapter===3?'rgba(255,190,119,.13)':'rgba(255,219,156,.14)';
   const halo=c.createRadialGradient(205,118,4,205,118,490);halo.addColorStop(0,tone);halo.addColorStop(1,'rgba(255,255,255,0)');
   c.fillStyle=halo;c.fillRect(0,0,W,H);
   const vignette=c.createRadialGradient(W*.5,H*.48,230,W*.5,H*.48,850);
@@ -88,8 +88,108 @@ function drawCorridor(c){
     rr(c,12,374,144,176,17,'#71899d','#ffe0a2',5);rr(c,14,356,139,32,11,'#c8a180','#664f76',4);
     star(c,82,454,36,17,'#f9d781');
 }
+
+// Sótão: cenário 2.5D com vigas, janela, caixas e tapete em perspectiva.
+// Todas as casas continuam no mesmo tabuleiro lógico 5x9; nenhuma colisão depende da arte.
+function drawAttic(c){
+  const bg=c.createLinearGradient(0,0,W,H);
+  bg.addColorStop(0,'#29243c');bg.addColorStop(.53,'#685269');bg.addColorStop(1,'#382d3f');
+  c.fillStyle=bg;c.fillRect(0,0,W,H);
+  // Telhado e planos de madeira recuados.
+  c.beginPath();c.moveTo(0,171);c.lineTo(640,10);c.lineTo(W,171);c.lineTo(W,0);c.lineTo(0,0);c.closePath();
+  c.fillStyle='#221b38';c.fill();
+  for(const side of [-1,1]){
+    const start=side<0?0:W;
+    line(c,[[start,165],[640,6]],'#94738d',12);
+    line(c,[[start,182],[640,21]],'#c89b7d44',3);
+  }
+  for(let i=0;i<7;i++){
+    const x=68+i*192;line(c,[[x,0],[x+32,172]],'#b494a049',11);
+    line(c,[[x+12,0],[x+40,172]],'#e3c5a833',3);
+  }
+  // Janela circular com luz de luar e feixe diagonal no ar.
+  const beam=c.createRadialGradient(312,85,20,312,85,320);
+  beam.addColorStop(0,'#f5e4af4d');beam.addColorStop(1,'#f1dbaf00');
+  c.fillStyle=beam;c.fillRect(0,0,850,500);
+  ellipse(c,312,84,72,65,'#604963');ellipse(c,312,84,58,53,'#93b9c7');ellipse(c,323,73,33,32,'#f5e8c2');
+  line(c,[[312,26],[312,140]],'#b58e7d',7);line(c,[[255,84],[370,84]],'#b58e7d',7);
+  // Caixotes em profundidade (topo e bordas).
+  for(const [x,y,w,h] of [[55,92,125,92],[950,72,176,101],[1104,151,125,110],[718,109,111,54]]){
+    rr(c,x,y,w,h,8,'#745567','#d1a081',5);
+    line(c,[[x+12,y+19],[x+w-12,y+19]],'#dab696',3);
+    line(c,[[x+19,y+9],[x+19,y+h-12]],'#4b3855',4);
+    line(c,[[x+w-22,y+9],[x+w-22,y+h-12]],'#4b3855',4);
+    star(c,x+w*.58,y+h*.59,9,4,'#dfbe8b');
+  }
+  // Lanternas, lençóis pendurados e bicicleta antiga no plano de fundo.
+  line(c,[[939,0],[939,61]],'#f1d5ae',4);
+  ellipse(c,939,79,24,26,'#f5d18c');ellipse(c,939,79,36,40,'#e6a16f32');
+  c.beginPath();c.moveTo(540,46);c.quadraticCurveTo(555,106,536,159);
+  c.quadraticCurveTo(595,173,641,156);c.quadraticCurveTo(702,171,716,154);
+  c.lineTo(697,46);c.closePath();c.fillStyle='#c0adc0ac';c.fill();
+  for(let i=0;i<3;i++)line(c,[[558+i*60,55],[559+i*60,144]],'#eee1c03a',2);
+  // Rodapé e tábuas mantidos abaixo da defesa.
+  const floor=c.createLinearGradient(0,272,0,H);
+  floor.addColorStop(0,'#594555');floor.addColorStop(1,'#916c69');
+  c.fillStyle=floor;c.fillRect(0,304,W,H-304);
+  for(let i=0;i<13;i++)line(c,[[0,310+i*38],[W,310+i*38]],'#c29a8144',3);
+  for(let i=0;i<11;i++)line(c,[[140+i*127,311],[72+i*144,H]],'#e5bba026',2);
+  // Tapete do sótão: superfície 5x9 com profundidade visual sem alterar hitboxes.
+  rr(c,BOARD.x-21,BOARD.y-17,BOARD.cols*BOARD.cw+42,BOARD.rows*BOARD.ch+34,25,'#362b47a6','#caa889',7);
+  rr(c,BOARD.x-10,BOARD.y-9,BOARD.cols*BOARD.cw+20,BOARD.rows*BOARD.ch+18,18,'#7b6b76','#ebccae',3);
+  for(let row=0;row<BOARD.rows;row++)for(let col=0;col<BOARD.cols;col++){
+    const x=BOARD.x+col*BOARD.cw,y=BOARD.y+row*BOARD.ch;
+    rr(c,x+2,y+2,BOARD.cw-4,BOARD.ch-4,6,(row+col)%2?'#847782':'#95828c');
+    line(c,[[x+8,y+10],[x+BOARD.cw-8,y+10]],'#f6dbb21f',1.5);
+  }
+  for(let row=0;row<=BOARD.rows;row++)
+    line(c,[[BOARD.x,BOARD.y+row*BOARD.ch],[BOARD_RIGHT,BOARD.y+row*BOARD.ch]],'#eacbab70',2);
+  for(let col=0;col<=BOARD.cols;col++)
+    line(c,[[BOARD.x+col*BOARD.cw,BOARD.y],[BOARD.x+col*BOARD.cw,BOARD_BOTTOM]],'#eacbab46',2);
+  // Coração e baú à esquerda, sempre fora das 45 casas.
+  rr(c,10,365,151,174,15,'#876f78','#efd3ae',6);
+  rr(c,4,354,163,38,10,'#cb9e77','#67445d',5);
+  star(c,83,444,32,14,'#ffe7a6');txt(c,'♥',83,444,27,'#da8d95');
+  // Primeiro plano: caixotes pequenos por baixo do campo.
+  for(const [x,y,w,h] of [[38,636,171,71],[1081,626,158,83]]){
+    rr(c,x,y,w,h,9,'#69475c','#c29d80',5);
+    line(c,[[x+12,y+17],[x+w-10,y+17]],'#e3ba97',3);
+  }
+}
+function drawDepthAccents(c,time,chapter,visualMotion=true){
+  // Camadas leves na borda superior e inferior; não cobrem a grade.
+  const drift=visualMotion?Math.sin(time*.32)*7:0;
+  c.save();
+  const color=chapter===4?'#f1d4ad':chapter===3?'#edc1a7':chapter===2?'#accde9':'#f6d6af';
+  for(let i=0;i<4;i++){
+    const x=55+i*350+drift*(.4+i*.15);
+    c.globalAlpha=.065+i*.006;
+    line(c,[[x,-6],[x-23,170]],color,9);
+  }
+  c.globalAlpha=.12;
+  for(let i=0;i<5;i++){
+    const x=28+i*285-drift*.5;
+    ellipse(c,x,690+(i%2)*11,65+i*4,8,color);
+  }
+  c.restore();
+}
+function drawDustCells(c,game,time,visualMotion=true){
+  if(!game?.dust?.size)return;
+  c.save();
+  for(const spot of game.dust){
+    const [r,k]=spot.split(':').map(Number);
+    const x=BOARD.x+k*BOARD.cw,y=BOARD.y+r*BOARD.ch;
+    const pulse=visualMotion?.80+.12*Math.sin(time*1.7+k*.71+r):.82;
+    c.globalAlpha=pulse;
+    rr(c,x+5,y+5,BOARD.cw-10,BOARD.ch-10,9,'#d5b27b36','#f2da9c82',2);
+    for(let i=0;i<4;i++)ellipse(c,x+16+i*17,y+15+(i*13+r*7)%52,2+(i%2),2+(i%2),'#ffebbd');
+    txt(c,'☷',x+BOARD.cw-19,y+BOARD.ch-18,14,'#fff0bf');
+  }
+  c.restore();
+}
 export function drawBackground(c,time=0,chapter=1){
   if(chapter===3){drawCorridor(c);return;}
+  if(chapter===4){drawAttic(c);return;}
   const sky=c.createLinearGradient(0,0,0,H);sky.addColorStop(0,'#40345f');sky.addColorStop(.58,'#675276');sky.addColorStop(1,'#2c3754');c.fillStyle=sky;c.fillRect(0,0,W,H);
   for(let i=0;i<25;i++){const x=(i*293+57)%W,y=(i*61+26)%185;ellipse(c,x,y,2+(i%3===0),2+(i%3===0),'#fbefb59c');}
   // Parede com listras e rodapé.
@@ -317,6 +417,37 @@ function drawToy(c,t,time,visualMotion=true){
     line(c,[[peek+5,-59],[peek+13,-57],[peek+5,-55]],'#ffd77a',3);
     if(t.recoil>0)txt(c,'CU-CO!',0,-88,13,'#fff0bd');
   }
+  if(t.type==='T13'){
+    // Boneca Guarda-Chuva: capa azul, guarda-chuva de tecido e mãos de pano.
+    line(c,[[-13,8],[-17,29]],'#7386a0',8);line(c,[[14,8],[18,29]],'#7386a0',8);
+    rr(c,-22,-3,44,37,12,'#a0c8d9','#687c9a',4);
+    ellipse(c,0,-24,25,26,'#f1d1ba');eye(c,-9,-27,4);eye(c,10,-27,4);
+    line(c,[[-5,-15],[1,-12],[7,-15]],'#996a7e',2.5);
+    line(c,[[28,-66],[28,21]],'#96798b',5);
+    c.beginPath();c.moveTo(-38,-54);c.quadraticCurveTo(13,-108,69,-51);c.quadraticCurveTo(50,-61,28,-52);
+    c.quadraticCurveTo(7,-58,-38,-54);c.closePath();c.fillStyle='#8cd2cb';c.fill();c.strokeStyle='#567d92';c.lineWidth=4;c.stroke();
+    star(c,29,-72,9,4,'#fff1b4');
+    if(t.recoil>0)txt(c,'+',0,-75,20,'#deffba');
+  }else if(t.type==='T14'){
+    // Sombrinha Assobiadora: boca soprando e notas que flutuam na magia.
+    rr(c,-26,-4,51,34,12,'#b1a4d3','#655d91',4);
+    ellipse(c,0,-31,28,27,'#f7c9be');eye(c,-9,-35,5);eye(c,11,-35,5);
+    ellipse(c,1,-21,6,7,'#ae6d96');
+    c.beginPath();c.moveTo(-35,-55);c.quadraticCurveTo(0,-89,36,-56);c.closePath();c.fillStyle='#daaddf';c.fill();c.strokeStyle='#8d729a';c.lineWidth=4;c.stroke();
+    line(c,[[3,-74],[3,-92]],'#fff2b8',4);
+    if(t.recoil>0){txt(c,'♪',46,-64,25,'#fff3b8');txt(c,'♫',57,-35,20,'#e1f8bf');}
+  }else if(t.type==='T15'){
+    // Robô de lata: tronco quadrado, parafusos e canhão mecânico.
+    line(c,[[-20,12],[-24,32]],'#837a81',10);line(c,[[19,12],[22,31]],'#837a81',10);
+    rr(c,-31,-23,62,53,10,'#9fb1b5','#5f7184',4);
+    rr(c,-23,-66,46,40,6,'#d9b583','#856679',4);
+    ellipse(c,-10,-45,6,7,'#fff6d7');ellipse(c,12,-45,6,7,'#fff6d7');
+    ellipse(c,-9,-44,2,3,'#4f6174');ellipse(c,13,-44,2,3,'#4f6174');
+    line(c,[[-11,-31],[11,-31]],'#745969',3);
+    line(c,[[0,-67],[0,-79]],'#aa8e7e',4);ellipse(c,0,-82,7,7,'#f9d88d');
+    rr(c,16,-11,45,16,5,'#c8a77f','#80637c',3);ellipse(c,57,-3,8,10,'#dbe0d3');
+    star(c,0,2,11,5,'#ffdb93');
+  }
   // Reações exclusivas por função: brilho, confete, música e magia de gelo.
   if(visualMotion){
     const pulse=.5+.5*Math.sin(time*5.2+(t.id||0));
@@ -475,6 +606,23 @@ function drawEnemy(c,e,time,visualMotion=true){
     if(e.bossPhase==='warning'){txt(c,'!',0,-107,29,'#ffe2a1');ellipse(c,0,-18,8,9,'#806478');}
     if(e.bossPhase==='rest')txt(c,'uff...',0,-96,14,'#fff0cd');
   }
+  if(e.type==='E15'){
+    // Traça do Sótão: asas de tecido e rastro de fios.
+    ellipse(c,-22,-22,27,31,'#b3a4c9');ellipse(c,24,-22,29,33,'#a38ab8');
+    ellipse(c,0,-34,18,26,'#d5bbc8');
+    line(c,[[-7,-54],[-18,-72]],'#9c86a7',4);line(c,[[8,-54],[18,-72]],'#9c86a7',4);
+    eye(c,-8,-38,6);eye(c,9,-38,6);ellipse(c,1,-23,7,5,'#8a6d8d');
+    line(c,[[-23,10],[-29,29]],'#806b9a',6);line(c,[[21,12],[26,28]],'#806b9a',6);
+  }else if(e.type==='E16'){
+    // Baú Saltitante: tampa articulada, tranca e pernas de mola.
+    line(c,[[-23,10],[-29,25],[-18,30]],'#816479',7);
+    line(c,[[22,10],[30,24],[19,30]],'#816479',7);
+    rr(c,-40,-30,78,57,9,'#ba8f70','#785b74',5);
+    rr(c,-43,-53,84,25,7,'#d1ad82','#805c71',5);
+    rr(c,-5,-37,12,36,4,'#eacb8d');
+    eye(c,-15,-20,7);eye(c,18,-20,7);ellipse(c,0,-8,9,5,'#75516f');
+    star(c,0,16,12,5,'#ffe5a2');
+  }
   drawEnemyFaceFX(c,e,time,visualMotion);
   if(e.stunTime>0){
     txt(c,'Z z',12,-87,17,'#e1d7ff');star(c,26,-71,5,2,'#d8ccff');
@@ -489,7 +637,7 @@ function drawEnemy(c,e,time,visualMotion=true){
   c.restore();
 }
 function drawEnemyFaceFX(c,e,time,visualMotion=true){
-  const faces={E01:[-11,-30,15,-28,-12],E02:[-9,-38,9,-38,-25],E03:[-9,-28,15,-28,-11],E04:[-10,-25,14,-25,-9],E05:[-14,-38,14,-38,-18],E06:[-13,-41,13,-41,-20],E07:[-12,-31,12,-31,-12],E08:[-10,-34,11,-34,-15],E09:[-12,-23,12,-23,-12],E10:[-13,-44,14,-44,-21],E11:[-11,-43,14,-43,-22],E12:[-11,-35,12,-35,-17],E13:[-11,-30,15,-28,-12],E14:[-18,-40,17,-40,-13]};
+  const faces={E01:[-11,-30,15,-28,-12],E02:[-9,-38,9,-38,-25],E03:[-9,-28,15,-28,-11],E04:[-10,-25,14,-25,-9],E05:[-14,-38,14,-38,-18],E06:[-13,-41,13,-41,-20],E07:[-12,-31,12,-31,-12],E08:[-10,-34,11,-34,-15],E09:[-12,-23,12,-23,-12],E10:[-13,-44,14,-44,-21],E11:[-11,-43,14,-43,-22],E12:[-11,-35,12,-35,-17],E13:[-11,-30,15,-28,-12],E14:[-18,-40,17,-40,-13],E15:[-8,-38,9,-38,-23],E16:[-15,-20,18,-20,-8]};
   const [lx,ly,rx,ry,my]=faces[e.type]||[-11,-30,11,-30,-12],blink=visualMotion&&Math.sin(e.age*2.4+(e.id||0)*2.1)>.985,look=e.attack>0?3:visualMotion?Math.sin(e.age*1.7)*1.5:0;
   c.save();c.lineCap='round';if(!blink){ellipse(c,lx+look,ly+1,1.8,2.5,'#493b60');ellipse(c,rx+look,ry+1,1.8,2.5,'#493b60');}
   const angry=!!e.enraged||e.attack>0,hurt=e.hit>0;line(c,[[lx-5,ly-9],[lx,ly-(angry?12:8)],[lx+5,ly-8]],hurt?'#fff6e7':angry?'#68465f':'#8b718c',2.4);line(c,[[rx-5,ry-8],[rx,ry-(angry?12:8)],[rx+5,ry-9]],hurt?'#fff6e7':angry?'#68465f':'#8b718c',2.4);
@@ -615,7 +763,7 @@ function drawPlacementPreview(c,game,time){
 export function render(c,game,menu=false,visualMotion=true){
   const t=visualMotion ? (game?.time ?? performance.now()*.001) : 0;
   c.clearRect(0,0,W,H);paintBackdrop(c,game?.level?.chapter??1);
-  const chapter=game?.level?.chapter??1;drawAmbientPolish(c,t,chapter,visualMotion);drawBoardTrim(c,t,chapter);
+  const chapter=game?.level?.chapter??1;drawDepthAccents(c,t,chapter,visualMotion);drawAmbientPolish(c,t,chapter,visualMotion);drawBoardTrim(c,t,chapter);if(game)drawDustCells(c,game,t,visualMotion);
   if(game?.levelIndex>=4){
     // Capítulo mais avançado ganha um leve clima de armário encantado, sem outra textura ou download.
     c.fillStyle=game.levelIndex===7?'#50204e19':'#34246b0b';c.fillRect(0,0,W,H);
