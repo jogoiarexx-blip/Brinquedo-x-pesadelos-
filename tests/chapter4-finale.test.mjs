@@ -74,7 +74,7 @@ test('Retalho muda de faixa apenas uma vez e continua dentro do tabuleiro',()=>{
 
 test('Baronesa anuncia faixa, dispara um retalho e descansa vulnerável',()=>{
   const b=new Battle(31,audio);
-  assert.ok(b.place(2,2,'T16'));
+  assert.ok(b.place(2,3,'T16'));
   assert.ok(b.place(2,4,'T02'));
   const soldier=b.grid[2][4],hp=soldier.hp;
   b.spawnEnemy('E18',2);const boss=b.enemies.at(-1);
