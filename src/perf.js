@@ -9,8 +9,8 @@ export class FrameTelemetry {
     if(!Number.isFinite(timestamp))return;
     if(this.previous!==null){
       const dt=timestamp-this.previous;
-      // Não contar segundo plano, pausa longa ou tab desconectada como FPS baixo.
-      if(dt>=4&&dt<=250){
+      // Registra até ~1,3 FPS em aparelhos lentos; ignora pausas/segundo plano prolongados.
+      if(dt>=4&&dt<=750){
         this.deltas.push(dt);this.renderDurations.push(Math.max(0,Math.min(250,Number(renderMs)||0)));
         if(this.deltas.length>this.maxSamples)this.deltas.shift();
         if(this.renderDurations.length>this.maxSamples)this.renderDurations.shift();

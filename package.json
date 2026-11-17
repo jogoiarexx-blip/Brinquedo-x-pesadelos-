@@ -1,12 +1,13 @@
 {
   "name": "brinquedos-vs-pesadelos",
   "private": true,
-  "version": "2.2.0",
+  "version": "2.3.0",
   "type": "module",
   "scripts": {
     "test": "node --test tests/*.test.mjs",
     "dev": "python3 -m http.server 8000",
-    "audit": "node tools/audit_campaign.mjs"
+    "audit": "node tools/audit_campaign.mjs",
+    "qa:browser": "node tools/browser_cinematic_qa.mjs"
   },
-  "description": "Brinquedos vs. Pesadelos: campanha de 40 fases, GLB opcional nas cutscenes, medidor de FPS e auditoria."
+  "description": "Brinquedos vs. Pesadelos: campanha 40 fases, GLB opcional, navegador QA e FPS"
 }

@@ -200,3 +200,15 @@ A v1.7.0 introduz C00, C01, C02 e C03 em estilo ilustrado por camadas HTML/CSS, 
 **Auditoria estrutural:** `tools/audit_campaign.mjs` confere 40 fases, cinco chefes, dados de ondas, intervalos, recompensas, HP/escudo e pico de inimigos programados por janela de 30s, além de rodar um smoke lógico para detectar crashes. O relatório por capítulo é emitido em terminal e auditado no CI. Esses números não medem dificuldade sentida nem FPS em dispositivo.
 
 **Próximas decisões:** playtest de 40 fases em aparelhos reais, confirmação dos quatro GLBs em navegadores móveis, melhoria opcional dos modelos artísticos e ajustes de dificuldade com métricas coletadas. Só ampliar a adoção 3D após testes, preservando fallback e checkpoints.
+
+## 15. Marco v2.3.0 — QA de browser e prévia transparente de pressão
+
+**Objetivo:** testar o carregamento dos quatro GLBs em um navegador real automatizado, impedir regressões quando CDN/WebGL falham e oferecer dados para orientar estratégias antes das 40 fases sem alterar o equilíbrio sem evidências.
+
+**Renderização:** modo GLB somente opcional nas cutscenes, com tempo limite de 9s e fallback SVG ao falhar carregamento, WebGL ou contexto. Animação de Idle recebe pequeno balanço procedural. Movimento reduzido ainda mostra quadro estático. A chave de save e os quatro checkpoints anteriores são mantidos.
+
+**Teste automatizado de navegador:** workflow independente executa Playwright em Chromium, com Three.js 0.170 fixo e entregue por interceptação local do CDN, testa GLTFLoader e arquivos GLB verdadeiros, falha de CDN, teclas e gestos em viewport mobile emulado, screenshots e dados do medidor de FPS. Emulação móvel não substitui aparelho físico. Se o ambiente não permitir WebGL/Chromium o workflow deve acusar falha em vez de simular aprovação.
+
+**Prévia da dificuldade:** mostrar pressão do plano de ondas por fase: maior número programado em 30s, HP + escudo total e faixa mais visitada. Sem rótulos fáceis/difíceis inventados: não inclui reforços invocados, mudanças de caminho ou a estratégia do jogador.
+
+**Próximas verificações humanas:** campanha completa sem upgrades em desktop e Android, fluidez/perda de GPU em celulares reais, medição de aquecimento e visual dos quatro modelos GLB com revisão artística.

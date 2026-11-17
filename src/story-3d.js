@@ -1,4 +1,4 @@
-// v2.2.0 — Cinemática GLB real e *opt-in*. O jogo 2D nunca importa Three.js.
+// v2.3.0 — Cinemática GLB real e *opt-in*. O jogo 2D nunca importa Three.js.
 // Import map com versão fixa: carregado apenas após consentimento explícito em Opções.
 export const STORY_GLB_MODELS=Object.freeze({
   'toy-T01':'./assets/models/piao-da-lia.glb',
@@ -14,6 +14,7 @@ export function canAttemptStory3D(locationProtocol=globalThis.location?.protocol
   return locationProtocol==='https:'||locationProtocol==='http:';
 }
 let activeSession=null,libraryPromise=null,libraryFailed=false;
+const LOAD_TIMEOUT_MS=9000;
 async function importRuntime(){
   if(libraryFailed)throw Error('Biblioteca 3D não disponível');
   if(!libraryPromise)libraryPromise=Promise.all([
@@ -39,6 +40,7 @@ export function stopStory3D(){
   const session=activeSession;activeSession=null;
   if(!session)return;
   session.cancelled=true;
+  if(session.timeout)clearTimeout(session.timeout);
   if(session.raf&&typeof cancelAnimationFrame==='function')cancelAnimationFrame(session.raf);
   session.resizeObserver?.disconnect?.();
   if(session.resizeListener&&typeof window!=='undefined')window.removeEventListener('resize',session.resizeListener);
@@ -48,23 +50,29 @@ export function stopStory3D(){
   session.renderer?.forceContextLoss?.();
   session.host?.remove();
   session.stage?.classList.remove('story-glb-active');
+  if(session.stage?.dataset)session.stage.dataset.cinematic='2d';
 }
 export async function mountStory3D(stage,frame,motion=true){
   stopStory3D();
   const file=modelForStoryFrame(frame);
   if(!file||!stage||typeof document==='undefined'||!canAttemptStory3D()||libraryFailed)return false;
+  stage.dataset.cinematic='loading';
   const session={cancelled:false,stage,host:null,raf:0,renderer:null,sceneAsset:null,mixer:null,resizeObserver:null,resizeListener:null};
   activeSession=session;
   const live=()=>activeSession===session&&!session.cancelled&&stage.isConnected;
   try{
+    // Evita que uma CDN sem resposta deixe a cena permanentemente em "carregando".
+    const deadline=new Promise((_,reject)=>{
+      session.timeout=setTimeout(()=>reject(new Error('Tempo limite de carregamento GLB')),LOAD_TIMEOUT_MS);
+    });
     // Carrega a biblioteca apenas quando a pessoa ativar 3D; o fallback não é tocado.
-    const [THREE,{GLTFLoader}]=await importRuntime();
+    const [THREE,{GLTFLoader}]=await Promise.race([importRuntime(),deadline]);
     if(!live())return false;
     const loader=new GLTFLoader();
     loader.setCrossOrigin('anonymous');
     const url=new URL(file,document.baseURI);
     if(url.origin!==location.origin)throw Error('Modelo externo bloqueado');
-    const asset=await loader.loadAsync(url.href);
+    const asset=await Promise.race([loader.loadAsync(url.href),deadline]);
     session.sceneAsset=asset;
     if(!live()){disposeModel(asset);session.sceneAsset=null;return false;}
     const host=document.createElement('div');
@@ -90,6 +98,10 @@ export async function mountStory3D(stage,frame,motion=true){
     renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,maxRatio));
     renderer.outputColorSpace=THREE.SRGBColorSpace;
     host.appendChild(renderer.domElement);
+    renderer.domElement.addEventListener('webglcontextlost',event=>{
+      event.preventDefault();
+      if(live()){stopStory3D();stage.dataset.cinematic='fallback';}
+    },{once:true});
     const fit=()=>{
       if(!live())return;
       const w=Math.min(640,Math.max(160,Math.round(host.clientWidth||stage.clientWidth*.45)));
@@ -111,6 +123,7 @@ export async function mountStory3D(stage,frame,motion=true){
     renderer.render(scene,camera);
     if(!live())return false;
     stage.classList.add('story-glb-active');
+    stage.dataset.cinematic='active';
     // Limite de 30 FPS. Em movimento reduzido faz só um frame estático.
     if(motion){
       let last=0;
@@ -119,14 +132,19 @@ export async function mountStory3D(stage,frame,motion=true){
         session.raf=requestAnimationFrame(frame3D);
         if(document.hidden||now-last<1000/30)return;
         const dt=Math.min(.05,last?(now-last)/1000:0);last=now;
-        mixer?.update(dt);renderer.render(scene,camera);
+        mixer?.update(dt);
+        actor.position.y=Math.sin(now*.0018)*.035;
+        actor.rotation.z=Math.sin(now*.0011)*.025;
+        renderer.render(scene,camera);
       };
       session.raf=requestAnimationFrame(frame3D);
     }
     return true;
   }catch{
     // Sem rede/WebGL/modelo: deixa visível a ilustração 2D original.
-    if(activeSession===session)stopStory3D();
+    if(activeSession===session){stopStory3D();stage.dataset.cinematic='fallback';}
     return false;
+  }finally{
+    if(session.timeout)clearTimeout(session.timeout);
   }
 }

@@ -84,6 +84,8 @@ test('medidor estima FPS, separa custo de desenho e ignora retorno de segundo pl
   let result=meter.snapshot();
   assert.ok(result.fps>=59&&result.fps<=61);
   assert.equal(result.renderMs,2.5);
+  const slow=new FrameTelemetry(12);slow.sample(0,3);slow.sample(650,15);
+  assert.equal(slow.snapshot().fps,2,'intervalos lentos não são descartados');
   meter.sample(8000,24);
   assert.ok(meter.snapshot().fps>=59);
   meter.sample(8016.667,4.5);
@@ -127,15 +129,15 @@ test('auditoria das 40 fases aprova integridade estrutural e expõe métricas de
 test('PWA, import map e standalone conectam o 3D sem carregar Three.js por padrão',()=>{
   const index=read('index.html'),main=read('src/main.js'),sw=read('sw.js');
   const offline=read('JOGAR-OFFLINE.html'),module=read('src/story-3d.js');
-  assert.ok(index.includes('v2.2.0'));
+  assert.ok(index.includes('v2.3.0'));
   assert.ok(index.includes('type="importmap"'));
   assert.ok(index.includes('three@0.170.0'));
   assert.ok(index.includes('id="perf-stats"'));
   assert.ok(main.includes('cinematic3d')&&main.includes('showPerf'));
   assert.ok(main.includes('void mountStory3D(stage,frame,motionEnabled())'));
-  assert.ok(sw.includes('brinquedos-vs-pesadelos-v2.2.0'));
-  assert.ok(sw.includes('story-3d.js?v=2.2.0'));
-  assert.ok(sw.includes('perf.js?v=2.2.0'));
+  assert.ok(sw.includes('brinquedos-vs-pesadelos-v2.3.0'));
+  assert.ok(sw.includes('story-3d.js?v=2.3.0'));
+  assert.ok(sw.includes('perf.js?v=2.3.0'));
   assert.ok(!sw.includes('cdn.jsdelivr.net'),'CDN não deve ser pré-requisito do cache offline');
   assert.ok(module.includes("import('three')"));
   assert.ok(module.includes('forceContextLoss'));
