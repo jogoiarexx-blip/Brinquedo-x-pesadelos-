@@ -1,7 +1,8 @@
-import { LEVELS,TOYS,ENEMIES } from './data.js?v=1.4.0';
-import { SAVE_KEY } from './config.js?v=1.4.0';
-import { UPGRADE_COSTS,upgradeRank,upgradeSpent } from './upgrades.js?v=1.4.0';
-const defaults = () => ({ version:1, campaignSize:LEVELS.length, unlocked:1, stars:{}, upgrades:{}, seenEnemies:[], settings:{ music:true, sfx:true, motion:true } });
+import { LEVELS,TOYS,ENEMIES } from './data.js?v=1.5.0';
+import { SAVE_KEY } from './config.js?v=1.5.0';
+import { validDeck, deckForLevel } from './deck.js?v=1.5.0';
+import { UPGRADE_COSTS,upgradeRank,upgradeSpent } from './upgrades.js?v=1.5.0';
+const defaults = () => ({ version:1, campaignSize:LEVELS.length, unlocked:1, stars:{}, upgrades:{}, decks:{}, seenEnemies:[], settings:{ music:true, sfx:true, motion:true } });
 const starScore=value=>['number','string'].includes(typeof value)&&Number.isFinite(Number(value))?Math.max(0,Math.min(3,Math.floor(Number(value)))):0;
 export function unlockedToys(save) {
   return new Set(LEVELS.slice(0,save.unlocked).flatMap(level=>level.toys));
@@ -27,6 +28,12 @@ function normalizeSave(raw) {
   for(const id of Object.keys(TOYS)){
     const rank=upgradeRank(raw.upgrades?.[id]),cost=upgradeSpent(rank);
     if(rank&&unlockedIds.has(id)&&cost<=budget){save.upgrades[id]=rank;budget-=cost;}
+  }
+  // Compatível com saves antigos: os baralhos são opcionais e nunca liberam cartas.
+  const configured=raw.decks&&typeof raw.decks==='object'&&!Array.isArray(raw.decks)?raw.decks:{};
+  for(const level of LEVELS.slice(0,save.unlocked)) {
+    const deck=configured[level.id];
+    if(validDeck(deck,unlockedIds))save.decks[level.id]=[...deck];
   }
   return save;
 }
@@ -61,4 +68,24 @@ export function purchaseUpgrade(save,id,storage=null) {
 export function resetUpgrades(save,storage=null) {
   if(!persistSave({...save,upgrades:{}},storage))return false;
   save.upgrades={};return true;
+}
+
+export function getDeck(save,index) {
+  const level=LEVELS[index];
+  if(!level)return [];
+  return deckForLevel(index,save.decks?.[level.id],unlockedToys(save));
+}
+export function saveDeck(save,index,deck,storage=null) {
+  if(!Number.isInteger(index)||index<0||index>=save.unlocked||index>=LEVELS.length)return {ok:false,reason:'locked'};
+  if(!validDeck(deck,unlockedToys(save)))return {ok:false,reason:'invalid'};
+  const level=LEVELS[index],decks={...save.decks};
+  if(deck.length===level.toys.length&&deck.every((id,i)=>id===level.toys[i]))delete decks[level.id];
+  else decks[level.id]=[...deck];
+  if(!persistSave({...save,decks},storage))return {ok:false,reason:'storage'};
+  save.decks=decks;
+  return {ok:true};
+}
+export function resetDeck(save,index,storage=null) {
+  if(!Number.isInteger(index)||index<0||index>=save.unlocked||index>=LEVELS.length)return {ok:false,reason:'locked'};
+  return saveDeck(save,index,[...LEVELS[index].toys],storage);
 }
