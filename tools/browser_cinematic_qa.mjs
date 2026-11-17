@@ -47,8 +47,8 @@ async function play2D(){
   await page.locator('[data-action="story-skip"]').click();
   await page.locator('#hud:not(.hidden)').waitFor();
   await page.locator('#perf-stats:not(.hidden)').waitFor({timeout:7000});
-  await page.waitForTimeout(1300);
-  assert.match(await page.locator('#perf-stats').innerText(),/\d+ FPS/);
+  await page.waitForFunction(()=>/\\d+ FPS/.test(document.getElementById('perf-stats')?.textContent||''),null,{timeout:16000});
+  assert.match(await page.locator('#perf-stats').innerText(),/\\d+ FPS/);
   assert.ok(await page.evaluate(()=>window.__QA__.battle()?.level.id==='1-1'));
   await page.screenshot({path:path.join(artifacts,'desktop-canvas-2d.png')});
   await context.close();

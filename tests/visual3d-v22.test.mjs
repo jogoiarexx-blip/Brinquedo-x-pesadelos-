@@ -84,6 +84,8 @@ test('medidor estima FPS, separa custo de desenho e ignora retorno de segundo pl
   let result=meter.snapshot();
   assert.ok(result.fps>=59&&result.fps<=61);
   assert.equal(result.renderMs,2.5);
+  meter.sample(250,9);
+  assert.ok(meter.snapshot().fps>0,'FPS baixo também deve ser contabilizado');
   meter.sample(8000,24);
   assert.ok(meter.snapshot().fps>=59);
   meter.sample(8016.667,4.5);
