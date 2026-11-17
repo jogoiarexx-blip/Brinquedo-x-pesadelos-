@@ -35,7 +35,7 @@ test('quatro cutscenes com três ou mais quadros e artes reconhecidas',()=>{
     }
     assert.equal(buildStoryScreen(id,scene.slides.length), '');
   }
-  assert.equal(LEVELS.length,24);
+  assert.equal(LEVELS.length,28);
 });
 test('migrar save legado com cenas inexistentes e evitar prototipagem de IDs',()=>{
   const s=store();
@@ -89,8 +89,8 @@ test('integração: PWA, browser, conteúdo offline e código sintaticamente vá
   assert.ok(main.includes("result==='victory'?storyForVictory"));
   assert.ok(main.includes("action==='story-skip'"));
   assert.ok(main.includes("action==='story-gallery'"));
-  assert.ok(sw.includes('story.js?v=1.7.0'));
-  assert.ok(sw.includes('story-ui.js?v=1.7.0'));
+  assert.ok(sw.includes('story.js?v=1.8.0'));
+  assert.ok(sw.includes('story-ui.js?v=1.8.0'));
   assert.ok(builder.includes("'story.js','save.js'"));
   assert.ok(builder.includes("'story-ui.js','main.js'"));
   assert.ok(offline.includes('function buildStoryScreen'));

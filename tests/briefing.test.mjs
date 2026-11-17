@@ -5,8 +5,8 @@ import { LEVELS, TOYS, ENEMIES } from '../src/data.js';
 import { readFileSync } from 'node:fs';
 import { execFileSync } from 'node:child_process';
 
-test('reconhecimento existe para todas as 24 fases, sem inventar inimigos',()=>{
-  assert.equal(LEVELS.length,24);
+test('reconhecimento existe para todas as 28 fases, sem inventar inimigos',()=>{
+  assert.equal(LEVELS.length,28);
   for (const [index,level] of LEVELS.entries()) {
     const preview=buildBriefing(index);
     assert.equal(preview.id,level.id);
@@ -29,7 +29,7 @@ test('avisa chefes e reforços sem contá-los duas vezes',()=>{
   assert.equal(buildBriefing(23).reward,null);
 });
 test('não aceita índice inválido e não modifica o plano da campanha',()=>{
-  for (const index of [-1,24,1.5,NaN,Infinity,'0']) assert.equal(buildBriefing(index),null);
+  for (const index of [-1,28,1.5,NaN,Infinity,'0']) assert.equal(buildBriefing(index),null);
   const before=JSON.stringify(LEVELS);
   buildBriefing(23);buildBriefing(0);
   assert.equal(JSON.stringify(LEVELS),before);
@@ -40,7 +40,7 @@ test('UI, service worker e versão offline incluem a prévia',()=>{
   const offline=readFileSync(new URL('../JOGAR-OFFLINE.html',import.meta.url),'utf8');
   assert.ok(main.includes('data-action="preview"'));
   assert.ok(main.includes('function previewLevel'));
-  assert.ok(sw.includes('briefing.js?v=1.7.0'));
+  assert.ok(sw.includes('briefing.js?v=1.8.0'));
   assert.match(offline,/function buildBriefing/);
   assert.match(offline,/function previewLevel/);
   for(const path of ['src/main.js','src/briefing.js','sw.js'])
