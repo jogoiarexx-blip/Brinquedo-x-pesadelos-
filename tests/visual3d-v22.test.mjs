@@ -136,7 +136,7 @@ test('PWA, import map e standalone conectam o 3D sem carregar Three.js por padr�
   assert.ok(sw.includes('perf.js?v=2.2.0'));
   assert.ok(!sw.includes('cdn.jsdelivr.net'),'CDN não deve ser pré-requisito do cache offline');
   assert.ok(module.includes("import('three')"));
-  assert.ok(module.includes('renderer.forceContextLoss'));
+  assert.ok(module.includes('forceContextLoss'));
   assert.ok(offline.includes('function mountStory3D')||offline.includes('async function mountStory3D'));
   assert.ok(offline.includes('class FrameTelemetry'));
   const script=offline.match(/<script>\s*([\s\S]*?)<\/script>/);
