@@ -4,6 +4,7 @@ import { Battle } from './engine.js?v=2.1.0';
 import { SurvivalBattle } from './survival.js?v=2.1.0';
 import { STORY_ORDER,getStory,storyForVictory,canReplayStory } from './story.js?v=2.1.0';
 import { buildStoryScreen } from './story-ui.js?v=2.1.0';
+import { mountStory3D, stopStory3D, modelForStoryFrame } from './story-3d.js?v=2.2.0';
 import { loadSave,persistSave,recordVictory,starWallet,unlockedToys,purchaseUpgrade,resetUpgrades,getDeck,saveDeck,resetDeck,canPlaySurvival,getSurvivalDeck,saveSurvivalDeck,recordSurvivalRun,markStorySeen } from './save.js?v=2.1.0';
 import { UPGRADE_COSTS,upgradedToy } from './upgrades.js?v=2.1.0';
 import { AudioService } from './audio.js?v=2.1.0';
@@ -22,7 +23,7 @@ reducedMotion?.addEventListener?.('change',()=>{if(battle)battle.effectsEnabled=
 const icons={T01:'💡',T02:'🪖',T03:'🧸',T04:'❄️',T05:'🎉',T06:'🏎️',T07:'💤',T08:'🎼',T09:'🌟',E01:'☁️',E02:'🧦',E03:'🛏️',E04:'✏️',E05:'👑',E06:'🦘',E07:'🧥',E08:'🕷️',E09:'⏰',E10:'🌘',E11:'🦹',T10:'🏹',T11:'🎁',T12:'🕰️',E12:'👻',E13:'☁️',E14:'🤧'};
 const escapeHTML=v=>String(v).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
 function showToast(text,seconds=2.8){let toast=$('toast');toast.textContent=text;toast.classList.remove('hidden');clearTimeout(toastTimer);toastTimer=setTimeout(()=>toast.classList.add('hidden'),seconds*1000);}
-function setScreen(name,content=''){screen=name;const layer=$('screen');if(name==='battle'){layer.classList.add('hidden');$('hud').classList.remove('hidden');return;}
+function setScreen(name,content=''){stopStory3D();screen=name;const layer=$('screen');if(name==='battle'){layer.classList.add('hidden');$('hud').classList.remove('hidden');return;}
   layer.classList.remove('hidden');layer.innerHTML=content; $('hud').classList.toggle('hidden',!battle||name==='panel'||name==='menu'||name==='levels'||name==='help'||name==='codex'||name==='credits'||name==='workshop'||name==='briefing'||name==='survival'||name==='stories'||name==='story'||(name==='options'&&!battle));
   layer.classList.toggle('no-backdrop',false);
 }
@@ -38,7 +39,13 @@ function presentStory(id,then){
 }
 function showStorySlide(){
   if(!storyState)return;
+  const frame=getStory(storyState.id)?.slides[storyState.slide];
   setScreen('story',buildStoryScreen(storyState.id,storyState.slide,motionEnabled()));
+  // Modo 3D somente por escolha explícita; sem rede, WebGL ou GLB a arte SVG fica visível.
+  if(save.settings.cinematic3d&&modelForStoryFrame(frame)){
+    const stage=document.querySelector('.story-stage');
+    if(stage)void mountStory3D(stage,frame,motionEnabled());
+  }
 }
 function endStory(){
   if(!storyState)return;
@@ -184,7 +191,7 @@ function codex(){
 function options(back=battle?'pause':'menu'){
   optionsBack=back;
   const setting=(name,text)=>`<div class="option-row"><span>${text}</span><button class="toggle ${save.settings[name]?'':'off'}" data-action="toggle" data-setting="${name}">${save.settings[name]?'Ligado':'Desligado'}</button></div>`;
-  panel('Opções','Ajuste a experiência',`${setting('music','🎵 Música original suave')}${setting('sfx','🔊 Efeitos sonoros')}${setting('motion','✨ Partículas e efeitos visuais')}<p>O progresso é salvo automaticamente no seu navegador. Este protótipo funciona sem conta.</p>`,back,'options');
+  panel('Opções','Ajuste a experiência',`${setting('music','🎵 Música original suave')}${setting('sfx','🔊 Efeitos sonoros')}${setting('motion','✨ Partículas e efeitos visuais')}${setting('cinematic3d','🎬 Personagens 3D nas cutscenes (experimental)')}<p class="option-note-3d">3D é opcional e vem desligado. Quatro personagens GLB originais podem aparecer em algumas cenas. A primeira ativação usa internet para carregar a biblioteca Three.js; sem WebGL, biblioteca ou rede, as ilustrações 2D são mantidas. O jogo offline continua 2D.</p><p>O progresso é salvo automaticamente no seu navegador. Este protótipo funciona sem conta.</p>`,back,'options');
 }
 function pause(){if(!battle||battle.state==='victory'||battle.state==='defeat')return;
   battle.state='paused';setScreen('pause',`<section class="panel result-panel" style="max-width:620px"><span class="subheading">Brinquedos descansando...</span><h1>⏸ Jogo pausado</h1><p>${battle.level.id} · ${battle.level.title}</p><div class="panel-actions">${button('▶ Continuar','resume')}${button('↻ Reiniciar fase','restart','outline-btn')}${battle.mode==='survival'?button('🏆 Encerrar e registrar','survival-stop','outline-btn'):''}${button('⚙ Opções','options','text-btn')}${button('❔ Como jogar','help','text-btn')}${button('⌂ Menu principal','menu','text-btn')}</div></section>`);
@@ -324,7 +331,7 @@ function handleAction(action,target){
     else showToast('Tela cheia indisponível neste navegador',2.3);
   }
   else if(action==='toggle'){
-    const id=target.dataset.setting;if(!['music','sfx','motion'].includes(id))return;save.settings[id]=!save.settings[id];audio.music=save.settings.music;audio.sfx=save.settings.sfx;if(battle){battle.effectsEnabled=motionEnabled();if(!battle.effectsEnabled){battle.particles.length=0;battle.impacts.length=0;}}persistSave(save);options(optionsBack);
+    const id=target.dataset.setting;if(!['music','sfx','motion','cinematic3d'].includes(id))return;save.settings[id]=!save.settings[id];audio.music=save.settings.music;audio.sfx=save.settings.sfx;if(battle){battle.effectsEnabled=motionEnabled();if(!battle.effectsEnabled){battle.particles.length=0;battle.impacts.length=0;}}persistSave(save);options(optionsBack);
   }
 }
 document.addEventListener('click',event=>{
