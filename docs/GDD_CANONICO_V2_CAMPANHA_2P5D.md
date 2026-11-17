@@ -43,7 +43,7 @@
 | 1 — O Armário | 1-1…1-8 | Rei das Meias | IMPLEMENTADO | Aprender recursos, posicionamento e ondas |
 | 2 — Debaixo da Cama | 2-1…2-8 | Dama da Insônia | IMPLEMENTADO | Escudos, salto e insônia |
 | 3 — O Corredor Rangente | 3-1…3-8 | Vovô Poeirão | IMPLEMENTADO | Portas e avisos de faixa |
-| 4 — O Sótão Esquecido | 4-1…4-8 | Baronesa das Cortinas | PENDENTE | Casas empoeiradas, penalidade de ação 15%; remoção opcional |
+| 4 — O Sótão Esquecido | 4-1…4-8 | Baronesa das Cortinas | EM ANDAMENTO: 4-1…4-4 implementadas v1.8.0; 4-5…4-8 e boss pendentes | Casas empoeiradas, penalidade de ação 15%; remoção opcional |
 | 5 — A Noite dos Mil Bocejos | 5-1…5-8 | Grande Bicho-Papão | PENDENTE | Pulsos de sonho telegrafados, duração até 7s |
 
 **Fases futuras:**
@@ -103,8 +103,8 @@
 |---|---|---|
 | M0 — Checkpoint | Branch segura 1.6.0 + este GDD + plano rastreável | DOCUMENTAÇÃO |
 | M1 — Narrativa base | Motor de cutscenes, C00 e C01–C03, pular/rever, salvar flags, testes | IMPLEMENTADO v1.7.0; C04–C07 pendentes |
-| M2 — Fundos 2.5D | 3 cenários melhorados em camadas + fallback e medições de desempenho | PENDENTE |
-| M3 — Capítulo 4 | 8 fases, novos tipos, poeira, Baronesa, C04 | PENDENTE |
+| M2 — Fundos 2.5D | 3 cenários melhorados em camadas + fallback e medições de desempenho | EM ANDAMENTO v1.8.0: profundidade Canvas e sótão; medições Android pendentes |
+| M3 — Capítulo 4 | 8 fases, novos tipos, poeira, Baronesa, C04 | EM ANDAMENTO v1.8.0: 4/8 fases, poeira, 3 brinquedos, 2 inimigos |
 | M4 — Capítulo 5 | 8 fases, sonho, boss 3 etapas, C05–C07 e final real | PENDENTE |
 | M5 — Cutscenes 3D | Protótipo do quarto e 1 personagem 3D, fallback 2D, Android testado | PENDENTE |
 | M6 — Polimento | QA integral das 40 fases, save legado, arte, áudio, créditos, acessibilidade | PENDENTE |
@@ -130,3 +130,17 @@ Depois elevar o primeiro capítulo com camadas 2.5D sem tocar no motor de colis�
 ## 9. Marco de implementação v1.7.0 — primeiras cenas
 
 A v1.7.0 introduz C00, C01, C02 e C03 em estilo ilustrado por camadas HTML/CSS, sem WebGL. C00 abre antes da primeira partida 1-1 e pode ser pulada; C01–C03 aparecem após vitórias nas fases finais dos três primeiros capítulos, e também ficam disponíveis pela galeria de Histórias para saves legados com capítulos concluídos. Marcar a cena como vista nunca altera vitórias, estrelas, upgrades ou desbloqueios. O GDD completo ainda exige C04–C07, 16 novas fases, dois chefes e os fundos 2.5D aprimorados.
+
+## 10. Marco jogável v1.8.0 — Sótão Esquecido, parte 1
+
+**Implementado:** as fases 4-1 a 4-4 (28 no total) com 10 ondas programadas cada. A nova mecânica é um `Set` de células empoeiradas, por fase, que reduz a taxa de ações em 15%, sem afetar hitbox, coordenadas, custos ou a campanha anterior. A Boneca Guarda-Chuva (T13) limpa imediatamente as casas em área 3×3 e periodicamente repara brinquedos vizinhos; a Sombrinha Assobiadora (T14) causa dano e lentidão em três faixas até alcance 3 células; o Robô de Lata (T15) dispara dois acertos perfurantes, com vida elevada.
+
+**Inimigos novos:** Traça do Sótão (E15), que usa o comportamento de teia, e Baú Saltitante (E16), que salta uma defesa; ambos possuem arte original Canvas e retrato no SVG da enciclopédia.
+
+**Arte:** fundo exclusivo do Sótão com arquitetura de madeira, lua, lanternas e caixotes em perspectiva pintada; camadas luminosas decorativas com movimento opcional, sem introduzir WebGL/Three.js no combate. As casas empoeiradas são destacadas visualmente em dourado claro.
+
+**Salvamento:** quando um save antigo atingiu o limite de 24 fases e venceu 3-8, a normalização existente libera 4-1. A chave `bvp-save-v1` e os IDs das 24 fases anteriores são preservados.
+
+**Pendente:** 4-5…4-8, Baronesa das Cortinas, C04, mais ativos detalhados para todos os capítulos, medição de FPS/memória em aparelhos reais, Capítulo 5 e cutscenes finais.
+
+**Critério de qualidade para encerrar o marco:** GitHub Actions de testes e qualidade verdes, build offline sintaticamente válido, preservação do checkpoint e GitHub Pages publicado.
