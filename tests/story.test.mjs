@@ -26,7 +26,7 @@ test('quatro cutscenes com três ou mais quadros e artes reconhecidas',()=>{
       assert.ok(slide.line.length>15);
       assert.ok(slide.speaker.length>1);
       if(slide.art){
-        const type=slide.art.slice(0,3),identifier=slide.art.slice(4);
+        const type=slide.art.startsWith('enemy-')?'ene':'toy',identifier=slide.art.slice(slide.art.indexOf('-')+1);
         assert.ok(type==='toy'||type==='ene');
         assert.ok(TOYS[identifier]||ENEMIES[identifier],slide.art);
       }
