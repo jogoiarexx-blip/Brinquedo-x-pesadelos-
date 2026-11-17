@@ -1,3 +1,13 @@
+# 1.8.0 — 17/11/2026
+
+- Adicionadas as fases 4-1 a 4-4 do Sótão Esquecido, totalizando 28 fases jogáveis.
+- Mecânica de poeira de superfície, reduzindo 15% da velocidade das ações em casas afetadas.
+- Três brinquedos (T13–T15), dois inimigos (E15–E16), habilidades e artes Canvas/SVG.
+- Cenário 2.5D de sótão em planos e efeitos de profundidade nos cenários existentes.
+- Compatibilidade com saves que concluíram a campanha de 24 fases (3-8), sem perda de progresso.
+- Documentação do marco, atualização offline/PWA e testes de segurança e regressão.
+- Checkpoint v1.6.0 anterior à expansão permanece intacto.
+
 # 1.7.0 — 17/11/2026
 
 - Quatro cutscenes 2D: abertura da campanha e interlúdios após 1-8, 2-8 e 3-8.

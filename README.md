@@ -1,4 +1,20 @@
-# Brinquedos vs. Pesadelos — ALFA v1.7.0
+# Brinquedos vs. Pesadelos — ALFA v1.8.0
+
+## Novidades da v1.8.0 — Sótão Esquecido (parte 1) e cenários com profundidade
+
+- Campanha passou de **24 para 28 fases**, com **4-1, 4-2, 4-3 e 4-4**. Os capítulos 1–3 seguem sem alteração de ondas, custos e personagens.
+- Cenário exclusivo do Sótão com vigas, feixe de lua, lanternas, caixas, cortinas e tapete 5×9 em camadas 2.5D no Canvas, sem bibliotecas externas.
+- Camadas de iluminação e perspectiva leves nos capítulos existentes, com efeito estático quando redução de movimento está ativa.
+- Novo obstáculo: **casas empoeiradas reduzem em 15% a cadência de ação** do brinquedo colocado nelas; nunca impedem a colocação.
+- **Boneca Guarda-Chuva (T13):** limpa poeira numa área 3×3 ao ser posicionada e repara aliados próximos a cada 9,5 segundos.
+- **Sombrinha Assobiadora (T14):** dano e lentidão na própria faixa e nas vizinhas, a alcance limitado.
+- **Robô de Lata Desajeitado (T15):** resistente e dispara munição que perfura até dois inimigos.
+- **Traça do Sótão (E15)** e **Baú Saltitante (E16)** entram no bestiário com desenhos próprios e padrões existentes de teia e salto.
+- Saves da v1.7.0 que terminaram 3-8 abrem automaticamente 4-1, preservando estrelas, upgrades, baralhos, cenas vistas e recordes.
+- Prévia da fase indica as casas empoeiradas; cache PWA e arquivo offline preservados e testados.
+- **Fases 4-5 a 4-8 e Baronesa das Cortinas ainda não implementadas** — próxima etapa. O Capítulo 5 permanece futuro.
+
+
 
 ## Novidades da v1.7.0 — Primeiras cutscenes de história
 

@@ -1,4 +1,4 @@
-import { LEVELS, TOYS, ENEMIES } from './data.js?v=1.7.0';
+import { LEVELS, TOYS, ENEMIES } from './data.js?v=1.8.0';
 
 // Reconhecimento determinístico: lê o plano da fase sem iniciar nem alterar uma batalha.
 export function buildBriefing(index) {
@@ -19,7 +19,7 @@ export function buildBriefing(index) {
   })).sort((a,b) => Number(b.boss)-Number(a.boss) || b.count-a.count || a.id.localeCompare(b.id));
   return {
     id: level.id, title: level.title, subtitle: level.subtitle, hint: level.hint,
-    chapter: level.chapter || 1, waveCount: level.waves.length, doorWarnings,
+    chapter: level.chapter || 1, waveCount: level.waves.length, doorWarnings, dustCells:level.dust?.length||0,
     totalScheduled: enemies.reduce((sum,enemy)=>sum+enemy.count,0),
     enemies, toys: level.toys.map(id=>({id,name:TOYS[id].name,short:TOYS[id].short,cost:TOYS[id].cost,description:TOYS[id].description})),
     reward: level.reward ? {id:level.reward,name:TOYS[level.reward].name} : null

@@ -10,7 +10,7 @@ const tick=(b,seconds)=>{for(let n=0;n<Math.ceil(seconds/STEP);n++)b.update(STEP
 function dustBattle(){const b=new Battle(0,quiet);b.spawnEnemy('E14',2);const boss=b.enemies[0];boss.x=colX(7);return {b,boss};}
 
 test('Capítulo 3 tem conclusão jogável, recompensas e chefe somente na 3-8',()=>{
-  assert.deepEqual(LEVELS.slice(20).map(l=>l.id),['3-5','3-6','3-7','3-8']);
+  assert.deepEqual(LEVELS.slice(20,24).map(l=>l.id),['3-5','3-6','3-7','3-8']);
   assert.equal(LEVELS[20].reward,'T12');assert.ok(LEVELS[21].toys.includes('T12'));
   assert.ok(!LEVELS.slice(0,23).some(l=>l.waves.some(w=>w.enemies.some(e=>e.type==='E14'))));
   assert.ok(LEVELS[23].waves.at(-1).enemies.some(e=>e.type==='E14'));
@@ -82,7 +82,7 @@ test('save antigo no fim da campanha abre 3-5 preservando estrelas e melhorias',
   assert.equal(purchaseUpgrade(s,'T12',{setItem(){}}).ok,true);
 });
 test('todos os dados novos apontam para ondas, brinquedos e avisos válidos',()=>{
-  for(const level of LEVELS.slice(20)){
+  for(const level of LEVELS.slice(20,24)){
     assert.ok(level.toys.length<=6&&level.toys.every(id=>TOYS[id]));
     let last=0;for(const wave of level.waves){assert.ok(wave.at>last);last=wave.at;
       assert.ok(wave.enemies.every(e=>ENEMIES[e.type]&&e.lane>=0&&e.lane<5));

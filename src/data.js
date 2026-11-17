@@ -1,5 +1,9 @@
-// Capítulos 1 a 3 completos (24 fases) — tabuleiro clássico 5×9 e novas mecânicas autorais.
+// Capítulos 1 a 3 completos e primeiras quatro fases do 4 (28 fases); tabuleiro clássico 5×9.
 export const TOYS = Object.freeze({
+  T13: {id:'T13',name:'Boneca Guarda-Chuva',short:'Guarda-Chuva',cost:125,cooldown:14,maxHp:185,kind:'umbrella',interval:9.5,heal:20,color:'#a4c8db',description:'Limpa casas empoeiradas próximas ao chegar e conserta brinquedos vizinhos a cada 9,5 s.'},
+  T14: {id:'T14',name:'Sombrinha Assobiadora',short:'Assobio',cost:150,cooldown:10,maxHp:115,kind:'whistle',interval:3.4,damage:27,slowFactor:.77,slowDuration:2.5,rangeCells:3,color:'#d2a8d7',description:'Assobia contra pesadelos de três faixas, causando dano e lentidão com alcance limitado.'},
+  T15: {id:'T15',name:'Robô de Lata Desajeitado',short:'Robô Lata',cost:200,cooldown:16,maxHp:270,kind:'pierce',interval:2.8,damage:40,pierces:2,color:'#c6a47d',description:'Um robô resistente que dispara parafusos atravessando até dois pesadelos.'},
+
   T02: { id:'T02', name:'Soldadinho Estalo', short:'Estalo', cost:100, cooldown:6, maxHp:120, kind:'shooter', interval:1.5, damage:20, color:'#f3694c', description:'Dispara bolinhas de papel na própria faixa.' },
   T01: { id:'T01', name:'Abajur Pirilampo', short:'Pirilampo', cost:50, cooldown:7, maxHp:100, kind:'producer', interval:22, color:'#f6bf4f', description:'Produz Brilhos. É o herói da economia!' },
   T03: { id:'T03', name:'Urso Travesseiro', short:'Ursinho', cost:50, cooldown:18, maxHp:650, kind:'blocker', color:'#7ec9d9', description:'Segura monstros para proteger os atacantes.' },
@@ -14,6 +18,9 @@ export const TOYS = Object.freeze({
   T09: { id:'T09', name:'Estilingue de Estrelas', short:'Estrelas', cost:200, cooldown:15, maxHp:100, kind:'starburst', interval:3.3, damage:46, splashRatio:.5, splashRadius:115, color:'#f7d88c', description:'Dispara uma estrela que causa dano também aos inimigos das faixas vizinhas.' },
 });
 export const ENEMIES = Object.freeze({
+  E15: {id:'E15',name:'Traça do Sótão',hp:155,speed:.35,damage:22,interval:1.1,web:true,description:'Uma traça saltitante que enrola brinquedos em fios de tecido e reduz sua cadência.'},
+  E16: {id:'E16',name:'Baú Saltitante',hp:245,speed:.28,damage:31,interval:1.15,jump:true,description:'Baú animado que aguenta muitos golpes e salta sua primeira defesa.'},
+
   E01: { id:'E01', name:'Poeira Andante', hp:100, speed:.30, damage:24, interval:1.15, description:'Uma poeirinha atrapalhada, mas persistente.' },
   E02: { id:'E02', name:'Meia Zanzante', hp:85, speed:.44, damage:20, interval:1.0, description:'Corre mais rápido, porém aguenta menos tiros.' },
   E03: { id:'E03', name:'Colcha Ambulante', hp:270, speed:.23, damage:30, interval:1.15, description:'Um cobertor de retalhos resistente. Precisa de vários disparos para cair.' },
@@ -155,5 +162,30 @@ export const LEVELS = Object.freeze([
     hint:'Vovô avisa antes de agir. Confetes e Móbile escapam da rajada; aproveite os descansos!',
     startingGlow:475, toys:['T01','T02','T03','T05','T08','T12'], reward:null, duration:285,
     waves:[wave(17,[['E12',2]]),doorWave(40,[['E07',0],['E02',0]],0),wave(65,[['E12',1],['E12',3]]),doorWave(91,[['E09',4],['E12',4]],4),wave(117,[['E08',0],['E07',2],['E08',4]]),doorWave(143,[['E11',1],['E12',1],['E12',3]],1),wave(169,[['E07',0],['E09',2],['E07',4]]),doorWave(196,[['E12',3],['E07',3],['E11',0]],3),doorWave(225,[['E14',2],['E12',0],['E12',4]],2,true)]
+  }
+,
+  { id:'4-1', chapter:4, title:'Baús e lembranças', subtitle:'O Sótão Esquecido guarda brinquedos antigos e casas cobertas de poeira.',
+    hint:'Casas com poeira reduzem em 15% a frequência das ações. Posicione seus atacantes nas casas limpas até liberar a Guarda-Chuva!',
+    startingGlow:475, toys:['T01','T02','T03','T05','T08','T12'], reward:'T13', duration:263,
+    dust:[[0,2],[1,4],[2,3],[3,5],[4,6]],
+    waves:[wave(17,[['E01',2],['E02',2]]),wave(39,[['E08',0],['E02',4]]),wave(62,[['E07',1],['E01',3]]),wave(85,[['E03',2],['E02',2]]),wave(111,[['E12',0],['E08',4]]),wave(137,[['E07',3],['E09',1]]),wave(163,[['E03',4],['E02',0],['E07',2]]),wave(190,[['E08',2],['E07',2],['E02',4]]),wave(214,[['E09',0],['E12',2],['E03',4]]),wave(244,[['E07',0],['E03',1],['E09',2],['E07',3],['E12',4]],true)]
+  },
+  { id:'4-2', chapter:4, title:'A Boneca Guarda-Chuva', subtitle:'Uma boneca corajosa consegue varrer a poeira e restaurar brinquedos.',
+    hint:'A Guarda-Chuva limpa até nove casas em torno dela ao ser colocada e repara brinquedos próximos. É suporte, não atacante!',
+    startingGlow:500, toys:['T01','T02','T03','T08','T12','T13'], reward:'T14', duration:269,
+    dust:[[0,1],[0,5],[1,3],[2,2],[2,6],[3,4],[4,2],[4,7]],
+    waves:[wave(17,[['E15',2]]),wave(41,[['E15',0],['E01',4]]),wave(66,[['E02',1],['E07',3]]),wave(92,[['E15',2],['E15',2]]),wave(117,[['E07',0],['E03',4]]),wave(143,[['E16',3],['E09',1]]),wave(172,[['E15',1],['E07',2],['E15',4]]),wave(199,[['E16',0],['E08',3],['E12',4]]),wave(224,[['E03',2],['E15',2],['E09',4]]),wave(248,[['E15',0],['E07',1],['E16',2],['E15',3],['E03',4]],true)]
+  },
+  { id:'4-3', chapter:4, title:'O assobio das cortinas', subtitle:'Um som afiado atravessa três faixas e deixa as traças lentas.',
+    hint:'A Sombrinha Assobiadora protege sua faixa e as vizinhas, mas não alcança toda a tela. Combine com a Guarda-Chuva.',
+    startingGlow:525, toys:['T01','T02','T05','T10','T13','T14'], reward:'T15', duration:280,
+    dust:[[0,2],[1,1],[1,6],[2,4],[3,3],[3,6],[4,5]],
+    waves:[wave(16,[['E15',2],['E01',2]]),wave(40,[['E16',0],['E02',4]]),wave(64,[['E15',1],['E07',3]]),wave(88,[['E15',0],['E15',4]]),wave(113,[['E16',2],['E12',2]]),wave(138,[['E09',1],['E15',3],['E07',4]]),wave(165,[['E16',4],['E15',0],['E15',2]]),wave(190,[['E16',1],['E03',3],['E07',0]]),wave(216,[['E15',1],['E16',2],['E15',3]]),wave(243,[['E16',0],['E15',1],['E07',2],['E16',3],['E15',4]],true)]
+  },
+  { id:'4-4', chapter:4, title:'O Robô de Lata acordou', subtitle:'O novo robô enferrujado dispara parafusos contra baús saltitantes.',
+    hint:'O Robô de Lata tem muita vida e atravessa até dois inimigos com cada parafuso. Proteja-o com a Guarda-Chuva!',
+    startingGlow:550, toys:['T01','T02','T03','T13','T14','T15'], reward:null, duration:292,
+    dust:[[0,3],[0,6],[1,2],[1,5],[2,3],[2,6],[3,1],[3,6],[4,2],[4,5]],
+    waves:[wave(15,[['E16',2],['E15',2]]),wave(38,[['E15',0],['E02',4]]),wave(63,[['E07',1],['E16',3]]),wave(87,[['E16',0],['E15',2],['E08',4]]),wave(113,[['E03',2],['E15',0],['E15',4]]),wave(139,[['E16',4],['E09',1],['E07',3]]),wave(166,[['E15',1],['E16',2],['E15',3]]),wave(193,[['E16',0],['E07',1],['E16',4]]),wave(221,[['E15',0],['E16',2],['E15',4],['E12',3]]),wave(250,[['E16',0],['E15',1],['E16',2],['E15',3],['E16',4]],true)]
   }
 ]);

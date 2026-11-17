@@ -233,3 +233,10 @@
 @media(prefers-reduced-motion:reduce){.story-panel *{animation:none!important;transition:none!important}}
 @media(max-width:600px){.story-stage{min-height:150px}.story-character{bottom:3%;width:100px;height:100px}.story-header h1{font-size:18px}.story-dialogue{min-height:70px;padding:8px}.story-dialogue p{font-size:12px}.story-gallery{grid-template-columns:1fr}.story-next{min-width:135px;padding:7px;font-size:12px}.story-skip{font-size:11px;padding:7px}}
 @media(orientation:portrait) and (max-width:900px){.game-frame:has(.story-panel){height:min(88dvh,760px);aspect-ratio:auto}.story-panel{max-height:100%}.story-stage{min-height:160px}}
+
+/* v1.8 — O Sótão Esquecido, perigos ambientais e cenas mais profundas */
+.level-attic{background:linear-gradient(155deg,#b89a8c,#67556d);border-color:#f0d6ae;color:#31263a}
+.level-attic .level-scout{background:#40334b;color:#ffe4b3}
+.level-attic:has(.level-entry:enabled):hover{filter:brightness(1.11)}
+.brief-dust-warning{border:1px solid #ddba7e;border-radius:12px;padding:9px 13px;background:#78533c52;color:#ffe5bd;font-size:12px;font-weight:900;line-height:1.5;margin:9px 0}
+@media(max-width:650px){.brief-dust-warning{font-size:10px;padding:6px 8px}}
