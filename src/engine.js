@@ -1,7 +1,7 @@
-import { BOARD, BOARD_RIGHT, BOARD_BOTTOM, colX, rowY, rectCell, clamp } from './config.js?v=1.9.0';
-import { LEVELS, TOYS, ENEMIES } from './data.js?v=1.9.0';
-import { upgradedToy } from './upgrades.js?v=1.9.0';
-import { deckForLevel } from './deck.js?v=1.9.0';
+import { BOARD, BOARD_RIGHT, BOARD_BOTTOM, colX, rowY, rectCell, clamp } from './config.js?v=2.0.0';
+import { LEVELS, TOYS, ENEMIES } from './data.js?v=2.0.0';
+import { upgradedToy } from './upgrades.js?v=2.0.0';
+import { deckForLevel } from './deck.js?v=2.0.0';
 
 export class Battle {
   constructor(index=0, audio=null, events={}, upgrades={}, deck=null, available=null) {
@@ -18,6 +18,7 @@ export class Battle {
     this.grid=Array.from({length:BOARD.rows},()=>Array(BOARD.cols).fill(null));
     this.dust=new Set((this.level.dust||[]).map(([row,col])=>`${row}:${col}`));
     this.dustTutorialShown=false;
+    this.dreamPulse=this.level.chapter===5?{phase:'idle',kind:'rush',count:0,nextAt:27,until:0}:null;
     this.enemies=[];this.projectiles=[];this.curtainShots=[];this.stars=[];this.particles=[];this.trains=[];
     this.effectsEnabled=true;
     this.feedback=[];this.defeated=[];this.impacts=[];
@@ -98,6 +99,7 @@ export class Battle {
     this.enemies.push({id:this.id++,type,row:lane,x:BOARD_RIGHT+65+offset,y:rowY(lane),hp:d.hp,maxHp:d.hp,shield:d.shield||0,maxShield:d.shield||0,summons:0,webTimer:4.8,enraged:false,jumped:false,jumpTime:0,stunTime:0,attackTimer:.45,hit:0,age:0,slowTime:0,slowFactor:1,attack:0,stealTimer:1.4});
     if(d.dustBoss)Object.assign(this.enemies.at(-1),{bossPhase:'march',phaseTimer:6,nextAttack:'gust',attackCount:0});
     if(d.curtainBoss)Object.assign(this.enemies.at(-1),{bossPhase:'march',phaseTimer:9,nextAttack:'ribbon',attackCount:0,targetLane:lane});
+    if(d.dreamBoss)Object.assign(this.enemies.at(-1),{bossPhase:'march',bossForm:1,phaseTimer:7,attackCount:0,targetLane:lane});
     if(d.boss)this.flashBanner(d.bossIntro,3.4);
     this.totalSpawns++;
     this.events.enemySeen?.(type);
@@ -152,7 +154,73 @@ export class Battle {
     return this.grid.some(row=>row.some(friend=>friend&&friend.type==='T16'&&friend.hp>0&&
       Math.abs(friend.row-toy.row)<=1&&Math.abs(friend.col-toy.col)<=1))?.60:1;
   }
-  bossDamageMultiplier(enemy){return enemy.type==='E18'&&enemy.bossPhase==='rest'?1.45:1;}
+  bossDamageMultiplier(enemy){
+    if(enemy.type==='E18'&&enemy.bossPhase==='rest')return 1.45;
+    if(enemy.type==='E22'&&enemy.bossPhase==='rest')return 1.4;
+    return 1;
+  }
+  updateDreamPulse(){
+    const pulse=this.dreamPulse;if(!pulse)return;
+    if(pulse.phase==='idle'&&this.time>=pulse.nextAt){
+      pulse.phase='warning';pulse.until=this.time+3;
+      pulse.kind=pulse.count%2===0?'rush':'lull';
+      this.flashBanner(pulse.kind==='rush'?'⚠ SONHO ACELERANDO! PREPARE AS FAIXAS!':'⚠ SONHO ADORMECENDO! ATAQUE COM CALMA!',3);
+      this.audio.play('wave');
+    }else if(pulse.phase==='warning'&&this.time>=pulse.until){
+      pulse.phase='active';pulse.until=this.time+6;
+      this.flashBanner(pulse.kind==='rush'?'⏩ O SONHO ESTÁ RÁPIDO!':'🌙 O SONHO ESTÁ LENTO!',2.2);
+    }else if(pulse.phase==='active'&&this.time>=pulse.until){
+      pulse.phase='idle';pulse.count++;pulse.nextAt=this.time+34;
+    }
+  }
+  updateDreamBoss(enemy,dt){
+    if(enemy.x>BOARD_RIGHT+10)return false;
+    const ratio=enemy.hp/enemy.maxHp;
+    const form=ratio<=.34?3:ratio<=.67?2:1;
+    if(form>enemy.bossForm){
+      enemy.bossForm=form;enemy.bossPhase='march';enemy.phaseTimer=1.2;
+      this.flashBanner(form===2?'👁 SEGUNDA FORMA • SALA DOS ESPELHOS!':'🌪 TERCEIRA FORMA • TEMPESTADE DOS MEDOS!',4);
+      this.audio.play('wave');this.puff(enemy.x,enemy.y-25,'#e3b7f4',20);
+    }
+    enemy.phaseTimer-=dt;
+    if(enemy.bossPhase==='march'&&enemy.phaseTimer<=0){
+      const counts=this.grid.map(row=>row.filter(Boolean).length);
+      const preferred=(enemy.row+enemy.attackCount)%BOARD.rows;
+      const occupied=counts.map((count,row)=>({count,row})).filter(v=>v.count>0);
+      enemy.targetLane=occupied.length?occupied.sort((a,b)=>b.count-a.count||Math.abs(a.row-preferred)-Math.abs(b.row-preferred))[0].row:preferred;
+      enemy.bossPhase='warning';enemy.phaseTimer=1.8;
+      const move=enemy.bossForm===1?'SUSSURRO':enemy.bossForm===2?'ESPELHOS':'TEMPESTADE';
+      this.flashBanner(`⚠ ${move} • FAIXA ${enemy.targetLane+1}!`,1.8);
+      this.audio.play('wave');return true;
+    }
+    if(enemy.bossPhase==='warning'&&enemy.phaseTimer<=0){
+      if(enemy.bossForm===1){
+        // Forma 1: adormece temporariamente os brinquedos da faixa avisada.
+        for(const toy of this.grid[enemy.targetLane])if(toy){
+          toy.webTime=Math.max(toy.webTime,3.7);this.addImpact(toy.x,toy.y-28,'sleep');
+        }
+      }else if(enemy.bossForm===2){
+        // Forma 2: espelhos chamam reflexos, sem gerar inimigos ilimitadamente.
+        let existing=this.enemies.filter(e=>e.type==='E19'||e.type==='E20').length;
+        for(const lane of [enemy.targetLane,Math.min(BOARD.rows-1,enemy.targetLane+1)]){
+          if(existing>=6)break;
+          this.spawnEnemy(lane===enemy.targetLane?'E19':'E20',lane);
+          this.enemies.at(-1).x=Math.min(BOARD_RIGHT+28,enemy.x+BOARD.cw);
+          existing++;
+        }
+      }else{
+        // Forma 3: tempestade envia dois ataques de sombra, ambos visíveis.
+        const lanes=new Set([enemy.targetLane,Math.max(0,enemy.targetLane-1)]);
+        for(const lane of lanes)this.curtainShots.push({row:lane,x:Math.min(BOARD_RIGHT+56,enemy.x-25),y:rowY(lane),damage:54,kind:'dream',age:0});
+      }
+      enemy.attackCount++;enemy.bossPhase='rest';enemy.phaseTimer=3.6;
+      this.flashBanner('✨ BICHO-PAPÃO EXPOSTO! ATAQUE AGORA!',2.8);
+      this.puff(enemy.x,enemy.y-15,'#dab4ed',10);
+      return true;
+    }
+    if(enemy.bossPhase==='rest'&&enemy.phaseTimer<=0){enemy.bossPhase='march';enemy.phaseTimer=enemy.bossForm===3?6.6:8.4;}
+    return enemy.bossPhase!=='march';
+  }
   updateCurtainBoss(enemy,dt){
     if(enemy.x>BOARD_RIGHT+10)return false;
     enemy.phaseTimer-=dt;
@@ -195,6 +263,7 @@ export class Battle {
   update(dt){
     if(this.state!=='playing')return;
     this.time+=dt;
+    this.updateDreamPulse();
     if(!this.bigWaveAlert){const next=this.level.waves.find(w=>w.flag);
       if(next && this.time>=next.at-3){this.bigWaveAlert=true;this.flashBanner('⚑  GRANDE ONDA SE APROXIMANDO!',3.0);this.audio.play('wave');this.events.wave?.();}
     }
@@ -224,7 +293,7 @@ export class Battle {
       if(s.age>s.dropTime+8)this.stars.splice(i,1);
     }
     for(const toy of this.allToys){
-      toy.age+=dt;toy.hit=Math.max(0,toy.hit-dt);toy.recoil=Math.max(0,(toy.recoil||0)-dt);toy.webTime=Math.max(0,(toy.webTime||0)-dt);toy.timer-=dt*(toy.webTime>0?.56:1)*(this.isDusty(toy.row,toy.col)?.85:1);
+      toy.age+=dt;toy.hit=Math.max(0,toy.hit-dt);toy.recoil=Math.max(0,(toy.recoil||0)-dt);toy.webTime=Math.max(0,(toy.webTime||0)-dt);toy.timer-=dt*(toy.webTime>0?.56:1)*(this.isDusty(toy.row,toy.col)?.85:1)*(this.dreamPulse?.phase==='active'?(this.dreamPulse.kind==='rush'?.82:1.18):1);
       const d=this.toyStats[toy.type];
       if(d.kind==='umbrella'&&toy.timer<=0){
         toy.timer+=d.interval;toy.recoil=.32;let repaired=0;
@@ -260,6 +329,33 @@ export class Battle {
           if(enemy.hp<=0)this.killEnemy(enemy);
         }
         if(hitCount){this.addFeedback(toy.x,toy.y-72,`TUM! ×${hitCount}`,'#ffe9ae');this.audio.play('cuckoo');}
+      }
+      if(d.kind==='magnet'&&toy.timer<=0){
+        const target=this.enemies.filter(enemy=>enemy.hp>0&&enemy.row===toy.row&&enemy.x>toy.x+20&&enemy.x<BOARD_RIGHT+75)
+          .sort((a,b)=>a.x-b.x)[0];
+        if(target){
+          toy.timer+=d.interval;toy.recoil=.33;
+          const damage=d.damage*this.bossDamageMultiplier(target);
+          const absorbed=Math.min(target.shield||0,damage);
+          target.shield=(target.shield||0)-absorbed;target.hp-=damage-absorbed;
+          const pull=BOARD.cw*(ENEMIES[target.type].boss?.17:d.pullCells||.5);
+          target.x=Math.min(BOARD_RIGHT+55,target.x+pull);target.hit=.24;
+          this.addImpact(target.x,target.y-30,'slow');this.audio.play('freeze');
+          if(target.hp<=0)this.killEnemy(target);
+        }else toy.timer=.18;
+      }
+      if(d.kind==='guitar'&&toy.timer<=0){
+        toy.timer+=d.interval;toy.recoil=.35;let struck=0;
+        for(const enemy of [...this.enemies])if(enemy.hp>0&&Math.abs(enemy.row-toy.row)<=1&&
+          Math.abs(enemy.x-toy.x)<=BOARD.cw*(d.rangeCells||4)){
+          const damage=d.damage*this.bossDamageMultiplier(enemy),absorbed=Math.min(enemy.shield||0,damage);
+          enemy.shield=(enemy.shield||0)-absorbed;enemy.hp-=damage-absorbed;enemy.hit=.2;
+          this.addImpact(enemy.x,enemy.y-21,'ricochet');struck++;
+          if(enemy.hp<=0)this.killEnemy(enemy);
+        }
+        for(const friend of this.allToys)if(friend!==toy&&Math.abs(friend.row-toy.row)<=1&&Math.abs(friend.col-toy.col)<=1)
+          friend.timer=Math.max(0,friend.timer-.6);
+        if(struck){this.audio.play('cuckoo');this.addFeedback(toy.x,toy.y-70,`♪ ×${struck}`,'#ffebc1');}
       }
       if(d.kind==='producer'&&toy.timer<=0){
         toy.timer+=d.interval;
@@ -393,6 +489,7 @@ export class Battle {
       const wasAsleep=e.stunTime>0;e.stunTime=Math.max(0,(e.stunTime||0)-dt);if(wasAsleep)continue;
       if(d.dustBoss&&this.updateDustBoss(e,dt))continue;
       if(d.curtainBoss&&this.updateCurtainBoss(e,dt))continue;
+      if(d.dreamBoss&&this.updateDreamBoss(e,dt))continue;
       if(d.jump&&!e.jumped){
         const hurdle=this.grid[e.row].filter(t=>t&&e.x>t.x+39&&e.x<t.x+87).sort((a,b)=>b.x-a.x)[0];
         if(hurdle){e.x=hurdle.x-53;e.jumped=true;e.jumpTime=.48;this.addImpact(e.x,e.y-20,'jump');this.audio.play('jump');}
@@ -404,7 +501,7 @@ export class Battle {
           if(toy.hp<=0){this.grid[toy.row][toy.col]=null;this.audio.play('remove');this.puff(toy.x,toy.y,'#eecb9e',14);this.events.changed?.();}
           else this.audio.play('hit');
         }
-      }else{e.x-=d.speed*(e.enraged?1.75:1)*e.slowFactor*BOARD.cw*dt;e.attackTimer=Math.min(e.attackTimer,.35);}
+      }else{e.x-=d.speed*(e.enraged?1.75:1)*e.slowFactor*BOARD.cw*dt*(this.dreamPulse?.phase==='active'?(this.dreamPulse.kind==='rush'?1.3:.72):1);e.attackTimer=Math.min(e.attackTimer,.35);}
       if(e.x<BOARD.x-29){
         if(this.trainReady[e.row]){
           this.trainReady[e.row]=false;this.trains.push({row:e.row,x:BOARD.x-83,age:0});

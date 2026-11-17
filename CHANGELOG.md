@@ -1,3 +1,14 @@
+# 2.0.0 — 17/11/2026
+
+- Campanha completa: 40 fases em cinco capítulos, incluindo 5-1…5-8.
+- O Quarto dos Sonhos ganhou cenário 2.5D exclusivo e pulsos anunciados de aceleração/desaceleração.
+- Cinco novos brinquedos (T18–T22), três inimigos comuns (E19–E21) e novos retratos desenhados.
+- Grande Bicho-Papão (E22) possui três formas progressivas, ataques anunciados, contramedidas e vulnerabilidade pós-ataque.
+- Cutscenes C05, C06 e C07: apresentação do chefe, final da Lia, créditos e cena pós-créditos.
+- Tela FIM DA CAMPANHA, replays e galeria de oito cenas, mantendo estrela, saves, Oficina e Sobrevivência.
+- PWA e versão offline sincronizados; suíte de testes de progressão, boss, pulso de sonho, controles e save.
+- Checkpoint histórico v1.6.0 preservado; trabalho opcional 3D fica para etapa independente.
+
 # 1.9.0 — 17/11/2026
 
 - Concluído Capítulo 4 (4-5 a 4-8): 32 fases no total.

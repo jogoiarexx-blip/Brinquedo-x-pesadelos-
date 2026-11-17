@@ -10,7 +10,7 @@ import { loadSave,markStorySeen,recordVictory,starWallet } from '../src/save.js'
 
 const store=()=>({text:null,getItem(){return this.text;},setItem(key,v){this.text=v;}});
 test('quatro cutscenes com três ou mais quadros e artes reconhecidas',()=>{
-  assert.deepEqual(STORY_ORDER,['C00','C01','C02','C03','C04']);
+  assert.deepEqual(STORY_ORDER,['C00','C01','C02','C03','C04','C05','C06','C07']);
   assert.equal(getStory('unknown'),null);
   assert.equal(getStory('__proto__'),null);
   assert.equal(storyForVictory('1-8'),'C01');
@@ -35,7 +35,7 @@ test('quatro cutscenes com três ou mais quadros e artes reconhecidas',()=>{
     }
     assert.equal(buildStoryScreen(id,scene.slides.length), '');
   }
-  assert.equal(LEVELS.length,32);
+  assert.equal(LEVELS.length,40);
 });
 test('migrar save legado com cenas inexistentes e evitar prototipagem de IDs',()=>{
   const s=store();
@@ -89,8 +89,8 @@ test('integração: PWA, browser, conteúdo offline e código sintaticamente vá
   assert.ok(main.includes("result==='victory'?storyForVictory"));
   assert.ok(main.includes("action==='story-skip'"));
   assert.ok(main.includes("action==='story-gallery'"));
-  assert.ok(sw.includes('story.js?v=1.9.0'));
-  assert.ok(sw.includes('story-ui.js?v=1.9.0'));
+  assert.ok(sw.includes('story.js?v=2.0.0'));
+  assert.ok(sw.includes('story-ui.js?v=2.0.0'));
   assert.ok(builder.includes("'story.js','save.js'"));
   assert.ok(builder.includes("'story-ui.js','main.js'"));
   assert.ok(offline.includes('function buildStoryScreen'));

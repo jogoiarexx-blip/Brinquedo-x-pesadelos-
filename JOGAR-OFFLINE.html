@@ -253,8 +253,32 @@
 .brief-dust-warning{border:1px solid #ddba7e;border-radius:12px;padding:9px 13px;background:#78533c52;color:#ffe5bd;font-size:12px;font-weight:900;line-height:1.5;margin:9px 0}
 @media(max-width:650px){.brief-dust-warning{font-size:10px;padding:6px 8px}}
 
+
+/* v2.0.0 — A Noite dos Mil Bocejos: mundo onírico e encerramento */
+.level-dream{background:linear-gradient(145deg,#6e628f,#b39ac5 58%,#695c8f);border:2px solid #e0c8f0;color:#261d43;box-shadow:inset 0 2px 9px #d5baee40}
+.level-dream .level-entry{color:#231942}
+.level-dream .level-scout{background:#443858;color:#fff0d5}
+.level-dream:has(.level-entry:enabled):hover{filter:brightness(1.12)}
+.story-stage-dream{background:radial-gradient(ellipse at 34% 28%,#ecdaaf75,transparent 33%),linear-gradient(125deg,#262448,#67528d 54%,#3d315a)}
+.story-stage-dream .story-moon{background:#efd7fa;box-shadow:0 0 65px 35px #cbaafa59;right:12%;top:8%}
+.story-stage-dream .story-backdrop{background:linear-gradient(#60467c,#292347);clip-path:polygon(0 50%,9% 8%,19% 8%,25% 64%,42% 39%,51% 5%,61% 39%,77% 57%,82% 10%,100% 10%,100% 100%,0 100%)}
+.story-stage-dream .story-backdrop-front{background:linear-gradient(#896ea18a,#2b234f);border-top-color:#e3b8e3}
+.story-stage-dream .story-character{filter:drop-shadow(0 9px 15px #d5a4eb77);width:clamp(125px,22vw,205px);height:clamp(120px,21vw,195px)}
+.story-stage-bedrooms .story-character{filter:drop-shadow(0 12px 11px #f4d2b477)}
+.finale-ending{border:2px solid #ffdfb3;border-radius:17px;background:linear-gradient(140deg,#695577,#302c5c);box-shadow:0 6px 18px #1e143d66;padding:18px;margin:14px 0;text-align:center;color:#fff4d8}
+.finale-ending strong{display:block;color:#fff2b7;font-size:clamp(19px,3vw,29px);letter-spacing:.07em}
+.finale-ending p{font-size:clamp(13px,1.65vw,18px)!important;line-height:1.5}
+.finale-ending small{color:#e6cfeb;font-size:12px}
+.story-gallery-card:has([data-story="C07"]){border-color:#efcaa7;background:linear-gradient(125deg,#67476a,#45395d)}
+@media(max-width:650px){
+  .level-dream{border-width:1px}
+  .finale-ending{padding:11px}
+  .finale-ending p{font-size:12px!important}
+  .story-stage-dream .story-character{width:125px;height:120px}
+}
+
 </style>
-  <title>Brinquedos vs. Pesadelos — Jogar Offline v1.9.0</title>
+  <title>Brinquedos vs. Pesadelos — Jogar Offline v2.0.0</title>
 </head>
 <body>
 <svg xmlns="http://www.w3.org/2000/svg" width="0" height="0" aria-hidden="true" style="position:absolute;overflow:hidden"><defs><symbol id="toy-T01" viewBox="0 0 80 80"><g style="color:#f7cf65" stroke="#59486f" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"><path d="M23 35 Q25 10 40 10 Q55 10 57 35Z" fill="currentColor"/><rect x="34" y="34" width="12" height="22" rx="4" fill="#8bcdbd"/><rect x="26" y="54" width="28" height="7" rx="3" fill="#b77d85"/><ellipse cx="32" cy="39" rx="4.5" ry="6" fill="#fffdf4" stroke="none"/><ellipse cx="49" cy="39" rx="4.5" ry="6" fill="#fffdf4" stroke="none"/><circle cx="33" cy="40" r="2" fill="#493d62" stroke="none"/><circle cx="50" cy="40" r="2" fill="#493d62" stroke="none"/><path d="M34 51 Q41 57 48 51" fill="none" stroke="#80566f" stroke-width="2.5"/><circle cx="18" cy="18" r="3" fill="#fff1b5" stroke="none"/><path d="M9 68 Q40 74 71 68" fill="none" stroke="#ffffff55" stroke-width="2"/></g></symbol><symbol id="toy-T02" viewBox="0 0 80 80"><g style="color:#72b8d5" stroke="#59486f" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"><rect x="22" y="29" width="36" height="31" rx="10" fill="currentColor"/><path d="M25 31 Q23 10 40 10 Q57 10 55 31Z" fill="#f0c79c"/><path d="M19 26 H61 L55 16 H26Z" fill="#5b84b6"/><rect x="48" y="34" width="24" height="7" rx="3" fill="#d8a66d"/><ellipse cx="32" cy="39" rx="4.5" ry="6" fill="#fffdf4" stroke="none"/><ellipse cx="49" cy="39" rx="4.5" ry="6" fill="#fffdf4" stroke="none"/><circle cx="33" cy="40" r="2" fill="#493d62" stroke="none"/><circle cx="50" cy="40" r="2" fill="#493d62" stroke="none"/><path d="M34 51 Q41 57 48 51" fill="none" stroke="#80566f" stroke-width="2.5"/><circle cx="18" cy="18" r="3" fill="#fff1b5" stroke="none"/><path d="M9 68 Q40 74 71 68" fill="none" stroke="#ffffff55" stroke-width="2"/></g></symbol><symbol id="toy-T03" viewBox="0 0 80 80"><g style="color:#d99d91" stroke="#59486f" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"><circle cx="25" cy="22" r="11" fill="currentColor"/><circle cx="55" cy="22" r="11" fill="currentColor"/><ellipse cx="40" cy="42" rx="25" ry="23" fill="currentColor"/><ellipse cx="40" cy="48" rx="12" ry="9" fill="#f4d9bf"/><ellipse cx="32" cy="39" rx="4.5" ry="6" fill="#fffdf4" stroke="none"/><ellipse cx="49" cy="39" rx="4.5" ry="6" fill="#fffdf4" stroke="none"/><circle cx="33" cy="40" r="2" fill="#493d62" stroke="none"/><circle cx="50" cy="40" r="2" fill="#493d62" stroke="none"/><path d="M34 51 Q41 57 48 51" fill="none" stroke="#80566f" stroke-width="2.5"/><circle cx="18" cy="18" r="3" fill="#fff1b5" stroke="none"/><path d="M9 68 Q40 74 71 68" fill="none" stroke="#ffffff55" stroke-width="2"/></g></symbol><symbol id="toy-T04" viewBox="0 0 80 80"><g style="color:#9ce5ef" stroke="#59486f" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"><path d="M40 8 L47 27 L65 34 L57 54 L40 69 L23 54 L15 34 L33 27Z" fill="currentColor"/><rect x="36" y="3" width="8" height="13" rx="3" fill="#d8b17a"/><ellipse cx="32" cy="39" rx="4.5" ry="6" fill="#fffdf4" stroke="none"/><ellipse cx="49" cy="39" rx="4.5" ry="6" fill="#fffdf4" stroke="none"/><circle cx="33" cy="40" r="2" fill="#493d62" stroke="none"/><circle cx="50" cy="40" r="2" fill="#493d62" stroke="none"/><path d="M34 51 Q41 57 48 51" fill="none" stroke="#80566f" stroke-width="2.5"/><circle cx="18" cy="18" r="3" fill="#fff1b5" stroke="none"/><path d="M9 68 Q40 74 71 68" fill="none" stroke="#ffffff55" stroke-width="2"/></g></symbol><symbol id="toy-T05" viewBox="0 0 80 80"><g style="color:#e99bc4" stroke="#59486f" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"><rect x="18" y="29" width="42" height="29" rx="11" fill="currentColor"/><path d="M37 25 L65 15 Q73 14 72 25 L60 38Z" fill="#d9b4e9"/><circle cx="65" cy="26" r="7" fill="#fff0c0"/><ellipse cx="32" cy="39" rx="4.5" ry="6" fill="#fffdf4" stroke="none"/><ellipse cx="49" cy="39" rx="4.5" ry="6" fill="#fffdf4" stroke="none"/><circle cx="33" cy="40" r="2" fill="#493d62" stroke="none"/><circle cx="50" cy="40" r="2" fill="#493d62" stroke="none"/><path d="M34 51 Q41 57 48 51" fill="none" stroke="#80566f" stroke-width="2.5"/><circle cx="18" cy="18" r="3" fill="#fff1b5" stroke="none"/><path d="M9 68 Q40 74 71 68" fill="none" stroke="#ffffff55" stroke-width="2"/></g></symbol><symbol id="toy-T06" viewBox="0 0 80 80"><g style="color:#ffc16d" stroke="#59486f" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"><path d="M13 43 L20 27 Q23 22 31 22 H52 Q60 22 65 38 L69 45 V56 H12Z" fill="currentColor"/><rect x="28" y="24" width="22" height="14" rx="5" fill="#9bd9e7"/><circle cx="25" cy="57" r="8" fill="#51496f"/><circle cx="57" cy="57" r="8" fill="#51496f"/><ellipse cx="32" cy="39" rx="4.5" ry="6" fill="#fffdf4" stroke="none"/><ellipse cx="49" cy="39" rx="4.5" ry="6" fill="#fffdf4" stroke="none"/><circle cx="33" cy="40" r="2" fill="#493d62" stroke="none"/><circle cx="50" cy="40" r="2" fill="#493d62" stroke="none"/><path d="M34 51 Q41 57 48 51" fill="none" stroke="#80566f" stroke-width="2.5"/><circle cx="18" cy="18" r="3" fill="#fff1b5" stroke="none"/><path d="M9 68 Q40 74 71 68" fill="none" stroke="#ffffff55" stroke-width="2"/></g></symbol><symbol id="toy-T07" viewBox="0 0 80 80"><g style="color:#c2b0ec" stroke="#59486f" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"><circle cx="40" cy="24" r="18" fill="#f4cdb7"/><path d="M20 27 Q20 2 42 7 Q63 7 60 30 L52 20 L29 20Z" fill="currentColor"/><path d="M17 47 Q40 34 63 47 L58 67 H22Z" fill="#a99ad8"/><ellipse cx="32" cy="39" rx="4.5" ry="6" fill="#fffdf4" stroke="none"/><ellipse cx="49" cy="39" rx="4.5" ry="6" fill="#fffdf4" stroke="none"/><circle cx="33" cy="40" r="2" fill="#493d62" stroke="none"/><circle cx="50" cy="40" r="2" fill="#493d62" stroke="none"/><path d="M34 51 Q41 57 48 51" fill="none" stroke="#80566f" stroke-width="2.5"/><circle cx="18" cy="18" r="3" fill="#fff1b5" stroke="none"/><path d="M9 68 Q40 74 71 68" fill="none" stroke="#ffffff55" stroke-width="2"/></g></symbol><symbol id="toy-T08" viewBox="0 0 80 80"><g style="color:#a7dfc8" stroke="#59486f" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"><path d="M13 17 Q40 4 67 17" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round"/><path d="M22 18 V42 M40 13 V45 M58 18 V42" stroke="#e7dfc5" stroke-width="3"/><circle cx="22" cy="49" r="9" fill="#f1cf83"/><circle cx="40" cy="52" r="10" fill="currentColor"/><circle cx="58" cy="49" r="9" fill="#a9d7e8"/><ellipse cx="32" cy="39" rx="4.5" ry="6" fill="#fffdf4" stroke="none"/><ellipse cx="49" cy="39" rx="4.5" ry="6" fill="#fffdf4" stroke="none"/><circle cx="33" cy="40" r="2" fill="#493d62" stroke="none"/><circle cx="50" cy="40" r="2" fill="#493d62" stroke="none"/><path d="M34 51 Q41 57 48 51" fill="none" stroke="#80566f" stroke-width="2.5"/><circle cx="18" cy="18" r="3" fill="#fff1b5" stroke="none"/><path d="M9 68 Q40 74 71 68" fill="none" stroke="#ffffff55" stroke-width="2"/></g></symbol><symbol id="toy-T09" viewBox="0 0 80 80"><g style="color:#f1d27e" stroke="#59486f" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"><path d="M23 64 L23 24 L12 10 M23 24 L54 10" fill="none" stroke="#b58a73" stroke-width="8" stroke-linecap="round"/><path d="M12 10 Q34 34 54 10" fill="none" stroke="#f4e3b8" stroke-width="4"/><circle cx="34" cy="24" r="12" fill="currentColor"/><ellipse cx="32" cy="39" rx="4.5" ry="6" fill="#fffdf4" stroke="none"/><ellipse cx="49" cy="39" rx="4.5" ry="6" fill="#fffdf4" stroke="none"/><circle cx="33" cy="40" r="2" fill="#493d62" stroke="none"/><circle cx="50" cy="40" r="2" fill="#493d62" stroke="none"/><path d="M34 51 Q41 57 48 51" fill="none" stroke="#80566f" stroke-width="2.5"/><circle cx="18" cy="18" r="3" fill="#fff1b5" stroke="none"/><path d="M9 68 Q40 74 71 68" fill="none" stroke="#ffffff55" stroke-width="2"/></g></symbol><symbol id="toy-T10" viewBox="0 0 80 80"><g style="color:#a9d997" stroke="#59486f" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"><path d="M19 12 Q-1 40 19 67 M61 12 Q81 40 61 67" fill="none" stroke="#b88a69" stroke-width="7"/><path d="M19 12 L61 67 M61 12 L19 67" stroke="#d6f0bd" stroke-width="3"/><circle cx="40" cy="40" r="11" fill="currentColor"/><ellipse cx="32" cy="39" rx="4.5" ry="6" fill="#fffdf4" stroke="none"/><ellipse cx="49" cy="39" rx="4.5" ry="6" fill="#fffdf4" stroke="none"/><circle cx="33" cy="40" r="2" fill="#493d62" stroke="none"/><circle cx="50" cy="40" r="2" fill="#493d62" stroke="none"/><path d="M34 51 Q41 57 48 51" fill="none" stroke="#80566f" stroke-width="2.5"/><circle cx="18" cy="18" r="3" fill="#fff1b5" stroke="none"/><path d="M9 68 Q40 74 71 68" fill="none" stroke="#ffffff55" stroke-width="2"/></g></symbol><symbol id="toy-T11" viewBox="0 0 80 80"><g style="color:#e7a5a5" stroke="#59486f" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"><rect x="13" y="26" width="54" height="42" rx="7" fill="currentColor"/><path d="M9 25 H71 V36 H9Z" fill="#f6d88e"/><path d="M34 25 V68 H46 V25" fill="#f8e4a4"/><path d="M40 26 Q15 6 31 8 Q42 9 40 26 Q56 5 62 13 Q66 23 40 26" fill="#e78da8"/><ellipse cx="32" cy="39" rx="4.5" ry="6" fill="#fffdf4" stroke="none"/><ellipse cx="49" cy="39" rx="4.5" ry="6" fill="#fffdf4" stroke="none"/><circle cx="33" cy="40" r="2" fill="#493d62" stroke="none"/><circle cx="50" cy="40" r="2" fill="#493d62" stroke="none"/><path d="M34 51 Q41 57 48 51" fill="none" stroke="#80566f" stroke-width="2.5"/><circle cx="18" cy="18" r="3" fill="#fff1b5" stroke="none"/><path d="M9 68 Q40 74 71 68" fill="none" stroke="#ffffff55" stroke-width="2"/></g></symbol><symbol id="enemy-E01" viewBox="0 0 80 80"><g style="color:#b9a9d4" stroke="#59486f" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"><circle cx="26" cy="42" r="18" fill="currentColor"/><circle cx="43" cy="30" r="23" fill="currentColor"/><circle cx="59" cy="43" r="17" fill="currentColor"/><path d="M19 53 Q40 65 63 53" stroke="#e8dff1" stroke-width="5" fill="none"/><ellipse cx="32" cy="39" rx="4.5" ry="6" fill="#fffdf4" stroke="none"/><ellipse cx="49" cy="39" rx="4.5" ry="6" fill="#fffdf4" stroke="none"/><circle cx="33" cy="40" r="2" fill="#493d62" stroke="none"/><circle cx="50" cy="40" r="2" fill="#493d62" stroke="none"/><path d="M34 51 Q41 57 48 51" fill="none" stroke="#80566f" stroke-width="2.5"/><circle cx="18" cy="18" r="3" fill="#fff1b5" stroke="none"/><path d="M9 68 Q40 74 71 68" fill="none" stroke="#ffffff55" stroke-width="2"/></g></symbol><symbol id="enemy-E02" viewBox="0 0 80 80"><g style="color:#dc829f" stroke="#59486f" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"><path d="M25 9 H54 V42 Q54 50 65 51 Q74 56 66 66 H27 Q14 64 20 53 L28 44Z" fill="currentColor"/><path d="M25 17 H54" stroke="#f4d9c3" stroke-width="7"/><ellipse cx="32" cy="39" rx="4.5" ry="6" fill="#fffdf4" stroke="none"/><ellipse cx="49" cy="39" rx="4.5" ry="6" fill="#fffdf4" stroke="none"/><circle cx="33" cy="40" r="2" fill="#493d62" stroke="none"/><circle cx="50" cy="40" r="2" fill="#493d62" stroke="none"/><path d="M34 51 Q41 57 48 51" fill="none" stroke="#80566f" stroke-width="2.5"/><circle cx="18" cy="18" r="3" fill="#fff1b5" stroke="none"/><path d="M9 68 Q40 74 71 68" fill="none" stroke="#ffffff55" stroke-width="2"/></g></symbol><symbol id="enemy-E03" viewBox="0 0 80 80"><g style="color:#8db6ad" stroke="#59486f" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"><rect x="14" y="12" width="52" height="54" rx="10" fill="currentColor"/><path d="M40 13 V65 M15 39 H65" stroke="#f6d7a5" stroke-width="4"/><rect x="19" y="18" width="17" height="17" rx="3" fill="#e7b18e"/><rect x="45" y="44" width="16" height="15" rx="3" fill="#d8b7e6"/><ellipse cx="32" cy="39" rx="4.5" ry="6" fill="#fffdf4" stroke="none"/><ellipse cx="49" cy="39" rx="4.5" ry="6" fill="#fffdf4" stroke="none"/><circle cx="33" cy="40" r="2" fill="#493d62" stroke="none"/><circle cx="50" cy="40" r="2" fill="#493d62" stroke="none"/><path d="M34 51 Q41 57 48 51" fill="none" stroke="#80566f" stroke-width="2.5"/><circle cx="18" cy="18" r="3" fill="#fff1b5" stroke="none"/><path d="M9 68 Q40 74 71 68" fill="none" stroke="#ffffff55" stroke-width="2"/></g></symbol><symbol id="enemy-E04" viewBox="0 0 80 80"><g style="color:#f1d38a" stroke="#59486f" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"><path d="M18 64 L27 12 L35 42 L47 8 L50 39 L65 17 L58 67Z" fill="currentColor"/><path d="M27 14 L49 15" stroke="#fff0bc" stroke-width="4"/><ellipse cx="32" cy="39" rx="4.5" ry="6" fill="#fffdf4" stroke="none"/><ellipse cx="49" cy="39" rx="4.5" ry="6" fill="#fffdf4" stroke="none"/><circle cx="33" cy="40" r="2" fill="#493d62" stroke="none"/><circle cx="50" cy="40" r="2" fill="#493d62" stroke="none"/><path d="M34 51 Q41 57 48 51" fill="none" stroke="#80566f" stroke-width="2.5"/><circle cx="18" cy="18" r="3" fill="#fff1b5" stroke="none"/><path d="M9 68 Q40 74 71 68" fill="none" stroke="#ffffff55" stroke-width="2"/></g></symbol><symbol id="enemy-E05" viewBox="0 0 80 80"><g style="color:#b47fb5" stroke="#59486f" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"><path d="M14 25 L25 8 L38 23 L51 7 L64 25 L61 63 H17Z" fill="currentColor"/><path d="M15 31 H65" stroke="#f4d28a" stroke-width="7"/><circle cx="27" cy="15" r="4" fill="#fff0ad"/><circle cx="51" cy="14" r="4" fill="#fff0ad"/><ellipse cx="32" cy="39" rx="4.5" ry="6" fill="#fffdf4" stroke="none"/><ellipse cx="49" cy="39" rx="4.5" ry="6" fill="#fffdf4" stroke="none"/><circle cx="33" cy="40" r="2" fill="#493d62" stroke="none"/><circle cx="50" cy="40" r="2" fill="#493d62" stroke="none"/><path d="M34 51 Q41 57 48 51" fill="none" stroke="#80566f" stroke-width="2.5"/><circle cx="18" cy="18" r="3" fill="#fff1b5" stroke="none"/><path d="M9 68 Q40 74 71 68" fill="none" stroke="#ffffff55" stroke-width="2"/></g></symbol><symbol id="enemy-E06" viewBox="0 0 80 80"><g style="color:#9989cb" stroke="#59486f" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"><path d="M40 63 Q14 55 24 43 Q56 34 40 24 Q25 13 40 8" fill="none" stroke="currentColor" stroke-width="9" stroke-linecap="round"/><circle cx="40" cy="31" r="23" fill="currentColor"/><path d="M17 60 L28 67 M52 67 L64 60" stroke="#e7c98e" stroke-width="6"/><ellipse cx="32" cy="39" rx="4.5" ry="6" fill="#fffdf4" stroke="none"/><ellipse cx="49" cy="39" rx="4.5" ry="6" fill="#fffdf4" stroke="none"/><circle cx="33" cy="40" r="2" fill="#493d62" stroke="none"/><circle cx="50" cy="40" r="2" fill="#493d62" stroke="none"/><path d="M34 51 Q41 57 48 51" fill="none" stroke="#80566f" stroke-width="2.5"/><circle cx="18" cy="18" r="3" fill="#fff1b5" stroke="none"/><path d="M9 68 Q40 74 71 68" fill="none" stroke="#ffffff55" stroke-width="2"/></g></symbol><symbol id="enemy-E07" viewBox="0 0 80 80"><g style="color:#c9a0b7" stroke="#59486f" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"><path d="M40 10 Q25 10 34 22 L10 48 Q8 54 17 54 H63 Q72 54 68 48 L44 23" fill="none" stroke="currentColor" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/><rect x="26" y="48" width="28" height="16" rx="8" fill="#d8b1c8"/><ellipse cx="32" cy="39" rx="4.5" ry="6" fill="#fffdf4" stroke="none"/><ellipse cx="49" cy="39" rx="4.5" ry="6" fill="#fffdf4" stroke="none"/><circle cx="33" cy="40" r="2" fill="#493d62" stroke="none"/><circle cx="50" cy="40" r="2" fill="#493d62" stroke="none"/><path d="M34 51 Q41 57 48 51" fill="none" stroke="#80566f" stroke-width="2.5"/><circle cx="18" cy="18" r="3" fill="#fff1b5" stroke="none"/><path d="M9 68 Q40 74 71 68" fill="none" stroke="#ffffff55" stroke-width="2"/></g></symbol><symbol id="enemy-E08" viewBox="0 0 80 80"><g style="color:#8d7db7" stroke="#59486f" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"><circle cx="40" cy="39" r="22" fill="currentColor"/><path d="M23 25 L10 12 M20 38 L5 35 M22 51 L9 65 M57 25 L70 12 M60 38 L75 35 M58 51 L71 65" stroke="currentColor" stroke-width="6" stroke-linecap="round"/><ellipse cx="32" cy="39" rx="4.5" ry="6" fill="#fffdf4" stroke="none"/><ellipse cx="49" cy="39" rx="4.5" ry="6" fill="#fffdf4" stroke="none"/><circle cx="33" cy="40" r="2" fill="#493d62" stroke="none"/><circle cx="50" cy="40" r="2" fill="#493d62" stroke="none"/><path d="M34 51 Q41 57 48 51" fill="none" stroke="#80566f" stroke-width="2.5"/><circle cx="18" cy="18" r="3" fill="#fff1b5" stroke="none"/><path d="M9 68 Q40 74 71 68" fill="none" stroke="#ffffff55" stroke-width="2"/></g></symbol><symbol id="enemy-E09" viewBox="0 0 80 80"><g style="color:#e5b37d" stroke="#59486f" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"><circle cx="40" cy="42" r="25" fill="currentColor"/><circle cx="40" cy="42" r="19" fill="#fff0c8"/><path d="M40 42 V26 M40 42 L53 49" stroke="#665a7d" stroke-width="4" stroke-linecap="round"/><path d="M21 12 Q9 -2 4 14 M59 12 Q72 -2 77 14" stroke="#a6d6e0" stroke-width="6" fill="none"/><ellipse cx="32" cy="39" rx="4.5" ry="6" fill="#fffdf4" stroke="none"/><ellipse cx="49" cy="39" rx="4.5" ry="6" fill="#fffdf4" stroke="none"/><circle cx="33" cy="40" r="2" fill="#493d62" stroke="none"/><circle cx="50" cy="40" r="2" fill="#493d62" stroke="none"/><path d="M34 51 Q41 57 48 51" fill="none" stroke="#80566f" stroke-width="2.5"/><circle cx="18" cy="18" r="3" fill="#fff1b5" stroke="none"/><path d="M9 68 Q40 74 71 68" fill="none" stroke="#ffffff55" stroke-width="2"/></g></symbol><symbol id="enemy-E10" viewBox="0 0 80 80"><g style="color:#aaa1d9" stroke="#59486f" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"><path d="M59 9 Q26 6 24 37 Q21 66 57 68 Q35 53 44 32 Q48 18 59 9Z" fill="currentColor"/><path d="M26 18 L33 5 L42 19 L53 4 L60 21" fill="#e5d6ff" stroke="#8174b0" stroke-width="3"/><ellipse cx="32" cy="39" rx="4.5" ry="6" fill="#fffdf4" stroke="none"/><ellipse cx="49" cy="39" rx="4.5" ry="6" fill="#fffdf4" stroke="none"/><circle cx="33" cy="40" r="2" fill="#493d62" stroke="none"/><circle cx="50" cy="40" r="2" fill="#493d62" stroke="none"/><path d="M34 51 Q41 57 48 51" fill="none" stroke="#80566f" stroke-width="2.5"/><circle cx="18" cy="18" r="3" fill="#fff1b5" stroke="none"/><path d="M9 68 Q40 74 71 68" fill="none" stroke="#ffffff55" stroke-width="2"/></g></symbol><symbol id="enemy-E11" viewBox="0 0 80 80"><g style="color:#9c82b7" stroke="#59486f" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"><path d="M15 27 Q40 3 65 27 L60 63 Q40 74 20 63Z" fill="currentColor"/><path d="M17 34 Q40 23 63 34" stroke="#e5c6ed" stroke-width="6"/><path d="M28 54 L40 43 L52 54" stroke="#f4d78e" stroke-width="4" fill="none"/><ellipse cx="32" cy="39" rx="4.5" ry="6" fill="#fffdf4" stroke="none"/><ellipse cx="49" cy="39" rx="4.5" ry="6" fill="#fffdf4" stroke="none"/><circle cx="33" cy="40" r="2" fill="#493d62" stroke="none"/><circle cx="50" cy="40" r="2" fill="#493d62" stroke="none"/><path d="M34 51 Q41 57 48 51" fill="none" stroke="#80566f" stroke-width="2.5"/><circle cx="18" cy="18" r="3" fill="#fff1b5" stroke="none"/><path d="M9 68 Q40 74 71 68" fill="none" stroke="#ffffff55" stroke-width="2"/></g></symbol><symbol id="toy-T12" viewBox="0 0 80 80"><g stroke="#68536f" stroke-width="2.6" stroke-linejoin="round"><path d="M40 58v12"/><circle cx="40" cy="70" r="5" fill="#ffe4a0"/><rect x="18" y="22" width="44" height="40" rx="6" fill="#b88977"/><path d="M12 27L40 5l28 22" fill="none" stroke="#e9be83" stroke-width="7"/><circle cx="40" cy="42" r="16" fill="#fff1c1"/><path d="M40 30v12l9 5" fill="none"/><circle cx="34" cy="41" r="2"/><circle cx="47" cy="41" r="2"/><rect x="34" y="17" width="12" height="9" rx="3" fill="#87c9c5"/><path d="M45 20l8 3-8 2" fill="#ffe39a"/></g></symbol><symbol id="enemy-E12" viewBox="0 0 80 80"><g stroke="#7e80a5" stroke-width="2.5" stroke-linejoin="round"><path d="M12 67Q12 8 40 7q29 1 29 60l-9-8-9 8-10-8-10 8-10-8z" fill="#e6e9ef"/><path d="M19 46l20-11 22 12M19 56l21-12 21 12" stroke="#b0b8d1" fill="none" stroke-width="4"/><ellipse cx="31" cy="29" rx="5" ry="7" fill="#fff"/><ellipse cx="50" cy="29" rx="5" ry="7" fill="#fff"/><circle cx="31" cy="30" r="2" fill="#4c4160"/><circle cx="50" cy="30" r="2" fill="#4c4160"/><ellipse cx="40" cy="40" rx="5" ry="6" fill="#8c7d9c"/></g></symbol><symbol id="enemy-E13" viewBox="0 0 80 80"><g stroke="#867696" stroke-width="2.5"><ellipse cx="40" cy="49" rx="23" ry="20" fill="#bca8d2"/><circle cx="25" cy="42" r="12" fill="#cbbbdf"/><circle cx="49" cy="35" r="15" fill="#d7c8e5"/><ellipse cx="32" cy="47" rx="4" ry="5" fill="#fff"/><ellipse cx="50" cy="47" rx="4" ry="5" fill="#fff"/><circle cx="32" cy="48" r="1.7" fill="#544263"/><circle cx="50" cy="48" r="1.7" fill="#544263"/><path d="M35 57q6 5 12 0" fill="none"/></g></symbol><symbol id="enemy-E14" viewBox="0 0 80 80"><g stroke="#806b85" stroke-width="2.5" stroke-linejoin="round"><ellipse cx="40" cy="43" rx="30" ry="29" fill="#cbb6b8"/><circle cx="22" cy="22" r="17" fill="#e3d1c9"/><circle cx="57" cy="21" r="18" fill="#eadbd0"/><path d="M14 52h52v16H14z" fill="#a998b8"/><path d="M20 50q20-7 40 0l-4 15-9-5-8 8-8-8-8 5z" fill="#fff0d5"/><circle cx="27" cy="34" r="10" fill="#f7ecd3"/><circle cx="53" cy="34" r="10" fill="#f7ecd3"/><path d="M37 33h6"/><ellipse cx="28" cy="34" rx="2.5" ry="4" fill="#554363"/><ellipse cx="52" cy="34" rx="2.5" ry="4" fill="#554363"/><ellipse cx="40" cy="45" rx="8" ry="6" fill="#cf969d"/><path d="M6 47l18 5-4 18-17-5z" fill="#a0d3d4"/></g></symbol><symbol id="toy-T13" viewBox="0 0 80 80"><g stroke="#685776" stroke-width="2.5" stroke-linejoin="round"><path d="M40 7Q19 10 9 40Q23 34 40 40Q57 34 71 40Q58 10 40 7Z" fill="#8bd6cf"/><path d="M40 9v49q0 12 10 8" fill="none" stroke="#86608b" stroke-width="4"/><circle cx="40" cy="52" r="15" fill="#f7cda7"/><circle cx="35" cy="49" r="3.5" fill="white"/><circle cx="45" cy="49" r="3.5" fill="white"/><circle cx="35" cy="49" r="1.8" fill="#5c4c66"/><circle cx="45" cy="49" r="1.8" fill="#5c4c66"/><path d="M35 58q5 5 10 0" fill="none"/><path d="M29 66h22l7 10H22Z" fill="#b1cfe1"/></g></symbol>
@@ -264,7 +288,16 @@
 <symbol id="enemy-E16" viewBox="0 0 80 80"><g stroke="#765469" stroke-width="2.8" stroke-linejoin="round"><rect x="10" y="31" width="60" height="33" rx="7" fill="#b67f69"/><path d="M9 34L19 16H61L72 34Z" fill="#d0a476"/><rect x="18" y="41" width="44" height="18" rx="4" fill="#bc9caa"/><circle cx="30" cy="44" r="5" fill="white"/><circle cx="50" cy="44" r="5" fill="white"/><circle cx="30" cy="44" r="2" fill="#503f58"/><circle cx="50" cy="44" r="2" fill="#503f58"/><path d="M32 55q8 5 16 0" fill="none"/><path d="M25 65L18 74m36-9 8 9" stroke="#7e6375" stroke-width="7"/></g></symbol><symbol id="toy-T16" viewBox="0 0 80 80"><g stroke="#8c7ba8" stroke-width="2.4" stroke-linejoin="round"><path d="M15 59Q8 24 25 17Q40 3 55 17Q74 30 65 59Q51 50 40 61Q27 49 15 59Z" fill="#e3dbee"/><path d="M18 57Q15 71 40 73Q64 71 63 57" fill="#c2b7de"/><circle cx="31" cy="39" r="6" fill="#fff"/><circle cx="49" cy="39" r="6" fill="#fff"/><circle cx="31" cy="40" r="2.5" fill="#4c4569"/><circle cx="49" cy="40" r="2.5" fill="#4c4569"/><path d="M33 51q8 6 15 0" fill="none"/><path d="M40 12l4 7-4 6-4-6Z" fill="#ffe4a9"/></g></symbol>
 <symbol id="toy-T17" viewBox="0 0 80 80"><g stroke="#865b79" stroke-width="2.5" stroke-linejoin="round"><path d="M20 10L32 32M60 10L48 32" stroke="#d2a17c" stroke-width="5"/><circle cx="20" cy="11" r="5" fill="#ffe9c1"/><circle cx="60" cy="11" r="5" fill="#ffe9c1"/><rect x="12" y="30" width="56" height="33" rx="9" fill="#e1ad7e"/><ellipse cx="40" cy="30" rx="28" ry="10" fill="#f8dfbb"/><ellipse cx="40" cy="63" rx="28" ry="9" fill="#b97680"/><path d="M24 32v30M40 35v27M55 32v30" fill="none" stroke="#ffe9b2"/><circle cx="30" cy="30" r="4" fill="#fff"/><circle cx="50" cy="30" r="4" fill="#fff"/><circle cx="30" cy="30" r="2" fill="#534a68"/><circle cx="50" cy="30" r="2" fill="#534a68"/><path d="M35 41q6 6 12 0" fill="none"/><path d="M37 49l3-7 3 7 8 2-6 4 2 7-7-4-7 4 2-7-6-4Z" fill="#fff0af"/></g></symbol>
 <symbol id="enemy-E17" viewBox="0 0 80 80"><g stroke="#825e83" stroke-width="2.5" stroke-linejoin="round"><path d="M16 65Q5 25 30 10Q42 4 51 14Q73 17 66 64L53 54 40 68 27 54Z" fill="#de9fb9"/><path d="M18 27H62v11H18Z" fill="#b77d9b"/><circle cx="30" cy="45" r="6" fill="#fff"/><circle cx="50" cy="45" r="6" fill="#fff"/><circle cx="30" cy="46" r="2.4" fill="#624762"/><circle cx="50" cy="46" r="2.4" fill="#624762"/><path d="M32 57q8-5 16 0" fill="none"/><path d="M13 68q13 9 27 0M45 68q13 9 22 0" fill="none" stroke="#f4d4c2"/></g></symbol>
-<symbol id="enemy-E18" viewBox="0 0 80 80"><g stroke="#6c507b" stroke-width="2.3" stroke-linejoin="round"><path d="M15 20L9 66Q19 59 28 69L41 60 54 69 71 65 63 20Z" fill="#926ea7"/><path d="M17 28L20 62M32 22L33 63M48 23L48 65M61 27L60 61" fill="none" stroke="#dcb1cb" stroke-width="3"/><ellipse cx="40" cy="31" rx="24" ry="21" fill="#e7c0d5"/><path d="M16 17L22 4 32 17 40 2 49 17 60 4 65 17Z" fill="#ffdf99"/><circle cx="31" cy="30" r="6" fill="#fff"/><circle cx="50" cy="30" r="6" fill="#fff"/><circle cx="31" cy="31" r="2.3" fill="#544361"/><circle cx="50" cy="31" r="2.3" fill="#544361"/><ellipse cx="40" cy="43" rx="9" ry="5" fill="#ab789d"/><path d="M27 54h26v10H27Z" fill="#e5acc7"/><path d="M34 56l6 6 7-6" fill="none" stroke="#fceac7"/></g></symbol></defs></svg>
+<symbol id="enemy-E18" viewBox="0 0 80 80"><g stroke="#6c507b" stroke-width="2.3" stroke-linejoin="round"><path d="M15 20L9 66Q19 59 28 69L41 60 54 69 71 65 63 20Z" fill="#926ea7"/><path d="M17 28L20 62M32 22L33 63M48 23L48 65M61 27L60 61" fill="none" stroke="#dcb1cb" stroke-width="3"/><ellipse cx="40" cy="31" rx="24" ry="21" fill="#e7c0d5"/><path d="M16 17L22 4 32 17 40 2 49 17 60 4 65 17Z" fill="#ffdf99"/><circle cx="31" cy="30" r="6" fill="#fff"/><circle cx="50" cy="30" r="6" fill="#fff"/><circle cx="31" cy="31" r="2.3" fill="#544361"/><circle cx="50" cy="31" r="2.3" fill="#544361"/><ellipse cx="40" cy="43" rx="9" ry="5" fill="#ab789d"/><path d="M27 54h26v10H27Z" fill="#e5acc7"/><path d="M34 56l6 6 7-6" fill="none" stroke="#fceac7"/></g></symbol>
+<symbol id="toy-T18" viewBox="0 0 80 80"><g stroke="#71638c" stroke-width="2.4" stroke-linejoin="round"><ellipse cx="22" cy="27" rx="13" ry="25" fill="#b1a4d9"/><ellipse cx="58" cy="27" rx="13" ry="25" fill="#bca9df"/><ellipse cx="40" cy="55" rx="29" ry="23" fill="#baa9db"/><ellipse cx="40" cy="37" rx="25" ry="23" fill="#dfd0ec"/><path d="M23 37q7-6 13 0m8 0q7-6 13 0" fill="none"/><ellipse cx="40" cy="46" rx="6" ry="9" fill="#9e86b5"/><path d="M28 68q12-8 24 0" fill="none" stroke="#f2ecf7"/><path d="M55 7h14l-9 10h9" fill="none" stroke="#fff4c7" stroke-width="3"/></g></symbol>
+<symbol id="toy-T19" viewBox="0 0 80 80"><g stroke="#597d98" stroke-width="2.5" stroke-linejoin="round"><circle cx="40" cy="44" r="28" fill="#a8dbe5"/><circle cx="40" cy="44" r="21" fill="#d3f3f0"/><path d="M10 37q30-24 60 0" fill="none" stroke="#d89db3" stroke-width="9"/><path d="M15 36h14m22 0h15" stroke="#698dae" stroke-width="6"/><circle cx="31" cy="47" r="5" fill="#fff"/><circle cx="49" cy="47" r="5" fill="#fff"/><circle cx="31" cy="47" r="2" fill="#4f657b"/><circle cx="49" cy="47" r="2" fill="#4f657b"/><path d="M33 58q7 5 14 0" fill="none"/><path d="M40 6l4 8-4 6-4-6Z" fill="#ffedb9"/></g></symbol>
+<symbol id="toy-T20" viewBox="0 0 80 80"><g stroke="#8294b2" stroke-width="2.3" stroke-linejoin="round"><circle cx="40" cy="55" r="24" fill="#e3f4f2"/><circle cx="40" cy="28" r="22" fill="#f2fbf9"/><path d="M15 40q24 10 50 0" fill="none" stroke="#d19db3" stroke-width="9"/><path d="M54 44v27" fill="none" stroke="#d19db3" stroke-width="8"/><circle cx="31" cy="26" r="5" fill="#fff"/><circle cx="49" cy="26" r="5" fill="#fff"/><circle cx="31" cy="26" r="2" fill="#607c9b"/><circle cx="49" cy="26" r="2" fill="#607c9b"/><ellipse cx="40" cy="36" rx="6" ry="4" fill="#a9b8d5"/><path d="M40 56l5 8-5-3-5 3Z" fill="#d8b8ec"/><path d="M63 13l5-8 3 8 8 3-9 3-4 8-4-8-7-3Z" fill="#fff4e1"/></g></symbol>
+<symbol id="toy-T21" viewBox="0 0 80 80"><g stroke="#896a90" stroke-width="2.6" stroke-linejoin="round"><rect x="35" y="4" width="12" height="46" rx="4" fill="#d7b88e"/><circle cx="41" cy="56" r="25" fill="#e7badb"/><circle cx="41" cy="36" r="16" fill="#efc8e4"/><ellipse cx="41" cy="53" rx="9" ry="11" fill="#f8e2b8"/><path d="M37 7v51m4-51v51m4-51v51" fill="none" stroke="#fff8da" stroke-width="1.5"/><circle cx="33" cy="38" r="3" fill="#fff"/><circle cx="49" cy="38" r="3" fill="#fff"/><path d="M34 63q7 5 13 0" fill="none"/><path d="M56 13v-9l10 4v14a5 5 0 1 1-5-5" fill="#ffedae"/><path d="M65 34v-9l10 4v14a5 5 0 1 1-5-5" fill="#ffedae"/></g></symbol>
+<symbol id="toy-T22" viewBox="0 0 80 80"><g stroke="#8a6577" stroke-width="2.4" stroke-linejoin="round"><ellipse cx="34" cy="51" rx="25" ry="18" fill="#cea27e"/><path d="M37 53L39 18 62 8 71 30 58 43Z" fill="#e0b68f"/><path d="M37 17l-8-7m9 17-13-4m12 13-12-2" stroke="#a3788a" stroke-width="5"/><path d="M20 63l-2 14m37-14 4 14" stroke="#8a6776" stroke-width="7"/><circle cx="57" cy="25" r="5" fill="#fff"/><circle cx="58" cy="25" r="2" fill="#4d4464"/><path d="M12 44l39 3" stroke="#8e7aa3" stroke-width="7"/><path d="M23 47l4-8 6 8 9 1-7 5 2 8-9-4-9 4 2-8-6-5Z" fill="#ffe3a1"/></g></symbol>
+<symbol id="enemy-E19" viewBox="0 0 80 80"><g stroke="#756185" stroke-width="2.4" stroke-linejoin="round"><rect x="18" y="12" width="45" height="58" rx="12" fill="#afa3ca"/><rect x="27" y="7" width="26" height="16" rx="5" fill="#dcd2e8"/><path d="M18 30L5 56M63 30l12 26" stroke="#9483b2" stroke-width="8"/><circle cx="32" cy="28" r="5" fill="#fff"/><circle cx="50" cy="28" r="5" fill="#fff"/><circle cx="32" cy="28" r="2" fill="#544b72"/><circle cx="50" cy="28" r="2" fill="#544b72"/><ellipse cx="41" cy="41" rx="8" ry="6" fill="#937ba9"/><circle cx="41" cy="55" r="4" fill="#f2e1af"/><path d="M59 6h13l-8 8h9" fill="none" stroke="#fff0c7"/></g></symbol>
+<symbol id="enemy-E20" viewBox="0 0 80 80"><g stroke="#8971a1" stroke-width="2.4" stroke-linejoin="round"><ellipse cx="40" cy="39" rx="27" ry="31" fill="#ebd4b8"/><ellipse cx="16" cy="25" rx="12" ry="19" fill="#bf9dcc"/><ellipse cx="65" cy="25" rx="12" ry="19" fill="#bf9dcc"/><circle cx="30" cy="31" r="6" fill="#fff"/><circle cx="51" cy="31" r="6" fill="#fff"/><circle cx="30" cy="31" r="2.5" fill="#665579"/><circle cx="51" cy="31" r="2.5" fill="#665579"/><ellipse cx="41" cy="48" rx="12" ry="15" fill="#775f8b"/><path d="M27 64l-8 11m34-11 9 11" stroke="#9b81bd" stroke-width="7"/><ellipse cx="17" cy="75" rx="12" ry="4" fill="#dd9cac"/><ellipse cx="63" cy="75" rx="12" ry="4" fill="#a2c7e0"/></g></symbol>
+<symbol id="enemy-E21" viewBox="0 0 80 80"><g stroke="#776390" stroke-width="2.4" stroke-linejoin="round"><path d="M5 37Q15 3 40 7Q64 2 76 37Q57 24 40 38Q22 24 5 37Z" fill="#776998"/><path d="M40 9v48" stroke="#f4d9ad" stroke-width="4"/><ellipse cx="40" cy="56" rx="24" ry="20" fill="#9a88bd"/><circle cx="31" cy="50" r="5" fill="#fff"/><circle cx="49" cy="50" r="5" fill="#fff"/><circle cx="31" cy="50" r="2" fill="#55476b"/><circle cx="49" cy="50" r="2" fill="#55476b"/><path d="M33 62q7 5 14 0" fill="none"/><path d="M40 8l4 8 8 3-8 3-4 8-4-8-8-3 8-3Z" fill="#ffe6aa"/></g></symbol>
+<symbol id="enemy-E22" viewBox="0 0 80 80"><g stroke="#4b3b66" stroke-width="2.5" stroke-linejoin="round"><path d="M24 25L8 7l7 32L4 60l24-10 12 24 13-24 23 9-11-25 6-26-16 17Z" fill="#8b72a6"/><path d="M20 31Q38 8 61 31L69 63 55 53 40 71 25 53 10 63Z" fill="#6d568f"/><ellipse cx="40" cy="35" rx="24" ry="22" fill="#82649c"/><ellipse cx="29" cy="34" rx="8" ry="7" fill="#f9eddb"/><ellipse cx="52" cy="34" rx="8" ry="7" fill="#f9eddb"/><ellipse cx="30" cy="35" rx="3.5" ry="4" fill="#d05b98"/><ellipse cx="51" cy="35" rx="3.5" ry="4" fill="#d05b98"/><ellipse cx="40" cy="51" rx="11" ry="9" fill="#342947"/><path d="M38 55l2 4 3-4" fill="#f6d2ba"/><path d="M16 15l-7-12M64 15l7-12" stroke="#e7bce3" stroke-width="5"/><path d="M41 67l5-10 5 10" fill="#ffe3ad"/></g></symbol></defs></svg>
   <main class="app" aria-label="Jogo Brinquedos vs. Pesadelos">
     <div class="game-frame" id="game-frame">
       <canvas id="battle-canvas" width="1280" height="720" aria-label="Tabuleiro do jogo com cinco faixas e nove colunas"></canvas>
@@ -283,7 +316,7 @@
       </div>
       <div id="toast" class="toast hidden" role="status" aria-live="polite"></div>
       <div id="screen" class="screen"></div>
-      <div class="version-tag">ALFA 1.9.0 · 4 capítulos completos</div>
+      <div class="version-tag">ALFA 2.0.0 · 5 capítulos completos</div>
     </div>
     <div class="mobile-tip" aria-label="Orientação recomendada">↻ Vire o celular na horizontal para ver todo o tabuleiro.</div>
     <footer class="outside-footer">Brinquedos vs. Pesadelos · Um jogo original de defesa por linhas · Salvo neste dispositivo</footer>
@@ -301,8 +334,14 @@ const colX = col => BOARD.x + (col + 0.5) * BOARD.cw;
 const rowY = row => BOARD.y + (row + 0.5) * BOARD.ch;
 const rectCell = (x, y) => ({ col: Math.floor((x - BOARD.x) / BOARD.cw), row: Math.floor((y - BOARD.y) / BOARD.ch) });
 
-// Capítulos 1 a 4 completos (32 fases); tabuleiro clássico 5×9 e mecânicas autorais.
+// Campanha completa: 40 fases em 5 capítulos e chefes; tabuleiro clássico 5×9.
 const TOYS = Object.freeze({
+  T18: {id:'T18',name:'Bichinho Sonolento',short:'Sonolento',cost:135,cooldown:13,maxHp:125,kind:'sleep',interval:3.6,damage:21,stunDuration:1.9,color:'#bdafe5',description:'Boceja magicamente, causando dano e adormecendo um pesadelo por instantes.'},
+  T19: {id:'T19',name:'Bola-Ímã',short:'Bola-Ímã',cost:175,cooldown:13,maxHp:145,kind:'magnet',interval:5.8,damage:31,pullCells:.55,rangeCells:5,color:'#a8d6e1',description:'Atrai para trás um pesadelo de sua faixa e o danifica. Chefes sofrem somente um pequeno recuo.'},
+  T20: {id:'T20',name:'Boneco de Neve de Algodão',short:'Neve',cost:155,cooldown:12,maxHp:160,kind:'slow',interval:2.65,damage:24,slowFactor:.61,slowDuration:3.7,color:'#d8edf5',description:'Atira flocos de algodão que diminuem a velocidade dos pesadelos.'},
+  T21: {id:'T21',name:'Guitarrinha Desafinada',short:'Guitarrinha',cost:190,cooldown:15,maxHp:150,kind:'guitar',interval:7.5,damage:32,rangeCells:4,color:'#e5c1e4',description:'O som atinge três faixas e antecipa um pouco a próxima ação dos brinquedos vizinhos.'},
+  T22: {id:'T22',name:'Cavalinho de Madeira',short:'Cavalinho',cost:205,cooldown:14,maxHp:265,kind:'pierce',interval:2.6,damage:44,pierces:3,color:'#d1a47e',description:'Cavalinho robusto que arremessa ferraduras atravessando até três pesadelos.'},
+
   T16: {id:'T16',name:'Lencinho Invisível',short:'Lencinho',cost:125,cooldown:16,maxHp:145,kind:'veil',rangeCells:1,color:'#d9d3ec',description:'Forma uma proteção delicada que reduz em 40% o dano recebido por brinquedos próximos, inclusive dos ataques da Baronesa.'},
   T17: {id:'T17',name:'Tambor Fanfarrão',short:'Tambor',cost:175,cooldown:13,maxHp:140,kind:'drum',interval:7.2,damage:25,rangeCells:4,stunDuration:.75,color:'#e3b17c',description:'Toca um ritmo que causa dano e atordoa brevemente pesadelos em três faixas próximas.'},
   T13: {id:'T13',name:'Boneca Guarda-Chuva',short:'Guarda-Chuva',cost:125,cooldown:14,maxHp:185,kind:'umbrella',interval:9.5,heal:20,color:'#a4c8db',description:'Limpa casas empoeiradas próximas ao chegar e conserta brinquedos vizinhos a cada 9,5 s.'},
@@ -323,6 +362,11 @@ const TOYS = Object.freeze({
   T09: { id:'T09', name:'Estilingue de Estrelas', short:'Estrelas', cost:200, cooldown:15, maxHp:100, kind:'starburst', interval:3.3, damage:46, splashRatio:.5, splashRadius:115, color:'#f7d88c', description:'Dispara uma estrela que causa dano também aos inimigos das faixas vizinhas.' },
 });
 const ENEMIES = Object.freeze({
+  E19: {id:'E19',name:'Pijama Sussurrante',hp:165,speed:.32,damage:25,interval:1.1,web:true,description:'O pijama assombra os brinquedos com fios sonolentos, reduzindo sua velocidade de ação.'},
+  E20: {id:'E20',name:'Bocejo Corredor',hp:110,speed:.59,damage:18,interval:1.0,description:'Um bocejo veloz que aproveita as acelerações do sonho para atravessar o tapete.'},
+  E21: {id:'E21',name:'Sombrinha do Escuro',hp:215,shield:115,speed:.27,damage:29,interval:1.15,description:'Carrega uma sombrinha sombria que absorve os primeiros impactos.'},
+  E22: {id:'E22',name:'Grande Bicho-Papão',hp:3100,speed:.09,damage:38,interval:1.18,boss:true,dreamBoss:true,slowResistance:.45,stunResistance:.25,bossIntro:'🌑 O GRANDE BICHO-PAPÃO DESPERTOU!',bossDefeat:'O CORAÇÃO DA IMAGINAÇÃO FOI SALVO!',bossLabel:'🌑 Grande Bicho-Papão',description:'Chefe final em três formas: Sussurro, Espelhos e Tempestade. Cada etapa avisa o ataque e oferece uma janela de contra-ataque.'},
+
   E17: {id:'E17',name:'Retalho Escorregadio',hp:125,speed:.46,damage:23,interval:1.05,flutter:true,description:'Muda de faixa uma vez ao chegar perto da defesa: observe o movimento antes de colocar os brinquedos.'},
   E18: {id:'E18',name:'Baronesa das Cortinas',hp:2050,speed:.095,damage:33,interval:1.2,boss:true,curtainBoss:true,slowResistance:.5,stunResistance:.5,bossIntro:'🎭 A BARONESA DAS CORTINAS CHEGOU!',bossDefeat:'AS CORTINAS DA BARONESA CAÍRAM!',bossLabel:'🎭 Baronesa das Cortinas',description:'Anuncia a faixa de sua próxima cortina, dispara um retalho perigoso, cobre casas com poeira e fica vulnerável enquanto descansa.'},
   E15: {id:'E15',name:'Traça do Sótão',hp:155,speed:.35,damage:22,interval:1.1,web:true,description:'Uma traça saltitante que enrola brinquedos em fios de tecido e reduz sua cadência.'},
@@ -518,6 +562,46 @@ const LEVELS = Object.freeze([
     startingGlow:650, toys:['T01','T02','T13','T15','T16','T17'], reward:null, duration:390,
     dust:[[0,2],[0,6],[1,3],[1,6],[2,2],[2,5],[3,3],[3,6],[4,2],[4,5],[4,7]],
     waves:[wave(18,[['E17',2]]),wave(48,[['E15',0],['E16',4]]),wave(78,[['E17',1],['E17',3]]),wave(108,[['E16',2],['E12',4]]),wave(140,[['E16',0],['E15',3]]),wave(172,[['E17',0],['E16',2],['E17',4]]),wave(205,[['E16',1],['E15',3],['E09',4]]),wave(238,[['E17',0],['E16',2],['E17',4]]),wave(272,[['E15',0],['E16',1],['E17',2],['E16',3],['E15',4]]),wave(319,[['E18',2],['E17',0],['E17',4]],true)]
+  },
+  { id:'5-1', chapter:5, title:'O primeiro bocejo', subtitle:'O quarto se transforma num sonho onde o tempo acelera e desacelera.',
+    hint:'Observe o aviso do pulso de sonho. No pulso rápido, os pesadelos correm mais; no lento, ficam vulneráveis à defesa.',
+    startingGlow:610, toys:['T01','T02','T13','T15','T16','T17'], reward:'T18', duration:310,
+    waves:[wave(18,[['E20',2]]),wave(46,[['E19',0],['E20',4]]),wave(75,[['E21',1],['E20',3]]),wave(105,[['E20',2],['E15',2]]),wave(135,[['E21',0],['E19',4]]),wave(165,[['E20',1],['E20',3],['E17',2]]),wave(195,[['E21',2],['E19',0],['E20',4]]),wave(224,[['E19',1],['E21',3],['E20',2]]),wave(252,[['E20',0],['E21',1],['E20',4]]),wave(281,[['E21',0],['E20',1],['E19',2],['E20',3],['E21',4]],true)]
+  },
+  { id:'5-2', chapter:5, title:'O Bichinho Sonolento', subtitle:'Uma pelúcia sonolenta transforma os bocejos em magia.',
+    hint:'Use o Bichinho Sonolento para paralisar os corredores, mas cuidado com inimigos protegidos pela Sombrinha do Escuro.',
+    startingGlow:625, toys:['T01','T02','T13','T15','T17','T18'], reward:'T19', duration:317,
+    waves:[wave(17,[['E20',2]]),wave(45,[['E19',0],['E21',4]]),wave(74,[['E20',1],['E20',3]]),wave(104,[['E21',2],['E20',2]]),wave(134,[['E19',0],['E21',4]]),wave(163,[['E21',1],['E20',3],['E17',2]]),wave(193,[['E20',0],['E19',2],['E20',4]]),wave(224,[['E21',1],['E21',3],['E20',2]]),wave(254,[['E19',0],['E20',1],['E21',4]]),wave(285,[['E20',0],['E21',1],['E19',2],['E21',3],['E20',4]],true)]
+  },
+  { id:'5-3', chapter:5, title:'A Bola-Ímã', subtitle:'Uma bola encantada pode atrasar o avanço dos pesadelos.',
+    hint:'A Bola-Ímã puxa um inimigo para trás; use-a antes do pulso rápido para evitar uma invasão repentina.',
+    startingGlow:645, toys:['T01','T02','T15','T18','T19','T16'], reward:'T20', duration:324,
+    waves:[wave(16,[['E21',2]]),wave(44,[['E20',0],['E19',4]]),wave(74,[['E21',1],['E20',3]]),wave(105,[['E20',2],['E21',2]]),wave(135,[['E19',0],['E20',4]]),wave(166,[['E21',1],['E20',2],['E21',3]]),wave(197,[['E20',0],['E19',2],['E20',4]]),wave(229,[['E21',1],['E21',3],['E20',2]]),wave(260,[['E19',0],['E21',2],['E20',4]]),wave(291,[['E21',0],['E20',1],['E19',2],['E20',3],['E21',4]],true)]
+  },
+  { id:'5-4', chapter:5, title:'Neve de algodão', subtitle:'Flocos encantados congelam a pressa dos pesadelos.',
+    hint:'O Boneco de Neve desacelera, mas o pulso de sonho altera a velocidade de todo o tabuleiro. Misture efeitos.',
+    startingGlow:660, toys:['T01','T02','T15','T18','T19','T20'], reward:'T21', duration:330,
+    waves:[wave(17,[['E20',2]]),wave(46,[['E21',0],['E19',4]]),wave(75,[['E20',1],['E21',3]]),wave(105,[['E21',2],['E20',2]]),wave(136,[['E19',0],['E21',4]]),wave(168,[['E20',1],['E21',2],['E20',3]]),wave(200,[['E21',0],['E19',2],['E21',4]]),wave(231,[['E20',1],['E20',3],['E21',2]]),wave(263,[['E21',0],['E19',2],['E20',4]]),wave(294,[['E20',0],['E21',1],['E20',2],['E21',3],['E20',4]],true)]
+  },
+  { id:'5-5', chapter:5, title:'A Guitarrinha Desafinada', subtitle:'Um acorde desajeitado faz os brinquedos agirem juntos.',
+    hint:'A Guitarrinha atinge três faixas e adianta o ataque dos vizinhos. Posicione-a no centro do tabuleiro.',
+    startingGlow:685, toys:['T01','T02','T15','T19','T20','T21'], reward:'T22', duration:337,
+    waves:[wave(17,[['E19',2]]),wave(47,[['E20',0],['E21',4]]),wave(77,[['E21',1],['E20',3]]),wave(109,[['E19',2],['E21',2]]),wave(141,[['E21',0],['E20',4]]),wave(173,[['E20',1],['E19',2],['E21',3]]),wave(204,[['E21',0],['E20',2],['E19',4]]),wave(235,[['E20',1],['E21',3],['E20',4]]),wave(266,[['E21',0],['E19',2],['E21',4]]),wave(300,[['E21',0],['E20',1],['E21',2],['E20',3],['E21',4]],true)]
+  },
+  { id:'5-6', chapter:5, title:'O Cavalinho de Madeira', subtitle:'Ferraduras atravessam grupos de sombras na noite decisiva.',
+    hint:'O Cavalinho de Madeira aguenta muita pancada e seus ataques perfuram três inimigos. Use suportes para protegê-lo.',
+    startingGlow:700, toys:['T01','T02','T16','T19','T21','T22'], reward:null, duration:346,
+    waves:[wave(17,[['E21',2]]),wave(47,[['E20',0],['E19',4]]),wave(78,[['E21',1],['E21',3]]),wave(110,[['E20',2],['E21',2]]),wave(141,[['E19',0],['E21',4]]),wave(174,[['E20',1],['E21',2],['E20',3]]),wave(207,[['E21',0],['E19',2],['E21',4]]),wave(240,[['E20',1],['E21',3],['E19',4]]),wave(273,[['E21',0],['E20',2],['E21',4]]),wave(308,[['E21',0],['E20',1],['E21',2],['E20',3],['E21',4]],true)]
+  },
+  { id:'5-7', chapter:5, title:'O último plano', subtitle:'Os brinquedos se unem para proteger a última luz da imaginação.',
+    hint:'Combine produtores, Lencinho, Cavalinho, Bola-Ímã e Guitarrinha. A luta final terá três transformações.',
+    startingGlow:750, toys:['T01','T02','T16','T19','T21','T22'], reward:null, duration:358,
+    waves:[wave(16,[['E20',2]]),wave(46,[['E21',0],['E19',4]]),wave(77,[['E20',1],['E21',3]]),wave(108,[['E21',2],['E20',2]]),wave(142,[['E19',0],['E21',4]]),wave(176,[['E21',1],['E20',2],['E19',3]]),wave(210,[['E20',0],['E21',2],['E20',4]]),wave(244,[['E21',1],['E19',2],['E21',3]]),wave(279,[['E21',0],['E20',2],['E21',4]]),wave(316,[['E21',0],['E20',1],['E21',2],['E20',3],['E21',4]],true)]
+  },
+  { id:'5-8', chapter:5, title:'O Grande Bicho-Papão', subtitle:'Três formas de um único medo. O último amanhecer de Lia está em suas mãos.',
+    hint:'Primeiro Sussurro, depois Espelhos, por fim Tempestade. Observe os avisos e ataque durante o descanso do chefe!',
+    startingGlow:850, toys:['T01','T02','T16','T19','T21','T22'], reward:null, duration:435,
+    waves:[wave(18,[['E20',2]]),wave(53,[['E21',0],['E19',4]]),wave(88,[['E20',1],['E21',3]]),wave(125,[['E21',2],['E20',2]]),wave(161,[['E19',0],['E21',4]]),wave(198,[['E20',1],['E21',2],['E20',3]]),wave(235,[['E21',0],['E19',2],['E21',4]]),wave(270,[['E20',1],['E21',3],['E19',4]]),wave(304,[['E21',0],['E20',2],['E21',4]]),wave(350,[['E22',2],['E20',0],['E20',4]],true)]
   }
 ]);
 
@@ -601,10 +685,37 @@ const STORY_SCENES=Object.freeze({
       {stage:'attic',speaker:'Boneca Guarda-Chuva',line:'Até os brinquedos esquecidos podem ajudar. Juntos, nossa luz alcança a noite!',art:'toy-T13',emoji:'☂️',focus:'guardachuva'},
       {stage:'bedroom',speaker:'Seu Pião',line:'A última porta se abriu. Pela Lia, vamos enfrentar o Grande Bicho-Papão!',art:'toy-T17',emoji:'💖',focus:'coracao'}
     ]
+  },
+  C05:{
+    id:'C05',title:'O último pesadelo',chapter:5,unlock:'before-5-8',
+    slides:[
+      {stage:'dream',speaker:'Narrador',line:'No centro do sonho, o quarto se dobra sobre si mesmo. A última porta se abre.',art:null,emoji:'🌙',focus:'lua'},
+      {stage:'dream',speaker:'Grande Bicho-Papão',line:'Eu sou o medo de esquecer, a dúvida e a escuridão! Três formas, nenhuma saída!',art:'enemy-E22',emoji:'🌑',focus:'vilao'},
+      {stage:'dream',speaker:'Capitão Botão',line:'Primeiro ele sussurra, depois cria reflexos e por fim uma tempestade. Olhem os avisos!',art:'toy-T02',emoji:'🪖',focus:'soldado'},
+      {stage:'dream',speaker:'Seu Pião',line:'Ainda temos os brinquedos, o Coração e uma última defesa. Por Lia!',art:'toy-T22',emoji:'🐴',focus:'cavalo'}
+    ]
+  },
+  C06:{
+    id:'C06',title:'O amanhecer da imaginação',chapter:5,unlock:'after-5-8',
+    slides:[
+      {stage:'dream',speaker:'Narrador',line:'As três formas do Grande Bicho-Papão se desfazem. O último medo vira uma estrelinha.',art:'enemy-E22',emoji:'⭐',focus:'vilao'},
+      {stage:'bedroom',speaker:'Boneca Guarda-Chuva',line:'O Coração da Imaginação voltou a brilhar! Todos os brinquedos fizeram sua parte.',art:'toy-T13',emoji:'💖',focus:'coracao'},
+      {stage:'bedroom',speaker:'Lia',line:'Que sonho estranho... Meus brinquedos parecem tão felizes hoje!',art:null,emoji:'👧',focus:'lia'},
+      {stage:'bedroom',speaker:'Narrador',line:'Lia desperta em segurança. E, enquanto existir imaginação, nenhum brinquedo estará sozinho.',art:'toy-T01',emoji:'🌅',focus:'amanhecer'}
+    ]
+  },
+  C07:{
+    id:'C07',title:'Fim da história • Créditos',chapter:5,unlock:'after-5-8',
+    slides:[
+      {stage:'bedroom',speaker:'FIM',line:'A imaginação continua. Brinquedos vs. Pesadelos — campanha concluída!',art:null,emoji:'💗',focus:'coraçao'},
+      {stage:'bedroom',speaker:'Personagens',line:'Lia, Seu Pião, Capitão Botão e os brinquedos do quarto. Obrigado por proteger o Coração da Imaginação.',art:'toy-T02',emoji:'🧸',focus:'soldado'},
+      {stage:'dream',speaker:'O mundo dos pesadelos',line:'Rei das Meias, Dama da Insônia, Vovô Poeirão, Baronesa das Cortinas e Grande Bicho-Papão.',art:'enemy-E22',emoji:'🌛',focus:'vilao'},
+      {stage:'bedroom',speaker:'Cena pós-créditos',line:'Seu Pião tenta fazer uma reverência... tropeça, gira três vezes e cai! Lia ri. FIM.',art:null,emoji:'🌀',focus:'piao'}
+    ]
   }
 });
-const STORY_ORDER=Object.freeze(['C00','C01','C02','C03','C04']);
-const STORY_AFTER_LEVEL=Object.freeze({'1-8':'C01','2-8':'C02','3-8':'C03','4-8':'C04'});
+const STORY_ORDER=Object.freeze(['C00','C01','C02','C03','C04','C05','C06','C07']);
+const STORY_AFTER_LEVEL=Object.freeze({'1-8':'C01','2-8':'C02','3-8':'C03','4-8':'C04','5-8':'C06'});
 function getStory(id){
   return typeof id==='string'&&Object.hasOwn(STORY_SCENES,id)?STORY_SCENES[id]:null;
 }
@@ -614,6 +725,8 @@ function storyForVictory(levelId){
 function canReplayStory(save,id){
   if(!getStory(id))return false;
   if(id==='C00'||Array.isArray(save?.storySeen)&&save.storySeen.includes(id))return true;
+  if(id==='C05')return Number(save?.stars?.['5-7'])>0 && Number(save?.unlocked)>=40;
+  if(id==='C07')return Number(save?.stars?.['5-8'])>0;
   // Quem terminou capítulos antes da implantação também pode assistir às cenas.
   return Object.entries(STORY_AFTER_LEVEL).some(([level,scene])=>scene===id&&Number(save?.stars?.[level])>0);
 }
@@ -825,6 +938,7 @@ class Battle {
     this.grid=Array.from({length:BOARD.rows},()=>Array(BOARD.cols).fill(null));
     this.dust=new Set((this.level.dust||[]).map(([row,col])=>`${row}:${col}`));
     this.dustTutorialShown=false;
+    this.dreamPulse=this.level.chapter===5?{phase:'idle',kind:'rush',count:0,nextAt:27,until:0}:null;
     this.enemies=[];this.projectiles=[];this.curtainShots=[];this.stars=[];this.particles=[];this.trains=[];
     this.effectsEnabled=true;
     this.feedback=[];this.defeated=[];this.impacts=[];
@@ -905,6 +1019,7 @@ class Battle {
     this.enemies.push({id:this.id++,type,row:lane,x:BOARD_RIGHT+65+offset,y:rowY(lane),hp:d.hp,maxHp:d.hp,shield:d.shield||0,maxShield:d.shield||0,summons:0,webTimer:4.8,enraged:false,jumped:false,jumpTime:0,stunTime:0,attackTimer:.45,hit:0,age:0,slowTime:0,slowFactor:1,attack:0,stealTimer:1.4});
     if(d.dustBoss)Object.assign(this.enemies.at(-1),{bossPhase:'march',phaseTimer:6,nextAttack:'gust',attackCount:0});
     if(d.curtainBoss)Object.assign(this.enemies.at(-1),{bossPhase:'march',phaseTimer:9,nextAttack:'ribbon',attackCount:0,targetLane:lane});
+    if(d.dreamBoss)Object.assign(this.enemies.at(-1),{bossPhase:'march',bossForm:1,phaseTimer:7,attackCount:0,targetLane:lane});
     if(d.boss)this.flashBanner(d.bossIntro,3.4);
     this.totalSpawns++;
     this.events.enemySeen?.(type);
@@ -959,7 +1074,73 @@ class Battle {
     return this.grid.some(row=>row.some(friend=>friend&&friend.type==='T16'&&friend.hp>0&&
       Math.abs(friend.row-toy.row)<=1&&Math.abs(friend.col-toy.col)<=1))?.60:1;
   }
-  bossDamageMultiplier(enemy){return enemy.type==='E18'&&enemy.bossPhase==='rest'?1.45:1;}
+  bossDamageMultiplier(enemy){
+    if(enemy.type==='E18'&&enemy.bossPhase==='rest')return 1.45;
+    if(enemy.type==='E22'&&enemy.bossPhase==='rest')return 1.4;
+    return 1;
+  }
+  updateDreamPulse(){
+    const pulse=this.dreamPulse;if(!pulse)return;
+    if(pulse.phase==='idle'&&this.time>=pulse.nextAt){
+      pulse.phase='warning';pulse.until=this.time+3;
+      pulse.kind=pulse.count%2===0?'rush':'lull';
+      this.flashBanner(pulse.kind==='rush'?'⚠ SONHO ACELERANDO! PREPARE AS FAIXAS!':'⚠ SONHO ADORMECENDO! ATAQUE COM CALMA!',3);
+      this.audio.play('wave');
+    }else if(pulse.phase==='warning'&&this.time>=pulse.until){
+      pulse.phase='active';pulse.until=this.time+6;
+      this.flashBanner(pulse.kind==='rush'?'⏩ O SONHO ESTÁ RÁPIDO!':'🌙 O SONHO ESTÁ LENTO!',2.2);
+    }else if(pulse.phase==='active'&&this.time>=pulse.until){
+      pulse.phase='idle';pulse.count++;pulse.nextAt=this.time+34;
+    }
+  }
+  updateDreamBoss(enemy,dt){
+    if(enemy.x>BOARD_RIGHT+10)return false;
+    const ratio=enemy.hp/enemy.maxHp;
+    const form=ratio<=.34?3:ratio<=.67?2:1;
+    if(form>enemy.bossForm){
+      enemy.bossForm=form;enemy.bossPhase='march';enemy.phaseTimer=1.2;
+      this.flashBanner(form===2?'👁 SEGUNDA FORMA • SALA DOS ESPELHOS!':'🌪 TERCEIRA FORMA • TEMPESTADE DOS MEDOS!',4);
+      this.audio.play('wave');this.puff(enemy.x,enemy.y-25,'#e3b7f4',20);
+    }
+    enemy.phaseTimer-=dt;
+    if(enemy.bossPhase==='march'&&enemy.phaseTimer<=0){
+      const counts=this.grid.map(row=>row.filter(Boolean).length);
+      const preferred=(enemy.row+enemy.attackCount)%BOARD.rows;
+      const occupied=counts.map((count,row)=>({count,row})).filter(v=>v.count>0);
+      enemy.targetLane=occupied.length?occupied.sort((a,b)=>b.count-a.count||Math.abs(a.row-preferred)-Math.abs(b.row-preferred))[0].row:preferred;
+      enemy.bossPhase='warning';enemy.phaseTimer=1.8;
+      const move=enemy.bossForm===1?'SUSSURRO':enemy.bossForm===2?'ESPELHOS':'TEMPESTADE';
+      this.flashBanner(`⚠ ${move} • FAIXA ${enemy.targetLane+1}!`,1.8);
+      this.audio.play('wave');return true;
+    }
+    if(enemy.bossPhase==='warning'&&enemy.phaseTimer<=0){
+      if(enemy.bossForm===1){
+        // Forma 1: adormece temporariamente os brinquedos da faixa avisada.
+        for(const toy of this.grid[enemy.targetLane])if(toy){
+          toy.webTime=Math.max(toy.webTime,3.7);this.addImpact(toy.x,toy.y-28,'sleep');
+        }
+      }else if(enemy.bossForm===2){
+        // Forma 2: espelhos chamam reflexos, sem gerar inimigos ilimitadamente.
+        let existing=this.enemies.filter(e=>e.type==='E19'||e.type==='E20').length;
+        for(const lane of [enemy.targetLane,Math.min(BOARD.rows-1,enemy.targetLane+1)]){
+          if(existing>=6)break;
+          this.spawnEnemy(lane===enemy.targetLane?'E19':'E20',lane);
+          this.enemies.at(-1).x=Math.min(BOARD_RIGHT+28,enemy.x+BOARD.cw);
+          existing++;
+        }
+      }else{
+        // Forma 3: tempestade envia dois ataques de sombra, ambos visíveis.
+        const lanes=new Set([enemy.targetLane,Math.max(0,enemy.targetLane-1)]);
+        for(const lane of lanes)this.curtainShots.push({row:lane,x:Math.min(BOARD_RIGHT+56,enemy.x-25),y:rowY(lane),damage:54,kind:'dream',age:0});
+      }
+      enemy.attackCount++;enemy.bossPhase='rest';enemy.phaseTimer=3.6;
+      this.flashBanner('✨ BICHO-PAPÃO EXPOSTO! ATAQUE AGORA!',2.8);
+      this.puff(enemy.x,enemy.y-15,'#dab4ed',10);
+      return true;
+    }
+    if(enemy.bossPhase==='rest'&&enemy.phaseTimer<=0){enemy.bossPhase='march';enemy.phaseTimer=enemy.bossForm===3?6.6:8.4;}
+    return enemy.bossPhase!=='march';
+  }
   updateCurtainBoss(enemy,dt){
     if(enemy.x>BOARD_RIGHT+10)return false;
     enemy.phaseTimer-=dt;
@@ -1002,6 +1183,7 @@ class Battle {
   update(dt){
     if(this.state!=='playing')return;
     this.time+=dt;
+    this.updateDreamPulse();
     if(!this.bigWaveAlert){const next=this.level.waves.find(w=>w.flag);
       if(next && this.time>=next.at-3){this.bigWaveAlert=true;this.flashBanner('⚑  GRANDE ONDA SE APROXIMANDO!',3.0);this.audio.play('wave');this.events.wave?.();}
     }
@@ -1031,7 +1213,7 @@ class Battle {
       if(s.age>s.dropTime+8)this.stars.splice(i,1);
     }
     for(const toy of this.allToys){
-      toy.age+=dt;toy.hit=Math.max(0,toy.hit-dt);toy.recoil=Math.max(0,(toy.recoil||0)-dt);toy.webTime=Math.max(0,(toy.webTime||0)-dt);toy.timer-=dt*(toy.webTime>0?.56:1)*(this.isDusty(toy.row,toy.col)?.85:1);
+      toy.age+=dt;toy.hit=Math.max(0,toy.hit-dt);toy.recoil=Math.max(0,(toy.recoil||0)-dt);toy.webTime=Math.max(0,(toy.webTime||0)-dt);toy.timer-=dt*(toy.webTime>0?.56:1)*(this.isDusty(toy.row,toy.col)?.85:1)*(this.dreamPulse?.phase==='active'?(this.dreamPulse.kind==='rush'?.82:1.18):1);
       const d=this.toyStats[toy.type];
       if(d.kind==='umbrella'&&toy.timer<=0){
         toy.timer+=d.interval;toy.recoil=.32;let repaired=0;
@@ -1067,6 +1249,33 @@ class Battle {
           if(enemy.hp<=0)this.killEnemy(enemy);
         }
         if(hitCount){this.addFeedback(toy.x,toy.y-72,`TUM! ×${hitCount}`,'#ffe9ae');this.audio.play('cuckoo');}
+      }
+      if(d.kind==='magnet'&&toy.timer<=0){
+        const target=this.enemies.filter(enemy=>enemy.hp>0&&enemy.row===toy.row&&enemy.x>toy.x+20&&enemy.x<BOARD_RIGHT+75)
+          .sort((a,b)=>a.x-b.x)[0];
+        if(target){
+          toy.timer+=d.interval;toy.recoil=.33;
+          const damage=d.damage*this.bossDamageMultiplier(target);
+          const absorbed=Math.min(target.shield||0,damage);
+          target.shield=(target.shield||0)-absorbed;target.hp-=damage-absorbed;
+          const pull=BOARD.cw*(ENEMIES[target.type].boss?.17:d.pullCells||.5);
+          target.x=Math.min(BOARD_RIGHT+55,target.x+pull);target.hit=.24;
+          this.addImpact(target.x,target.y-30,'slow');this.audio.play('freeze');
+          if(target.hp<=0)this.killEnemy(target);
+        }else toy.timer=.18;
+      }
+      if(d.kind==='guitar'&&toy.timer<=0){
+        toy.timer+=d.interval;toy.recoil=.35;let struck=0;
+        for(const enemy of [...this.enemies])if(enemy.hp>0&&Math.abs(enemy.row-toy.row)<=1&&
+          Math.abs(enemy.x-toy.x)<=BOARD.cw*(d.rangeCells||4)){
+          const damage=d.damage*this.bossDamageMultiplier(enemy),absorbed=Math.min(enemy.shield||0,damage);
+          enemy.shield=(enemy.shield||0)-absorbed;enemy.hp-=damage-absorbed;enemy.hit=.2;
+          this.addImpact(enemy.x,enemy.y-21,'ricochet');struck++;
+          if(enemy.hp<=0)this.killEnemy(enemy);
+        }
+        for(const friend of this.allToys)if(friend!==toy&&Math.abs(friend.row-toy.row)<=1&&Math.abs(friend.col-toy.col)<=1)
+          friend.timer=Math.max(0,friend.timer-.6);
+        if(struck){this.audio.play('cuckoo');this.addFeedback(toy.x,toy.y-70,`♪ ×${struck}`,'#ffebc1');}
       }
       if(d.kind==='producer'&&toy.timer<=0){
         toy.timer+=d.interval;
@@ -1200,6 +1409,7 @@ class Battle {
       const wasAsleep=e.stunTime>0;e.stunTime=Math.max(0,(e.stunTime||0)-dt);if(wasAsleep)continue;
       if(d.dustBoss&&this.updateDustBoss(e,dt))continue;
       if(d.curtainBoss&&this.updateCurtainBoss(e,dt))continue;
+      if(d.dreamBoss&&this.updateDreamBoss(e,dt))continue;
       if(d.jump&&!e.jumped){
         const hurdle=this.grid[e.row].filter(t=>t&&e.x>t.x+39&&e.x<t.x+87).sort((a,b)=>b.x-a.x)[0];
         if(hurdle){e.x=hurdle.x-53;e.jumped=true;e.jumpTime=.48;this.addImpact(e.x,e.y-20,'jump');this.audio.play('jump');}
@@ -1211,7 +1421,7 @@ class Battle {
           if(toy.hp<=0){this.grid[toy.row][toy.col]=null;this.audio.play('remove');this.puff(toy.x,toy.y,'#eecb9e',14);this.events.changed?.();}
           else this.audio.play('hit');
         }
-      }else{e.x-=d.speed*(e.enraged?1.75:1)*e.slowFactor*BOARD.cw*dt;e.attackTimer=Math.min(e.attackTimer,.35);}
+      }else{e.x-=d.speed*(e.enraged?1.75:1)*e.slowFactor*BOARD.cw*dt*(this.dreamPulse?.phase==='active'?(this.dreamPulse.kind==='rush'?1.3:.72):1);e.attackTimer=Math.min(e.attackTimer,.35);}
       if(e.x<BOARD.x-29){
         if(this.trainReady[e.row]){
           this.trainReady[e.row]=false;this.trains.push({row:e.row,x:BOARD.x-83,age:0});
@@ -1346,7 +1556,7 @@ function eye(c,x,y,r=5){ellipse(c,x,y,r,r*1.13,'#fffdf7');ellipse(c,x+1.3,y+.9,r
 function drawCloud(c,x,y,scale=1){c.save();c.translate(x,y);c.scale(scale,scale);ellipse(c,0,0,66,20,'#281a4480');ellipse(c,-20,-12,33,24,'#b7a8e0');ellipse(c,19,-15,35,29,'#cab8ed');ellipse(c,0,-30,30,31,'#dfcdf2');ellipse(c,-18,-23,11,9,'#e3d7f7');c.restore();}
 
 function drawAmbientPolish(c,time,chapter,visualMotion=true){
-  const tone=chapter===4?'rgba(231,203,167,.14)':chapter===2?'rgba(117,177,255,.14)':chapter===3?'rgba(255,190,119,.13)':'rgba(255,219,156,.14)';
+  const tone=chapter===5?'rgba(196,172,245,.16)':chapter===4?'rgba(231,203,167,.14)':chapter===2?'rgba(117,177,255,.14)':chapter===3?'rgba(255,190,119,.13)':'rgba(255,219,156,.14)';
   const halo=c.createRadialGradient(205,118,4,205,118,490);halo.addColorStop(0,tone);halo.addColorStop(1,'rgba(255,255,255,0)');
   c.fillStyle=halo;c.fillRect(0,0,W,H);
   const vignette=c.createRadialGradient(W*.5,H*.48,230,W*.5,H*.48,850);
@@ -1482,7 +1692,7 @@ function drawDepthAccents(c,time,chapter,visualMotion=true){
   // Camadas leves na borda superior e inferior; não cobrem a grade.
   const drift=visualMotion?Math.sin(time*.32)*7:0;
   c.save();
-  const color=chapter===4?'#f1d4ad':chapter===3?'#edc1a7':chapter===2?'#accde9':'#f6d6af';
+  const color=chapter===5?'#dfc4f1':chapter===4?'#f1d4ad':chapter===3?'#edc1a7':chapter===2?'#accde9':'#f6d6af';
   for(let i=0;i<4;i++){
     const x=55+i*350+drift*(.4+i*.15);
     c.globalAlpha=.065+i*.006;
@@ -1509,9 +1719,66 @@ function drawDustCells(c,game,time,visualMotion=true){
   }
   c.restore();
 }
+
+// Plano 2.5D final: quarto transformado em sonho, com planos de profundidade sem WebGL.
+function drawDream(c){
+  const sky=c.createLinearGradient(0,0,0,H);
+  sky.addColorStop(0,'#171637');sky.addColorStop(.55,'#58417b');sky.addColorStop(1,'#372c54');
+  c.fillStyle=sky;c.fillRect(0,0,W,H);
+  const mist=c.createRadialGradient(870,160,20,870,160,570);
+  mist.addColorStop(0,'#b896f04d');mist.addColorStop(1,'#b896f000');
+  c.fillStyle=mist;c.fillRect(0,0,W,H);
+  // Lua que guarda o Coração, estrelas e portais distantes.
+  ellipse(c,325,98,68,68,'#f3dfb7');ellipse(c,349,77,65,65,'#352d5b');
+  for(let i=0;i<37;i++){const x=(i*239+31)%W,y=(i*113+33)%247;
+    star(c,x,y,3+i%4,2,'#efddbb');}
+  for(const [x,y,w,h] of [[60,145,125,182],[1009,94,170,240],[837,159,102,151]]){
+    rr(c,x,y,w,h,15,'#50406e','#bfa9d3',6);
+    rr(c,x+14,y+13,w-28,h-26,9,'#28233f','#cdbbcf',3);
+    ellipse(c,x+w*.5,y+55,18,33,'#a37bc856');
+    star(c,x+w*.5,y+h*.5,17,8,'#e6c6ee');
+  }
+  // Camadas que se afastam em perspectiva até o horizonte do quarto.
+  c.beginPath();c.moveTo(0,282);c.lineTo(456,184);c.lineTo(824,184);c.lineTo(W,282);c.lineTo(W,H);c.lineTo(0,H);c.closePath();
+  c.fillStyle='#483a68';c.fill();
+  for(let row=0;row<12;row++){
+    const y=280+row*38;
+    line(c,[[0,y],[W,y]],row%2?'#b5a0d326':'#f2dab22e',2);
+  }
+  for(let n=0;n<12;n++)line(c,[[n*128-100,H],[640+(n-5)*45,249]],'#d7b7d525',2);
+  // A grade é a mesma 5×9; apenas a superfície recebe aparência diferente.
+  rr(c,BOARD.x-23,BOARD.y-17,BOARD.cols*BOARD.cw+46,BOARD.rows*BOARD.ch+37,23,'#241e43ae','#e6c8dc',7);
+  rr(c,BOARD.x-11,BOARD.y-9,BOARD.cols*BOARD.cw+22,BOARD.rows*BOARD.ch+20,16,'#8a73a7','#d5b6e7',3);
+  for(let row=0;row<BOARD.rows;row++)for(let col=0;col<BOARD.cols;col++){
+    const x=BOARD.x+col*BOARD.cw,y=BOARD.y+row*BOARD.ch;
+    rr(c,x+2,y+2,BOARD.cw-4,BOARD.ch-4,6,(col+row)%2?'#8275aa':'#a087b1');
+    line(c,[[x+7,y+9],[x+BOARD.cw-7,y+9]],'#f5ecdd28',1.3);
+  }
+  for(let row=0;row<=BOARD.rows;row++)line(c,[[BOARD.x,BOARD.y+row*BOARD.ch],[BOARD_RIGHT,BOARD.y+row*BOARD.ch]],'#f0d3ea65',2);
+  for(let col=0;col<=BOARD.cols;col++)line(c,[[BOARD.x+col*BOARD.cw,BOARD.y],[BOARD.x+col*BOARD.cw,BOARD_BOTTOM]],'#f0d3ea48',2);
+  // Coração da Imaginação à esquerda, mantido fora da grade de combate.
+  rr(c,6,355,158,186,17,'#65527e','#f8deca',5);
+  star(c,85,440,49,22,'#ffe2ac');
+  txt(c,'♥',83,441,35,'#e885a3');
+  for(const x of [34,1212])star(c,x,267,15,6,'#d8c9f1');
+}
+function drawDreamPulse(c,pulse,time,visualMotion=true){
+  if(!pulse||pulse.phase==='idle')return;
+  const warning=pulse.phase==='warning',fast=pulse.kind==='rush';
+  const tint=fast?'#ffd28b':'#c5b4ff';
+  c.save();
+  c.globalAlpha=warning?.16+(visualMotion?.06*Math.sin(time*10):0):.12;
+  c.fillStyle=tint;c.fillRect(BOARD.x,BOARD.y,BOARD.cols*BOARD.cw,BOARD.rows*BOARD.ch);
+  c.globalAlpha=1;
+  rr(c,385,137,510,36,14,'#2a1c4bd9',tint,3);
+  txt(c,warning?(fast?'⚠ SONHO VAI ACELERAR':'⚠ SONHO VAI DESACELERAR'):(fast?'⏩ SONHO ACELERADO':'🌙 SONHO DESACELERADO'),
+      640,155,17,'#fff1dc');
+  c.restore();
+}
 function drawBackground(c,time=0,chapter=1){
   if(chapter===3){drawCorridor(c);return;}
   if(chapter===4){drawAttic(c);return;}
+  if(chapter===5){drawDream(c);return;}
   const sky=c.createLinearGradient(0,0,0,H);sky.addColorStop(0,'#40345f');sky.addColorStop(.58,'#675276');sky.addColorStop(1,'#2c3754');c.fillStyle=sky;c.fillRect(0,0,W,H);
   for(let i=0;i<25;i++){const x=(i*293+57)%W,y=(i*61+26)%185;ellipse(c,x,y,2+(i%3===0),2+(i%3===0),'#fbefb59c');}
   // Parede com listras e rodapé.
@@ -1612,7 +1879,48 @@ function drawToy(c,t,time,visualMotion=true){
     line(c,[[-23,-2],[-34,-1+swing-reach]],armColor,7);line(c,[[23,-2],[34,-1-swing-reach]],armColor,7);
     ellipse(c,-34,-1+swing-reach,4.5,4.5,'#f4d2b5');ellipse(c,34,-1-swing-reach,4.5,4.5,'#f4d2b5');
   }
-  if(d.kind==='shooter'){
+  if(t.type==='T18'){
+    // Bichinho Sonolento: pelúcia azul de orelhas compridas e bocejos.
+    ellipse(c,-21,-43,15,30,'#b5a3d7');ellipse(c,22,-43,15,31,'#c7b1de');
+    ellipse(c,0,-5,32,36,'#b7a5dd');ellipse(c,0,-40,29,28,'#d9c8ee');
+    ellipse(c,-10,-41,8,5,'#f7e6d9');ellipse(c,11,-41,8,5,'#f7e6d9');
+    line(c,[[-15,-41],[-6,-39]],'#685784',2.4);line(c,[[7,-39],[16,-41]],'#685784',2.4);
+    ellipse(c,1,-25,7,10,'#8d6f9e');ellipse(c,0,-5,15,13,'#f4e9ed');
+    star(c,0,9,11,5,'#fff1ae');if(t.recoil>0)txt(c,'Zz',36,-76,21,'#efe4ff');
+  }else if(t.type==='T19'){
+    // Bola-Ímã: planeta redondo com polos e aro magnético.
+    ellipse(c,0,-22,37,37,'#a6d7e1');ellipse(c,0,-22,28,28,'#d3eff0');
+    c.save();c.rotate(-.25);rr(c,-38,-31,76,18,8,'#d4a7b8','#6a7d9f',4);c.restore();
+    rr(c,-31,-29,14,19,4,'#e58fa7');rr(c,17,-29,14,19,4,'#7ba5cf');
+    eye(c,-10,-20,6);eye(c,10,-20,6);ellipse(c,0,-7,8,4,'#7588ae');
+    star(c,3,-47,11,5,'#fff8c0');
+  }else if(t.type==='T20'){
+    // Boneco de neve de algodão: montinho fofo com cachecol.
+    ellipse(c,0,4,36,34,'#e8f7f4');ellipse(c,0,-37,29,29,'#f4fbfa');
+    rr(c,-34,-23,68,12,6,'#d39caf','#8e7196',3);rr(c,17,-21,12,42,5,'#d39caf');
+    eye(c,-11,-39,5);eye(c,11,-39,5);ellipse(c,0,-25,7,5,'#a8c5d2');
+    star(c,0,4,9,4,'#cfb8ef');star(c,-26,-59,8,4,'#ffffff');
+  }else if(t.type==='T21'){
+    // Guitarrinha Desafinada: corpo de madeira e notas coloridas.
+    c.save();c.rotate(-.15);
+    ellipse(c,-3,1,31,29,'#e3b7d9');ellipse(c,0,-32,21,20,'#ecc8e7');
+    rr(c,-7,-93,14,68,5,'#c6a37d','#8a708c',3);
+    ellipse(c,0,-9,11,12,'#fce8bb');
+    for(const x of [-4,0,4])line(c,[[x,-84],[x,-4]],'#fff8d9',1.3);
+    c.restore();eye(c,-12,-36,4);eye(c,10,-36,4);
+    if(t.recoil>0){txt(c,'♫',33,-74,20,'#ffe9c2');txt(c,'♪',-42,-63,18,'#dbefed');}
+  }else if(t.type==='T22'){
+    // Cavalinho de madeira com crina de pano e ferraduras.
+    ellipse(c,0,6,33,26,'#c89673');
+    line(c,[[-21,12],[-24,32]],'#825e6e',8);line(c,[[20,10],[22,31]],'#825e6e',8);
+    c.beginPath();c.moveTo(4,-11);c.lineTo(10,-66);c.lineTo(37,-74);
+    c.lineTo(44,-45);c.lineTo(23,-25);c.closePath();c.fillStyle='#dcb08a';c.fill();c.strokeStyle='#8c6175';c.lineWidth=4;c.stroke();
+    for(let i=0;i<4;i++)line(c,[[6,-59+i*10],[-11,-64+i*10]],'#8d6888',4);
+    ellipse(c,29,-58,4,5,'#fff8db');ellipse(c,30,-57,1.8,2,'#554861');
+    rr(c,-27,-8,42,12,6,'#9c86b5');star(c,-7,3,12,5,'#ffe3a6');
+    if(t.recoil>0)txt(c,'⚡',47,-57,18,'#fff0b9');
+  }
+  if(d.kind==='shooter' && !['T18','T19','T20','T21','T22'].includes(t.type)){
     // Soldadinho Estalo: um soldado de pano com atirador de papel.
     line(c,[[-14,8],[-18,24]],'#584b64',10);line(c,[[10,8],[13,24]],'#584b64',10);
     rr(c,-30,-5,60,38,15,'#6bc6b3','#426f81',4);
@@ -1624,7 +1932,7 @@ function drawToy(c,t,time,visualMotion=true){
     eye(c,-8,-23,5);eye(c,10,-23,5);ellipse(c,1,-10,7,3,'#b46b74');
     ellipse(c,-19,-12,5,3,'#ed9b91');
     star(c,1,11,9,4,'#ffd96c');
-  }else if(d.kind==='producer'){
+  }else if(d.kind==='producer' && !['T18','T19','T20','T21','T22'].includes(t.type)){
     // Abajur fofinho com uma estrelinha no peito.
     ellipse(c,0,-18,49,50,'#f7dd7850');
     rr(c,-23,9,45,16,9,'#c98e8b','#936683',3);rr(c,-10,-18,22,30,8,'#a5dac6','#628a93',3);
@@ -1633,7 +1941,7 @@ function drawToy(c,t,time,visualMotion=true){
     eye(c,-7,-36,4);eye(c,10,-36,4);line(c,[[-4,-24],[7,-24]],'#995c71',2.5);
     star(c,0,-51,8,4,'#fef5d5');
     line(c,[[-24,24],[25,24]],'#764d70',4);
-  }else if(d.kind==='blocker'){
+  }else if(d.kind==='blocker' && !['T18','T19','T20','T21','T22'].includes(t.type)){
     // Urso Travesseiro gigante, com orelhas fofas.
     ellipse(c,-23,-42,18,18,'#b97d74');ellipse(c,25,-42,18,18,'#b97d74');
     ellipse(c,-23,-43,10,10,'#e7ada5');ellipse(c,25,-43,10,10,'#e7ada5');
@@ -1643,7 +1951,7 @@ function drawToy(c,t,time,visualMotion=true){
     line(c,[[-7,-23],[0,-19],[7,-23]],'#a66d78',2.3);
     rr(c,-28,-2,57,28,10,'#8ab9cc','#4c7190',3);star(c,1,11,11,5,'#f8e2a0');
     ellipse(c,-18,24,14,8,'#b77a77');ellipse(c,19,24,14,8,'#b77a77');
-  }else if(d.kind==='slow'){
+  }else if(d.kind==='slow' && !['T18','T19','T20','T21','T22'].includes(t.type)){
     // Pião de Geada: madeira pintada, ponta giratória e flocos leves.
     ellipse(c,0,14,28,13,'#6eb7c3');
     line(c,[[0,-64],[0,-40]],'#deaf78',9);
@@ -1655,7 +1963,7 @@ function drawToy(c,t,time,visualMotion=true){
     line(c,[[-5,-4],[0,-1],[5,-4]],'#438ca2',2);
     star(c,0,8,11,4,'#ffffff');
     for(let i=0;i<3;i++)star(c,-36+i*36,-51+(i%2)*9,5,2,'#d7faff');
-  }else if(d.kind==='splash'){
+  }else if(d.kind==='splash' && !['T18','T19','T20','T21','T22'].includes(t.type)){
     // Canhão de Confetes: brinquedo mecânico, tubos de papel e fitas coloridas.
     rr(c,-29,-18,58,40,16,'#ec98c0','#7b5a91',4);
     rr(c,-20,-40,40,36,10,'#ffc875','#936080',4);
@@ -1677,7 +1985,7 @@ function drawToy(c,t,time,visualMotion=true){
     ellipse(c,-24,22,5,5,'#ffd685');ellipse(c,23,22,5,5,'#ffd685');
     eye(c,-10,-26,5);eye(c,7,-26,5);
     star(c,-4,0,11,5,'#faefff');star(c,46,-28,6,2,'#fff0ae');
-  }else if(d.kind==='sleep'){
+  }else if(d.kind==='sleep' && !['T18','T19','T20','T21','T22'].includes(t.type)){
     // Boneca Soninho: pijama lilás, bocejos mágicos e chapéu de dormir.
     line(c,[[-11,12],[-14,28]],'#81628a',7);line(c,[[12,12],[17,28]],'#81628a',7);
     rr(c,-28,-11,56,42,17,'#bdb0e9','#70658f',4);
@@ -1993,6 +2301,58 @@ function drawEnemy(c,e,time,visualMotion=true){
     if(e.bossPhase==='warning'){txt(c,'!',0,-112,30,'#ffe5a9');star(c,36,-84,8,4,'#fff2b4');}
     if(e.bossPhase==='rest'){txt(c,'ABERTA!',0,-109,15,'#e8f6bd');}
   }
+  if(e.type==='E19'){
+    // Pijama Sussurrante: camisa com botões e braços de tecido.
+    rr(c,-31,-46,62,70,15,'#b8aacb','#706087',4);
+    rr(c,-18,-57,36,20,6,'#dcd2e4','#76627e',3);
+    for(const y of [-22,-1,18])ellipse(c,0,y,4,4,'#eee5ae');
+    eye(c,-12,-42,6);eye(c,13,-42,6);ellipse(c,1,-30,9,5,'#967bad');
+    line(c,[[-30,-23],[-41,6]],'#8f7eab',9);line(c,[[31,-24],[42,7]],'#8f7eab',9);
+    if(e.webTimer<2)txt(c,'Z',28,-78,18,'#e8dafa');
+  }else if(e.type==='E20'){
+    // Bocejo Corredor: boca grande e sapatos de corrida.
+    ellipse(c,0,-24,28,35,'#ecd3ad');
+    ellipse(c,-22,-41,18,21,'#c99dce');ellipse(c,22,-41,18,21,'#c99dce');
+    eye(c,-12,-34,5);eye(c,12,-34,5);ellipse(c,0,-16,12,16,'#775a84');
+    line(c,[[-12,7],[-21,26]],'#a389ba',7);line(c,[[12,7],[20,28]],'#a389ba',7);
+    ellipse(c,-21,29,15,6,'#cf8fa7');ellipse(c,22,30,15,6,'#8bb8d7');
+  }else if(e.type==='E21'){
+    // Sombrinha do Escuro: escudo abaulado com ponta da lua.
+    ellipse(c,0,-5,28,34,'#9183bd');
+    c.beginPath();c.moveTo(-44,-38);c.quadraticCurveTo(0,-95,45,-38);
+    c.quadraticCurveTo(23,-48,0,-39);c.quadraticCurveTo(-25,-49,-44,-38);c.closePath();
+    c.fillStyle='#675991';c.fill();c.strokeStyle='#d6b9df';c.lineWidth=4;c.stroke();
+    line(c,[[0,-58],[0,20]],'#f0d4a8',4);
+    eye(c,-12,-13,6);eye(c,13,-13,6);ellipse(c,0,3,8,5,'#c4a5c9');
+    star(c,0,-64,10,4,'#ffe8b4');
+  }else if(e.type==='E22'){
+    // Transformações progressivas: o corpo muda forma/cores, sem mudar as colisões.
+    const form=e.bossForm||1;
+    const coat=form===1?'#716099':form===2?'#aa78ae':'#674279';
+    const shadow=form===3?'#e5b4e8':'#b0a4da';
+    c.save();ellipse(c,0,-9,62,65,'#b7a0e138');c.restore();
+    for(const side of [-1,1]){
+      c.beginPath();c.moveTo(side*14,-54);c.lineTo(side*56,-83);
+      c.lineTo(side*44,-21);c.lineTo(side*59,21);c.lineTo(side*20,14);c.closePath();
+      c.fillStyle=shadow;c.fill();c.strokeStyle='#46345d';c.lineWidth=3;c.stroke();
+    }
+    c.beginPath();c.moveTo(-40,-26);c.quadraticCurveTo(-58,16,-43,43);
+    c.lineTo(-20,24);c.lineTo(0,44);c.lineTo(21,24);c.lineTo(42,43);
+    c.quadraticCurveTo(59,10,38,-26);c.closePath();
+    c.fillStyle=coat;c.fill();c.strokeStyle='#392c57';c.lineWidth=5;c.stroke();
+    ellipse(c,0,-56,41,39,'#74578d');
+    for(const x of [-26,26])ellipse(c,x,-59,19,18,'#9271a9');
+    if(form>=2){
+      for(const x of [-46,0,46])star(c,x,-88,form===3?13:8,5,'#e4b7f0');
+    }
+    if(form===3)for(const x of [-34,34])line(c,[[x,-70],[x*1.5,-102]],'#f3c6f1',6);
+    ellipse(c,-16,-59,12,10,'#f8e8ce');ellipse(c,17,-59,12,10,'#f8e8ce');
+    ellipse(c,-15,-58,5,6,'#c65794');ellipse(c,17,-58,5,6,'#c65794');
+    ellipse(c,1,-35,17,12,'#3e2d53');star(c,0,-14,14,5,'#ffdfb5');
+    if(e.bossPhase==='warning')txt(c,'⚠',0,-114,27,'#fff1b8');
+    if(e.bossPhase==='rest')txt(c,'ATACAR!',0,-113,15,'#e8f4bb');
+    txt(c,'FORMA '+form,0,52,13,'#fff1d9');
+  }
   drawEnemyFaceFX(c,e,time,visualMotion);
   if(e.stunTime>0){
     txt(c,'Z z',12,-87,17,'#e1d7ff');star(c,26,-71,5,2,'#d8ccff');
@@ -2007,7 +2367,7 @@ function drawEnemy(c,e,time,visualMotion=true){
   c.restore();
 }
 function drawEnemyFaceFX(c,e,time,visualMotion=true){
-  const faces={E01:[-11,-30,15,-28,-12],E02:[-9,-38,9,-38,-25],E03:[-9,-28,15,-28,-11],E04:[-10,-25,14,-25,-9],E05:[-14,-38,14,-38,-18],E06:[-13,-41,13,-41,-20],E07:[-12,-31,12,-31,-12],E08:[-10,-34,11,-34,-15],E09:[-12,-23,12,-23,-12],E10:[-13,-44,14,-44,-21],E11:[-11,-43,14,-43,-22],E12:[-11,-35,12,-35,-17],E13:[-11,-30,15,-28,-12],E14:[-18,-40,17,-40,-13],E15:[-8,-38,9,-38,-23],E16:[-15,-20,18,-20,-8],E17:[-11,-23,13,-23,-10],E18:[-12,-49,13,-49,-29]};
+  const faces={E01:[-11,-30,15,-28,-12],E02:[-9,-38,9,-38,-25],E03:[-9,-28,15,-28,-11],E04:[-10,-25,14,-25,-9],E05:[-14,-38,14,-38,-18],E06:[-13,-41,13,-41,-20],E07:[-12,-31,12,-31,-12],E08:[-10,-34,11,-34,-15],E09:[-12,-23,12,-23,-12],E10:[-13,-44,14,-44,-21],E11:[-11,-43,14,-43,-22],E12:[-11,-35,12,-35,-17],E13:[-11,-30,15,-28,-12],E14:[-18,-40,17,-40,-13],E15:[-8,-38,9,-38,-23],E16:[-15,-20,18,-20,-8],E17:[-11,-23,13,-23,-10],E18:[-12,-49,13,-49,-29],E19:[-12,-42,13,-42,-30],E20:[-12,-34,12,-34,-16],E21:[-12,-13,13,-13,3],E22:[-16,-59,17,-59,-35]};
   const [lx,ly,rx,ry,my]=faces[e.type]||[-11,-30,11,-30,-12],blink=visualMotion&&Math.sin(e.age*2.4+(e.id||0)*2.1)>.985,look=e.attack>0?3:visualMotion?Math.sin(e.age*1.7)*1.5:0;
   c.save();c.lineCap='round';if(!blink){ellipse(c,lx+look,ly+1,1.8,2.5,'#493b60');ellipse(c,rx+look,ry+1,1.8,2.5,'#493b60');}
   const angry=!!e.enraged||e.attack>0,hurt=e.hit>0;line(c,[[lx-5,ly-9],[lx,ly-(angry?12:8)],[lx+5,ly-8]],hurt?'#fff6e7':angry?'#68465f':'#8b718c',2.4);line(c,[[rx-5,ry-8],[rx,ry-(angry?12:8)],[rx+5,ry-9]],hurt?'#fff6e7':angry?'#68465f':'#8b718c',2.4);
@@ -2096,6 +2456,14 @@ function drawBossHealth(c,game){
   rr(c,622,655,221*ratio,13,6,ratio>.35?'#f795af':'#ffe18d');
 }
 function drawBossIntent(c,boss){
+  if(ENEMIES[boss.type].dreamBoss){
+    if(boss.bossPhase==='warning'){
+      const row=boss.targetLane??boss.row;
+      rr(c,BOARD.x+3,BOARD.y+row*BOARD.ch+3,BOARD.cols*BOARD.cw-6,BOARD.ch-6,12,'#df9ce45a','#ffe6bd',4);
+      txt(c,'⚠ BICHO-PAPÃO • FORMA '+boss.bossForm+' • FAIXA '+(row+1),640,626,18,'#ffe4eb');
+    }else if(boss.bossPhase==='rest')txt(c,'CHEFE EXPOSTO • DANO +40%!',640,625,18,'#e5f8bb');
+    return;
+  }
   if(ENEMIES[boss.type].curtainBoss){
     if(boss.bossPhase==='warning'){
       const lane=boss.targetLane??boss.row;
@@ -2117,12 +2485,13 @@ function drawBossIntent(c,boss){
 }
 function drawCurtainShot(c,shot,time,visualMotion=true){
   const bob=visualMotion?Math.sin(time*12+shot.row)*5:0;
+  const dream=shot.kind==='dream';
   c.save();c.translate(shot.x,shot.y-9+bob);
   c.rotate(visualMotion?-0.08+Math.sin(time*10)*.11:0);
-  ellipse(c,0,0,32,24,'#cf98cc63');
+  ellipse(c,0,0,32,24,dream?'#ad9de599':'#cf98cc63');
   c.beginPath();c.moveTo(-31,-22);c.quadraticCurveTo(0,-33,32,-18);
   c.lineTo(26,20);c.quadraticCurveTo(4,9,-9,24);c.lineTo(-32,12);c.closePath();
-  c.fillStyle='#d9a2ce';c.fill();c.strokeStyle='#fff1c0';c.lineWidth=3;c.stroke();
+  c.fillStyle=dream?'#b79ce3':'#d9a2ce';c.fill();c.strokeStyle=dream?'#e4d9ff':'#fff1c0';c.lineWidth=3;c.stroke();
   star(c,4,-7,7,3,'#ffedaf');
   c.restore();
 }
@@ -2180,6 +2549,7 @@ function render(c,game,menu=false,visualMotion=true){
       c.restore();txt(c,'🚪',1173,rowY(lane),27,'#fff1c9');
       txt(c,`PORTA • FAIXA ${lane+1}`,790,BOARD.y+lane*BOARD.ch+12,14,'#fff7cd');
     }
+    drawDreamPulse(c,game.dreamPulse,t,visualMotion);
     // Fantasma do brinquedo e indicação da sua área de ação.
     drawPlacementPreview(c,game,t);
     for(const enemy of game.enemies)drawBossIntent(c,enemy);
@@ -2380,14 +2750,14 @@ function stories(){
     'menu','stories');
 }
 function menu(){battle=null;
-  setScreen('menu',`<div class="menu-content"><div class="menu-hero"><span class="kicker">✦ Uma aventura no quarto da Lia</span><h1 class="logo">BRINQUEDOS <span class="vs">VS.</span><br><em>PESADELOS!</em></h1><p class="menu-description">Quando o armário se abre... o quarto revida! Monte sua defesa e espante monstros muito atrapalhados.</p><div class="menu-note">✦ ${LEVELS.length} fases jogáveis &nbsp; ✦ 4 capítulos completos &nbsp; ✦ 5 faixas &nbsp; ✦ Salva automaticamente</div></div><nav class="menu-actions" aria-label="Menu principal">${button(save.unlocked>1?'▶ CONTINUAR':'▶ JOGAR','play')}${button('🗺 ESCOLHER FASE','levels','outline-btn')}${button('⭐ OFICINA · '+starWallet(save).available,'workshop','outline-btn')}${button(canPlaySurvival(save)?'♾ MODO SOBREVIVÊNCIA':'🔒 SOBREVIVÊNCIA · vença 1-8','survival','outline-btn',canPlaySurvival(save)?'':'disabled')}${button('📖 BRINQUEDOPÉDIA','codex','outline-btn')}${button('📜 HISTÓRIAS','story-gallery','outline-btn')}${button('❔ COMO JOGAR','help','text-btn')}${button('⚙ OPÇÕES','options','text-btn')}${button('⛶ TELA CHEIA','fullscreen','text-btn')}</nav></div>`);
+  setScreen('menu',`<div class="menu-content"><div class="menu-hero"><span class="kicker">✦ Uma aventura no quarto da Lia</span><h1 class="logo">BRINQUEDOS <span class="vs">VS.</span><br><em>PESADELOS!</em></h1><p class="menu-description">Quando o armário se abre... o quarto revida! Monte sua defesa e espante monstros muito atrapalhados.</p><div class="menu-note">✦ ${LEVELS.length} fases jogáveis &nbsp; ✦ 5 capítulos completos &nbsp; ✦ 5 faixas &nbsp; ✦ Salva automaticamente</div></div><nav class="menu-actions" aria-label="Menu principal">${button(save.unlocked>1?'▶ CONTINUAR':'▶ JOGAR','play')}${button('🗺 ESCOLHER FASE','levels','outline-btn')}${button('⭐ OFICINA · '+starWallet(save).available,'workshop','outline-btn')}${button(canPlaySurvival(save)?'♾ MODO SOBREVIVÊNCIA':'🔒 SOBREVIVÊNCIA · vença 1-8','survival','outline-btn',canPlaySurvival(save)?'':'disabled')}${button('📖 BRINQUEDOPÉDIA','codex','outline-btn')}${button('📜 HISTÓRIAS','story-gallery','outline-btn')}${save.stars['5-8']?button('🏆 REVER O FINAL','story-final-replay','outline-btn'):''}${button('❔ COMO JOGAR','help','text-btn')}${button('⚙ OPÇÕES','options','text-btn')}${button('⛶ TELA CHEIA','fullscreen','text-btn')}</nav></div>`);
 }
 function levels(){
   const cards=LEVELS.map((lvl,i)=>{const unlocked=i<save.unlocked;
-    const card=`<div class="level-choice ${lvl.chapter===2?'level-night':lvl.chapter===3?'level-hall':lvl.chapter===4?'level-attic':''} ${unlocked?'':'level-locked'}"><button class="level-entry" data-action="level" data-level="${i}" ${unlocked?'':'disabled'}><strong>${unlocked?'✦':'🔒'} ${lvl.id}</strong><span>${escapeHTML(lvl.title)}</span><small>${unlocked?'⭐'.repeat(save.stars[lvl.id]||0)||'Jogar agora':'Conclua a anterior'}</small></button><button class="level-scout" data-action="preview" data-level="${i}" ${unlocked?'':'disabled'} aria-label="Ver inimigos e estratégias da fase ${lvl.id}">🔎 Preparar defesa</button></div>`;
-    return (i===0?'<h2 class="chapter-heading">🧸 Capítulo 1 — O Armário</h2>':lvl.chapter===2 && LEVELS[i-1].chapter!==2?'<h2 class="chapter-heading">🌙 Capítulo 2 — Debaixo da Cama</h2>':lvl.chapter===3 && LEVELS[i-1].chapter!==3?'<h2 class="chapter-heading">🚪 Capítulo 3 — O Corredor Rangente</h2>':lvl.chapter===4 && LEVELS[i-1].chapter!==4?'<h2 class="chapter-heading">🕯 Capítulo 4 — O Sótão Esquecido</h2>':'')+card;
+    const card=`<div class="level-choice ${lvl.chapter===2?'level-night':lvl.chapter===3?'level-hall':lvl.chapter===4?'level-attic':lvl.chapter===5?'level-dream':''} ${unlocked?'':'level-locked'}"><button class="level-entry" data-action="level" data-level="${i}" ${unlocked?'':'disabled'}><strong>${unlocked?'✦':'🔒'} ${lvl.id}</strong><span>${escapeHTML(lvl.title)}</span><small>${unlocked?'⭐'.repeat(save.stars[lvl.id]||0)||'Jogar agora':'Conclua a anterior'}</small></button><button class="level-scout" data-action="preview" data-level="${i}" ${unlocked?'':'disabled'} aria-label="Ver inimigos e estratégias da fase ${lvl.id}">🔎 Preparar defesa</button></div>`;
+    return (i===0?'<h2 class="chapter-heading">🧸 Capítulo 1 — O Armário</h2>':lvl.chapter===2 && LEVELS[i-1].chapter!==2?'<h2 class="chapter-heading">🌙 Capítulo 2 — Debaixo da Cama</h2>':lvl.chapter===3 && LEVELS[i-1].chapter!==3?'<h2 class="chapter-heading">🚪 Capítulo 3 — O Corredor Rangente</h2>':lvl.chapter===4 && LEVELS[i-1].chapter!==4?'<h2 class="chapter-heading">🕯 Capítulo 4 — O Sótão Esquecido</h2>':lvl.chapter===5 && LEVELS[i-1].chapter!==5?'<h2 class="chapter-heading">🌌 Capítulo 5 — A Noite dos Mil Bocejos</h2>':'')+card;
   }).join('');
-  panel('O Quarto Acordou','Quatro capítulos completos · escolha sua fase',`<div class="map-workshop"><p>Rejogue para melhorar seu recorde. ⭐ ${starWallet(save).available} disponíveis para evoluir.</p>${button('⭐ Oficina','workshop','tiny-btn')}</div><div class="levels">${cards}</div><p>Complete a fase 2-8 para abrir o Capítulo 3. O Capítulo 3 termina com Vovô Poeirão. O Sótão Esquecido está completo: vença a Baronesa na fase 4-8 para descobrir o caminho até o capítulo final.</p>`);
+  panel('O Quarto Acordou','Cinco capítulos completos · escolha sua fase',`<div class="map-workshop"><p>Rejogue para melhorar seu recorde. ⭐ ${starWallet(save).available} disponíveis para evoluir.</p>${button('⭐ Oficina','workshop','tiny-btn')}</div><div class="levels">${cards}</div><p>Complete a fase 2-8 para abrir o Capítulo 3. O Capítulo 3 termina com Vovô Poeirão. Vença a Baronesa em 4-8 para abrir a Noite dos Mil Bocejos. O Grande Bicho-Papão espera em 5-8, com três transformações e um final para a história.</p>`);
 }
 function previewLevel(index,preserveDraft=false){
   if(!Number.isInteger(index)||index<0||index>=save.unlocked||index>=LEVELS.length)return levels();
@@ -2507,6 +2877,7 @@ function confirmBefore(kind){
 function resume(){if(!battle)return;battle.state='playing';setScreen('battle');last=performance.now();accumulator=0;}
 function start(index,selectedDeck=null){if(!Number.isInteger(index)||index<0||index>=LEVELS.length||index>=save.unlocked)return;
   if(index===0&&!hasSeenStory('C00'))return presentStory('C00',()=>start(index,selectedDeck));
+  if(index===39&&!hasSeenStory('C05'))return presentStory('C05',()=>start(index,selectedDeck));
   gameSpeed=1;
   battle=new Battle(index,audio,battleEvents(),save.upgrades,selectedDeck||getDeck(save,index),unlockedToys(save));
   battle.effectsEnabled=motionEnabled();
@@ -2525,15 +2896,20 @@ function finish(result,stars){if(!battle)return;
   if(result==='victory'){recordVictory(save,battle.levelIndex,stars);stored=persistSave(save);}
   lastResult={result,stars,earned:starWallet(save).earned-before,stored,firstWin};
   const nextScene=result==='victory'?storyForVictory(battle.level.id):null;
-  if(nextScene&&!hasSeenStory(nextScene))return presentStory(nextScene,resultScreen);
+  if(nextScene&&!hasSeenStory(nextScene))return presentStory(nextScene,()=>{
+    if(nextScene==='C06'&&!hasSeenStory('C07'))presentStory('C07',resultScreen);
+    else resultScreen();
+  });
+  if(result==='victory'&&battle.level.id==='5-8'&&!hasSeenStory('C07'))return presentStory('C07',resultScreen);
   resultScreen();
 }
 function resultScreen(){
   if(!battle||!lastResult)return;
   const {result,stars,earned,stored,firstWin}=lastResult;
   const isLast=battle.levelIndex>=LEVELS.length-1;
+  const finaleWon=isLast&&result==='victory';
   const unlock=battle.level.reward&&firstWin?`<div class="result-unlock">🎁 Novo brinquedo para a próxima fase: <strong>${TOYS[battle.level.reward].name}</strong>!</div>`:'';
-  setScreen('result',`<section class="panel result-panel"><span class="subheading">${result==='victory'?'A noite está a salvo!':'Os pesadelos bagunçaram tudo!'}</span><h1>${result==='victory'?'🎉 Vitória!':'😵 Tente de novo!'}</h1><div class="result-score ${result==='victory'?'win-animation':'lose-animation'}">${result==='victory'?'⭐'.repeat(stars)+'☆'.repeat(3-stars):'☁️'}</div><p>${result==='victory'?'Você espantou '+battle.killCount+' monstros e protegeu a imaginação da Lia.':'Sua defesa não segurou a invasão. Experimente colocar soldados em mais faixas.'}</p>${result==='victory'?`<div class="star-reward">${earned?`+${earned} ⭐ novas estrelas!`:'Recorde mantido · conquiste mais estrelas para ganhar saldo.'}<br><small>⭐ ${starWallet(save).available} disponíveis na Oficina · ${starWallet(save).earned} conquistadas</small></div>${unlock}`:''}${!stored?'<p role="alert">Não foi possível salvar. Mantenha esta aba aberta e libere o armazenamento do navegador.</p>':''}<div class="panel-actions">${result==='victory'&&!isLast?button('▶ Próxima fase','next'):''}${button('↻ '+(result==='victory'?'Jogar novamente':'Tentar de novo'),'restart','outline-btn')}${result==='victory'?button('⭐ Melhorar brinquedos','workshop','outline-btn'):''}${button('🗺 Escolher fase','levels','text-btn')}${button('⌂ Menu','menu','text-btn')}</div>${isLast&&result==='victory'?`<p>Você concluiu as ${LEVELS.length} fases disponíveis! As cortinas se abriram: o Grande Bicho-Papão espera no capítulo 5. ✨</p>`:''}</section>`);
+  setScreen('result',`<section class="panel result-panel"><span class="subheading">${result==='victory'?'A noite está a salvo!':'Os pesadelos bagunçaram tudo!'}</span><h1>${result==='victory'?'🎉 Vitória!':'😵 Tente de novo!'}</h1><div class="result-score ${result==='victory'?'win-animation':'lose-animation'}">${result==='victory'?'⭐'.repeat(stars)+'☆'.repeat(3-stars):'☁️'}</div><p>${result==='victory'?'Você espantou '+battle.killCount+' monstros e protegeu a imaginação da Lia.':'Sua defesa não segurou a invasão. Experimente colocar soldados em mais faixas.'}</p>${result==='victory'?`<div class="star-reward">${earned?`+${earned} ⭐ novas estrelas!`:'Recorde mantido · conquiste mais estrelas para ganhar saldo.'}<br><small>⭐ ${starWallet(save).available} disponíveis na Oficina · ${starWallet(save).earned} conquistadas</small></div>${unlock}`:''}${!stored?'<p role="alert">Não foi possível salvar. Mantenha esta aba aberta e libere o armazenamento do navegador.</p>':''}<div class="panel-actions">${result==='victory'&&!isLast?button('▶ Próxima fase','next'):''}${button('↻ '+(result==='victory'?'Jogar novamente':'Tentar de novo'),'restart','outline-btn')}${result==='victory'?button('⭐ Melhorar brinquedos','workshop','outline-btn'):''}${finaleWon?button('🏆 Rever o final e créditos','story-final-replay','outline-btn'):''}${button('🗺 Escolher fase','levels','text-btn')}${button('⌂ Menu','menu','text-btn')}</div>${finaleWon?`<div class="finale-ending"><strong>🌅 FIM DA CAMPANHA</strong><p>Lia despertou em segurança e o Coração da Imaginação voltou a brilhar. Você concluiu os cinco capítulos e as ${LEVELS.length} fases!</p><small>Reveja o final ou continue jogando a campanha e o Modo Sobrevivência.</small></div>`:''}</section>`);
 }
 function renderCards(){if(!battle)return;const el=$('toy-cards');el.innerHTML=battle.deck.map((id,i)=>{const d=battle.toyStats[id];return `<button class="toy-card ${battle.selected===id?'selected':''}" data-toy="${id}" title="${d.name}: ${d.description}" aria-label="${d.name}, nível ${d.rank+1}, custa ${d.cost} Brilhos"><span class="toy-card-icon"><canvas class="toy-card-art" data-icon="${id}" width="96" height="72" aria-hidden="true"></canvas></span><span class="toy-card-name">${d.short}${d.rank?` <small>N${d.rank+1}</small>`:''}</span><span class="cost">✦ ${d.cost}</span><span class="cooldown hidden"></span></button>`;}).join('');el.querySelectorAll('.toy-card-art').forEach(art=>{const ctx=art.getContext('2d');if(!ctx)return;ctx.clearRect(0,0,art.width,art.height);ctx.save();ctx.translate(art.width/2,art.height*.73);drawIconCanvas(ctx,art.dataset.icon,0,0,.66,0);ctx.restore();});}
 function updateHUD(){if(!battle)return;$('glow-count').textContent=Math.floor(battle.glow);
@@ -2542,7 +2918,11 @@ function updateHUD(){if(!battle)return;$('glow-count').textContent=Math.floor(ba
   if(battle.mode==='survival'){
     $('waves-text').textContent='Onda '+battle.waveReached+' · próxima em '+Math.max(0,Math.ceil(nextWave.at-battle.time))+'s · '+battle.killCount+' KOs';
     $('level-label').textContent='♾ Onda '+battle.waveReached;
-  }else $('waves-text').textContent=nextWave?`Próxima em ${Math.max(0,Math.ceil(nextWave.at-battle.time))}s · ${battle.wavesLeft} ondas`:'Últimos monstros!';
+  }else{
+    const pulse=battle.dreamPulse;
+    const pulseText=pulse?.phase==='warning'?' · ⚠ PULSO DE SONHO':pulse?.phase==='active'?(pulse.kind==='rush'?' · ⏩ SONHO RÁPIDO':' · 🌙 SONHO LENTO'):'';
+    $('waves-text').textContent=(nextWave?`Próxima em ${Math.max(0,Math.ceil(nextWave.at-battle.time))}s · ${battle.wavesLeft} ondas`:'Últimos monstros!')+pulseText;
+  }
   const speedButton=$('speed-btn');speedButton.setAttribute('aria-pressed',String(gameSpeed===2));speedButton.setAttribute('aria-label',`Velocidade ${gameSpeed} vezes`);speedButton.title=`Velocidade da partida: ${gameSpeed}×`;$('speed-label').textContent=`${gameSpeed}×`;
   document.querySelectorAll('[data-toy]').forEach(btn=>{const id=btn.dataset.toy;btn.classList.toggle('selected',battle.selected===id&&!battle.shovel);btn.classList.toggle('afford-no',battle.glow<TOYS[id].cost);const cd=battle.toyCooldowns[id];const layer=btn.querySelector('.cooldown');layer.classList.toggle('hidden',cd<=.01);if(cd>.01)layer.textContent=Math.ceil(cd)+'s';});
   $('shovel-btn').classList.toggle('selected',battle.shovel);
@@ -2550,6 +2930,7 @@ function updateHUD(){if(!battle)return;$('glow-count').textContent=Math.floor(ba
 function handleAction(action,target){
   audio.resume();if(action!=='toggle')audio.play('click');
   if(action==='story-gallery')stories();
+  else if(action==='story-final-replay'&&Number(save.stars['5-8'])>0)presentStory('C06',()=>presentStory('C07',stories));
   else if(action==='story-replay'&&target){
     const id=target.dataset.story;
     if(canReplayStory(save,id))presentStory(id,stories);

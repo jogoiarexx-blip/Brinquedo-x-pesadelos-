@@ -1,4 +1,20 @@
-# Brinquedos vs. Pesadelos — ALFA v1.9.0
+# Brinquedos vs. Pesadelos — CAMPANHA v2.0.0
+
+## Novidades da v2.0.0 — A Noite dos Mil Bocejos: a campanha tem FINAL!
+
+- **40 fases jogáveis em cinco capítulos completos:** 5-1 a 5-8 concluem a história da Lia e o Coração da Imaginação.
+- Cenário onírico 2.5D com lua, estrelas, portais, profundidade pintada e efeitos de pulso de sonho, tudo em Canvas 2D e sem WebGL obrigatório.
+- **Pulsos de sonho:** aviso de três segundos; depois seis segundos de sonho rápido (inimigos aceleram, brinquedos desaceleram) ou lento (inimigos desaceleram, brinquedos aceleram), alternadamente.
+- **Bichinho Sonolento (T18):** adormece inimigos; **Bola-Ímã (T19):** puxa inimigos para trás; **Boneco de Neve de Algodão (T20):** desacelera; **Guitarrinha Desafinada (T21):** atinge três faixas e agiliza aliados; **Cavalinho de Madeira (T22):** ataca com projéteis que atravessam até três inimigos.
+- Três novas criaturas comuns: **Pijama Sussurrante (E19)**, **Bocejo Corredor (E20)** e **Sombrinha do Escuro (E21)**.
+- **Grande Bicho-Papão (E22):** chefe final com três formas conforme a vida diminui — Sussurro (atraso nas ações), Espelhos (invocação de inimigos) e Tempestade (dois projéteis de sombra). Todos os ataques são anunciados, seguidos de descanso vulnerável (+40% de dano).
+- **Três cutscenes:** C05 apresenta o vilão antes de 5-8; C06 restaura a imaginação e mostra Lia acordando; C07 apresenta créditos e uma cena pós-créditos com Seu Pião. As cenas podem ser puladas ou revistas na galeria.
+- Ao vencer 5-8, aparece **FIM DA CAMPANHA** com a opção de rever o final; a campanha continua repetível, a Oficina e a Noite Sem Fim permanecem disponíveis.
+- Saves antigos de 24, 28 ou 32 fases continuam na mesma chave, sem redefinir estrelas, baralhos, melhorias ou histórias já vistas. Quem venceu 4-8 libera automaticamente 5-1.
+- HTML independente offline, cache PWA, novas artes no Canvas e SVG, documentação e testes atualizados.
+- **Pendente fora do escopo:** experimentos de cutscene 3D opcional e medições presenciais de FPS/memória em aparelhos móveis reais; nenhum desses recursos bloqueia a história 2D completa.
+
+
 
 ## Novidades da v1.9.0 — Capítulo 4 completo: Baronesa das Cortinas
 
