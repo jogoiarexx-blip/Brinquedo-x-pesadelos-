@@ -16,6 +16,8 @@ export class Battle {
     this.state='playing';
     this.glow=this.level.startingGlow;
     this.grid=Array.from({length:BOARD.rows},()=>Array(BOARD.cols).fill(null));
+    this.dust=new Set((this.level.dust||[]).map(([row,col])=>`${row}:${col}`));
+    this.dustTutorialShown=false;
     this.enemies=[];this.projectiles=[];this.stars=[];this.particles=[];this.trains=[];
     this.effectsEnabled=true;
     this.feedback=[];this.defeated=[];this.impacts=[];
@@ -35,6 +37,15 @@ export class Battle {
   startToast(text,seconds=2.3){this.lastAction=text;this.toastUntil=this.time+seconds;this.events.toast?.(text,seconds);}
   selectToy(id){if(!this.deck.includes(id))return false;this.selected=id;this.shovel=false;this.audio.play('click');return true;}
   selectShovel(){this.shovel=!this.shovel;this.audio.play('click');}
+  isDusty(row,col){return this.dust.has(`${row}:${col}`);}
+  cleanDustAround(row,col){
+    let cleared=0;
+    for(let r=Math.max(0,row-1);r<=Math.min(BOARD.rows-1,row+1);r++)
+      for(let c=Math.max(0,col-1);c<=Math.min(BOARD.cols-1,col+1);c++){
+        if(this.dust.delete(`${r}:${c}`))cleared++;
+      }
+    return cleared;
+  }
   canPlace(row,col,id=this.selected){
     if(this.state!=='playing')return 'Fase pausada';
     if(!TOYS[id])return 'Escolha um brinquedo';
@@ -52,6 +63,13 @@ export class Battle {
     const toy={id:this.id++,type:id,row,col,x:colX(col),y:rowY(row),hp:data.maxHp,maxHp:data.maxHp,
       rank:data.rank,timer:data.kind==='producer'?7.5:data.kind==='music'?3.2:data.kind==='clock'?3:.33+this.rand()*.6,hit:0,age:0,recoil:0,webTime:0,armed:false};
     this.grid[row][col]=toy;this.glow-=data.cost;this.toyCooldowns[id]=data.cooldown;this.toysPlaced++;
+    if(data.kind==='umbrella'){
+      const n=this.cleanDustAround(row,col);
+      if(n)this.addFeedback(toy.x,toy.y-66,`✨ -${n} poeira`,'#c5f8df');
+    }else if(this.isDusty(row,col)&&!this.dustTutorialShown){
+      this.dustTutorialShown=true;
+      this.startToast('Poeira: esta casa tem 15% menos velocidade de ação. Use Guarda-Chuva para limpar!',4.2);
+    }
     this.audio.play('place');this.puff(toy.x,toy.y,'#ffe2a1',9);this.addFeedback(toy.x,toy.y-68,'+ Defesa','#fff1bd');this.events.changed?.();
     return true;
   }
@@ -164,8 +182,30 @@ export class Battle {
       if(s.age>s.dropTime+8)this.stars.splice(i,1);
     }
     for(const toy of this.allToys){
-      toy.age+=dt;toy.hit=Math.max(0,toy.hit-dt);toy.recoil=Math.max(0,(toy.recoil||0)-dt);toy.webTime=Math.max(0,(toy.webTime||0)-dt);toy.timer-=dt*(toy.webTime>0?.56:1);
+      toy.age+=dt;toy.hit=Math.max(0,toy.hit-dt);toy.recoil=Math.max(0,(toy.recoil||0)-dt);toy.webTime=Math.max(0,(toy.webTime||0)-dt);toy.timer-=dt*(toy.webTime>0?.56:1)*(this.isDusty(toy.row,toy.col)?.85:1);
       const d=this.toyStats[toy.type];
+      if(d.kind==='umbrella'&&toy.timer<=0){
+        toy.timer+=d.interval;toy.recoil=.32;let repaired=0;
+        for(const friend of this.allToys){
+          if(Math.abs(friend.row-toy.row)<=1&&Math.abs(friend.col-toy.col)<=1&&friend.hp<friend.maxHp){
+            const heal=Math.min(d.heal,friend.maxHp-friend.hp);friend.hp+=heal;repaired+=heal;
+          }
+        }
+        if(repaired>0){this.addFeedback(toy.x,toy.y-69,`+${Math.round(repaired)} reparo`,'#e3fad0');this.audio.play('collect');}
+      }
+      if(d.kind==='whistle'&&toy.timer<=0){
+        const target=this.enemies.filter(enemy=>enemy.hp>0&&Math.abs(enemy.row-toy.row)<=1&&enemy.x>toy.x+8&&enemy.x<toy.x+BOARD.cw*(d.rangeCells||3)).sort((a,b)=>a.x-b.x)[0];
+        if(target){
+          toy.timer+=d.interval;toy.recoil=.3;
+          const absorbed=Math.min(target.shield||0,d.damage);
+          target.shield=(target.shield||0)-absorbed;target.hp-=d.damage-absorbed;
+          const resistance=ENEMIES[target.type].slowResistance??1;
+          target.slowFactor=Math.min(target.slowFactor,1-(1-d.slowFactor)*resistance);
+          target.slowTime=Math.max(target.slowTime,d.slowDuration*resistance);
+          target.hit=.25;this.addImpact(target.x,target.y-22,'slow');this.audio.play('sleep');
+          if(target.hp<=0)this.killEnemy(target);
+        }else toy.timer=.15;
+      }
       if(d.kind==='producer'&&toy.timer<=0){
         toy.timer+=d.interval;
         this.spawnStar(toy.x+21,toy.y-27,false);this.puff(toy.x,toy.y-23,'#ffee84',5);
