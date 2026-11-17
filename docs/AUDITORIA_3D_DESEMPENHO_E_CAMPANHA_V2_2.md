@@ -2,6 +2,21 @@
 
 Data: 17/11/2026. Escopo: motor da campanha completa de 40 fases, efeitos 3D opcionais nas cutscenes e orçamento de render.
 
+## Resultados medidos no CI — integridade estrutural
+
+| Capítulo | Fases | Ondas | Inimigos programados | HP + escudo | Pico de inimigos em 30 s |
+|---|---:|---:|---:|---:|---:|
+| 1 — O Armário | 8 | 70 | 181 | 23.235 | 10 |
+| 2 — Debaixo da Cama | 8 | 74 | 195 | 36.070 | 9 |
+| 3 — Corredor Rangente | 8 | 71 | 188 | 34.580 | 10 |
+| 4 — Sótão Esquecido | 8 | 81 | 218 | 42.165 | 9 |
+| 5 — Noite dos Mil Bocejos | 8 | 80 | 206 | 46.625 | 8 |
+| **Total** | **40** | **376** | **988** | **182.675** | **10** |
+
+Fonte: `npm run audit` executado com sucesso em <https://github.com/jogoiarexx-blip/Brinquedo-x-pesadelos-/actions/runs/44132818790>. A soma representa HP/escudo **programado para spawn**, não dano real de uma partida; os picos mostram eventos escalados em uma janela de 30 segundos, não contagem simultânea de inimigos vivos. Nenhum problema estrutural foi detectado. O smoke lógico foi executado em Node, não em celular.
+
+**Interpretação:** o capítulo 5 possui o maior total de resistência e o capítulo 4 a maior quantidade de inimigos programados. O capítulo 3 usa mais mecânicas de corredor apesar de somar menos HP que o capítulo 2. Essas métricas ajudam a priorizar playtests, mas não comprovam que a progressão de dificuldade esteja correta.
+
 ## 1. O que foi efetivamente validado por código
 
 - 40 fases em 5 capítulos de 8; cada fase com ondas válidas, inimigos e faixas existentes, intervalos ordenados e marcação de última onda.
