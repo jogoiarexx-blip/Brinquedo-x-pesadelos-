@@ -1,3 +1,11 @@
+# 1.7.0 — 17/11/2026
+
+- Quatro cutscenes 2D: abertura da campanha e interlúdios após 1-8, 2-8 e 3-8.
+- Galeria de Histórias com replays, pular cenas e legendas acessíveis.
+- Compatibilidade de saves legados e flags de cena vistas sem alterar estrelas.
+- Ilustrações em camadas, opção de reduzir movimento e integração com PWA/offline.
+- GDD canônico e checkpoint v1.6.0 permanecem vinculados à produção.
+
 # 1.6.0 — 17/11/2026
 
 - Novo Modo Sobrevivência com ondas infinitas e resistência progressiva.

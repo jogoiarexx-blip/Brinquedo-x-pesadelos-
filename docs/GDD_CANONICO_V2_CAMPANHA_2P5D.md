@@ -59,10 +59,10 @@
 
 | ID | Gatilho | Duração-alvo | Conteúdo | Situação |
 |---|---|---|---|---|
-| C00 | Primeira entrada na campanha (1-1) | 20–30s | A porta abre; Seu Pião acorda; Capitão Botão mobiliza | PENDENTE |
-| C01 | Primeira vitória 1-8 | 10–20s | Rei das Meias revela pista sob a cama | PENDENTE |
-| C02 | Primeira vitória 2-8 | 10–20s | Insônia aponta para o corredor | PENDENTE |
-| C03 | Primeira vitória 3-8 | 10–20s | Poeirão menciona o sótão; sombra aparece | PENDENTE |
+| C00 | Primeira entrada na campanha (1-1) | 20–30s | A porta abre; Seu Pião acorda; Capitão Botão mobiliza | IMPLEMENTADO v1.7.0 |
+| C01 | Primeira vitória 1-8 | 10–20s | Rei das Meias revela pista sob a cama | IMPLEMENTADO v1.7.0 |
+| C02 | Primeira vitória 2-8 | 10–20s | Insônia aponta para o corredor | IMPLEMENTADO v1.7.0 |
+| C03 | Primeira vitória 3-8 | 10–20s | Poeirão menciona o sótão; sombra aparece | IMPLEMENTADO v1.7.0 |
 | C04 | Primeira vitória 4-8 | 15–25s | Cortinas se abrem; Coração se ilumina | PENDENTE |
 | C05 | Antes de 5-8, primeira vez | 10–20s | Grande Bicho-Papão se apresenta | PENDENTE |
 | C06 | Primeira vitória 5-8 | até 45s | Coração restaurado, Lia acorda, desfecho | PENDENTE |
@@ -102,7 +102,7 @@
 | Marco | Entregas verificáveis | Estado |
 |---|---|---|
 | M0 — Checkpoint | Branch segura 1.6.0 + este GDD + plano rastreável | DOCUMENTAÇÃO |
-| M1 — Narrativa base | Motor de cutscenes, C00 e C01–C03, pular/rever, salvar flags, testes | PENDENTE |
+| M1 — Narrativa base | Motor de cutscenes, C00 e C01–C03, pular/rever, salvar flags, testes | IMPLEMENTADO v1.7.0; C04–C07 pendentes |
 | M2 — Fundos 2.5D | 3 cenários melhorados em camadas + fallback e medições de desempenho | PENDENTE |
 | M3 — Capítulo 4 | 8 fases, novos tipos, poeira, Baronesa, C04 | PENDENTE |
 | M4 — Capítulo 5 | 8 fases, sonho, boss 3 etapas, C05–C07 e final real | PENDENTE |
@@ -126,3 +126,7 @@
 Criar `src/story.js` com definição de quadros; renderizador leve (HTML/CSS e ilustração em Canvas/SVG), integração com `src/main.js`, botão de rever histórias no menu/Brinquedopédia e gate para primeira partida. Cobrir avanço, pular, Escape, reduzir movimento, primeira vitória, replay, save legado e geração do HTML offline.
 
 Depois elevar o primeiro capítulo com camadas 2.5D sem tocar no motor de colisões.
+
+## 9. Marco de implementação v1.7.0 — primeiras cenas
+
+A v1.7.0 introduz C00, C01, C02 e C03 em estilo ilustrado por camadas HTML/CSS, sem WebGL. C00 abre antes da primeira partida 1-1 e pode ser pulada; C01–C03 aparecem após vitórias nas fases finais dos três primeiros capítulos, e também ficam disponíveis pela galeria de Histórias para saves legados com capítulos concluídos. Marcar a cena como vista nunca altera vitórias, estrelas, upgrades ou desbloqueios. O GDD completo ainda exige C04–C07, 16 novas fases, dois chefes e os fundos 2.5D aprimorados.
