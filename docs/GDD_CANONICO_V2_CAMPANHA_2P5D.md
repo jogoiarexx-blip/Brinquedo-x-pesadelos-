@@ -186,3 +186,17 @@ A v1.7.0 introduz C00, C01, C02 e C03 em estilo ilustrado por camadas HTML/CSS, 
 **Validação esperada:** tests/ com regressão de boss, oito cenas, PWA, HTML offline compilado e parsing Node; builds de workflow e publicação Pages após PR. Playtests integrais de 40 fases com jogadores reais e medições em Android ainda precisam ser executados antes de declarar polimento final concluído.
 
 **Próximo passo recomendado:** separar o protótipo 3D opcional em branch/experimento com fallback automático 2D, sem introduzir WebGL obrigatório no jogo existente.
+
+## 14. Marco v2.2.0 — 3D opt-in, auditoria e qualidade mensurável
+
+**Protótipo GLB:** quatro modelos inéditos gerados como glTF binary v2 com malhas Low Poly, materiais simples e uma animação Idle por personagem; integrados nas cutscenes que já possuem essas artes. A escolha `cinematic3d` nasce **false** em todo save; a chave e a versão do save permanecem inalteradas. A criação 3D não muda story gates, script narrativo, música, dados de combate ou campanha.
+
+**Fallback obrigatório:** o visualizador usa Three.js 0.170/GLTFLoader carregados sob demanda, apenas quando a preferência está ativada e o protocolo é HTTP(S). Os GLBs só podem ser buscados por URLs locais pré-definidas. Caso haja falha de biblioteca, de GLB, de WebGL ou de rede, a ilustração SVG original continua visível. `file://` desativa a tentativa, garantindo que `JOGAR-OFFLINE.html` funcione independente do CDN.
+
+**Orçamento de render:** até 30 FPS, pixel ratio até 1,25, sem texturas externas e sem modelos de terceiros; o modelo é descarregado e o contexto liberado na troca de quadro/tela. Respeita movimento reduzido.
+
+**Métricas reais do navegador:** uma opção `showPerf` mostra FPS médio e tempo médio de desenho Canvas da batalha. O código filtra intervalos altos por suspensão do navegador, mas não substitui telemetria profissional de CPU/GPU, memória, bateria ou WebGL.
+
+**Auditoria estrutural:** `tools/audit_campaign.mjs` confere 40 fases, cinco chefes, dados de ondas, intervalos, recompensas, HP/escudo e pico de inimigos programados por janela de 30s, além de rodar um smoke lógico para detectar crashes. O relatório por capítulo é emitido em terminal e auditado no CI. Esses números não medem dificuldade sentida nem FPS em dispositivo.
+
+**Próximas decisões:** playtest de 40 fases em aparelhos reais, confirmação dos quatro GLBs em navegadores móveis, melhoria opcional dos modelos artísticos e ajustes de dificuldade com métricas coletadas. Só ampliar a adoção 3D após testes, preservando fallback e checkpoints.

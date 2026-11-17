@@ -1,4 +1,18 @@
-# Brinquedos vs. Pesadelos — CAMPANHA v2.1.0
+# Brinquedos vs. Pesadelos — CAMPANHA v2.2.0
+
+## Novidades da v2.2.0 — personagens GLB opcionais, FPS e auditoria
+
+- **Quatro personagens 3D autorais, leves e animados em GLB 2.0:** Pião da Lia, Capitão Botão (soldadinho), Boneca Guarda-Chuva e Grande Bicho-Papão. Os arquivos estão em `assets/models/`, cada um com ~10 KB e animação Idle gravada.
+- **3D é experimental, exclusivo das cutscenes e começa desligado.** Ative em **Opções → Personagens 3D nas cutscenes** para experimentar. Só slides com GLB próprio usam 3D; os demais mantêm arte 2D.
+- A primeira sessão 3D requer acesso à biblioteca Three.js/GLTFLoader por CDN. Os modelos são locais. Se WebGL, CDN ou GLB falharem, **o SVG original permanece visível**. Os quatro GLBs não são baixados na abertura do jogo.
+- Render 3D limitado a 30 FPS e pixel ratio 1,25, respeitando movimento reduzido; recursos gráficos e eventos de resize são liberados ao sair da cutscene. O modo **JOGAR-OFFLINE.html mantém 2D**, sem depender do CDN.
+- **Medidor de desempenho (FPS) opcional:** ative em Opções para visualizar FPS médio e tempo médio de desenho na própria tela da batalha. Não altera velocidade nem regras do jogo.
+- **Auditoria reproduzível:** `npm run audit` verifica as 40 fases, número/ordem das ondas, cinco chefes, total de HP+escudo, maior quantidade escalada em 30 segundos, desbloqueios, tempos e smoke test do motor. Tabelas saem no terminal.
+- Testes validam os GLBs reais (cabeçalhos, buffers, geometria, animações), cenas, fallback, saves e HTML standalone. `npm test` permanece sem dependências externas.
+- **40 fases, oito cenas C00–C07, cinco chefes, Oficina, baralhos, Sobrevivência e chave de save `bvp-save-v1` intactos.**
+- Os testes automatizados **não substituem** teste real de renderização WebGL, GPU/memória no celular nem playtests de equilíbrio; consulte `docs/AUDITORIA_3D_DESEMPENHO_E_CAMPANHA_V2_2.md`.
+
+
 
 ## Novidades da v2.1.0 — Polimento cinematográfico, cinco chefes e acessibilidade
 

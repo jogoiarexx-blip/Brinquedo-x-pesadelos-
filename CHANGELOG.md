@@ -1,3 +1,15 @@
+# 2.2.0 — 17/11/2026
+
+- Quatro GLBs originais animados (soldadinho, Pião, Boneca e Grande Bicho-Papão) com mapeamento apenas para cutscenes correspondentes.
+- Modo WebGL/GLTFLoader experimental opt-in; CDN com versão fixa, arquivos 3D locais e fallback SVG automático em qualquer falha.
+- Entrada em 3D não altera campanha ou saves; baixa frequência de desenho (30 FPS), pixel ratio limitado, animação estática em movimento reduzido e limpeza de recursos GPU ao sair.
+- Medidor FPS opcional mostra frames do navegador e custo de desenho Canvas 2D para diagnóstico real.
+- Auditoria estrutural de 40 fases/5 chefes com ondas, HP+escudo, pressão de 30s, recompensas e smoke lógico.
+- Scripts `npm run audit`, testes GLB/telemetria e etapa de auditoria no GitHub Actions.
+- Modo offline permanece 2D; não depende de CDN.
+- Checkpoints v1.6.0, v2.0.0 e v2.1.0 preservados.
+- Pendência: verificar carregamento 3D/WebGL em navegadores reais e desempenho/partidas em celulares físicos.
+
 # 2.1.0 — 17/11/2026
 
 - Direção visual específica para os cinco chefes: halos, animações, cartões de entrada, status de combate e HUD mais legível.
