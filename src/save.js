@@ -3,7 +3,7 @@ import { SAVE_KEY } from './config.js?v=2.1.0';
 import { validDeck, deckForLevel } from './deck.js?v=2.1.0';
 import { getStory } from './story.js?v=2.1.0';
 import { UPGRADE_COSTS,upgradeRank,upgradeSpent } from './upgrades.js?v=2.1.0';
-const defaults = () => ({ version:1, campaignSize:LEVELS.length, unlocked:1, stars:{}, upgrades:{}, decks:{}, storySeen:[], survival:{ best:{waves:0,kills:0,seconds:0,score:0},runs:0,deck:[] }, seenEnemies:[], settings:{ music:true, sfx:true, motion:true, cinematic3d:false } });
+const defaults = () => ({ version:1, campaignSize:LEVELS.length, unlocked:1, stars:{}, upgrades:{}, decks:{}, storySeen:[], survival:{ best:{waves:0,kills:0,seconds:0,score:0},runs:0,deck:[] }, seenEnemies:[], settings:{ music:true, sfx:true, motion:true, cinematic3d:false, showPerf:false } });
 const starScore=value=>['number','string'].includes(typeof value)&&Number.isFinite(Number(value))?Math.max(0,Math.min(3,Math.floor(Number(value)))):0;
 export function unlockedToys(save) {
   return new Set(LEVELS.slice(0,save.unlocked).flatMap(level=>level.toys));
