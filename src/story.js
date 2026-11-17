@@ -43,5 +43,8 @@ export function storyForVictory(levelId){
   return Object.hasOwn(STORY_AFTER_LEVEL,levelId)?STORY_AFTER_LEVEL[levelId]:null;
 }
 export function canReplayStory(save,id){
-  return Boolean(getStory(id))&&(id==='C00'||Array.isArray(save?.storySeen)&&save.storySeen.includes(id));
+  if(!getStory(id))return false;
+  if(id==='C00'||Array.isArray(save?.storySeen)&&save.storySeen.includes(id))return true;
+  // Quem terminou capítulos antes da implantação também pode assistir às cenas.
+  return Object.entries(STORY_AFTER_LEVEL).some(([level,scene])=>scene===id&&Number(save?.stars?.[level])>0);
 }
