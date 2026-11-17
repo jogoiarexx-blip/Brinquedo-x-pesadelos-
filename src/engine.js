@@ -1,12 +1,14 @@
-import { BOARD, BOARD_RIGHT, BOARD_BOTTOM, colX, rowY, rectCell, clamp } from './config.js?v=1.4.0';
-import { LEVELS, TOYS, ENEMIES } from './data.js?v=1.4.0';
-import { upgradedToy } from './upgrades.js?v=1.4.0';
+import { BOARD, BOARD_RIGHT, BOARD_BOTTOM, colX, rowY, rectCell, clamp } from './config.js?v=1.5.0';
+import { LEVELS, TOYS, ENEMIES } from './data.js?v=1.5.0';
+import { upgradedToy } from './upgrades.js?v=1.5.0';
+import { deckForLevel } from './deck.js?v=1.5.0';
 
 export class Battle {
-  constructor(index=0, audio=null, events={}, upgrades={}) {
+  constructor(index=0, audio=null, events={}, upgrades={}, deck=null, available=null) {
     this.levelIndex=index;
     this.level=LEVELS[index];
     if(!this.level)throw new Error('Fase desconhecida');
+    this.deck=deckForLevel(index,deck,available);
     this.audio=audio || {play(){}};
     this.events=events;
     this.toyStats=Object.fromEntries(Object.keys(TOYS).map(id=>[id,upgradedToy(id,upgrades[id])]));
@@ -18,8 +20,8 @@ export class Battle {
     this.effectsEnabled=true;
     this.feedback=[];this.defeated=[];this.impacts=[];
     this.trainReady=Array(BOARD.rows).fill(true);
-    this.toyCooldowns=Object.fromEntries(this.level.toys.map(t=>[t,0]));
-    this.selected=this.level.toys.includes('T02')?'T02':this.level.toys[0];this.hover=null;this.shovel=false;
+    this.toyCooldowns=Object.fromEntries(this.deck.map(t=>[t,0]));
+    this.selected=this.deck.includes('T02')?'T02':this.deck[0];this.hover=null;this.shovel=false;
     this.waveIndex=0;this.bigWaveAlert=false;this.totalSpawns=0;this.killCount=0;this.toysPlaced=0;
     this.lastDrop=0;this.nextDrop=5.8;this.banner='';this.bannerUntil=0;
     this.seed=0x2af00+(index+1)*1543;
@@ -31,14 +33,14 @@ export class Battle {
   rand(){let x=this.seed|0;x^=x<<13;x^=x>>>17;x^=x<<5;this.seed=x|0;return (x>>>0)/4294967296;}
   visualRand(){let x=this.visualSeed|0;x^=x<<13;x^=x>>>17;x^=x<<5;this.visualSeed=x|0;return (x>>>0)/4294967296;}
   startToast(text,seconds=2.3){this.lastAction=text;this.toastUntil=this.time+seconds;this.events.toast?.(text,seconds);}
-  selectToy(id){if(!this.level.toys.includes(id))return false;this.selected=id;this.shovel=false;this.audio.play('click');return true;}
+  selectToy(id){if(!this.deck.includes(id))return false;this.selected=id;this.shovel=false;this.audio.play('click');return true;}
   selectShovel(){this.shovel=!this.shovel;this.audio.play('click');}
   canPlace(row,col,id=this.selected){
     if(this.state!=='playing')return 'Fase pausada';
     if(!TOYS[id])return 'Escolha um brinquedo';
     if(!Number.isInteger(row)||!Number.isInteger(col)||row<0||row>=BOARD.rows||col<0||col>=BOARD.cols)return 'Fora do tapete';
     if(this.grid[row][col])return 'Esta casa já está ocupada';
-    if(!this.level.toys.includes(id))return 'Brinquedo bloqueado';
+    if(!this.deck.includes(id))return 'Brinquedo bloqueado';
     if(this.toyCooldowns[id]>0)return 'Aguarde a recarga';
     if(this.glow<TOYS[id].cost)return 'Brilhos insuficientes';
     return null;
