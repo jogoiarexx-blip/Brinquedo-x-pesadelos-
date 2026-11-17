@@ -1,4 +1,17 @@
-# Brinquedos vs. Pesadelos — CAMPANHA v2.2.0
+# Brinquedos vs. Pesadelos — CAMPANHA v2.3.0
+
+## Novidades v2.3.0 — QA no navegador, 3D mais confiável e pressão por fase
+
+- **Cutscenes WebGL mais robustas:** tempo limite de 9 segundos para biblioteca/GLB, detecção de perda de contexto, estado diagnosticável e fallback SVG automático.
+- **Movimento dos personagens em 3D mais natural:** leve balanço e flutuação do boneco, sem mudar o combate ou exigir modelos maiores.
+- **Auditoria de navegador com Playwright:** Chromium desktop e viewport mobile emulado, GLBs carregados com Three.js 0.170 real, cenário sem CDN, acessibilidade de cutscenes e medidor de FPS. Arquivos de captura são anexados à execução de GitHub Actions. **Não é teste em Android físico.**
+- **Mais informações antes de cada fase:** pico de inimigos programados em janela de 30 segundos, HP + escudo da programação e faixa com mais chegadas. A métrica é calculada exclusivamente das ondas e não pretende indicar dificuldade garantida nem invocações de chefes.
+- **Fallback 2D permanece obrigatório e o modo GLB experimental segue desligado por padrão.** O HTML offline não depende de internet para jogar em 2D.
+- Os **40 níveis**, 5 chefes, histórias, modo sobrevivência, Oficina, progresso e checkpoints anteriores estão preservados.
+
+**Como validar:** `npm test`, `npm run audit`, `python3 tools/build_standalone.py`; para UI real, ver workflow `.github/workflows/browser-cinematic.yml` (instala Playwright + Three.js somente no ambiente de testes).
+
+
 
 ## Novidades da v2.2.0 — personagens GLB opcionais, FPS e auditoria
 

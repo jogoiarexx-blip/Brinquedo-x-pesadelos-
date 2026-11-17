@@ -1,3 +1,12 @@
+# 2.3.0 — 17/11/2026
+
+- Robustez do visualizador 3D experimental: limite de carregamento, fallback SVG observável, tratamento de perda do contexto WebGL e movimento refinado dos personagens.
+- CI Playwright com Chromium real: desktop, celular emulado, 3D com biblioteca local interceptando CDN, ausência de CDN, navegação de cenas, FPS Canvas e screenshots.
+- Prévia das 40 fases agora inclui pressão programada em janela de 30 segundos, HP+escudo total e faixa mais atacada.
+- Métricas calculadas dos dados reais sem alterar IA, dano, HP dos inimigos, ondas, salvamento ou campanha.
+- Arquivo standalone, PWA, testes e GDD atualizados; checkpoint da versão anterior preservado.
+- Permanece pendente: avaliação da experiência WebGL, desempenho, aquecimento e equilíbrio com jogadores em celulares físicos.
+
 # 2.2.0 — 17/11/2026
 
 - Quatro GLBs originais animados (soldadinho, Pião, Boneca e Grande Bicho-Papão) com mapeamento apenas para cutscenes correspondentes.
