@@ -310,3 +310,24 @@
 }
 @media(prefers-reduced-motion:reduce){.story-panel *{animation:none!important;transition:none!important}}
 .story-no-motion *{animation:none!important;transition:none!important}
+
+/* v2.2.0 — cena WebGL somente com aceite explícito; falha mantém a ilustração SVG. */
+.story-stage .story-3d-layer{position:absolute;z-index:4;left:29%;bottom:4%;height:96%;width:42%;pointer-events:none;contain:layout paint;filter:drop-shadow(0 10px 13px #20182b82)}
+.story-stage.story-camera-left .story-3d-layer{left:18%}
+.story-stage.story-camera-right .story-3d-layer{left:43%}
+.story-stage.story-camera-credits .story-3d-layer{left:65%;width:30%;height:81%}
+.story-stage .story-3d-layer canvas{display:block;width:100%!important;height:100%!important;object-fit:contain}
+.story-stage.story-glb-active .story-character{visibility:hidden}
+.story-stage .story-credits-logo{z-index:6}
+.option-note-3d{padding:9px 13px;border:1px solid #e2c59877;border-radius:10px;background:#36274477;line-height:1.4;font-size:clamp(11px,1.05vw,15px)!important}
+@media(max-width:650px){
+ .story-stage .story-3d-layer{width:50%;left:25%;bottom:0}
+ .story-stage.story-camera-left .story-3d-layer{left:13%}
+ .story-stage.story-camera-right .story-3d-layer{left:42%}
+ .story-stage.story-camera-credits .story-3d-layer{left:65%;width:33%}
+ .option-note-3d{font-size:10px!important;padding:7px}
+}
+
+/* v2.2.0 — telemetria visível só após ativação manual */
+.perf-stats{position:absolute;right:1.1%;bottom:7.5%;z-index:4;pointer-events:none;padding:5px 10px;font-size:clamp(10px,1.05vw,13px);font-weight:900;border:1px solid #dcf4dd9c;border-radius:8px;color:#e5ffe8;background:#1f3540d9;box-shadow:0 2px 12px #17142866}
+.perf-stats.perf-warning{color:#ffe1b3;border-color:#ffbe91;background:#71463bdd}

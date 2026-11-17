@@ -19,5 +19,7 @@ jobs:
           node-version: 20
       - name: Run game logic and render tests
         run: npm test
+      - name: Audit all 40 campaign stages
+        run: npm run audit
       - name: Check standalone builder syntax
         run: python3 -m py_compile tools/build_standalone.py

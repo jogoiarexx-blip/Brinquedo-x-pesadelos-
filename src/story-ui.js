@@ -1,4 +1,4 @@
-import { getStory } from './story.js?v=2.1.0';
+import { getStory } from './story.js?v=2.2.0';
 // A exibição é totalmente estática e acessível também no HTML offline.
 const storyEscapeText=value=>String(value).replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
 export function buildStoryScreen(id,index,animate=true){
@@ -8,7 +8,7 @@ export function buildStoryScreen(id,index,animate=true){
   const stage=['bedroom','wardrobe','underbed','corridor','attic','dream'].includes(frame.stage)?frame.stage:'bedroom';
   const focus=/^[a-zA-Z0-9_-]{1,32}$/.test(frame.focus||'')?frame.focus:'center';
   const camera=credits?'story-camera-credits':index%2===0?'story-camera-left':'story-camera-right';
-  const sprite=frame.art?'<svg class="story-character-art" viewBox="0 0 80 80" aria-hidden="true"><use href="./assets/codex-atlas.svg?v=2.1.0#'+storyEscapeText(frame.art)+'"></use></svg>':'<span class="story-character-emoji" aria-hidden="true">'+storyEscapeText(frame.emoji)+'</span>';
+  const sprite=frame.art?'<svg class="story-character-art" viewBox="0 0 80 80" aria-hidden="true"><use href="./assets/codex-atlas.svg?v=2.2.0#'+storyEscapeText(frame.art)+'"></use></svg>':'<span class="story-character-emoji" aria-hidden="true">'+storyEscapeText(frame.emoji)+'</span>';
   const dots=story.slides.map((_,i)=>'<span class="story-dot '+(i===index?'active':'')+'" aria-hidden="true"></span>').join('');
   const pct=Math.round((index+1)/story.slides.length*100);
   const creditsLogo=credits?'<div class="story-credits-logo" aria-hidden="true"><span>BRINQUEDOS</span><b>VS. PESADELOS</b><small>FIM DA HISTÓRIA</small></div>':'';

@@ -1,7 +1,7 @@
-import { BOARD, BOARD_RIGHT, BOARD_BOTTOM, colX, rowY, rectCell, clamp } from './config.js?v=2.1.0';
-import { LEVELS, TOYS, ENEMIES } from './data.js?v=2.1.0';
-import { upgradedToy } from './upgrades.js?v=2.1.0';
-import { deckForLevel } from './deck.js?v=2.1.0';
+import { BOARD, BOARD_RIGHT, BOARD_BOTTOM, colX, rowY, rectCell, clamp } from './config.js?v=2.2.0';
+import { LEVELS, TOYS, ENEMIES } from './data.js?v=2.2.0';
+import { upgradedToy } from './upgrades.js?v=2.2.0';
+import { deckForLevel } from './deck.js?v=2.2.0';
 
 export class Battle {
   constructor(index=0, audio=null, events={}, upgrades={}, deck=null, available=null) {

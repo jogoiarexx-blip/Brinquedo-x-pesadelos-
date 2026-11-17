@@ -9,8 +9,14 @@
   
   <link rel="manifest" href="./manifest.webmanifest" />
   <link rel="icon" type="image/svg+xml" href="./assets/icon.svg" />
-  <link rel="stylesheet" href="./src/style.css?v=2.1.0" />
-  <title>Brinquedos vs. Pesadelos — v2.1.0</title>
+  <link rel="stylesheet" href="./src/style.css?v=2.2.0" />
+  <script type="importmap">
+  {"imports":{
+    "three":"https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js",
+    "three/addons/":"https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"
+  }}
+  </script>
+  <title>Brinquedos vs. Pesadelos — v2.2.0</title>
 </head>
 <body>
   <main class="app" aria-label="Jogo Brinquedos vs. Pesadelos">
@@ -29,13 +35,14 @@
           <div class="waves-area"><span id="waves-text">Invasão começando...</span><div class="progress-track"><div id="wave-progress" class="progress-fill"></div></div></div>
         </div>
       </div>
+      <div id="perf-stats" class="perf-stats hidden" role="status" aria-label="Desempenho do jogo"></div>
       <div id="toast" class="toast hidden" role="status" aria-live="polite"></div>
       <div id="screen" class="screen"></div>
-      <div class="version-tag">ALFA 2.1.0 · 5 capítulos completos</div>
+      <div class="version-tag">ALFA 2.2.0 · 5 capítulos completos</div>
     </div>
     <div class="mobile-tip" aria-label="Orientação recomendada">↻ Vire o celular na horizontal para ver todo o tabuleiro.</div>
     <footer class="outside-footer">Brinquedos vs. Pesadelos · Um jogo original de defesa por linhas · Salvo neste dispositivo</footer>
   </main>
-  <script type="module" src="./src/main.js?v=2.1.0"></script>
+  <script type="module" src="./src/main.js?v=2.2.0"></script>
 </body>
 </html>

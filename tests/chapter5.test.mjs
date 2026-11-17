@@ -176,7 +176,7 @@ test('site, PWA e HTML offline incluem campanha e final sem importações ES pen
   assert.ok(main.includes("presentStory('C07',resultScreen)"));
   assert.ok(main.includes("data-action")); // Menu actions / story controls remain wired
   assert.ok(main.includes("story-final-replay"));
-  assert.ok(index.includes('v2.1.0'));assert.ok(sw.includes('brinquedos-vs-pesadelos-v2.1.0'));
+  assert.ok(index.includes('v2.2.0'));assert.ok(sw.includes('brinquedos-vs-pesadelos-v2.2.0'));
   assert.ok(offline.includes('function drawDream('));
   assert.ok(offline.includes('updateDreamBoss(enemy,dt)'));
   assert.ok(offline.includes('C07:{'));
