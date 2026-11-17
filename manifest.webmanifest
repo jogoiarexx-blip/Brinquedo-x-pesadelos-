@@ -1,16 +1,26 @@
 {
-  "id":"./",
-  "name":"Brinquedos vs. Pesadelos",
-  "short_name":"Brinquedos VS",
-  "description":"Defenda o quarto da Lia com brinquedos contra pesadelos: 16 fases e dois capítulos, incluindo o Reino sob a Cama.",
-  "start_url":"./",
-  "scope":"./",
-  "display":"standalone",
-  "orientation":"landscape",
-  "background_color":"#392949",
-  "theme_color":"#392949",
-  "icons":[
-    {"src":"./assets/icon-192.png","sizes":"192x192","type":"image/png","purpose":"any maskable"},
-    {"src":"./assets/icon-512.png","sizes":"512x512","type":"image/png","purpose":"any maskable"}
+  "id": "./",
+  "name": "Brinquedos vs. Pesadelos",
+  "short_name": "Brinquedos VS",
+  "description": "Defenda o quarto da Lia: 24 fases em 3 capítulos, chefes, Oficina de melhorias e preparação de batalhas.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "landscape",
+  "background_color": "#392949",
+  "theme_color": "#392949",
+  "icons": [
+    {
+      "src": "./assets/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "./assets/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
   ]
 }

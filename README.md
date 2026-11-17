@@ -1,3 +1,15 @@
+# Brinquedos vs. Pesadelos — ALFA v1.4.0
+
+## Novidades da v1.4.0 — Preparação de fase
+
+- Tela opcional **🔎 Preparar defesa** no mapa para cada fase desbloqueada.
+- Mostra os pesadelos previstos nas ondas, suas quantidades, habilidades e chefes, sem revelar fases bloqueadas.
+- Apresenta o conjunto de brinquedos, custo, nível permanente, recompensa e dica estratégica.
+- Avisos antecipados de portas nas fases do Corredor Rangente.
+- **Jogar agora** continua disponível no mapa; nova tela só abre quando solicitada.
+- Nenhuma regra de combate, estrela, economia ou chave de salvamento foi alterada.
+- Validação automática para as 24 fases e inclusão no PWA e HTML offline.
+
 # Brinquedos vs. Pesadelos — ALFA v1.3.0
 
 ## Novidades da v1.3.0 — Corredor Rangente completo

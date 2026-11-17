@@ -1,6 +1,6 @@
-import { LEVELS,TOYS,ENEMIES } from './data.js?v=1.3.0';
-import { SAVE_KEY } from './config.js?v=1.3.0';
-import { UPGRADE_COSTS,upgradeRank,upgradeSpent } from './upgrades.js?v=1.3.0';
+import { LEVELS,TOYS,ENEMIES } from './data.js?v=1.4.0';
+import { SAVE_KEY } from './config.js?v=1.4.0';
+import { UPGRADE_COSTS,upgradeRank,upgradeSpent } from './upgrades.js?v=1.4.0';
 const defaults = () => ({ version:1, campaignSize:LEVELS.length, unlocked:1, stars:{}, upgrades:{}, seenEnemies:[], settings:{ music:true, sfx:true, motion:true } });
 const starScore=value=>['number','string'].includes(typeof value)&&Number.isFinite(Number(value))?Math.max(0,Math.min(3,Math.floor(Number(value)))):0;
 export function unlockedToys(save) {
