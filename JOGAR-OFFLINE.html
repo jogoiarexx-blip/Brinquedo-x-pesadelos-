@@ -344,6 +344,14 @@
 .perf-stats{position:absolute;right:1.1%;bottom:7.5%;z-index:4;pointer-events:none;padding:5px 10px;font-size:clamp(10px,1.05vw,13px);font-weight:900;border:1px solid #dcf4dd9c;border-radius:8px;color:#e5ffe8;background:#1f3540d9;box-shadow:0 2px 12px #17142866}
 .perf-stats.perf-warning{color:#ffe1b3;border-color:#ffbe91;background:#71463bdd}
 
+/* v2.3.0 — informações claras de pressão por fase, sem inventar nota de dificuldade */
+.brief-pressure{background:linear-gradient(130deg,#332a52bb,#594466bb);border:1px solid #e1c7d1a6;border-radius:13px;margin:10px 0;padding:11px 13px}
+.brief-pressure strong{display:block;margin-bottom:9px;font-size:clamp(13px,1.3vw,17px);color:#ffecbb}
+.brief-pressure div{display:flex;flex-wrap:wrap;gap:7px}
+.brief-pressure span{display:inline-flex;align-items:center;padding:5px 9px;border:1px solid #d1b5db8f;border-radius:8px;background:#ffffff12;color:#f5ebdf;font-size:clamp(10px,1vw,13px);font-weight:800}
+.brief-pressure small{display:block;color:#e2d0e8;font-size:clamp(9px,.86vw,12px);margin-top:8px;line-height:1.4}
+@media(max-width:650px){.brief-pressure{padding:7px;margin:6px 0}.brief-pressure span{font-size:10px;padding:4px 6px}}
+
 </style>
   <script type="importmap">
   {"imports":{
@@ -2773,18 +2781,28 @@ function buildBriefing(index) {
   const level = LEVELS[index];
   const incoming = new Map();
   let doorWarnings = 0;
+  const laneCounts=Array(5).fill(0);
+  let scheduledHP=0;
   for (const wave of level.waves) {
     if (Number.isInteger(wave.doorLane)) doorWarnings++;
     for (const foe of wave.enemies) {
       if (!ENEMIES[foe.type]) continue;
       incoming.set(foe.type, (incoming.get(foe.type) || 0) + 1);
+      if(Number.isInteger(foe.lane)&&foe.lane>=0&&foe.lane<5)laneCounts[foe.lane]++;
+      scheduledHP+=ENEMIES[foe.type].hp+(ENEMIES[foe.type].shield||0);
     }
   }
   const enemies = [...incoming.entries()].map(([id, count]) => ({
     id, name: ENEMIES[id].name, count, boss: !!ENEMIES[id].boss,
     description: ENEMIES[id].description
   })).sort((a,b) => Number(b.boss)-Number(a.boss) || b.count-a.count || a.id.localeCompare(b.id));
+  const peak30=Math.max(0,...level.waves.map(w=>level.waves
+    .filter(other=>other.at>=w.at&&other.at<w.at+30)
+    .reduce((sum,other)=>sum+other.enemies.length,0)));
+  const busiestLane=laneCounts.indexOf(Math.max(...laneCounts));
   return {
+    laneCounts, busiestLane, peak30, scheduledHP,
+    pressurePerMinute:Math.round(scheduledHP/Math.max(1,level.duration/60)),
     id: level.id, title: level.title, subtitle: level.subtitle, hint: level.hint,
     chapter: level.chapter || 1, waveCount: level.waves.length, doorWarnings, dustCells:level.dust?.length||0,
     totalScheduled: enemies.reduce((sum,enemy)=>sum+enemy.count,0),
@@ -3152,7 +3170,7 @@ function previewLevel(index,preserveDraft=false){
   const enemies=info.enemies.map(enemy=>`<article class="brief-entity ${enemy.boss?'brief-boss':''}"><svg class="brief-icon" viewBox="0 0 80 80" aria-hidden="true"><use href="#enemy-${enemy.id}"></use></svg><div><strong>${escapeHTML(enemy.name)} ${enemy.boss?'<small class="brief-boss-label">CHEFE</small>':''}</strong><small>${enemy.count} previsto${enemy.count===1?'':'s'} nas ondas</small><p>${escapeHTML(enemy.description)}</p></div></article>`).join('');
   const dustHint=info.dustCells?`<div class="brief-dust-warning">🌫 ${info.dustCells} casas empoeiradas nesta fase · ações 15% mais lentas enquanto não forem limpas.</div>`:'';
   const defenders=deckDraft.map(id=>{const toy=TOYS[id];return `<div class="brief-entity brief-toy"><svg class="brief-icon" viewBox="0 0 80 80" aria-hidden="true"><use href="#toy-${id}"></use></svg><div><strong>${escapeHTML(toy.name)} ${save.upgrades[id]?`<small>N${save.upgrades[id]+1}</small>`:''}</strong><small>✦ ${toy.cost} Brilhos</small></div></div>`;}).join('');
-  const content=`<p class="brief-subtitle">${escapeHTML(info.subtitle)}</p><div class="brief-facts"><span>🌊 ${info.waveCount} ondas</span><span>👾 ${info.totalScheduled} inimigos previstos</span><span>🎴 ${deckDraft.length} cartas escolhidas</span>${info.doorWarnings?`<span>🚪 ${info.doorWarnings} avisos de porta</span>`:''}</div>${dustHint}<div class="brief-tip"><strong>💡 Estratégia sugerida</strong><p>${escapeHTML(info.hint)}</p></div>${renderDeckEditor(index,info)}<div class="brief-grid"><section><h2>Pesadelos desta fase</h2><div class="brief-list">${enemies}</div><p class="brief-footnote">Quantidades das ondas programadas. Reforços invocados por chefes podem aparecer além desta lista.</p></section><section><h2>Seus brinquedos</h2><div class="brief-list">${defenders}</div>${info.reward?`<p class="brief-reward">🎁 Recompensa ao vencer: <strong>${escapeHTML(info.reward.name)}</strong></p>`:''}</section></div><div class="brief-actions">${button('▶ Começar com este baralho','deck-start','big-btn')}${button('← Voltar ao mapa','levels','outline-btn')}</div>`;
+  const content=`<p class="brief-subtitle">${escapeHTML(info.subtitle)}</p><div class="brief-facts"><span>🌊 ${info.waveCount} ondas</span><span>👾 ${info.totalScheduled} inimigos previstos</span><span>🎴 ${deckDraft.length} cartas escolhidas</span>${info.doorWarnings?`<span>🚪 ${info.doorWarnings} avisos de porta</span>`:''}</div><div class="brief-pressure" aria-label="Pressão programada nesta fase"><strong>📊 Pressão das ondas (estimativa)</strong><div><span>⚡ Pico de ${info.peak30} inimigos em 30s</span><span>🛡 ${info.scheduledHP.toLocaleString('pt-BR')} HP + escudo previstos</span><span>🎯 Faixa ${info.busiestLane+1} com mais chegadas (${info.laneCounts[info.busiestLane]})</span></div><small>Estimativa das ondas programadas: não representa a dificuldade real nem inclui invocações extras de chefes.</small></div>${dustHint}<div class="brief-tip"><strong>💡 Estratégia sugerida</strong><p>${escapeHTML(info.hint)}</p></div>${renderDeckEditor(index,info)}<div class="brief-grid"><section><h2>Pesadelos desta fase</h2><div class="brief-list">${enemies}</div><p class="brief-footnote">Quantidades das ondas programadas. Reforços invocados por chefes podem aparecer além desta lista.</p></section><section><h2>Seus brinquedos</h2><div class="brief-list">${defenders}</div>${info.reward?`<p class="brief-reward">🎁 Recompensa ao vencer: <strong>${escapeHTML(info.reward.name)}</strong></p>`:''}</section></div><div class="brief-actions">${button('▶ Começar com este baralho','deck-start','big-btn')}${button('← Voltar ao mapa','levels','outline-btn')}</div>`;
   panel(`Fase ${info.id} · ${info.title}`,'Prepare sua defesa antes da invasão',content,'levels','briefing');
 }
 function renderDeckEditor(index,info){
@@ -3445,7 +3463,6 @@ menu();requestAnimationFrame(loop);
 window.addEventListener('orientationchange',()=>{last=performance.now();accumulator=0;});
 if('serviceWorker' in navigator&&(location.protocol==='https:'||location.hostname==='localhost'||location.hostname==='127.0.0.1'))navigator.serviceWorker.register('./sw.js').catch(()=>{});
 if(new URLSearchParams(location.search).has('qa'))window.__QA__={start,battle:()=>battle,save,menu};
-
 </script>
 </body>
 </html>
