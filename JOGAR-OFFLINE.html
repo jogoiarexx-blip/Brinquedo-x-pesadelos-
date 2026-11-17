@@ -196,8 +196,58 @@
 @media(max-width:600px){.survival-choices{grid-template-columns:repeat(2,minmax(0,1fr))}.survival-actions button{flex:1;font-size:11px}}
 @media(orientation:portrait) and (max-width:900px){.game-frame:has(.survival-record){height:min(88dvh,760px);aspect-ratio:auto}.screen:has(.survival-record){align-items:flex-start;padding:8px}.panel:has(.survival-record){max-height:100%;padding:13px}}
 
+
+/* v1.7 — cenas de história ilustradas em camadas, sem dependência de WebGL. */
+.screen:has(.story-panel){align-items:center;justify-content:center;padding:clamp(6px,1.5vw,18px)}
+.story-panel{display:flex;flex-direction:column;width:min(980px,100%);max-height:100%;overflow-y:auto;overflow-x:hidden;border:2px solid #f4da9b;box-shadow:0 12px 55px #08061d91;background:linear-gradient(150deg,#493351,#261e42);border-radius:19px;padding:clamp(10px,2vw,20px);color:#fff4df}
+.story-header{position:relative;display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
+.story-kicker{display:block;font-size:11px;letter-spacing:.11em;font-weight:900;color:#f4d5a0;text-transform:uppercase}
+.story-header h1{margin:6px 0 13px;font-size:clamp(19px,2.5vw,29px);line-height:1.1;color:#fff1c0}
+.story-skip{flex-shrink:0;border:1px solid #ecc99c;background:#26193dc9;color:#fff2d2;border-radius:10px;font-weight:900;padding:10px 13px;cursor:pointer}
+.story-skip:hover,.story-next:hover{filter:brightness(1.09)}
+.story-stage{position:relative;min-height:clamp(170px,30vh,280px);width:100%;overflow:hidden;isolation:isolate;border-radius:17px;border:3px solid #eac892;background:radial-gradient(ellipse at 70% 5%,#beb8edb3,transparent 42%),linear-gradient(180deg,#403668,#73637d 56%,#312942)}
+.story-moon{position:absolute;z-index:0;top:14%;right:18%;width:64px;height:64px;border-radius:50%;box-shadow:0 0 70px 25px #f5e8ae67;background:#fff0ba;animation:storyGlow 4s ease-in-out infinite alternate}
+.story-backdrop{position:absolute;z-index:1;inset:30% -3% -9%;background:linear-gradient(0deg,#231b38 10%,#48335d 48%,#665475);clip-path:polygon(0 45%,17% 34%,18% 8%,30% 8%,31% 45%,59% 45%,60% 18%,78% 18%,80% 45%,100% 31%,100% 100%,0 100%);animation:storySlideBack 9s ease-in-out infinite alternate}
+.story-backdrop-front{position:absolute;z-index:2;inset:57% -5% -8%;background:linear-gradient(#8d739a99,#2b233f);border-top:5px solid #edcea383;transform:perspective(330px) rotateX(24deg);transform-origin:top center;animation:storySlideFront 7s ease-in-out infinite alternate}
+.story-character{position:absolute;z-index:4;bottom:12%;left:50%;width:clamp(105px,19vw,190px);height:clamp(105px,19vw,190px);transform:translateX(-50%);filter:drop-shadow(0 13px 4px #120e267a);animation:storyCharacter 3.5s ease-in-out infinite alternate}
+.story-character-art{width:100%;height:100%;filter:drop-shadow(0 0 14px #fff4c49d)}
+.story-character-emoji{font-size:clamp(78px,12vw,132px);display:block;text-align:center}
+.story-vignette{position:absolute;z-index:5;inset:0;background:linear-gradient(90deg,#140c3470,transparent 32%,transparent 68%,#12092670);pointer-events:none}
+.story-stage-wardrobe{background:radial-gradient(ellipse at 48% 48%,#ac77c69e,transparent 38%),linear-gradient(#28214f,#734069 65%,#30263b)}
+.story-stage-wardrobe .story-backdrop{background:linear-gradient(#39274c,#20172f);clip-path:polygon(13% 0,78% 0,78% 100%,13% 100%)}
+.story-stage-underbed{background:linear-gradient(#1b1a42,#4b4179 67%,#13182d)}
+.story-stage-underbed .story-backdrop{background:linear-gradient(#5a426e,#2b233c);clip-path:polygon(0 6%,100% 6%,100% 23%,0 23%)}
+.story-stage-corridor{background:linear-gradient(#38294e,#5b3c5e,#28203d)}
+.story-stage-corridor .story-backdrop{clip-path:polygon(10% 5%,90% 5%,66% 100%,33% 100%);background:linear-gradient(#493256,#1c1834)}
+.story-stage-attic{background:radial-gradient(ellipse at 35% 20%,#dfc69e75,transparent 45%),linear-gradient(#574254,#2e2640)}
+.story-stage-attic .story-backdrop{clip-path:polygon(0 40%,50% 0,100% 40%,100% 100%,0 100%);background:linear-gradient(#624a5a,#302739)}
+.story-dialogue{border:1px solid #e7c69c85;background:#231b39d1;border-radius:13px;margin:12px 0;padding:12px 17px;min-height:84px}
+.story-dialogue strong{display:block;color:#ffdf9a;font-size:14px;margin-bottom:4px}
+.story-dialogue p{margin:0;color:#fff0db;font-size:clamp(13px,1.5vw,17px);line-height:1.35}
+.story-bottom{display:flex;align-items:center;justify-content:space-between;gap:16px}
+.story-progress{font-size:12px;color:#ead4d7}
+.story-dots{display:flex;gap:7px;margin-top:8px}
+.story-dot{width:9px;height:9px;border-radius:50%;background:#a28baa}
+.story-dot.active{background:#ffde98;box-shadow:0 0 8px #ffe7a8}
+.story-next{min-width:175px;min-height:44px}
+.story-gallery{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:16px 0}
+.story-gallery-card{padding:16px;border-radius:13px;border:1px solid #caaac4;background:#5a426b60}
+.story-gallery-card h2{font-size:17px;color:#f8dfb0;margin:7px 0}
+.story-gallery-card p{font-size:12px;color:#f1dce9;margin:5px 0 12px}
+.story-gallery-number{font-size:10px;letter-spacing:.06em;color:#e5c6d5;text-transform:uppercase}
+.story-gallery-locked{opacity:.58}
+.story-locked{font-size:11px;color:#f2d6e0}
+@keyframes storyGlow{from{opacity:.72;transform:scale(.96)}to{opacity:1;transform:scale(1.1)}}
+@keyframes storySlideBack{from{transform:translateX(-1.2%)}to{transform:translateX(1.2%)}}
+@keyframes storySlideFront{from{transform:perspective(330px) rotateX(24deg) translateX(-1.7%)}to{transform:perspective(330px) rotateX(24deg) translateX(1.7%)}}
+@keyframes storyCharacter{from{transform:translateX(-50%) translateY(0)}to{transform:translateX(-50%) translateY(-8px)}}
+.story-no-motion *{animation:none!important;transition:none!important}
+@media(prefers-reduced-motion:reduce){.story-panel *{animation:none!important;transition:none!important}}
+@media(max-width:600px){.story-stage{min-height:150px}.story-character{bottom:3%;width:100px;height:100px}.story-header h1{font-size:18px}.story-dialogue{min-height:70px;padding:8px}.story-dialogue p{font-size:12px}.story-gallery{grid-template-columns:1fr}.story-next{min-width:135px;padding:7px;font-size:12px}.story-skip{font-size:11px;padding:7px}}
+@media(orientation:portrait) and (max-width:900px){.game-frame:has(.story-panel){height:min(88dvh,760px);aspect-ratio:auto}.story-panel{max-height:100%}.story-stage{min-height:160px}}
+
 </style>
-  <title>Brinquedos vs. Pesadelos — Jogar Offline v1.6.0</title>
+  <title>Brinquedos vs. Pesadelos — Jogar Offline v1.7.0</title>
 </head>
 <body>
 <svg xmlns="http://www.w3.org/2000/svg" width="0" height="0" aria-hidden="true" style="position:absolute;overflow:hidden"><defs><symbol id="toy-T01" viewBox="0 0 80 80"><g style="color:#f7cf65" stroke="#59486f" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"><path d="M23 35 Q25 10 40 10 Q55 10 57 35Z" fill="currentColor"/><rect x="34" y="34" width="12" height="22" rx="4" fill="#8bcdbd"/><rect x="26" y="54" width="28" height="7" rx="3" fill="#b77d85"/><ellipse cx="32" cy="39" rx="4.5" ry="6" fill="#fffdf4" stroke="none"/><ellipse cx="49" cy="39" rx="4.5" ry="6" fill="#fffdf4" stroke="none"/><circle cx="33" cy="40" r="2" fill="#493d62" stroke="none"/><circle cx="50" cy="40" r="2" fill="#493d62" stroke="none"/><path d="M34 51 Q41 57 48 51" fill="none" stroke="#80566f" stroke-width="2.5"/><circle cx="18" cy="18" r="3" fill="#fff1b5" stroke="none"/><path d="M9 68 Q40 74 71 68" fill="none" stroke="#ffffff55" stroke-width="2"/></g></symbol><symbol id="toy-T02" viewBox="0 0 80 80"><g style="color:#72b8d5" stroke="#59486f" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"><rect x="22" y="29" width="36" height="31" rx="10" fill="currentColor"/><path d="M25 31 Q23 10 40 10 Q57 10 55 31Z" fill="#f0c79c"/><path d="M19 26 H61 L55 16 H26Z" fill="#5b84b6"/><rect x="48" y="34" width="24" height="7" rx="3" fill="#d8a66d"/><ellipse cx="32" cy="39" rx="4.5" ry="6" fill="#fffdf4" stroke="none"/><ellipse cx="49" cy="39" rx="4.5" ry="6" fill="#fffdf4" stroke="none"/><circle cx="33" cy="40" r="2" fill="#493d62" stroke="none"/><circle cx="50" cy="40" r="2" fill="#493d62" stroke="none"/><path d="M34 51 Q41 57 48 51" fill="none" stroke="#80566f" stroke-width="2.5"/><circle cx="18" cy="18" r="3" fill="#fff1b5" stroke="none"/><path d="M9 68 Q40 74 71 68" fill="none" stroke="#ffffff55" stroke-width="2"/></g></symbol><symbol id="toy-T03" viewBox="0 0 80 80"><g style="color:#d99d91" stroke="#59486f" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"><circle cx="25" cy="22" r="11" fill="currentColor"/><circle cx="55" cy="22" r="11" fill="currentColor"/><ellipse cx="40" cy="42" rx="25" ry="23" fill="currentColor"/><ellipse cx="40" cy="48" rx="12" ry="9" fill="#f4d9bf"/><ellipse cx="32" cy="39" rx="4.5" ry="6" fill="#fffdf4" stroke="none"/><ellipse cx="49" cy="39" rx="4.5" ry="6" fill="#fffdf4" stroke="none"/><circle cx="33" cy="40" r="2" fill="#493d62" stroke="none"/><circle cx="50" cy="40" r="2" fill="#493d62" stroke="none"/><path d="M34 51 Q41 57 48 51" fill="none" stroke="#80566f" stroke-width="2.5"/><circle cx="18" cy="18" r="3" fill="#fff1b5" stroke="none"/><path d="M9 68 Q40 74 71 68" fill="none" stroke="#ffffff55" stroke-width="2"/></g></symbol><symbol id="toy-T04" viewBox="0 0 80 80"><g style="color:#9ce5ef" stroke="#59486f" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"><path d="M40 8 L47 27 L65 34 L57 54 L40 69 L23 54 L15 34 L33 27Z" fill="currentColor"/><rect x="36" y="3" width="8" height="13" rx="3" fill="#d8b17a"/><ellipse cx="32" cy="39" rx="4.5" ry="6" fill="#fffdf4" stroke="none"/><ellipse cx="49" cy="39" rx="4.5" ry="6" fill="#fffdf4" stroke="none"/><circle cx="33" cy="40" r="2" fill="#493d62" stroke="none"/><circle cx="50" cy="40" r="2" fill="#493d62" stroke="none"/><path d="M34 51 Q41 57 48 51" fill="none" stroke="#80566f" stroke-width="2.5"/><circle cx="18" cy="18" r="3" fill="#fff1b5" stroke="none"/><path d="M9 68 Q40 74 71 68" fill="none" stroke="#ffffff55" stroke-width="2"/></g></symbol><symbol id="toy-T05" viewBox="0 0 80 80"><g style="color:#e99bc4" stroke="#59486f" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"><rect x="18" y="29" width="42" height="29" rx="11" fill="currentColor"/><path d="M37 25 L65 15 Q73 14 72 25 L60 38Z" fill="#d9b4e9"/><circle cx="65" cy="26" r="7" fill="#fff0c0"/><ellipse cx="32" cy="39" rx="4.5" ry="6" fill="#fffdf4" stroke="none"/><ellipse cx="49" cy="39" rx="4.5" ry="6" fill="#fffdf4" stroke="none"/><circle cx="33" cy="40" r="2" fill="#493d62" stroke="none"/><circle cx="50" cy="40" r="2" fill="#493d62" stroke="none"/><path d="M34 51 Q41 57 48 51" fill="none" stroke="#80566f" stroke-width="2.5"/><circle cx="18" cy="18" r="3" fill="#fff1b5" stroke="none"/><path d="M9 68 Q40 74 71 68" fill="none" stroke="#ffffff55" stroke-width="2"/></g></symbol><symbol id="toy-T06" viewBox="0 0 80 80"><g style="color:#ffc16d" stroke="#59486f" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"><path d="M13 43 L20 27 Q23 22 31 22 H52 Q60 22 65 38 L69 45 V56 H12Z" fill="currentColor"/><rect x="28" y="24" width="22" height="14" rx="5" fill="#9bd9e7"/><circle cx="25" cy="57" r="8" fill="#51496f"/><circle cx="57" cy="57" r="8" fill="#51496f"/><ellipse cx="32" cy="39" rx="4.5" ry="6" fill="#fffdf4" stroke="none"/><ellipse cx="49" cy="39" rx="4.5" ry="6" fill="#fffdf4" stroke="none"/><circle cx="33" cy="40" r="2" fill="#493d62" stroke="none"/><circle cx="50" cy="40" r="2" fill="#493d62" stroke="none"/><path d="M34 51 Q41 57 48 51" fill="none" stroke="#80566f" stroke-width="2.5"/><circle cx="18" cy="18" r="3" fill="#fff1b5" stroke="none"/><path d="M9 68 Q40 74 71 68" fill="none" stroke="#ffffff55" stroke-width="2"/></g></symbol><symbol id="toy-T07" viewBox="0 0 80 80"><g style="color:#c2b0ec" stroke="#59486f" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"><circle cx="40" cy="24" r="18" fill="#f4cdb7"/><path d="M20 27 Q20 2 42 7 Q63 7 60 30 L52 20 L29 20Z" fill="currentColor"/><path d="M17 47 Q40 34 63 47 L58 67 H22Z" fill="#a99ad8"/><ellipse cx="32" cy="39" rx="4.5" ry="6" fill="#fffdf4" stroke="none"/><ellipse cx="49" cy="39" rx="4.5" ry="6" fill="#fffdf4" stroke="none"/><circle cx="33" cy="40" r="2" fill="#493d62" stroke="none"/><circle cx="50" cy="40" r="2" fill="#493d62" stroke="none"/><path d="M34 51 Q41 57 48 51" fill="none" stroke="#80566f" stroke-width="2.5"/><circle cx="18" cy="18" r="3" fill="#fff1b5" stroke="none"/><path d="M9 68 Q40 74 71 68" fill="none" stroke="#ffffff55" stroke-width="2"/></g></symbol><symbol id="toy-T08" viewBox="0 0 80 80"><g style="color:#a7dfc8" stroke="#59486f" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"><path d="M13 17 Q40 4 67 17" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round"/><path d="M22 18 V42 M40 13 V45 M58 18 V42" stroke="#e7dfc5" stroke-width="3"/><circle cx="22" cy="49" r="9" fill="#f1cf83"/><circle cx="40" cy="52" r="10" fill="currentColor"/><circle cx="58" cy="49" r="9" fill="#a9d7e8"/><ellipse cx="32" cy="39" rx="4.5" ry="6" fill="#fffdf4" stroke="none"/><ellipse cx="49" cy="39" rx="4.5" ry="6" fill="#fffdf4" stroke="none"/><circle cx="33" cy="40" r="2" fill="#493d62" stroke="none"/><circle cx="50" cy="40" r="2" fill="#493d62" stroke="none"/><path d="M34 51 Q41 57 48 51" fill="none" stroke="#80566f" stroke-width="2.5"/><circle cx="18" cy="18" r="3" fill="#fff1b5" stroke="none"/><path d="M9 68 Q40 74 71 68" fill="none" stroke="#ffffff55" stroke-width="2"/></g></symbol><symbol id="toy-T09" viewBox="0 0 80 80"><g style="color:#f1d27e" stroke="#59486f" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"><path d="M23 64 L23 24 L12 10 M23 24 L54 10" fill="none" stroke="#b58a73" stroke-width="8" stroke-linecap="round"/><path d="M12 10 Q34 34 54 10" fill="none" stroke="#f4e3b8" stroke-width="4"/><circle cx="34" cy="24" r="12" fill="currentColor"/><ellipse cx="32" cy="39" rx="4.5" ry="6" fill="#fffdf4" stroke="none"/><ellipse cx="49" cy="39" rx="4.5" ry="6" fill="#fffdf4" stroke="none"/><circle cx="33" cy="40" r="2" fill="#493d62" stroke="none"/><circle cx="50" cy="40" r="2" fill="#493d62" stroke="none"/><path d="M34 51 Q41 57 48 51" fill="none" stroke="#80566f" stroke-width="2.5"/><circle cx="18" cy="18" r="3" fill="#fff1b5" stroke="none"/><path d="M9 68 Q40 74 71 68" fill="none" stroke="#ffffff55" stroke-width="2"/></g></symbol><symbol id="toy-T10" viewBox="0 0 80 80"><g style="color:#a9d997" stroke="#59486f" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"><path d="M19 12 Q-1 40 19 67 M61 12 Q81 40 61 67" fill="none" stroke="#b88a69" stroke-width="7"/><path d="M19 12 L61 67 M61 12 L19 67" stroke="#d6f0bd" stroke-width="3"/><circle cx="40" cy="40" r="11" fill="currentColor"/><ellipse cx="32" cy="39" rx="4.5" ry="6" fill="#fffdf4" stroke="none"/><ellipse cx="49" cy="39" rx="4.5" ry="6" fill="#fffdf4" stroke="none"/><circle cx="33" cy="40" r="2" fill="#493d62" stroke="none"/><circle cx="50" cy="40" r="2" fill="#493d62" stroke="none"/><path d="M34 51 Q41 57 48 51" fill="none" stroke="#80566f" stroke-width="2.5"/><circle cx="18" cy="18" r="3" fill="#fff1b5" stroke="none"/><path d="M9 68 Q40 74 71 68" fill="none" stroke="#ffffff55" stroke-width="2"/></g></symbol><symbol id="toy-T11" viewBox="0 0 80 80"><g style="color:#e7a5a5" stroke="#59486f" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"><rect x="13" y="26" width="54" height="42" rx="7" fill="currentColor"/><path d="M9 25 H71 V36 H9Z" fill="#f6d88e"/><path d="M34 25 V68 H46 V25" fill="#f8e4a4"/><path d="M40 26 Q15 6 31 8 Q42 9 40 26 Q56 5 62 13 Q66 23 40 26" fill="#e78da8"/><ellipse cx="32" cy="39" rx="4.5" ry="6" fill="#fffdf4" stroke="none"/><ellipse cx="49" cy="39" rx="4.5" ry="6" fill="#fffdf4" stroke="none"/><circle cx="33" cy="40" r="2" fill="#493d62" stroke="none"/><circle cx="50" cy="40" r="2" fill="#493d62" stroke="none"/><path d="M34 51 Q41 57 48 51" fill="none" stroke="#80566f" stroke-width="2.5"/><circle cx="18" cy="18" r="3" fill="#fff1b5" stroke="none"/><path d="M9 68 Q40 74 71 68" fill="none" stroke="#ffffff55" stroke-width="2"/></g></symbol><symbol id="enemy-E01" viewBox="0 0 80 80"><g style="color:#b9a9d4" stroke="#59486f" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"><circle cx="26" cy="42" r="18" fill="currentColor"/><circle cx="43" cy="30" r="23" fill="currentColor"/><circle cx="59" cy="43" r="17" fill="currentColor"/><path d="M19 53 Q40 65 63 53" stroke="#e8dff1" stroke-width="5" fill="none"/><ellipse cx="32" cy="39" rx="4.5" ry="6" fill="#fffdf4" stroke="none"/><ellipse cx="49" cy="39" rx="4.5" ry="6" fill="#fffdf4" stroke="none"/><circle cx="33" cy="40" r="2" fill="#493d62" stroke="none"/><circle cx="50" cy="40" r="2" fill="#493d62" stroke="none"/><path d="M34 51 Q41 57 48 51" fill="none" stroke="#80566f" stroke-width="2.5"/><circle cx="18" cy="18" r="3" fill="#fff1b5" stroke="none"/><path d="M9 68 Q40 74 71 68" fill="none" stroke="#ffffff55" stroke-width="2"/></g></symbol><symbol id="enemy-E02" viewBox="0 0 80 80"><g style="color:#dc829f" stroke="#59486f" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"><path d="M25 9 H54 V42 Q54 50 65 51 Q74 56 66 66 H27 Q14 64 20 53 L28 44Z" fill="currentColor"/><path d="M25 17 H54" stroke="#f4d9c3" stroke-width="7"/><ellipse cx="32" cy="39" rx="4.5" ry="6" fill="#fffdf4" stroke="none"/><ellipse cx="49" cy="39" rx="4.5" ry="6" fill="#fffdf4" stroke="none"/><circle cx="33" cy="40" r="2" fill="#493d62" stroke="none"/><circle cx="50" cy="40" r="2" fill="#493d62" stroke="none"/><path d="M34 51 Q41 57 48 51" fill="none" stroke="#80566f" stroke-width="2.5"/><circle cx="18" cy="18" r="3" fill="#fff1b5" stroke="none"/><path d="M9 68 Q40 74 71 68" fill="none" stroke="#ffffff55" stroke-width="2"/></g></symbol><symbol id="enemy-E03" viewBox="0 0 80 80"><g style="color:#8db6ad" stroke="#59486f" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"><rect x="14" y="12" width="52" height="54" rx="10" fill="currentColor"/><path d="M40 13 V65 M15 39 H65" stroke="#f6d7a5" stroke-width="4"/><rect x="19" y="18" width="17" height="17" rx="3" fill="#e7b18e"/><rect x="45" y="44" width="16" height="15" rx="3" fill="#d8b7e6"/><ellipse cx="32" cy="39" rx="4.5" ry="6" fill="#fffdf4" stroke="none"/><ellipse cx="49" cy="39" rx="4.5" ry="6" fill="#fffdf4" stroke="none"/><circle cx="33" cy="40" r="2" fill="#493d62" stroke="none"/><circle cx="50" cy="40" r="2" fill="#493d62" stroke="none"/><path d="M34 51 Q41 57 48 51" fill="none" stroke="#80566f" stroke-width="2.5"/><circle cx="18" cy="18" r="3" fill="#fff1b5" stroke="none"/><path d="M9 68 Q40 74 71 68" fill="none" stroke="#ffffff55" stroke-width="2"/></g></symbol><symbol id="enemy-E04" viewBox="0 0 80 80"><g style="color:#f1d38a" stroke="#59486f" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"><path d="M18 64 L27 12 L35 42 L47 8 L50 39 L65 17 L58 67Z" fill="currentColor"/><path d="M27 14 L49 15" stroke="#fff0bc" stroke-width="4"/><ellipse cx="32" cy="39" rx="4.5" ry="6" fill="#fffdf4" stroke="none"/><ellipse cx="49" cy="39" rx="4.5" ry="6" fill="#fffdf4" stroke="none"/><circle cx="33" cy="40" r="2" fill="#493d62" stroke="none"/><circle cx="50" cy="40" r="2" fill="#493d62" stroke="none"/><path d="M34 51 Q41 57 48 51" fill="none" stroke="#80566f" stroke-width="2.5"/><circle cx="18" cy="18" r="3" fill="#fff1b5" stroke="none"/><path d="M9 68 Q40 74 71 68" fill="none" stroke="#ffffff55" stroke-width="2"/></g></symbol><symbol id="enemy-E05" viewBox="0 0 80 80"><g style="color:#b47fb5" stroke="#59486f" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"><path d="M14 25 L25 8 L38 23 L51 7 L64 25 L61 63 H17Z" fill="currentColor"/><path d="M15 31 H65" stroke="#f4d28a" stroke-width="7"/><circle cx="27" cy="15" r="4" fill="#fff0ad"/><circle cx="51" cy="14" r="4" fill="#fff0ad"/><ellipse cx="32" cy="39" rx="4.5" ry="6" fill="#fffdf4" stroke="none"/><ellipse cx="49" cy="39" rx="4.5" ry="6" fill="#fffdf4" stroke="none"/><circle cx="33" cy="40" r="2" fill="#493d62" stroke="none"/><circle cx="50" cy="40" r="2" fill="#493d62" stroke="none"/><path d="M34 51 Q41 57 48 51" fill="none" stroke="#80566f" stroke-width="2.5"/><circle cx="18" cy="18" r="3" fill="#fff1b5" stroke="none"/><path d="M9 68 Q40 74 71 68" fill="none" stroke="#ffffff55" stroke-width="2"/></g></symbol><symbol id="enemy-E06" viewBox="0 0 80 80"><g style="color:#9989cb" stroke="#59486f" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"><path d="M40 63 Q14 55 24 43 Q56 34 40 24 Q25 13 40 8" fill="none" stroke="currentColor" stroke-width="9" stroke-linecap="round"/><circle cx="40" cy="31" r="23" fill="currentColor"/><path d="M17 60 L28 67 M52 67 L64 60" stroke="#e7c98e" stroke-width="6"/><ellipse cx="32" cy="39" rx="4.5" ry="6" fill="#fffdf4" stroke="none"/><ellipse cx="49" cy="39" rx="4.5" ry="6" fill="#fffdf4" stroke="none"/><circle cx="33" cy="40" r="2" fill="#493d62" stroke="none"/><circle cx="50" cy="40" r="2" fill="#493d62" stroke="none"/><path d="M34 51 Q41 57 48 51" fill="none" stroke="#80566f" stroke-width="2.5"/><circle cx="18" cy="18" r="3" fill="#fff1b5" stroke="none"/><path d="M9 68 Q40 74 71 68" fill="none" stroke="#ffffff55" stroke-width="2"/></g></symbol><symbol id="enemy-E07" viewBox="0 0 80 80"><g style="color:#c9a0b7" stroke="#59486f" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"><path d="M40 10 Q25 10 34 22 L10 48 Q8 54 17 54 H63 Q72 54 68 48 L44 23" fill="none" stroke="currentColor" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/><rect x="26" y="48" width="28" height="16" rx="8" fill="#d8b1c8"/><ellipse cx="32" cy="39" rx="4.5" ry="6" fill="#fffdf4" stroke="none"/><ellipse cx="49" cy="39" rx="4.5" ry="6" fill="#fffdf4" stroke="none"/><circle cx="33" cy="40" r="2" fill="#493d62" stroke="none"/><circle cx="50" cy="40" r="2" fill="#493d62" stroke="none"/><path d="M34 51 Q41 57 48 51" fill="none" stroke="#80566f" stroke-width="2.5"/><circle cx="18" cy="18" r="3" fill="#fff1b5" stroke="none"/><path d="M9 68 Q40 74 71 68" fill="none" stroke="#ffffff55" stroke-width="2"/></g></symbol><symbol id="enemy-E08" viewBox="0 0 80 80"><g style="color:#8d7db7" stroke="#59486f" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"><circle cx="40" cy="39" r="22" fill="currentColor"/><path d="M23 25 L10 12 M20 38 L5 35 M22 51 L9 65 M57 25 L70 12 M60 38 L75 35 M58 51 L71 65" stroke="currentColor" stroke-width="6" stroke-linecap="round"/><ellipse cx="32" cy="39" rx="4.5" ry="6" fill="#fffdf4" stroke="none"/><ellipse cx="49" cy="39" rx="4.5" ry="6" fill="#fffdf4" stroke="none"/><circle cx="33" cy="40" r="2" fill="#493d62" stroke="none"/><circle cx="50" cy="40" r="2" fill="#493d62" stroke="none"/><path d="M34 51 Q41 57 48 51" fill="none" stroke="#80566f" stroke-width="2.5"/><circle cx="18" cy="18" r="3" fill="#fff1b5" stroke="none"/><path d="M9 68 Q40 74 71 68" fill="none" stroke="#ffffff55" stroke-width="2"/></g></symbol><symbol id="enemy-E09" viewBox="0 0 80 80"><g style="color:#e5b37d" stroke="#59486f" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"><circle cx="40" cy="42" r="25" fill="currentColor"/><circle cx="40" cy="42" r="19" fill="#fff0c8"/><path d="M40 42 V26 M40 42 L53 49" stroke="#665a7d" stroke-width="4" stroke-linecap="round"/><path d="M21 12 Q9 -2 4 14 M59 12 Q72 -2 77 14" stroke="#a6d6e0" stroke-width="6" fill="none"/><ellipse cx="32" cy="39" rx="4.5" ry="6" fill="#fffdf4" stroke="none"/><ellipse cx="49" cy="39" rx="4.5" ry="6" fill="#fffdf4" stroke="none"/><circle cx="33" cy="40" r="2" fill="#493d62" stroke="none"/><circle cx="50" cy="40" r="2" fill="#493d62" stroke="none"/><path d="M34 51 Q41 57 48 51" fill="none" stroke="#80566f" stroke-width="2.5"/><circle cx="18" cy="18" r="3" fill="#fff1b5" stroke="none"/><path d="M9 68 Q40 74 71 68" fill="none" stroke="#ffffff55" stroke-width="2"/></g></symbol><symbol id="enemy-E10" viewBox="0 0 80 80"><g style="color:#aaa1d9" stroke="#59486f" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"><path d="M59 9 Q26 6 24 37 Q21 66 57 68 Q35 53 44 32 Q48 18 59 9Z" fill="currentColor"/><path d="M26 18 L33 5 L42 19 L53 4 L60 21" fill="#e5d6ff" stroke="#8174b0" stroke-width="3"/><ellipse cx="32" cy="39" rx="4.5" ry="6" fill="#fffdf4" stroke="none"/><ellipse cx="49" cy="39" rx="4.5" ry="6" fill="#fffdf4" stroke="none"/><circle cx="33" cy="40" r="2" fill="#493d62" stroke="none"/><circle cx="50" cy="40" r="2" fill="#493d62" stroke="none"/><path d="M34 51 Q41 57 48 51" fill="none" stroke="#80566f" stroke-width="2.5"/><circle cx="18" cy="18" r="3" fill="#fff1b5" stroke="none"/><path d="M9 68 Q40 74 71 68" fill="none" stroke="#ffffff55" stroke-width="2"/></g></symbol><symbol id="enemy-E11" viewBox="0 0 80 80"><g style="color:#9c82b7" stroke="#59486f" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"><path d="M15 27 Q40 3 65 27 L60 63 Q40 74 20 63Z" fill="currentColor"/><path d="M17 34 Q40 23 63 34" stroke="#e5c6ed" stroke-width="6"/><path d="M28 54 L40 43 L52 54" stroke="#f4d78e" stroke-width="4" fill="none"/><ellipse cx="32" cy="39" rx="4.5" ry="6" fill="#fffdf4" stroke="none"/><ellipse cx="49" cy="39" rx="4.5" ry="6" fill="#fffdf4" stroke="none"/><circle cx="33" cy="40" r="2" fill="#493d62" stroke="none"/><circle cx="50" cy="40" r="2" fill="#493d62" stroke="none"/><path d="M34 51 Q41 57 48 51" fill="none" stroke="#80566f" stroke-width="2.5"/><circle cx="18" cy="18" r="3" fill="#fff1b5" stroke="none"/><path d="M9 68 Q40 74 71 68" fill="none" stroke="#ffffff55" stroke-width="2"/></g></symbol><symbol id="toy-T12" viewBox="0 0 80 80"><g stroke="#68536f" stroke-width="2.6" stroke-linejoin="round"><path d="M40 58v12"/><circle cx="40" cy="70" r="5" fill="#ffe4a0"/><rect x="18" y="22" width="44" height="40" rx="6" fill="#b88977"/><path d="M12 27L40 5l28 22" fill="none" stroke="#e9be83" stroke-width="7"/><circle cx="40" cy="42" r="16" fill="#fff1c1"/><path d="M40 30v12l9 5" fill="none"/><circle cx="34" cy="41" r="2"/><circle cx="47" cy="41" r="2"/><rect x="34" y="17" width="12" height="9" rx="3" fill="#87c9c5"/><path d="M45 20l8 3-8 2" fill="#ffe39a"/></g></symbol><symbol id="enemy-E12" viewBox="0 0 80 80"><g stroke="#7e80a5" stroke-width="2.5" stroke-linejoin="round"><path d="M12 67Q12 8 40 7q29 1 29 60l-9-8-9 8-10-8-10 8-10-8z" fill="#e6e9ef"/><path d="M19 46l20-11 22 12M19 56l21-12 21 12" stroke="#b0b8d1" fill="none" stroke-width="4"/><ellipse cx="31" cy="29" rx="5" ry="7" fill="#fff"/><ellipse cx="50" cy="29" rx="5" ry="7" fill="#fff"/><circle cx="31" cy="30" r="2" fill="#4c4160"/><circle cx="50" cy="30" r="2" fill="#4c4160"/><ellipse cx="40" cy="40" rx="5" ry="6" fill="#8c7d9c"/></g></symbol><symbol id="enemy-E13" viewBox="0 0 80 80"><g stroke="#867696" stroke-width="2.5"><ellipse cx="40" cy="49" rx="23" ry="20" fill="#bca8d2"/><circle cx="25" cy="42" r="12" fill="#cbbbdf"/><circle cx="49" cy="35" r="15" fill="#d7c8e5"/><ellipse cx="32" cy="47" rx="4" ry="5" fill="#fff"/><ellipse cx="50" cy="47" rx="4" ry="5" fill="#fff"/><circle cx="32" cy="48" r="1.7" fill="#544263"/><circle cx="50" cy="48" r="1.7" fill="#544263"/><path d="M35 57q6 5 12 0" fill="none"/></g></symbol><symbol id="enemy-E14" viewBox="0 0 80 80"><g stroke="#806b85" stroke-width="2.5" stroke-linejoin="round"><ellipse cx="40" cy="43" rx="30" ry="29" fill="#cbb6b8"/><circle cx="22" cy="22" r="17" fill="#e3d1c9"/><circle cx="57" cy="21" r="18" fill="#eadbd0"/><path d="M14 52h52v16H14z" fill="#a998b8"/><path d="M20 50q20-7 40 0l-4 15-9-5-8 8-8-8-8 5z" fill="#fff0d5"/><circle cx="27" cy="34" r="10" fill="#f7ecd3"/><circle cx="53" cy="34" r="10" fill="#f7ecd3"/><path d="M37 33h6"/><ellipse cx="28" cy="34" rx="2.5" ry="4" fill="#554363"/><ellipse cx="52" cy="34" rx="2.5" ry="4" fill="#554363"/><ellipse cx="40" cy="45" rx="8" ry="6" fill="#cf969d"/><path d="M6 47l18 5-4 18-17-5z" fill="#a0d3d4"/></g></symbol></defs></svg>
@@ -219,7 +269,7 @@
       </div>
       <div id="toast" class="toast hidden" role="status" aria-live="polite"></div>
       <div id="screen" class="screen"></div>
-      <div class="version-tag">ALFA 1.6.0 · 3 capítulos</div>
+      <div class="version-tag">ALFA 1.7.0 · 3 capítulos</div>
     </div>
     <div class="mobile-tip" aria-label="Orientação recomendada">↻ Vire o celular na horizontal para ver todo o tabuleiro.</div>
     <footer class="outside-footer">Brinquedos vs. Pesadelos · Um jogo original de defesa por linhas · Salvo neste dispositivo</footer>
@@ -434,11 +484,63 @@ function deckForLevel(index,chosen=null,available=null) {
   return validDeck(chosen,permitted)?[...chosen]:[...level.toys];
 }
 
+// Roteiros narrativos independentes das regras de combate.
+const STORY_SCENES=Object.freeze({
+  C00:{
+    id:'C00',title:'O Despertar',chapter:1,unlock:'start-1-1',
+    slides:[
+      {stage:'bedroom',speaker:'Narrador',line:'Quando Lia adormece, sua imaginação continua acordada.',art:'toy-T01',emoji:'🌙',focus:'lua'},
+      {stage:'wardrobe',speaker:'Voz na escuridão',line:'O Coração da Imaginação será nosso!',art:'enemy-E01',emoji:'🚪',focus:'armario'},
+      {stage:'bedroom',speaker:'Seu Pião',line:'Brinquedos, acordem! A noite saiu do controle!',art:null,emoji:'🌀',focus:'piao'},
+      {stage:'bedroom',speaker:'Capitão Botão',line:'Às posições! Ninguém atravessa o tapete!',art:'toy-T02',emoji:'🪖',focus:'soldado'}
+    ]
+  },
+  C01:{
+    id:'C01',title:'Uma pista sob a cama',chapter:1,unlock:'after-1-8',
+    slides:[
+      {stage:'wardrobe',speaker:'Narrador',line:'O Rei das Meias escorrega... e sua coroa voa pelo tapete.',art:'enemy-E05',emoji:'👑',focus:'rei'},
+      {stage:'underbed',speaker:'Rei das Meias',line:'Vocês venceram... mas ainda não viram o que vive debaixo da cama!',art:'enemy-E05',emoji:'🧦',focus:'rei'},
+      {stage:'underbed',speaker:'Seu Pião',line:'Debaixo da cama? Então precisamos de mais Brilhos... e coragem!',art:'toy-T01',emoji:'💡',focus:'luz'}
+    ]
+  },
+  C02:{
+    id:'C02',title:'O corredor chama',chapter:2,unlock:'after-2-8',
+    slides:[
+      {stage:'underbed',speaker:'Narrador',line:'A Dama da Insônia se desfaz em pequenas estrelas brilhantes.',art:'enemy-E10',emoji:'🌘',focus:'dama'},
+      {stage:'corridor',speaker:'Dama da Insônia',line:'Não fui eu quem abriu todas as portas... Ouçam o corredor!',art:'enemy-E10',emoji:'🚪',focus:'dama'},
+      {stage:'corridor',speaker:'Capitão Botão',line:'Formação! Seguiremos os rangidos, uma porta de cada vez.',art:'toy-T02',emoji:'🪖',focus:'soldado'}
+    ]
+  },
+  C03:{
+    id:'C03',title:'O Sótão Esquecido',chapter:3,unlock:'after-3-8',
+    slides:[
+      {stage:'corridor',speaker:'Narrador',line:'Vovô Poeirão solta um espirro tão forte que revela um alçapão escondido.',art:'enemy-E14',emoji:'🤧',focus:'vovo'},
+      {stage:'attic',speaker:'Vovô Poeirão',line:'Ai, meu lenço! O verdadeiro chefe escondeu tudo lá no sótão!',art:'enemy-E14',emoji:'🗝️',focus:'vovo'},
+      {stage:'attic',speaker:'Seu Pião',line:'O Sótão Esquecido... e aquela sombra atrás dos baús? A aventura continua!',art:null,emoji:'🌀',focus:'sombra'}
+    ]
+  }
+});
+const STORY_ORDER=Object.freeze(['C00','C01','C02','C03']);
+const STORY_AFTER_LEVEL=Object.freeze({'1-8':'C01','2-8':'C02','3-8':'C03'});
+function getStory(id){
+  return typeof id==='string'&&Object.hasOwn(STORY_SCENES,id)?STORY_SCENES[id]:null;
+}
+function storyForVictory(levelId){
+  return Object.hasOwn(STORY_AFTER_LEVEL,levelId)?STORY_AFTER_LEVEL[levelId]:null;
+}
+function canReplayStory(save,id){
+  if(!getStory(id))return false;
+  if(id==='C00'||Array.isArray(save?.storySeen)&&save.storySeen.includes(id))return true;
+  // Quem terminou capítulos antes da implantação também pode assistir às cenas.
+  return Object.entries(STORY_AFTER_LEVEL).some(([level,scene])=>scene===id&&Number(save?.stars?.[level])>0);
+}
 
 
 
 
-const defaults = () => ({ version:1, campaignSize:LEVELS.length, unlocked:1, stars:{}, upgrades:{}, decks:{}, survival:{ best:{waves:0,kills:0,seconds:0,score:0},runs:0,deck:[] }, seenEnemies:[], settings:{ music:true, sfx:true, motion:true } });
+
+
+const defaults = () => ({ version:1, campaignSize:LEVELS.length, unlocked:1, stars:{}, upgrades:{}, decks:{}, storySeen:[], survival:{ best:{waves:0,kills:0,seconds:0,score:0},runs:0,deck:[] }, seenEnemies:[], settings:{ music:true, sfx:true, motion:true } });
 const starScore=value=>['number','string'].includes(typeof value)&&Number.isFinite(Number(value))?Math.max(0,Math.min(3,Math.floor(Number(value)))):0;
 function unlockedToys(save) {
   return new Set(LEVELS.slice(0,save.unlocked).flatMap(level=>level.toys));
@@ -478,6 +580,9 @@ function normalizeSave(raw) {
   save.survival.best={waves:safeInt(b.waves,10000000),kills:safeInt(b.kills,100000000),seconds:safeInt(b.seconds,1000000000),score:safeInt(b.score,1000000000)};
   save.survival.runs=safeInt(rs.runs,10000000);
   if(canPlaySurvival(save)&&validDeck(rs.deck,unlockedIds))save.survival.deck=[...rs.deck];
+  // Cenas são opcionais em saves legados, sempre identificadas por IDs conhecidos.
+  save.storySeen=Array.isArray(raw.storySeen)
+    ? [...new Set(raw.storySeen.filter(id=>Boolean(getStory(id))))]:[];
   return save;
 }
 function loadSave(storage=null) {
@@ -564,6 +669,14 @@ function recordSurvivalRun(save,result,storage=null) {
   if(!persistSave({...save,survival},storage))return {ok:false,reason:'storage',newRecord};
   save.survival=survival;
   return {ok:true,newRecord,record:survival.best,run:current};
+}
+
+function markStorySeen(save,id,storage=null) {
+  if(!getStory(id))return {ok:false,reason:'unknown'};
+  if(save.storySeen?.includes(id))return {ok:true,already:true};
+  const storySeen=[...(save.storySeen||[]),id];
+  if(!persistSave({...save,storySeen},storage))return {ok:false,reason:'storage'};
+  save.storySeen=storySeen;return {ok:true,already:false};
 }
 
 class AudioService {
@@ -1759,6 +1872,28 @@ function changeSurvivalDeck(deck,id,available) {
 }
 
 
+const storyEscapeText=value=>String(value).replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
+function buildStoryScreen(id,index,animate=true){
+  const story=getStory(id),frame=story?.slides[index];
+  if(!frame)return '';
+  const sprite=frame.art?'<svg class="story-character-art" viewBox="0 0 80 80" aria-hidden="true"><use href="#'+frame.art+'"></use></svg>':'<span class="story-character-emoji" aria-hidden="true">'+storyEscapeText(frame.emoji)+'</span>';
+  const dots=story.slides.map((_,i)=>'<span class="story-dot '+(i===index?'active':'')+'" aria-hidden="true"></span>').join('');
+  return '<section class="story-panel '+(animate?'':'story-no-motion')+'" aria-label="História: '+storyEscapeText(story.title)+'">'+
+    '<div class="story-header"><span class="story-kicker">CAPÍTULO '+story.chapter+' · CENA '+storyEscapeText(id)+'</span><h1>'+storyEscapeText(story.title)+'</h1>'+
+    '<button class="story-skip" data-action="story-skip" aria-label="Pular cena e continuar">Pular cena ✕</button></div>'+
+    '<div class="story-stage story-stage-'+storyEscapeText(frame.stage)+'" role="img" aria-label="Ilustração narrativa do '+storyEscapeText(frame.stage)+'">'+
+      '<div class="story-moon"></div><div class="story-backdrop"></div><div class="story-backdrop-front"></div>'+
+      '<div class="story-character story-focus-'+storyEscapeText(frame.focus)+'">'+sprite+'</div>'+
+      '<div class="story-vignette"></div></div>'+
+    '<div class="story-dialogue" aria-live="polite"><strong>'+storyEscapeText(frame.speaker)+'</strong><p>'+storyEscapeText(frame.line)+'</p></div>'+
+    '<div class="story-bottom"><div class="story-progress"><span>Quadro '+(index+1)+' de '+story.slides.length+'</span><div class="story-dots">'+dots+'</div></div>'+
+    '<button class="big-btn story-next" data-action="story-next">'+(index+1===story.slides.length?'Continuar ▶':'Próximo quadro ▶')+'</button></div>'+
+    '</section>';
+}
+
+
+
+
 
 
 
@@ -1772,7 +1907,8 @@ function changeSurvivalDeck(deck,id,available) {
 const $=id=>document.getElementById(id);
 const canvas=$('battle-canvas'),context=canvas.getContext('2d',{alpha:false});
 const audio=new AudioService();const save=loadSave();audio.music=save.settings.music;audio.sfx=save.settings.sfx;
-let battle=null,screen='menu',last=0,accumulator=0,hudUpdate=0,toastTimer=null,optionsBack='menu',lastResult=null,pendingConfirm=null,gameSpeed=1,workshopBack='menu',deckDraft=null,deckDraftLevel=-1,survivalDraft=null;
+let battle=null,screen='menu',last=0,accumulator=0,hudUpdate=0,toastTimer=null,optionsBack='menu',lastResult=null,pendingConfirm=null,gameSpeed=1,workshopBack='menu',deckDraft=null,deckDraftLevel=-1,survivalDraft=null,storyState=null;
+const storySeenInSession=new Set();
 const reducedMotion=window.matchMedia?.('(prefers-reduced-motion: reduce)');
 const motionEnabled=()=>save.settings.motion&&!reducedMotion?.matches;
 reducedMotion?.addEventListener?.('change',()=>{if(battle)battle.effectsEnabled=motionEnabled();});
@@ -1780,13 +1916,49 @@ const icons={T01:'💡',T02:'🪖',T03:'🧸',T04:'❄️',T05:'🎉',T06:'🏎�
 const escapeHTML=v=>String(v).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
 function showToast(text,seconds=2.8){let toast=$('toast');toast.textContent=text;toast.classList.remove('hidden');clearTimeout(toastTimer);toastTimer=setTimeout(()=>toast.classList.add('hidden'),seconds*1000);}
 function setScreen(name,content=''){screen=name;const layer=$('screen');if(name==='battle'){layer.classList.add('hidden');$('hud').classList.remove('hidden');return;}
-  layer.classList.remove('hidden');layer.innerHTML=content; $('hud').classList.toggle('hidden',!battle||name==='panel'||name==='menu'||name==='levels'||name==='help'||name==='codex'||name==='credits'||name==='workshop'||name==='briefing'||name==='survival'||(name==='options'&&!battle));
+  layer.classList.remove('hidden');layer.innerHTML=content; $('hud').classList.toggle('hidden',!battle||name==='panel'||name==='menu'||name==='levels'||name==='help'||name==='codex'||name==='credits'||name==='workshop'||name==='briefing'||name==='survival'||name==='stories'||name==='story'||(name==='options'&&!battle));
   layer.classList.toggle('no-backdrop',false);
 }
 function button(text,action,kind='big-btn',additional=''){return `<button class="${kind}" data-action="${action}" ${additional}>${text}</button>`;}
 function panel(title,kicker,content,back='menu',extra=''){setScreen(extra||'panel',`<section class="panel" aria-label="${escapeHTML(title)}"><div class="panel-head"><div><span class="subheading">${kicker}</span><h1>${title}</h1></div>${button('✕ Voltar',back,'tiny-btn')}</div>${content}</section>`);}
+
+function hasSeenStory(id){return storySeenInSession.has(id)||save.storySeen?.includes(id);}
+function presentStory(id,then){
+  const scene=getStory(id);
+  if(!scene){then?.();return;}
+  storyState={id,slide:0,then};
+  showStorySlide();
+}
+function showStorySlide(){
+  if(!storyState)return;
+  setScreen('story',buildStoryScreen(storyState.id,storyState.slide,motionEnabled()));
+}
+function endStory(){
+  if(!storyState)return;
+  const {id,then}=storyState;storyState=null;
+  storySeenInSession.add(id);
+  const result=markStorySeen(save,id);
+  then?.();
+  if(!result.ok)showToast('História vista, mas não foi possível salvar no navegador.');
+}
+function nextStorySlide(){
+  if(!storyState)return;
+  const scene=getStory(storyState.id);
+  if(storyState.slide+1>=scene.slides.length)return endStory();
+  storyState.slide++;showStorySlide();
+}
+function stories(){
+  const entries=STORY_ORDER.map(id=>{
+    const scene=getStory(id),unlocked=canReplayStory(save,id);
+    const buttonHTML=unlocked?button('▶ Rever cena','story-replay','tiny-btn','data-story="'+id+'"'):'<span class="story-locked">🔒 Termine o capítulo para desbloquear</span>';
+    return '<article class="story-gallery-card '+(unlocked?'':'story-gallery-locked')+'"><span class="story-gallery-number">Cena '+id+' · Capítulo '+scene.chapter+'</span><h2>'+escapeHTML(scene.title)+'</h2><p>'+scene.slides.length+' quadros ilustrados</p>'+buttonHTML+'</article>';
+  }).join('');
+  panel('📜 Histórias do Quarto','A jornada de Lia, Seu Pião e Capitão Botão',
+    '<p>Reveja as cenas desbloqueadas. As cenas não modificam suas estrelas ou fases.</p><div class="story-gallery">'+entries+'</div>',
+    'menu','stories');
+}
 function menu(){battle=null;
-  setScreen('menu',`<div class="menu-content"><div class="menu-hero"><span class="kicker">✦ Uma aventura no quarto da Lia</span><h1 class="logo">BRINQUEDOS <span class="vs">VS.</span><br><em>PESADELOS!</em></h1><p class="menu-description">Quando o armário se abre... o quarto revida! Monte sua defesa e espante monstros muito atrapalhados.</p><div class="menu-note">✦ ${LEVELS.length} fases jogáveis &nbsp; ✦ 3 capítulos &nbsp; ✦ 5 faixas &nbsp; ✦ Salva automaticamente</div></div><nav class="menu-actions" aria-label="Menu principal">${button(save.unlocked>1?'▶ CONTINUAR':'▶ JOGAR','play')}${button('🗺 ESCOLHER FASE','levels','outline-btn')}${button('⭐ OFICINA · '+starWallet(save).available,'workshop','outline-btn')}${button(canPlaySurvival(save)?'♾ MODO SOBREVIVÊNCIA':'🔒 SOBREVIVÊNCIA · vença 1-8','survival','outline-btn',canPlaySurvival(save)?'':'disabled')}${button('📖 BRINQUEDOPÉDIA','codex','outline-btn')}${button('❔ COMO JOGAR','help','text-btn')}${button('⚙ OPÇÕES','options','text-btn')}${button('⛶ TELA CHEIA','fullscreen','text-btn')}</nav></div>`);
+  setScreen('menu',`<div class="menu-content"><div class="menu-hero"><span class="kicker">✦ Uma aventura no quarto da Lia</span><h1 class="logo">BRINQUEDOS <span class="vs">VS.</span><br><em>PESADELOS!</em></h1><p class="menu-description">Quando o armário se abre... o quarto revida! Monte sua defesa e espante monstros muito atrapalhados.</p><div class="menu-note">✦ ${LEVELS.length} fases jogáveis &nbsp; ✦ 3 capítulos &nbsp; ✦ 5 faixas &nbsp; ✦ Salva automaticamente</div></div><nav class="menu-actions" aria-label="Menu principal">${button(save.unlocked>1?'▶ CONTINUAR':'▶ JOGAR','play')}${button('🗺 ESCOLHER FASE','levels','outline-btn')}${button('⭐ OFICINA · '+starWallet(save).available,'workshop','outline-btn')}${button(canPlaySurvival(save)?'♾ MODO SOBREVIVÊNCIA':'🔒 SOBREVIVÊNCIA · vença 1-8','survival','outline-btn',canPlaySurvival(save)?'':'disabled')}${button('📖 BRINQUEDOPÉDIA','codex','outline-btn')}${button('📜 HISTÓRIAS','story-gallery','outline-btn')}${button('❔ COMO JOGAR','help','text-btn')}${button('⚙ OPÇÕES','options','text-btn')}${button('⛶ TELA CHEIA','fullscreen','text-btn')}</nav></div>`);
 }
 function levels(){
   const cards=LEVELS.map((lvl,i)=>{const unlocked=i<save.unlocked;
@@ -1911,6 +2083,7 @@ function confirmBefore(kind){
 }
 function resume(){if(!battle)return;battle.state='playing';setScreen('battle');last=performance.now();accumulator=0;}
 function start(index,selectedDeck=null){if(!Number.isInteger(index)||index<0||index>=LEVELS.length||index>=save.unlocked)return;
+  if(index===0&&!hasSeenStory('C00'))return presentStory('C00',()=>start(index,selectedDeck));
   gameSpeed=1;
   battle=new Battle(index,audio,battleEvents(),save.upgrades,selectedDeck||getDeck(save,index),unlockedToys(save));
   battle.effectsEnabled=motionEnabled();
@@ -1927,7 +2100,10 @@ function finish(result,stars){if(!battle)return;
   }
   const before=starWallet(save).earned,firstWin=!save.stars[battle.level.id];let stored=true;
   if(result==='victory'){recordVictory(save,battle.levelIndex,stars);stored=persistSave(save);}
-  lastResult={result,stars,earned:starWallet(save).earned-before,stored,firstWin};resultScreen();
+  lastResult={result,stars,earned:starWallet(save).earned-before,stored,firstWin};
+  const nextScene=result==='victory'?storyForVictory(battle.level.id):null;
+  if(nextScene&&!hasSeenStory(nextScene))return presentStory(nextScene,resultScreen);
+  resultScreen();
 }
 function resultScreen(){
   if(!battle||!lastResult)return;
@@ -1950,7 +2126,14 @@ function updateHUD(){if(!battle)return;$('glow-count').textContent=Math.floor(ba
 }
 function handleAction(action,target){
   audio.resume();if(action!=='toggle')audio.play('click');
-  if(action==='play')start(Math.min(save.unlocked-1,LEVELS.length-1));
+  if(action==='story-gallery')stories();
+  else if(action==='story-replay'&&target){
+    const id=target.dataset.story;
+    if(canReplayStory(save,id))presentStory(id,stories);
+  }
+  else if(action==='story-next'&&screen==='story')nextStorySlide();
+  else if(action==='story-skip'&&screen==='story')endStory();
+  else if(action==='play')start(Math.min(save.unlocked-1,LEVELS.length-1));
   else if(action==='level')start(Number(target.dataset.level));
   else if(action==='levels')levels();
   else if(action==='preview')previewLevel(Number(target.dataset.level));
@@ -2036,7 +2219,8 @@ canvas.addEventListener('pointermove',event=>{
 });
 canvas.addEventListener('pointerleave',()=>{if(battle)battle.hover=null;});
 document.addEventListener('keydown',event=>{
-  if(event.key==='Escape'){if(screen==='battle')pause();else if(screen==='pause')resume();else if(screen==='options'&&battle)pause();else if(screen==='workshop')handleAction('workshop-back',null);else if(screen==='briefing')levels();else if(screen==='survival')menu();else if(screen!=='menu')menu();}
+  if(event.key==='ArrowRight'&&screen==='story'){event.preventDefault();nextStorySlide();return;}
+  if(event.key==='Escape'){if(screen==='story'){endStory();return;}if(screen==='battle')pause();else if(screen==='pause')resume();else if(screen==='options'&&battle)pause();else if(screen==='workshop')handleAction('workshop-back',null);else if(screen==='briefing')levels();else if(screen==='survival')menu();else if(screen!=='menu')menu();}
   if(screen==='battle'&&battle){if(event.key.toLowerCase()==='f'){handleAction('fullscreen',null);return;}const num=Number(event.key);if(num>=1&&num<=battle.deck.length){battle.selectToy(battle.deck[num-1]);updateHUD();}}
 });
 document.addEventListener('visibilitychange',()=>{if(document.hidden&&screen==='battle')pause();});

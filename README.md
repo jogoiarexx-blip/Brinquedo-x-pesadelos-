@@ -1,4 +1,16 @@
-# Brinquedos vs. Pesadelos — ALFA v1.6.0
+# Brinquedos vs. Pesadelos — ALFA v1.7.0
+
+## Novidades da v1.7.0 — Primeiras cutscenes de história
+
+- Abertura C00 de quatro quadros antes da primeira partida 1-1.
+- Três interlúdios C01–C03 após vencer os chefes dos capítulos 1, 2 e 3.
+- Histórias com ilustração em camadas 2D, legendas, avanço, pular, seta direita e movimento reduzido.
+- Nova opção `📜 HISTÓRIAS` para rever cenas desbloqueadas; saves antigos já concluídos liberam a visualização.
+- Cenas vistas ficam guardadas no save atual sem gerar estrelas ou mudar progressão.
+- Sem 3D em tempo real nesta etapa; gráficos 2.5D e capítulos 4/5 continuam planejados.
+- Jogo online, PWA e HTML offline com os mesmos conteúdos; novos testes de continuidade e regressões.
+
+
 
 > **Checkpoint oficial do começo da expansão:** [snapshot v1.6.0](docs/CHECKPOINT_2026-11-17_V1_6_0.md), branch `checkpoint/v1.6.0-2026-11-17-antes-campanha-2p5d`. **Plano de produção aprovado:** [GDD canônico v2](docs/GDD_CANONICO_V2_CAMPANHA_2P5D.md). O jogo permanece com 24 fases; cutscenes, capítulos 4/5 e 2.5D estão planejados, não lançados.
 

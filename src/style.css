@@ -183,3 +183,53 @@
 @media(max-width:900px){.survival-record{padding:9px 12px}.survival-record strong{font-size:13px}.survival-record p{font-size:14px}.survival-choices{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media(max-width:600px){.survival-choices{grid-template-columns:repeat(2,minmax(0,1fr))}.survival-actions button{flex:1;font-size:11px}}
 @media(orientation:portrait) and (max-width:900px){.game-frame:has(.survival-record){height:min(88dvh,760px);aspect-ratio:auto}.screen:has(.survival-record){align-items:flex-start;padding:8px}.panel:has(.survival-record){max-height:100%;padding:13px}}
+
+
+/* v1.7 — cenas de história ilustradas em camadas, sem dependência de WebGL. */
+.screen:has(.story-panel){align-items:center;justify-content:center;padding:clamp(6px,1.5vw,18px)}
+.story-panel{display:flex;flex-direction:column;width:min(980px,100%);max-height:100%;overflow-y:auto;overflow-x:hidden;border:2px solid #f4da9b;box-shadow:0 12px 55px #08061d91;background:linear-gradient(150deg,#493351,#261e42);border-radius:19px;padding:clamp(10px,2vw,20px);color:#fff4df}
+.story-header{position:relative;display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
+.story-kicker{display:block;font-size:11px;letter-spacing:.11em;font-weight:900;color:#f4d5a0;text-transform:uppercase}
+.story-header h1{margin:6px 0 13px;font-size:clamp(19px,2.5vw,29px);line-height:1.1;color:#fff1c0}
+.story-skip{flex-shrink:0;border:1px solid #ecc99c;background:#26193dc9;color:#fff2d2;border-radius:10px;font-weight:900;padding:10px 13px;cursor:pointer}
+.story-skip:hover,.story-next:hover{filter:brightness(1.09)}
+.story-stage{position:relative;min-height:clamp(170px,30vh,280px);width:100%;overflow:hidden;isolation:isolate;border-radius:17px;border:3px solid #eac892;background:radial-gradient(ellipse at 70% 5%,#beb8edb3,transparent 42%),linear-gradient(180deg,#403668,#73637d 56%,#312942)}
+.story-moon{position:absolute;z-index:0;top:14%;right:18%;width:64px;height:64px;border-radius:50%;box-shadow:0 0 70px 25px #f5e8ae67;background:#fff0ba;animation:storyGlow 4s ease-in-out infinite alternate}
+.story-backdrop{position:absolute;z-index:1;inset:30% -3% -9%;background:linear-gradient(0deg,#231b38 10%,#48335d 48%,#665475);clip-path:polygon(0 45%,17% 34%,18% 8%,30% 8%,31% 45%,59% 45%,60% 18%,78% 18%,80% 45%,100% 31%,100% 100%,0 100%);animation:storySlideBack 9s ease-in-out infinite alternate}
+.story-backdrop-front{position:absolute;z-index:2;inset:57% -5% -8%;background:linear-gradient(#8d739a99,#2b233f);border-top:5px solid #edcea383;transform:perspective(330px) rotateX(24deg);transform-origin:top center;animation:storySlideFront 7s ease-in-out infinite alternate}
+.story-character{position:absolute;z-index:4;bottom:12%;left:50%;width:clamp(105px,19vw,190px);height:clamp(105px,19vw,190px);transform:translateX(-50%);filter:drop-shadow(0 13px 4px #120e267a);animation:storyCharacter 3.5s ease-in-out infinite alternate}
+.story-character-art{width:100%;height:100%;filter:drop-shadow(0 0 14px #fff4c49d)}
+.story-character-emoji{font-size:clamp(78px,12vw,132px);display:block;text-align:center}
+.story-vignette{position:absolute;z-index:5;inset:0;background:linear-gradient(90deg,#140c3470,transparent 32%,transparent 68%,#12092670);pointer-events:none}
+.story-stage-wardrobe{background:radial-gradient(ellipse at 48% 48%,#ac77c69e,transparent 38%),linear-gradient(#28214f,#734069 65%,#30263b)}
+.story-stage-wardrobe .story-backdrop{background:linear-gradient(#39274c,#20172f);clip-path:polygon(13% 0,78% 0,78% 100%,13% 100%)}
+.story-stage-underbed{background:linear-gradient(#1b1a42,#4b4179 67%,#13182d)}
+.story-stage-underbed .story-backdrop{background:linear-gradient(#5a426e,#2b233c);clip-path:polygon(0 6%,100% 6%,100% 23%,0 23%)}
+.story-stage-corridor{background:linear-gradient(#38294e,#5b3c5e,#28203d)}
+.story-stage-corridor .story-backdrop{clip-path:polygon(10% 5%,90% 5%,66% 100%,33% 100%);background:linear-gradient(#493256,#1c1834)}
+.story-stage-attic{background:radial-gradient(ellipse at 35% 20%,#dfc69e75,transparent 45%),linear-gradient(#574254,#2e2640)}
+.story-stage-attic .story-backdrop{clip-path:polygon(0 40%,50% 0,100% 40%,100% 100%,0 100%);background:linear-gradient(#624a5a,#302739)}
+.story-dialogue{border:1px solid #e7c69c85;background:#231b39d1;border-radius:13px;margin:12px 0;padding:12px 17px;min-height:84px}
+.story-dialogue strong{display:block;color:#ffdf9a;font-size:14px;margin-bottom:4px}
+.story-dialogue p{margin:0;color:#fff0db;font-size:clamp(13px,1.5vw,17px);line-height:1.35}
+.story-bottom{display:flex;align-items:center;justify-content:space-between;gap:16px}
+.story-progress{font-size:12px;color:#ead4d7}
+.story-dots{display:flex;gap:7px;margin-top:8px}
+.story-dot{width:9px;height:9px;border-radius:50%;background:#a28baa}
+.story-dot.active{background:#ffde98;box-shadow:0 0 8px #ffe7a8}
+.story-next{min-width:175px;min-height:44px}
+.story-gallery{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:16px 0}
+.story-gallery-card{padding:16px;border-radius:13px;border:1px solid #caaac4;background:#5a426b60}
+.story-gallery-card h2{font-size:17px;color:#f8dfb0;margin:7px 0}
+.story-gallery-card p{font-size:12px;color:#f1dce9;margin:5px 0 12px}
+.story-gallery-number{font-size:10px;letter-spacing:.06em;color:#e5c6d5;text-transform:uppercase}
+.story-gallery-locked{opacity:.58}
+.story-locked{font-size:11px;color:#f2d6e0}
+@keyframes storyGlow{from{opacity:.72;transform:scale(.96)}to{opacity:1;transform:scale(1.1)}}
+@keyframes storySlideBack{from{transform:translateX(-1.2%)}to{transform:translateX(1.2%)}}
+@keyframes storySlideFront{from{transform:perspective(330px) rotateX(24deg) translateX(-1.7%)}to{transform:perspective(330px) rotateX(24deg) translateX(1.7%)}}
+@keyframes storyCharacter{from{transform:translateX(-50%) translateY(0)}to{transform:translateX(-50%) translateY(-8px)}}
+.story-no-motion *{animation:none!important;transition:none!important}
+@media(prefers-reduced-motion:reduce){.story-panel *{animation:none!important;transition:none!important}}
+@media(max-width:600px){.story-stage{min-height:150px}.story-character{bottom:3%;width:100px;height:100px}.story-header h1{font-size:18px}.story-dialogue{min-height:70px;padding:8px}.story-dialogue p{font-size:12px}.story-gallery{grid-template-columns:1fr}.story-next{min-width:135px;padding:7px;font-size:12px}.story-skip{font-size:11px;padding:7px}}
+@media(orientation:portrait) and (max-width:900px){.game-frame:has(.story-panel){height:min(88dvh,760px);aspect-ratio:auto}.story-panel{max-height:100%}.story-stage{min-height:160px}}

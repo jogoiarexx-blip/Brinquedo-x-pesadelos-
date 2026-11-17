@@ -1,4 +1,4 @@
-import { TOYS } from './data.js?v=1.6.0';
+import { TOYS } from './data.js?v=1.7.0';
 
 export const UPGRADE_COSTS = Object.freeze([2,4,6]);
 export function upgradeRank(value) {

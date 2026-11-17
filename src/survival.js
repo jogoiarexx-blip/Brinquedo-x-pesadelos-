@@ -1,6 +1,6 @@
-import { Battle } from './engine.js?v=1.6.0';
-import { LEVELS, ENEMIES } from './data.js?v=1.6.0';
-import { BOARD } from './config.js?v=1.6.0';
+import { Battle } from './engine.js?v=1.7.0';
+import { LEVELS, ENEMIES } from './data.js?v=1.7.0';
+import { BOARD } from './config.js?v=1.7.0';
 
 // Uma onda a cada 17 s; a quantidade, os tipos e a resistência crescem.
 export const SURVIVAL_INTERVAL=17;
