@@ -148,9 +148,9 @@ test('site e jogo independente usam v1.8 e não vazam módulo ES no offline',()=
   const html=readFileSync(new URL('../JOGAR-OFFLINE.html',import.meta.url),'utf8');
   assert.ok(main.includes('🕯 Capítulo 4'));
   assert.ok(main.includes('level-attic'));
-  assert.ok(index.includes('v2.1.0'));
-  assert.ok(sw.includes('brinquedos-vs-pesadelos-v2.1.0'));
-  assert.ok(sw.includes('render.js?v=2.1.0'));
+  assert.ok(index.includes('v2.2.0'));
+  assert.ok(sw.includes('brinquedos-vs-pesadelos-v2.2.0'));
+  assert.ok(sw.includes('render.js?v=2.2.0'));
   assert.ok(html.includes('function drawAttic'));
   assert.ok(html.includes('function drawDustCells'));
   assert.ok(html.includes('A Boneca Guarda-Chuva'));

@@ -164,7 +164,7 @@ test('Canvas, bestiário e offline contêm chefe e mecânicas novas',()=>{
   assert.ok(script);
   assert.doesNotThrow(()=>new vm.Script(script[1],{filename:'JOGAR-OFFLINE.html'}));
   const sw=readFileSync(new URL('../sw.js',import.meta.url),'utf8');
-  assert.ok(sw.includes('brinquedos-vs-pesadelos-v2.1.0'));
+  assert.ok(sw.includes('brinquedos-vs-pesadelos-v2.2.0'));
   for(const path of ['src/data.js','src/engine.js','src/render.js','src/main.js','src/story.js','sw.js'])
     execFileSync(process.execPath,['--check',new URL('../'+path,import.meta.url).pathname]);
 });
